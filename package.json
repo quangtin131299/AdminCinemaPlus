@@ -1,0 +1,25 @@
+{
+  "name": "webadmindatvexemphim",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "date-format": "^3.0.0",
+    "dateformat": "^4.5.0",
+    "express": "^4.17.1",
+    "formidable": "^1.2.2",
+    "multer": "^1.4.2",
+    "mysql": "^2.18.1",
+    "pug": "^3.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}

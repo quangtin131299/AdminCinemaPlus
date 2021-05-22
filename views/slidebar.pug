@@ -1,0 +1,116 @@
+aside.main-sidebar.sidebar-dark-primary.elevation-4(style="position:fixed")
+    // Brand Logo
+    a.brand-link(href='index3.html')
+        img.brand-image.img-circle.elevation-3(src='dist/img/AdminLTELogo.png' alt='AdminLTE Logo' style='opacity: .8')
+        span.brand-text.font-weight-light Admin 
+    // Sidebar
+    .sidebar
+        // Sidebar user panel (optional)
+        .user-panel.mt-3.pb-3.mb-3.d-flex
+            .image
+                img.img-circle.elevation-2(src='dist/img/user2-160x160.jpg' alt='User Image')
+            .info
+                a.d-block(href='#') Alexander Pierce
+        // Sidebar Menu
+        nav.mt-2
+            ul.nav.nav-pills.nav-sidebar.flex-column(data-widget='treeview' role='menu' data-accordion='false')
+                //
+                    Add icons to the links using the .nav-icon class
+                    with font-awesome or any other icon font library
+                li.nav-item.has-treeview.menu-open
+                    a.nav-link.active(href='#')
+                        i.nav-icon.fas.fa-tachometer-alt
+                        p
+                            | Trang chủ
+                li.nav-item
+                    a.nav-link(href='#')
+                    
+                        i.nav-icon.fas.fa-film
+                        p
+                            | Quản lý phim chiếu
+                            i.fas.fa-angle-left.right
+                    ul.nav.nav-treeview
+                        li.nav-item
+                            a.nav-link(href='/phim/danhsachphim?page=1')
+                                i.far.fa-circle.nav-icon
+                                p Danh sách phim chiếu
+                        li.nav-item
+                            a.nav-link(href='/phim/themphimmoi')
+                                i.far.fa-circle.nav-icon
+                                p Thêm phim mới
+                li.nav-item.has-treeview
+                    a.nav-link(href='#')
+                        i.nav-icon.far.fa-calendar-alt
+                        p
+                            | Quản lý lịch chiếu
+                            i.fas.fa-angle-left.right
+                    ul.nav.nav-treeview
+                        li.nav-item
+                            a.nav-link(href='/lichchieu/danhsachlichchieu?page=1')
+                                i.far.fa-circle.nav-icon
+                                p Danh sách lịch chiếu
+                        li.nav-item
+                            a.nav-link(href='/lichchieu/themlichchieu')
+                                i.far.fa-circle.nav-icon
+                                p Thêm lịch chiếu
+                li.nav-item.has-treeview
+                    a.nav-link(href='#')
+                        i.nav-icon.fas.fa-users
+                        p
+                            | Quản lý Khách hàng
+                            i.right.fas.fa-angle-left
+                    ul.nav.nav-treeview
+                        li.nav-item
+                            a.nav-link(href='/customer/danhsachuser?page=1')
+                                i.far.fa-circle.nav-icon
+                                p Danh sách khách hàng
+                li.nav-item.has-treeview
+                    a.nav-link(href='#')    
+                        i.nav-icon.fas.fa-ticket-alt
+                        p
+                            | Quản lý vé
+                            i.right.fas.fa-angle-left
+                    ul.nav.nav-treeview
+                        li.nav-item
+                            a.nav-link(href='/ticker/danhsachve?page=1')
+                                i.far.fa-circle.nav-icon
+                                p Danh sách vé đặt
+                li.nav-item.has-treeview
+                    a.nav-link(href='#')
+                        i.nav-icon.fas.fa-video
+                        p
+                            | Quản lý rạp chiếu phim 
+                            i.fas.fa-angle-left.right
+                    ul.nav.nav-treeview
+                        li.nav-item
+                            a.nav-link(href='/rapchieu/danhsachrapchieu?page=1')
+                                i.far.fa-circle.nav-icon
+                                p Danh sách rạp chiếu
+                        li.nav-item
+                            a.nav-link(href='/rapchieu/themrap')
+                                i.far.fa-circle.nav-icon
+                                p Thêm rạp chiếu phim
+                        li.nav-item
+                            a.nav-link(href='pages/forms/advanced.html')
+                                i.far.fa-circle.nav-icon
+                                p Xóa rạp chiếu phim
+                        li.nav-item
+                            a.nav-link(href='pages/forms/editors.html')
+                                i.far.fa-circle.nav-icon
+                                p Sửa rạp chiếu phim
+                li.nav-header EXAMPLES
+                li.nav-item
+                    a.nav-link(href='pages/calendar.html')
+                        i.nav-icon.far.fa-calendar-alt
+                        p
+                            | Calendar
+                            
+                li.nav-item
+                    a.nav-link(href='/uploadanh/upload')
+                        i.nav-icon.far.fa-calendar-alt
+                        p
+                            | Upload hinh ảnh
+                           
+
+        // /.sidebar-menu
+        // /.sidebar

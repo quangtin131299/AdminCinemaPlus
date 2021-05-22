@@ -1,0 +1,331 @@
+doctype html
+include ../header.pug
+.wrapper
+  // Navbar
+  nav.main-header.navbar.navbar-expand.navbar-white.navbar-light
+    // Left navbar links
+    ul.navbar-nav
+      li.nav-item
+        a.nav-link(data-widget='pushmenu', href='#', role='button')
+          i.fas.fa-bars
+      li.nav-item.d-none.d-sm-inline-block
+        a.nav-link(href='index3.html') Home
+      li.nav-item.d-none.d-sm-inline-block
+        a.nav-link(href='#') Contact
+    // SEARCH FORM
+    form.form-inline.ml-3
+      .input-group.input-group-sm
+        input.form-control.form-control-navbar(type='search', placeholder='Search', aria-label='Search')
+        .input-group-append
+          button.btn.btn-navbar(type='submit')
+            i.fas.fa-search
+    // Right navbar links
+    ul.navbar-nav.ml-auto
+      // Messages Dropdown Menu
+      li.nav-item.dropdown
+        a.nav-link(data-toggle='dropdown', href='#')
+          i.far.fa-comments
+          span.badge.badge-danger.navbar-badge 3
+        .dropdown-menu.dropdown-menu-lg.dropdown-menu-right
+          a.dropdown-item(href='#')
+            // Message Start
+            .media
+              img.img-size-50.mr-3.img-circle(src='dist/img/user1-128x128.jpg', alt='User Avatar')
+              .media-body
+                h3.dropdown-item-title
+                  | Brad Diesel
+                  span.float-right.text-sm.text-danger
+                    i.fas.fa-star
+                p.text-sm Call me whenever you can...
+                p.text-sm.text-muted
+                  i.far.fa-clock.mr-1
+                  |  4 Hours Ago
+            // Message End
+          .dropdown-divider
+          a.dropdown-item(href='#')
+            // Message Start
+            .media
+              img.img-size-50.img-circle.mr-3(src='dist/img/user8-128x128.jpg', alt='User Avatar')
+              .media-body
+                h3.dropdown-item-title
+                  | John Pierce
+                  span.float-right.text-sm.text-muted
+                    i.fas.fa-star
+                p.text-sm I got your message bro
+                p.text-sm.text-muted
+                  i.far.fa-clock.mr-1
+                  |  4 Hours Ago
+            // Message End
+          .dropdown-divider
+          a.dropdown-item(href='#')
+            // Message Start
+            .media
+              img.img-size-50.img-circle.mr-3(src='dist/img/user3-128x128.jpg', alt='User Avatar')
+              .media-body
+                h3.dropdown-item-title
+                  | Nora Silvester
+                  span.float-right.text-sm.text-warning
+                    i.fas.fa-star
+                p.text-sm The subject goes here
+                p.text-sm.text-muted
+                  i.far.fa-clock.mr-1
+                  |  4 Hours Ago
+            // Message End
+          .dropdown-divider
+          a.dropdown-item.dropdown-footer(href='#') See All Messages
+      // Notifications Dropdown Menu
+      li.nav-item.dropdown
+        a.nav-link(data-toggle='dropdown', href='#')
+          i.far.fa-bell
+          span.badge.badge-warning.navbar-badge 15
+        .dropdown-menu.dropdown-menu-lg.dropdown-menu-right
+          span.dropdown-item.dropdown-header 15 Notifications
+          .dropdown-divider
+          a.dropdown-item(href='#')
+            i.fas.fa-envelope.mr-2
+            |  4 new messages
+            span.float-right.text-muted.text-sm 3 mins
+          .dropdown-divider
+          a.dropdown-item(href='#')
+            i.fas.fa-users.mr-2
+            |  8 friend requests
+            span.float-right.text-muted.text-sm 12 hours
+          .dropdown-divider
+          a.dropdown-item(href='#')
+            i.fas.fa-file.mr-2
+            |  3 new reports
+            span.float-right.text-muted.text-sm 2 days
+          .dropdown-divider
+          a.dropdown-item.dropdown-footer(href='#') See All Notifications
+      li.nav-item
+        a.nav-link(data-widget='control-sidebar', data-slide='true', href='#', role='button')
+          i.fas.fa-th-large
+  // /.navbar
+  // Main Sidebar Container
+  include ../slidebar.pug
+  // Content Wrapper. Contains page content
+  .content-wrapper
+    // Content Header (Page header)
+    .content-header
+      .container-fluid
+        .row.mb-2
+          .col-sm-6
+            h1.m-0.text-dark Thêm phim mới
+          // /.col
+          .col-sm-6
+            ol.breadcrumb.float-sm-right
+              li.breadcrumb-item
+                a(href='#') Trang chủ
+              li.breadcrumb-item
+                a(href='#') Quản lý phim chiếu
+              li.breadcrumb-item.active 
+                a(href='#') Thêm phim mới
+          // /.col
+        // /.row
+      // /.container-fluid
+    // /.content-header
+    // Main content
+    section.content  
+      form(action="themphim", method="post" )  
+        .card
+            .card-body
+              .row
+                 h5(style="font-weight:bold;") Thông tin của phim
+              .row
+                .col
+                  .input-group.mb-3
+                        .input-group-prepend
+                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Tên phim
+                        input.form-control(name= "txttenphim", placeholder="Nhập tên phim",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .col
+                    .input-group.mb-3
+                        .input-group-prepend
+                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Ngày khởi chiếu
+                        input.form-control(name= "txtngaykhoichieu",type='date', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+              .row
+                    .col
+                        .input-group.mb-3
+                            .input-group-prepend
+                                span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Thời gian chiếu
+                            input.form-control(name="txtthoigian", type='number',min=1, aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                    .col
+                        .input-group.mb-3
+                            .input-group-prepend
+                                label.input-group-text(style = "color:red; font-weight:bold",for='inputGroupSelect01') Trạng thái của phim
+                            select#inputGroupSelect01.custom-select(name="cboxtrangthai")
+                                option(selected='',value='Sắp chiếu') Sắp chiếu
+                                
+                    .col
+                        .input-group.mb-3
+                            .input-group-prepend
+                                span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") ID Trailer
+                            input.form-control(name="txtIDtrailer",placeholder ="Nhập Id video trailer từ youtube", type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+              .row    
+                    .col    
+                        .input-group.mb-3
+                            .input-group-prepend
+                              span.input-group-text(style = "color:red; font-weight:bold") Hình phim
+                            .custom-file
+                              input.custom-file-input(id="inputGroupFile01", name="txthinh", type='file', multiple='')
+                              label.custom-file-label(for='inputGroupFile01') Choose file
+
+        .card
+            .card-body
+              .row
+                h5(style="font-weight:bold;") Loại phim
+              .row  
+                .col 
+                    each loai in danhsachloaiphim
+                      .form-check.form-check-inline
+                        input#inlineCheckbox1.form-check-input(type='checkbox',name= "chbloai", value=loai.ID)
+                        label.form-check-label(id=loai.ID,for='inlineCheckbox1')=loai.TenLoai
+        .card
+            .card-body
+              .row
+                h5(style="font-weight:bold;") Mô tả của phim 
+              .row
+                textarea(id="txtmota", style='width: 100%; height: 150px;')
+        .card
+            .card-body
+              .row          
+                  table.table.table-dark
+                    thead
+                      tr
+                        th(scope='col') #
+                        th(scope='col') Tên phim
+                        th(scope='col') Hình
+                        th(scope='col') Ngày khởi chiếu
+                        th(scope='col') Thời gian chiếu
+                        th(scope='col') ID Trailer 
+                        th(scope='col') Loại
+                        th(scope='col') Mô tả
+                    tbody(id="tbbody")
+                    
+        .card
+            .card-body
+              .row
+                .col(style="display:flex; justify-content:center;")
+                    button.btn.btn-success(id="btnaddphim",style="width:200px;") Add phim mới
+                .col(style="display:flex; justify-content:center;")
+                    button.btn.btn-success(id="btnsubmit",style="width:200px;",type='submit') Thêm phim mới
+                .col(style="display:flex; justify-content:center;")
+                    button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
+
+              
+        
+    // /.content
+  // /.content-wrapper
+  include ../footer.pug
+// ./wrapper
+// jQuery
+script(src='plugins/jquery/jquery.min.js')
+// jQuery UI 1.11.4
+script(src='plugins/jquery-ui/jquery-ui.min.js')
+// Resolve conflict in jQuery UI tooltip with Bootstrap tooltip
+script.
+  $.widget.bridge('uibutton', $.ui.button)
+// Bootstrap 4
+script(src='plugins/bootstrap/js/bootstrap.bundle.min.js')
+// ChartJS
+script(src='plugins/chart.js/Chart.min.js')
+// Sparkline
+script(src='plugins/sparklines/sparkline.js')
+// JQVMap
+script(src='plugins/jqvmap/jquery.vmap.min.js')
+script(src='plugins/jqvmap/maps/jquery.vmap.usa.js')
+// jQuery Knob Chart
+script(src='plugins/jquery-knob/jquery.knob.min.js')
+// daterangepicker
+script(src='plugins/moment/moment.min.js')
+script(src='plugins/daterangepicker/daterangepicker.js')
+// Tempusdominus Bootstrap 4
+script(src='plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')
+// Summernote
+script(src='plugins/summernote/summernote-bs4.min.js')
+// overlayScrollbars
+script(src='plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')
+// AdminLTE App
+script(src='dist/js/adminlte.js')
+// AdminLTE dashboard demo (This is only for demo purposes)
+script(src='dist/js/pages/dashboard.js')
+// AdminLTE for demo purposes
+script(src='dist/js/demo.js')
+style.
+ 
+  tbody {
+      display:block;
+      height:300px;
+      overflow:auto;
+  }
+  thead, tbody tr {
+      display:table;
+      width:100%;
+      table-layout:fixed;
+  }
+  thead {
+      width: 100%;
+  }
+  table {
+      width:400px;
+      height: 300px;
+  }
+script.
+    let danhsachphim = [];
+    document.getElementById("btnhuy").onclick=function(){
+         window.location.replace("danhsachphim?page=1") 
+    }
+    document.querySelector('.custom-file-input').addEventListener('change',function(e){
+       var fileName = document.getElementById("inputGroupFile01").files[0].name;
+       var nextSibling = e.target.nextElementSibling
+       nextSibling.innerText = fileName
+    })
+    let indexarrphim = 0;
+    $('#btnaddphim').click(function(){     
+        let tenphim = $("input[name=txttenphim]").val();
+        let ngaykhoichieu = $("input[name=txtngaykhoichieu]").val();
+        let thoigianchieu = $("input[name=txtthoigian]").val();
+        let filehinh = document.getElementById("inputGroupFile01").files[0];    
+        let trangthai = $("select[name=cboxtrangthai] option:selected").text();
+        let idtrailer = $("input[name=txtIDtrailer]").val();
+        let slloai = $("input[name=chbloai]:checked").length;
+        let mt = $(".nicEdit-main").text();
+        let strloaiphim = "";
+        let arridloai = [];
+        for(let i = 0; i < slloai; i++){
+            let temp = $("input[name=chbloai]:checked").get(i);
+            let textlabel = $("#"+temp.value).text()
+            arridloai.push(Number(temp.value))
+            strloaiphim+=textlabel +", ";
+        }
+        var fileReader = new FileReader();
+        
+        fileReader.onload = function(progressEvent) {
+           let url = fileReader.result;
+           $("#tbbody").html($("#tbbody").html() + `<tr>
+                                                    <th scope="row"></th>
+                                                    <td><input type="hidden" name="dataphim[${indexarrphim}][tenphim]" value="${tenphim}"/>${tenphim}</td>
+                                                    <td><input type="hidden" name="dataphim[${indexarrphim}][tenhinhanh]" value="${filehinh.name}"/><img src="${url}" width=80 height=80/></td>
+                                                    <td><input type="hidden" name="dataphim[${indexarrphim}][ngaykhoichieu]" value="${ngaykhoichieu}"/>${ngaykhoichieu}</td>
+                                                    <td><input type="hidden" name="dataphim[${indexarrphim}][thoigianchieu]" value="${thoigianchieu}"/>${thoigianchieu} phút</td>
+                                                    <td><input type="hidden" name="dataphim[${indexarrphim}][trangthai]" value="${trangthai}"/>${trangthai}</td>
+                                                    <td><input type="hidden" name="dataphim[${indexarrphim}][idtrailer]" value="${idtrailer}"/>${idtrailer}</td>
+                                                    <td><input type="hidden" name="dataphim[${indexarrphim}][loai]" value="${arridloai}"/>${strloaiphim}</td>
+                                                    <td><input type="hidden" name="dataphim[${indexarrphim}][mota]" value="${mt}"/>${mt}</td>
+                                                  </tr>`)  
+            indexarrphim++;                                                     
+        } 
+        
+        fileReader.readAsDataURL(filehinh);        
+        return false;
+    })
+
+
+    //- $('#btnsubmit').click(function(){
+    //-     //- $.post("themphim", {dsdata: JSON.stringify(danhsachphim)}, function(data){
+
+    //-     //- });
+    //-     return false;
+    //- })
+ 
+
+

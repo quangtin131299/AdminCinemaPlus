@@ -1,0 +1,212 @@
+doctype html
+include ../header.pug
+.wrapper
+  // Navbar
+  nav.main-header.navbar.navbar-expand.navbar-white.navbar-light
+    // Left navbar links
+    ul.navbar-nav
+      li.nav-item
+        a.nav-link(data-widget='pushmenu', href='#', role='button')
+          i.fas.fa-bars
+      li.nav-item.d-none.d-sm-inline-block
+        a.nav-link(href='index3.html') Home
+      li.nav-item.d-none.d-sm-inline-block
+        a.nav-link(href='#') Contact
+    // SEARCH FORM
+    form.form-inline.ml-3
+      .input-group.input-group-sm
+        input.form-control.form-control-navbar(type='search', placeholder='Search', aria-label='Search')
+        .input-group-append
+          button.btn.btn-navbar(type='submit')
+            i.fas.fa-search
+    // Right navbar links
+    ul.navbar-nav.ml-auto
+      // Messages Dropdown Menu
+      li.nav-item.dropdown
+        a.nav-link(data-toggle='dropdown', href='#')
+          i.far.fa-comments
+          span.badge.badge-danger.navbar-badge 3
+        .dropdown-menu.dropdown-menu-lg.dropdown-menu-right
+          a.dropdown-item(href='#')
+            // Message Start
+            .media
+              img.img-size-50.mr-3.img-circle(src='dist/img/user1-128x128.jpg', alt='User Avatar')
+              .media-body
+                h3.dropdown-item-title
+                  | Brad Diesel
+                  span.float-right.text-sm.text-danger
+                    i.fas.fa-star
+                p.text-sm Call me whenever you can...
+                p.text-sm.text-muted
+                  i.far.fa-clock.mr-1
+                  |  4 Hours Ago
+            // Message End
+          .dropdown-divider
+          a.dropdown-item(href='#')
+            // Message Start
+            .media
+              img.img-size-50.img-circle.mr-3(src='dist/img/user8-128x128.jpg', alt='User Avatar')
+              .media-body
+                h3.dropdown-item-title
+                  | John Pierce
+                  span.float-right.text-sm.text-muted
+                    i.fas.fa-star
+                p.text-sm I got your message bro
+                p.text-sm.text-muted
+                  i.far.fa-clock.mr-1
+                  |  4 Hours Ago
+            // Message End
+          .dropdown-divider
+          a.dropdown-item(href='#')
+            // Message Start
+            .media
+              img.img-size-50.img-circle.mr-3(src='dist/img/user3-128x128.jpg', alt='User Avatar')
+              .media-body
+                h3.dropdown-item-title
+                  | Nora Silvester
+                  span.float-right.text-sm.text-warning
+                    i.fas.fa-star
+                p.text-sm The subject goes here
+                p.text-sm.text-muted
+                  i.far.fa-clock.mr-1
+                  |  4 Hours Ago
+            // Message End
+          .dropdown-divider
+          a.dropdown-item.dropdown-footer(href='#') See All Messages
+      // Notifications Dropdown Menu
+      li.nav-item.dropdown
+        a.nav-link(data-toggle='dropdown', href='#')
+          i.far.fa-bell
+          span.badge.badge-warning.navbar-badge 15
+        .dropdown-menu.dropdown-menu-lg.dropdown-menu-right
+          span.dropdown-item.dropdown-header 15 Notifications
+          .dropdown-divider
+          a.dropdown-item(href='#')
+            i.fas.fa-envelope.mr-2
+            |  4 new messages
+            span.float-right.text-muted.text-sm 3 mins
+          .dropdown-divider
+          a.dropdown-item(href='#')
+            i.fas.fa-users.mr-2
+            |  8 friend requests
+            span.float-right.text-muted.text-sm 12 hours
+          .dropdown-divider
+          a.dropdown-item(href='#')
+            i.fas.fa-file.mr-2
+            |  3 new reports
+            span.float-right.text-muted.text-sm 2 days
+          .dropdown-divider
+          a.dropdown-item.dropdown-footer(href='#') See All Notifications
+      li.nav-item
+        a.nav-link(data-widget='control-sidebar', data-slide='true', href='#', role='button')
+          i.fas.fa-th-large
+  // /.navbar
+  // Main Sidebar Container
+  include ../slidebar.pug
+  // Content Wrapper. Contains page content
+  .content-wrapper
+    // Content Header (Page header)
+    .content-header
+      .container-fluid
+        .row.mb-2
+          .col-sm-6
+            h1.m-0.text-dark Chi tiết phim chiếu
+          // /.col
+          .col-sm-6
+            ol.breadcrumb.float-sm-right
+              li.breadcrumb-item
+                a(href='#') Trang chủ
+              li.breadcrumb-item
+                a(href='#') Quản lý phim chiếu
+              li.breadcrumb-item
+                a(href='#') Danh sách phim chiếu
+              li.breadcrumb-item.active 
+                a(href='#') Chi tiết phim
+          // /.col
+        // /.row
+      // /.container-fluid
+    // /.content-header
+    // Main content
+    section.content
+        .row
+          .col-md-5(style="display: flex;  align-items: center;justify-content: center;")
+            img(src=phim.Hinh, alt="photo", style="text-align: center;")
+          .col-lg-7
+           .card(style)
+            .card-body
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") ID phim chiếu
+                    input.form-control(value=phim.ID  , disabled ,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tên phim chiếu
+                    input.form-control(value=phim.TenPhim, disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Hình him chiếu
+                    input.form-control(value =phim.Hinh  ,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Trạng thái
+                    input.form-control(value=phim.TrangThai,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Thời gian chiếu
+                    input.form-control(value=phim.ThoiGian + " phút",disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") ID trailer
+                    input.form-control(value= phim.Trailer,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Ngày khởi chiếu
+                    input.form-control(value=phim.NgayKhoiChieu,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+        br
+        br
+        h3 Mô tả của phim 
+        p= phim.MoTa
+  
+
+
+  
+  
+
+        
+    // /.content
+  // /.content-wrapper
+  include ../footer.pug
+// ./wrapper
+// jQuery
+script(src='plugins/jquery/jquery.min.js')
+// jQuery UI 1.11.4
+script(src='plugins/jquery-ui/jquery-ui.min.js')
+// Resolve conflict in jQuery UI tooltip with Bootstrap tooltip
+script.
+  $.widget.bridge('uibutton', $.ui.button)
+// Bootstrap 4
+script(src='plugins/bootstrap/js/bootstrap.bundle.min.js')
+// ChartJS
+script(src='plugins/chart.js/Chart.min.js')
+// Sparkline
+script(src='plugins/sparklines/sparkline.js')
+// JQVMap
+script(src='plugins/jqvmap/jquery.vmap.min.js')
+script(src='plugins/jqvmap/maps/jquery.vmap.usa.js')
+// jQuery Knob Chart
+script(src='plugins/jquery-knob/jquery.knob.min.js')
+// daterangepicker
+script(src='plugins/moment/moment.min.js')
+script(src='plugins/daterangepicker/daterangepicker.js')
+// Tempusdominus Bootstrap 4
+script(src='plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')
+// Summernote
+script(src='plugins/summernote/summernote-bs4.min.js')
+// overlayScrollbars
+script(src='plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')
+// AdminLTE App
+script(src='dist/js/adminlte.js')
+// AdminLTE dashboard demo (This is only for demo purposes)
+script(src='dist/js/pages/dashboard.js')
+// AdminLTE for demo purposes
+script(src='dist/js/demo.js')
