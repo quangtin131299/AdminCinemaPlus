@@ -1,0 +1,25 @@
+doctype html
+include ../header.pug
+link(rel='stylesheet' href='build/stylelogin.css')
+link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+section.ftco-section
+  .container
+    .row.justify-content-center
+      .col-md-6.col-lg-5
+        .login-wrap.p-4.p-md-5
+          .icon.d-flex.align-items-center.justify-content-center
+            span.fa.fa-user-o
+          h3.text-center.mb-4 Đăng nhập Admin
+          form.login-form(action='#')
+            .form-group
+              input.form-control.rounded-left(type='text' placeholder='Username' required='')
+            .form-group.d-flex
+              input.form-control.rounded-left(type='password' placeholder='Password' required='')
+            .form-group.d-md-flex
+              .w-50
+                label.checkbox-wrap.checkbox-primary
+                  | Remember Me
+                  input(type='checkbox' checked='')
+                  span.checkmark
+            .form-group
+              button.btn.btn-primary.rounded.submit.p-3.px-5(type='submit') Get Started

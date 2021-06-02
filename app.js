@@ -7,6 +7,7 @@ const ticker = require("./route/ticker")
 const rapchieu = require("./route/rapchieuphim")
 const lichchieu = require("./route/lichchieu")
 const uploadfile = require("./route/uploadimg");
+const login = require("./route/login");
 
 app.listen(process.env.PORT || 3000)
 
@@ -16,6 +17,7 @@ app.use("/ticker", ticker)
 app.use("/customer",customer)
 app.use("/rapchieu", rapchieu)
 app.use("/lichchieu", lichchieu)
+app.use("/login", login);
 app.use(express.static("views"))
 app.set('views', './views')
 app.set('view engine', 'pug')
