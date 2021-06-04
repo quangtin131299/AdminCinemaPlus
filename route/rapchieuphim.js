@@ -13,7 +13,6 @@ router.get("/themrap",function(req, res){
 })
 
 router.get("/danhsachrapchieu", function(req, res){
-	console.log(req.get("host"));;
 	let queryslrap = `SELECT * FROM rapphim`
 	let page = req.query.page;
 	let vitribatdaulay = (page - 1)	* 5;

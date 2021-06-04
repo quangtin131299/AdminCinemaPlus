@@ -1,0 +1,14 @@
+.submit-container{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.back-to-container{
+    display: flex;
+    justify-content: center;
+}
+
+.add-schedule-container{
+    display: flex;
+    justify-content: center;
+}

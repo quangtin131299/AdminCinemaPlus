@@ -110,79 +110,99 @@ include ../header.pug
       .container-fluid
         .row.mb-2
           .col-sm-6
-            h1.m-0.text-dark Danh sách phim đang chiếu
+            h1.m-0.text-dark Xếp phòng
           // /.col
           .col-sm-6
             ol.breadcrumb.float-sm-right
               li.breadcrumb-item
                 a(href='#') Trang chủ
               li.breadcrumb-item
-                a(href='#') Quản lý phim chiếu
+                a(href='#') Quản lý phong
               li.breadcrumb-item.active 
-                a(href='#') Danh sách phim chiếu
+                a(href='#') Xếp phòng
           // /.col
         // /.row
       // /.container-fluid
     // /.content-header
     // Main content
     section.content
-      table.table
-        thead
-          tr
-            th(scope='col') #
-            th(scope='col') Ten Phim
-            th(scope='col') Hình
-            th(scope='col') Trạng thái 
-            th(scope='col') Thời gian 
-            th(scope='col') Trailer
-            th(scope='col') Thao tác
-        tbody
-          each phim in dataphimchieu
-            tr
-              th(scope='row')=phim.ID
-              td=phim.TenPhim
-              td
-                img(src=phim.Hinh, alt="photo", width=125, height=125)
-              td=phim.TrangThai
-              td=phim.ThoiGian + " phút"
-              td=(phim.Trailer?phim.Trailer:"Trống")
-              td
-                span 
-                  a(href="chitietphim?idphim= " + phim.ID) Chi Tiết 
-                span |
-                span 
-                  a(href="#", data-toggle="modal", data-target="#exampleModal") Xóa
-                span |
-                span 
-                  a(href="suaphim?idphim=" + phim.ID) Sửa
-      nav(style="display:flex; justify-content:center",aria-label='Page navigation example')
-        ul.pagination
-          li.page-item
-            a.page-link(href='#') Previous
-          - for (var i = 1; i <= soluongtrang ; i++) {
-                if i == pagerespon
-                  li.page-item.active
-                   a.page-link(href="danhsachphim?page=" + i)= i 
-                else
-                  li.page-item
-                   a.page-link(href="danhsachphim?page=" + i)= i
-          - } 
-          li.page-item
-            a.page-link(href='#') Next   
-     
-      #exampleModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
-        .modal-dialog(role='document')
-          .modal-content
-            .modal-header
-              h5#exampleModalLabel.modal-title Thông báo
-              button.close(type='button' data-dismiss='modal' aria-label='Close')
-                span(aria-hidden='true') &times;
-            .modal-body
-              | Bạn có muốn xóa phim này hay không ?
-            .modal-footer
-              button.btn.btn-secondary(type='button' data-dismiss='modal') Close
-              button.btn.btn-primary(type='button') Save changes
+      .card(style='width: 100%;')
+        .card-body
+            .row 
+                .col-md-6
+                    .input-group.mb-3
+                        .input-group-prepend
+                            label.input-group-text(for='inputGroupSelect01') Rạp chiếu
+                        select#inputGroupSelect01.custom-select
+                            option(selected='') Choose...
+                            option(value='1') Rạp 1
+                            option(value='2') Rạp 2
+                            option(value='3') Rạp 3
+                .col-md-6
+                    .input-group.mb-3
+                        .input-group-prepend
+                            label.input-group-text(for='inputGroupSelect01')  Phim 
+                        select#inputGroupSelect01.custom-select
+                            option(selected='') Choose...
+                            option(value='1') Rạp 1
+                            option(value='2') Rạp 2
+                            option(value='3') Rạp 3
 
+            .row 
+                .col-md-6
+                    .input-group.mb-3
+                        .input-group-prepend
+                            label.input-group-text(for='inputGroupSelect01') Lịch chiếu
+                        select#inputGroupSelect01.custom-select
+                            option(selected='') Choose...
+                            option(value='1') Lịch chiếu: 04/06/2021
+                            option(value='2') Lịch chiếu: 05/06/2021
+                            option(value='3') Lịch chiếu: 06/06/2021
+                .col-md-6
+                    .input-group.mb-3
+                        .input-group-prepend
+                            label.input-group-text(for='inputGroupSelect01')  Suất chiếu 
+                        select#inputGroupSelect01.custom-select
+                            option(selected='') Choose...
+                            option(value='1') 19:00
+                            option(value='2') 22:00
+                            option(value='3') 23:00
+            .row
+                .col-md-12.submit-container
+                    button.btn.btn-success(type='button') Thêm vào danh sách
+      .card(style='width: 100%;')
+        .card-body
+            .row 
+                .col-md-12
+                    table.table.table-bordered.table-dark
+                        thead
+                            tr
+                                th(scope='col') #
+                                th(scope='col') First
+                                th(scope='col') Last
+                                th(scope='col') Handle
+                        tbody
+                            tr
+                                th(scope='row') 1
+                                td Mark
+                                td Otto
+                                td @mdo
+                            tr
+                                th(scope='row') 2
+                                td Jacob
+                                td Thornton
+                                td @fat
+                            tr
+                                th(scope='row') 3
+                                td(colspan='2') Larry the Bird
+                                td @twitter
+            .row
+                .col-md-6.back-to-container   
+                    button.btn.btn-dark(type='button') Quay lại
+                .col-md-6.add-schedule-container
+                     button.btn.btn-success(type='button') Thêm xếp lịch
+            
+              
     // /.content
   // /.content-wrapper
   include ../footer.pug

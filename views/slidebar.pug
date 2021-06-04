@@ -22,6 +22,7 @@ aside.main-sidebar.sidebar-dark-primary.elevation-4(style="position:fixed")
                         i.nav-icon.fas.fa-tachometer-alt
                         p
                             | Trang chủ
+
                 li.nav-item
                     a.nav-link(href='#')
                     
@@ -37,7 +38,8 @@ aside.main-sidebar.sidebar-dark-primary.elevation-4(style="position:fixed")
                         li.nav-item
                             a.nav-link(href='/phim/themphimmoi')
                                 i.far.fa-circle.nav-icon
-                                p Thêm phim mới
+                                p Thêm thông tin phim mới
+
                 li.nav-item.has-treeview
                     a.nav-link(href='#')
                         i.nav-icon.far.fa-calendar-alt
@@ -53,6 +55,7 @@ aside.main-sidebar.sidebar-dark-primary.elevation-4(style="position:fixed")
                             a.nav-link(href='/lichchieu/themlichchieu')
                                 i.far.fa-circle.nav-icon
                                 p Thêm lịch chiếu
+
                 li.nav-item.has-treeview
                     a.nav-link(href='#')
                         i.nav-icon.fas.fa-users
@@ -64,6 +67,7 @@ aside.main-sidebar.sidebar-dark-primary.elevation-4(style="position:fixed")
                             a.nav-link(href='/customer/danhsachuser?page=1')
                                 i.far.fa-circle.nav-icon
                                 p Danh sách khách hàng
+
                 li.nav-item.has-treeview
                     a.nav-link(href='#')    
                         i.nav-icon.fas.fa-ticket-alt
@@ -75,6 +79,7 @@ aside.main-sidebar.sidebar-dark-primary.elevation-4(style="position:fixed")
                             a.nav-link(href='/ticker/danhsachve?page=1')
                                 i.far.fa-circle.nav-icon
                                 p Danh sách vé đặt
+
                 li.nav-item.has-treeview
                     a.nav-link(href='#')
                         i.nav-icon.fas.fa-video
@@ -90,14 +95,27 @@ aside.main-sidebar.sidebar-dark-primary.elevation-4(style="position:fixed")
                             a.nav-link(href='/rapchieu/themrap')
                                 i.far.fa-circle.nav-icon
                                 p Thêm rạp chiếu phim
+
+                li.nav-item.has-treeview
+                    a.nav-link(href='#')
+                        i.fas.fa-person-booth
+                        p
+                            | Quản lý phòng
+                            i.fas.fa-angle-left.right
+                    ul.nav.nav-treeview
                         li.nav-item
-                            a.nav-link(href='pages/forms/advanced.html')
+                            a.nav-link(href='/phong/danhsachphong')
                                 i.far.fa-circle.nav-icon
-                                p Xóa rạp chiếu phim
+                                p Danh sách phòng 
                         li.nav-item
-                            a.nav-link(href='pages/forms/editors.html')
+                            a.nav-link(href='/rapchieu/themrap')
                                 i.far.fa-circle.nav-icon
-                                p Sửa rạp chiếu phim
+                                p Thêm thông tin phòng 
+                        li.nav-item
+                            a.nav-link(href='/phong/xepphong')
+                                i.far.fa-circle.nav-icon
+                                p Xếp phòng
+
                 li.nav-header EXAMPLES
                 li.nav-item
                     a.nav-link(href='pages/calendar.html')

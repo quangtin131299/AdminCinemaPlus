@@ -1,5 +1,4 @@
 const express = require('express');
-
 const app = express();
 const phim = require("./route/phim")
 const customer = require("./route/customer")
@@ -8,6 +7,7 @@ const rapchieu = require("./route/rapchieuphim")
 const lichchieu = require("./route/lichchieu")
 const uploadfile = require("./route/uploadimg");
 const login = require("./route/login");
+const phong = require("./route/phong")
 
 app.listen(process.env.PORT || 3000)
 
@@ -18,12 +18,14 @@ app.use("/customer",customer)
 app.use("/rapchieu", rapchieu)
 app.use("/lichchieu", lichchieu)
 app.use("/login", login);
+app.use("/phong", phong);
 app.use(express.static("views"))
+
 app.set('views', './views')
 app.set('view engine', 'pug')
 
-app.get("/", function(req, res){
-    res.render("index")
+app.use(function(req, res){
+    res.render("login/login")
 })
 
 
