@@ -9,9 +9,7 @@ include ../header.pug
         a.nav-link(data-widget='pushmenu', href='#', role='button')
           i.fas.fa-bars
       li.nav-item.d-none.d-sm-inline-block
-        a.nav-link(href='index3.html') Home
-      li.nav-item.d-none.d-sm-inline-block
-        a.nav-link(href='#') Contact
+        a.nav-link(href='/home') Trang chủ
     // SEARCH FORM
     form.form-inline.ml-3
       .input-group.input-group-sm
@@ -110,16 +108,16 @@ include ../header.pug
       .container-fluid
         .row.mb-2
           .col-sm-6
-            h1.m-0.text-dark Danh sách vé đã đặt
+            h1.m-0.text-dark Danh sách đặt vé
           // /.col
           .col-sm-6
             ol.breadcrumb.float-sm-right
               li.breadcrumb-item
-                a(href='#') Trang chủ
+                a(href='/home') Trang chủ
               li.breadcrumb-item
                 a(href='#') Quản lý vé
               li.breadcrumb-item.active 
-                a(href='#') Danh sách vé
+                a(href='#') Danh sách đặt vé
           // /.col
         // /.row
       // /.container-fluid
@@ -129,8 +127,8 @@ include ../header.pug
       table.table
         thead
           tr
-            th(scope='col') #
-            th(scope='col') Ngay đặt
+            th(scope='col') STT
+            th(scope='col') Ngày đặt
             th(scope='col') Họ tên
             th(scope='col') Trạng thái
             th(scope='col') Thao tác 
@@ -146,14 +144,14 @@ include ../header.pug
                   a(href="#") Chi Tiết 
                 span |
                 span 
-                  a(href="#") Xóa
+                  a(href="#") Cập nhật
                 span |
                 span 
-                  a(href="#") Sửa
+                  a(href="#") Xóa
       nav(style="display:flex; justify-content:center",aria-label='Page navigation example')
         ul.pagination
           li.page-item
-            a.page-link(href='#') Previous
+            a.page-link(href='#') Trang trước
           - for (var i = 1; i <= soluongtrang ; i++) {
                 if i == pagerespon
                   li.page-item.active
@@ -164,7 +162,7 @@ include ../header.pug
           - }
             
           li.page-item
-            a.page-link(href='#') Next
+            a.page-link(href='#') Trang kế
     // /.content
   // /.content-wrapper
   include ../footer.pug
