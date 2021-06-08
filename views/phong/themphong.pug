@@ -124,32 +124,72 @@ include ../header.pug
     // /.content-header
     // Main content
     section.content
-      .card(style='width: 100%;')
-        .card-body
-            .row
-                 h5(style="font-weight:bold;") Thông tin phòng
-            .row
-                .col-md-12 
-                    select#inputGroupSelect02.custom-select(name="dropdownCinema", onchange="sendIdCinema(this)")
-                        option(selected='') Chọn rạp chiếu
-                        each item in danhsachrap
-                          option(value=item.ID)= item.TenRap
-            <br>
-            .row
-                .col-md-12
-                  .input-group.mb-3
-                        .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Tên phòng
-                        input.form-control(name= "txtTenPhong", placeholder="Nhập tên phòng",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
-
-            .card
+      nav
+        #nav-tab.nav.nav-tabs(role='tablist')
+          a#nav-home-tab.nav-item.nav-link.active(data-toggle='tab' href='#nav-home' role='tab' aria-controls='nav-home' aria-selected='true') Thêm mới một phòng
+          a#nav-profile-tab.nav-item.nav-link(data-toggle='tab' href='#nav-profile' role='tab' aria-controls='nav-profile' aria-selected='false') Tải file lên dữ liệu phòng
+      #nav-tabContent.tab-content
+        #nav-home.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='nav-home-tab')
+          .card(style='width: 100%;')
             .card-body
-              .row
-                .col(style="display:flex; justify-content:center;")
-                    button.btn.btn-success(id="btnsubmit",style="width:200px;",type='submit') Thêm phòng
-                .col(style="display:flex; justify-content:center;")
-                    button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
-              
+                .row
+                    h5(style="font-weight:bold;") Thông tin phòng
+                .row
+                    .col-md-12 
+                        select#inputGroupSelect02.custom-select(name="dropdownCinema", onchange="sendIdCinema(this)")
+                            option(selected='') Chọn rạp chiếu
+                            each item in danhsachrap
+                              option(value=item.ID)= item.TenRap
+                <br>
+                .row
+                    .col-md-12
+                      .input-group.mb-3
+                            .input-group-prepend
+                                span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Tên phòng
+                            input.form-control(name= "txtTenPhong", placeholder="Nhập tên phòng",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+
+                .card
+                .card-body
+                  .row
+                    .col(style="display:flex; justify-content:center;")
+                      button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ          
+                    .col(style="display:flex; justify-content:center;")
+                      button.btn.btn-success(id="btnsubmit",style="width:200px;",type='submit') Thêm phòng
+                        
+           
+        #nav-profile.tab-pane.fade(role='tabpanel' aria-labelledby='nav-profile-tab')
+          .card(style='width: 100%;')
+            .card-body
+                .row
+                    h5(style="font-weight:bold;") Thông tin phòng
+                .row
+                    .col-md-12 
+                        select#inputGroupSelect02.custom-select(name="dropdownCinema", onchange="sendIdCinema(this)")
+                            option(selected='') Chọn rạp chiếu
+                            each item in danhsachrap
+                              option(value=item.ID)= item.TenRap
+                br
+                .row
+                    .input-group.mb-3
+                            .input-group-prepend
+                              span.input-group-text(style = "color:red; font-weight:bold") File dữ liệu phòng
+                            .custom-file
+                              input.custom-file-input(id="inputGroupFile01", name="txthinh", type='file', multiple='')
+                              label.custom-file-label(for='inputGroupFile01') Choose file
+
+                .card
+                .card-body
+                  .row
+                    .col(style="display:flex; justify-content:center;")
+                      button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
+                    .col(style="display:flex; justify-content:center;")
+                      button.btn.btn-success(id="btnsubmit",style="width:200px;",type='submit') Thêm phòng
+
+          .card(style='width: 100%;')
+            .card-body
+                
+
+        
     // /.content
   // /.content-wrapper
   include ../footer.pug
