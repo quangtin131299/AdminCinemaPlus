@@ -60,13 +60,25 @@ aside.main-sidebar.sidebar-dark-primary.elevation-4(style="position:fixed")
                     a.nav-link(href='#')
                         i.nav-icon.fas.fa-users
                         p
-                            | Quản lý Khách hàng
+                            | Quản lý khách hàng
                             i.right.fas.fa-angle-left
                     ul.nav.nav-treeview
                         li.nav-item
                             a.nav-link(href='/customer/danhsachuser?page=1')
                                 i.far.fa-circle.nav-icon
                                 p Danh sách khách hàng
+
+                li.nav-item.has-treeview
+                    a.nav-link(href='#')    
+                        i.nav-icon.fas.fa-money-bill-alt
+                        p
+                            | Quản lý hóa đơn
+                            i.right.fas.fa-angle-left
+                    ul.nav.nav-treeview
+                        li.nav-item
+                            a.nav-link(href='/hoadon/danhsachhoadon?page=1')
+                                i.far.fa-circle.nav-icon
+                                p Danh sách hóa đơn đặt vé
 
                 li.nav-item.has-treeview
                     a.nav-link(href='#')    
