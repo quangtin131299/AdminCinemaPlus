@@ -165,6 +165,17 @@ include ../header.pug
                             option(value='1') 19:00
                             option(value='2') 22:00
                             option(value='3') 23:00
+            .row 
+                .col-md-6
+                    .input-group.mb-3
+                        .input-group-prepend
+                            label.input-group-text(for='inputGroupSelect01') Phong
+                        select#inputGroupSelect01.custom-select
+                            option(selected='') Choose...
+                            option(value='1') Phong 1
+                            option(value='2') Phong 2
+                            option(value='3') Phong 3
+
             .row
                 .col-md-12.submit-container
                     button.btn.btn-success(type='button') Thêm vào danh sách
