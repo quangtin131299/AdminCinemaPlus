@@ -145,21 +145,21 @@ include ../header.pug
                 span 
                   a(href="#") Chi Tiết 
                 span 
-      nav(style="display:flex; justify-content:center",aria-label='Page navigation example')
-        ul.pagination
-          li.page-item
-            a.page-link(href='#') Trang trước
-          - for (var i = 1; i <= soluongtrang ; i++) {
-                if i == pagerespon
-                  li.page-item.active
-                   a.page-link(href="danhsachhoadon?page=" + i)= i 
-                else
-                  li.page-item
-                   a.page-link(href="danhsachhoadon?page=" + i)= i
-          - }
+      //- nav(style="display:flex; justify-content:center",aria-label='Page navigation example')
+      //-   ul.pagination
+      //-     li.page-item
+      //-       a.page-link(href='#') Trang trước
+      //-     - for (var i = 1; i <= soluongtrang ; i++) {
+      //-           if i == pagerespon
+      //-             li.page-item.active
+      //-              a.page-link(href="danhsachhoadon?page=" + i)= i 
+      //-           else
+      //-             li.page-item
+      //-              a.page-link(href="danhsachhoadon?page=" + i)= i
+      //-     - }
             
-          li.page-item
-            a.page-link(href='#') Trang kế
+      //-     li.page-item
+      //-       a.page-link(href='#') Trang kế
     // /.content
   // /.content-wrapper
   include ../footer.pug
