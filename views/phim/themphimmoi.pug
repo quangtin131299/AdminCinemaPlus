@@ -17,87 +17,6 @@ include ../header.pug
         .input-group-append
           button.btn.btn-navbar(type='submit')
             i.fas.fa-search
-    // Right navbar links
-    ul.navbar-nav.ml-auto
-      // Messages Dropdown Menu
-      li.nav-item.dropdown
-        a.nav-link(data-toggle='dropdown', href='#')
-          i.far.fa-comments
-          span.badge.badge-danger.navbar-badge 3
-        .dropdown-menu.dropdown-menu-lg.dropdown-menu-right
-          a.dropdown-item(href='#')
-            // Message Start
-            .media
-              img.img-size-50.mr-3.img-circle(src='dist/img/user1-128x128.jpg', alt='User Avatar')
-              .media-body
-                h3.dropdown-item-title
-                  | Brad Diesel
-                  span.float-right.text-sm.text-danger
-                    i.fas.fa-star
-                p.text-sm Call me whenever you can...
-                p.text-sm.text-muted
-                  i.far.fa-clock.mr-1
-                  |  4 Hours Ago
-            // Message End
-          .dropdown-divider
-          a.dropdown-item(href='#')
-            // Message Start
-            .media
-              img.img-size-50.img-circle.mr-3(src='dist/img/user8-128x128.jpg', alt='User Avatar')
-              .media-body
-                h3.dropdown-item-title
-                  | John Pierce
-                  span.float-right.text-sm.text-muted
-                    i.fas.fa-star
-                p.text-sm I got your message bro
-                p.text-sm.text-muted
-                  i.far.fa-clock.mr-1
-                  |  4 Hours Ago
-            // Message End
-          .dropdown-divider
-          a.dropdown-item(href='#')
-            // Message Start
-            .media
-              img.img-size-50.img-circle.mr-3(src='dist/img/user3-128x128.jpg', alt='User Avatar')
-              .media-body
-                h3.dropdown-item-title
-                  | Nora Silvester
-                  span.float-right.text-sm.text-warning
-                    i.fas.fa-star
-                p.text-sm The subject goes here
-                p.text-sm.text-muted
-                  i.far.fa-clock.mr-1
-                  |  4 Hours Ago
-            // Message End
-          .dropdown-divider
-          a.dropdown-item.dropdown-footer(href='#') See All Messages
-      // Notifications Dropdown Menu
-      li.nav-item.dropdown
-        a.nav-link(data-toggle='dropdown', href='#')
-          i.far.fa-bell
-          span.badge.badge-warning.navbar-badge 15
-        .dropdown-menu.dropdown-menu-lg.dropdown-menu-right
-          span.dropdown-item.dropdown-header 15 Notifications
-          .dropdown-divider
-          a.dropdown-item(href='#')
-            i.fas.fa-envelope.mr-2
-            |  4 new messages
-            span.float-right.text-muted.text-sm 3 mins
-          .dropdown-divider
-          a.dropdown-item(href='#')
-            i.fas.fa-users.mr-2
-            |  8 friend requests
-            span.float-right.text-muted.text-sm 12 hours
-          .dropdown-divider
-          a.dropdown-item(href='#')
-            i.fas.fa-file.mr-2
-            |  3 new reports
-            span.float-right.text-muted.text-sm 2 days
-          .dropdown-divider
-          a.dropdown-item.dropdown-footer(href='#') See All Notifications
-      li.nav-item
-        a.nav-link(data-widget='control-sidebar', data-slide='true', href='#', role='button')
-          i.fas.fa-th-large
   // /.navbar
   // Main Sidebar Container
   include ../slidebar.pug
@@ -135,17 +54,23 @@ include ../header.pug
                         .input-group-prepend
                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Tên phim
                         input.form-control(name= "txttenphim", placeholder="Nhập tên phim",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+              .row
                 .col
                     .input-group.mb-3
                         .input-group-prepend
                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Ngày khởi chiếu
                         input.form-control(name= "txtngaykhoichieu",type='date', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .col
+                    .input-group.mb-3
+                        .input-group-prepend
+                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Ngày kết thúc
+                        input.form-control(name= "txtNgayKetThuc",type='date', aria-label='Default', aria-describedby='inputGroup-sizing-default')
               .row
                     .col
                         .input-group.mb-3
                             .input-group-prepend
-                                span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Thời gian chiếu
-                            input.form-control(name="txtthoigian", type='number',min=1, aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                                span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Thời lượng
+                            input.form-control(name="txtthoigian", placeholder="Nhập thời lượng phim (Phút)", type='number',min=1, aria-label='Default', aria-describedby='inputGroup-sizing-default')
                     .col
                         .input-group.mb-3
                             .input-group-prepend
@@ -158,6 +83,15 @@ include ../header.pug
                             .input-group-prepend
                                 span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") ID Trailer
                             input.form-control(name="txtIDtrailer",placeholder ="Nhập ID video trailer từ Youtube", type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+              .row
+                    .col
+                        .input-group.mb-3
+                            .input-group-prepend
+                                label.input-group-text(style = "color:red; font-weight:bold",for='inputGroupSelect01') Nhà cung cấp
+                            select#inputGroupSelect02.custom-select(name="dropdownNhaCungCap")
+                                option(selected='') Chọn nhà cung cấp
+                            //- each item in listNhaCungCap
+                            //-   option(value=item.ID)= item.TenNhaCungCap
               .row    
                     .col    
                         .input-group.mb-3
@@ -183,21 +117,6 @@ include ../header.pug
                 h5(style="font-weight:bold;") Mô tả phim 
               .row
                 textarea(id="txtmota", style='width: 100%; height: 150px;')
-        .card
-            .card-body
-              .row          
-                  table.table.table-dark
-                    thead
-                      tr
-                        th(scope='col') STT
-                        th(scope='col') Tên phim
-                        th(scope='col') Poster
-                        th(scope='col') Ngày khởi chiếu
-                        th(scope='col') Thời gian chiếu
-                        th(scope='col') ID Trailer 
-                        th(scope='col') Loại
-                        th(scope='col') Mô tả
-                    tbody(id="tbbody")
                     
         .card
             .card-body

@@ -15,7 +15,7 @@ router.get("/danhsachuser", function(req, res){
 		if(err){
 			console.log(err);
 		}else{
-			let query = `SELECT khachhang.ID, khachhang.HoTen, khachhang.Email, DATE_FORMAT(khachhang.NgaySinh, '%d/%m/%Y') as 'NgaySinh', khachhang.SDT, khachhang.Account, khachhang.Password from khachhang Limit ${vitribatdaulay}, 5`;
+			let query = `SELECT khachhang.ID, khachhang.HoTen, khachhang.Email, DATE_FORMAT(khachhang.NgaySinh, '%d/%m/%Y') as 'NgaySinh', khachhang.SDT, khachhang.TaiKhoan, khachhang.MatKhau from khachhang Limit ${vitribatdaulay}, 5`;
 			conn.query(query, function(err, result){	
 				
 				res.render("customer/danhsachcustomer", {pagerespon: page,danhsachdatauser:result ,soluongtrang: Math.ceil(ntrang)})	

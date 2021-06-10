@@ -6,7 +6,7 @@ router.use(express.static("views"))
 router.get("/danhsachhoadon", function (req, res) {
 	// let page = req.query.page;
 	// let vitribatdaulay = (page - 1)	* 5
-	let querysoluong = `SELECT hoadon.ID, hoadon.Ngay, khachhang.HoTen, hoadon.SoLuong, hoadon.ThanhTien, hoadon.TrangThai 
+	let querysoluong = `SELECT hoadon.ID,  DATE_FORMAT(hoadon.Ngay, '%d/%m/%Y') as 'Ngay', khachhang.HoTen, hoadon.SoLuong, hoadon.ThanhTien, hoadon.TrangThai 
 						from hoadon join khachhang on hoadon.ID_KhachHang = khachhang.ID`;
 						
 	conn.query(querysoluong, function (err, result) {

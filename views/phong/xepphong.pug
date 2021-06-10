@@ -17,87 +17,6 @@ include ../header.pug
         .input-group-append
           button.btn.btn-navbar(type='submit')
             i.fas.fa-search
-    // Right navbar links
-    ul.navbar-nav.ml-auto
-      // Messages Dropdown Menu
-      li.nav-item.dropdown
-        a.nav-link(data-toggle='dropdown', href='#')
-          i.far.fa-comments
-          span.badge.badge-danger.navbar-badge 3
-        .dropdown-menu.dropdown-menu-lg.dropdown-menu-right
-          a.dropdown-item(href='#')
-            // Message Start
-            .media
-              img.img-size-50.mr-3.img-circle(src='dist/img/user1-128x128.jpg', alt='User Avatar')
-              .media-body
-                h3.dropdown-item-title
-                  | Brad Diesel
-                  span.float-right.text-sm.text-danger
-                    i.fas.fa-star
-                p.text-sm Call me whenever you can...
-                p.text-sm.text-muted
-                  i.far.fa-clock.mr-1
-                  |  4 Hours Ago
-            // Message End
-          .dropdown-divider
-          a.dropdown-item(href='#')
-            // Message Start
-            .media
-              img.img-size-50.img-circle.mr-3(src='dist/img/user8-128x128.jpg', alt='User Avatar')
-              .media-body
-                h3.dropdown-item-title
-                  | John Pierce
-                  span.float-right.text-sm.text-muted
-                    i.fas.fa-star
-                p.text-sm I got your message bro
-                p.text-sm.text-muted
-                  i.far.fa-clock.mr-1
-                  |  4 Hours Ago
-            // Message End
-          .dropdown-divider
-          a.dropdown-item(href='#')
-            // Message Start
-            .media
-              img.img-size-50.img-circle.mr-3(src='dist/img/user3-128x128.jpg', alt='User Avatar')
-              .media-body
-                h3.dropdown-item-title
-                  | Nora Silvester
-                  span.float-right.text-sm.text-warning
-                    i.fas.fa-star
-                p.text-sm The subject goes here
-                p.text-sm.text-muted
-                  i.far.fa-clock.mr-1
-                  |  4 Hours Ago
-            // Message End
-          .dropdown-divider
-          a.dropdown-item.dropdown-footer(href='#') See All Messages
-      // Notifications Dropdown Menu
-      li.nav-item.dropdown
-        a.nav-link(data-toggle='dropdown', href='#')
-          i.far.fa-bell
-          span.badge.badge-warning.navbar-badge 15
-        .dropdown-menu.dropdown-menu-lg.dropdown-menu-right
-          span.dropdown-item.dropdown-header 15 Notifications
-          .dropdown-divider
-          a.dropdown-item(href='#')
-            i.fas.fa-envelope.mr-2
-            |  4 new messages
-            span.float-right.text-muted.text-sm 3 mins
-          .dropdown-divider
-          a.dropdown-item(href='#')
-            i.fas.fa-users.mr-2
-            |  8 friend requests
-            span.float-right.text-muted.text-sm 12 hours
-          .dropdown-divider
-          a.dropdown-item(href='#')
-            i.fas.fa-file.mr-2
-            |  3 new reports
-            span.float-right.text-muted.text-sm 2 days
-          .dropdown-divider
-          a.dropdown-item.dropdown-footer(href='#') See All Notifications
-      li.nav-item
-        a.nav-link(data-widget='control-sidebar', data-slide='true', href='#', role='button')
-          i.fas.fa-th-large
   // /.navbar
   // Main Sidebar Container
   include ../slidebar.pug
@@ -130,87 +49,60 @@ include ../header.pug
                 .col-md-6
                     .input-group.mb-3
                         .input-group-prepend
-                            label.input-group-text(for='inputGroupSelect01') Rạp chiếu
+                            label.input-group-text(for='inputGroupSelect01',style = "color:red; font-weight:bold") Rạp chiếu
                         select#inputGroupSelect01.custom-select
                             option(selected='') Choose...
                             option(value='1') Rạp 1
                             option(value='2') Rạp 2
                             option(value='3') Rạp 3
-                .col-md-6
-                    .input-group.mb-3
-                        .input-group-prepend
-                            label.input-group-text(for='inputGroupSelect01')  Phim 
-                        select#inputGroupSelect01.custom-select
-                            option(selected='') Choose...
-                            option(value='1') Rạp 1
-                            option(value='2') Rạp 2
-                            option(value='3') Rạp 3
-
             .row 
                 .col-md-6
                     .input-group.mb-3
                         .input-group-prepend
-                            label.input-group-text(for='inputGroupSelect01') Lịch chiếu
+                            label.input-group-text(for='inputGroupSelect01',style = "color:red; font-weight:bold") Phòng
+                        select#inputGroupSelect01.custom-select
+                            option(selected='') Choose...
+                            option(value='1') Phòng 1
+                            option(value='2') Phòng 2
+                            option(value='3') Phòng 3
+            .row
+                .col-md-6
+                    .input-group.mb-3
+                        .input-group-prepend
+                            label.input-group-text(for='inputGroupSelect01',style = "color:red; font-weight:bold")  Phim 
+                        select#inputGroupSelect01.custom-select
+                            option(selected='') Choose...
+                            option(value='1') Rạp 1
+                            option(value='2') Rạp 2
+                            option(value='3') Rạp 3
+            .row 
+                .col-md-6
+                    .input-group.mb-3
+                        .input-group-prepend
+                            label.input-group-text(for='inputGroupSelect01',style = "color:red; font-weight:bold") Lịch chiếu
                         select#inputGroupSelect01.custom-select
                             option(selected='') Choose...
                             option(value='1') Lịch chiếu: 04/06/2021
                             option(value='2') Lịch chiếu: 05/06/2021
                             option(value='3') Lịch chiếu: 06/06/2021
+            .row
                 .col-md-6
                     .input-group.mb-3
                         .input-group-prepend
-                            label.input-group-text(for='inputGroupSelect01')  Suất chiếu 
+                            label.input-group-text(for='inputGroupSelect01',style = "color:red; font-weight:bold")  Suất chiếu 
                         select#inputGroupSelect01.custom-select
                             option(selected='') Choose...
                             option(value='1') 19:00
                             option(value='2') 22:00
                             option(value='3') 23:00
-            .row 
-                .col-md-6
-                    .input-group.mb-3
-                        .input-group-prepend
-                            label.input-group-text(for='inputGroupSelect01') Phong
-                        select#inputGroupSelect01.custom-select
-                            option(selected='') Choose...
-                            option(value='1') Phong 1
-                            option(value='2') Phong 2
-                            option(value='3') Phong 3
 
-            .row
-                .col-md-12.submit-container
-                    button.btn.btn-success(type='button') Thêm vào danh sách
-      .card(style='width: 100%;')
+      .card
         .card-body
-            .row 
-                .col-md-12
-                    table.table.table-bordered.table-dark
-                        thead
-                            tr
-                                th(scope='col') #
-                                th(scope='col') First
-                                th(scope='col') Last
-                                th(scope='col') Handle
-                        tbody
-                            tr
-                                th(scope='row') 1
-                                td Mark
-                                td Otto
-                                td @mdo
-                            tr
-                                th(scope='row') 2
-                                td Jacob
-                                td Thornton
-                                td @fat
-                            tr
-                                th(scope='row') 3
-                                td(colspan='2') Larry the Bird
-                                td @twitter
             .row
-                .col-md-6.back-to-container   
-                    button.btn.btn-dark(type='button') Quay lại
-                .col-md-6.add-schedule-container
-                     button.btn.btn-success(type='button') Thêm xếp lịch
-            
+              .col(style="display:flex; justify-content:center;")
+                  button.btn.btn-success(id="btnsubmit",style="width:200px;",type='submit') Thêm
+              .col(style="display:flex; justify-content:center;")
+                  button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
               
     // /.content
   // /.content-wrapper
