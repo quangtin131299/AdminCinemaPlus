@@ -9,9 +9,7 @@ include ../header.pug
         a.nav-link(data-widget='pushmenu', href='#', role='button')
           i.fas.fa-bars
       li.nav-item.d-none.d-sm-inline-block
-        a.nav-link(href='index3.html') Home
-      li.nav-item.d-none.d-sm-inline-block
-        a.nav-link(href='#') Contact
+        a.nav-link(href='/home') Trang chủ
     // SEARCH FORM
     form.form-inline.ml-3
       .input-group.input-group-sm
@@ -110,14 +108,14 @@ include ../header.pug
       .container-fluid
         .row.mb-2
           .col-sm-6
-            h1.m-0.text-dark Danh sách phim đang chiếu
+            h1.m-0.text-dark Danh sách phòng
           // /.col
           .col-sm-6
             ol.breadcrumb.float-sm-right
               li.breadcrumb-item
-                a(href='#') Trang chủ
+                a(href='/home') Trang chủ
               li.breadcrumb-item
-                a(href='#') Quản lý phong
+                a(href='#') Quản lý phòng
               li.breadcrumb-item.active 
                 a(href='#') Danh sách phòng
           // /.col
@@ -130,35 +128,30 @@ include ../header.pug
         .card-body
             .row
                 .col-md-6 
-                    h3 Danh sách phòng 
-                .col-md-6 
                     select#inputGroupSelect02.custom-select(name="dropdownCinema", onchange="sendIdCinema(this)")
-                        option(selected='') Choose...
+                        option(selected='') Chọn rạp chiếu
                         each item in danhsachrap
                           option(value=item.ID)= item.TenRap
             br
             table.table.table-bordered
                 thead
                     tr
-                    th(scope='col') #
-                    th(scope='col') First
-                    th(scope='col') Last
-                    th(scope='col') Handle
+                    th(scope='col') STT
+                    th(scope='col') Rạp chiếu
+                    th(scope='col') Tên phòng
                 tbody
                     tr
                         th(scope='row') 1
                         td Mark
                         td Otto
-                        td @mdo
                     tr
                         th(scope='row') 2
                         td Jacob
                         td Thornton
-                        td @fat
                     tr
                         th(scope='row') 3
-                        td(colspan='2') Larry the Bird
-                        td @twitter
+                        td Jacob
+                        td Thornton
               
     // /.content
   // /.content-wrapper

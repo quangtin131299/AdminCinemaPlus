@@ -9,9 +9,7 @@ include ../header.pug
         a.nav-link(data-widget='pushmenu', href='#', role='button')
           i.fas.fa-bars
       li.nav-item.d-none.d-sm-inline-block
-        a.nav-link(href='index3.html') Home
-      li.nav-item.d-none.d-sm-inline-block
-        a.nav-link(href='#') Contact
+        a.nav-link(href='/home') Trang chủ
     // SEARCH FORM
     form.form-inline.ml-3
       .input-group.input-group-sm
@@ -115,7 +113,7 @@ include ../header.pug
           .col-sm-6
             ol.breadcrumb.float-sm-right
               li.breadcrumb-item
-                a(href='#') Trang chủ
+                a(href='/home') Trang chủ
               li.breadcrumb-item
                 a(href='#') Quản lý phim chiếu
               li.breadcrumb-item.active 
@@ -129,9 +127,9 @@ include ../header.pug
       table.table
         thead
           tr
-            th(scope='col') #
-            th(scope='col') Ten Phim
-            th(scope='col') Hình
+            th(scope='col') STT
+            th(scope='col') Tên Phim
+            th(scope='col') Poster
             th(scope='col') Trạng thái 
             th(scope='col') Thời gian 
             th(scope='col') Trailer
@@ -158,7 +156,7 @@ include ../header.pug
       nav(style="display:flex; justify-content:center",aria-label='Page navigation example')
         ul.pagination
           li.page-item
-            a.page-link(href='#') Previous
+            a.page-link(href='#') Trang trước
           - for (var i = 1; i <= soluongtrang ; i++) {
                 if i == pagerespon
                   li.page-item.active
@@ -168,7 +166,7 @@ include ../header.pug
                    a.page-link(href="danhsachphim?page=" + i)= i
           - } 
           li.page-item
-            a.page-link(href='#') Next   
+            a.page-link(href='#') Trang kế   
      
       #exampleModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
         .modal-dialog(role='document')
@@ -180,8 +178,8 @@ include ../header.pug
             .modal-body
               | Bạn có muốn xóa phim này hay không ?
             .modal-footer
-              button.btn.btn-secondary(type='button' data-dismiss='modal') Close
-              button.btn.btn-primary(type='button') Save changes
+              button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng
+              button.btn.btn-primary(type='button') Lưu thay đổi
 
     // /.content
   // /.content-wrapper

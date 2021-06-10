@@ -9,9 +9,7 @@ include ../header.pug
         a.nav-link(data-widget='pushmenu', href='#', role='button')
           i.fas.fa-bars
       li.nav-item.d-none.d-sm-inline-block
-        a.nav-link(href='index3.html') Home
-      li.nav-item.d-none.d-sm-inline-block
-        a.nav-link(href='#') Contact
+        a.nav-link(href='/home') Trang chủ
     // SEARCH FORM
     form.form-inline.ml-3
       .input-group.input-group-sm
@@ -110,12 +108,12 @@ include ../header.pug
       .container-fluid
         .row.mb-2
           .col-sm-6
-            h1.m-0.text-dark Thêm Lịch chiếu mới
+            h1.m-0.text-dark Thêm Lịch chiếu
           // /.col
           .col-sm-6
             ol.breadcrumb.float-sm-right
               li.breadcrumb-item
-                a(href='#') Trang chủ
+                a(href='/home') Trang chủ
               li.breadcrumb-item
                 a(href='#') Quản lý phim chiếu
               li.breadcrumb-item.active 
@@ -135,7 +133,7 @@ include ../header.pug
                 .col
                     .input-group.mb-3
                         .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Lịch chiếu ngày
+                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Ngày chiếu
                         input.form-control(name= "txtngaylichchieu",type='date', aria-label='Default', aria-describedby='inputGroup-sizing-default')          
         .card
             .card-body
@@ -176,19 +174,19 @@ include ../header.pug
               table.table.table-bordered.table-dark
                 thead
                   tr
-                    th(scope='col') #
+                    th(scope='col') STT
                     th(scope='col') Phim
-                    th(scope='col') Thoi gian
-                    th(scope='col') Phong
+                    th(scope='col') Thời gian
+                    th(scope='col') Phòng
                 tbody(id="tbody")
                            
         .card
             .card-body
               .row
+                //- .col(style="display:flex; justify-content:center;")
+                //-     button.btn.btn-success(id="btnaddthoigian", style="width:200px;",type='button') Add thời gian
                 .col(style="display:flex; justify-content:center;")
-                    button.btn.btn-success(id="btnaddthoigian", style="width:200px;",type='button') Add thời gian
-                .col(style="display:flex; justify-content:center;")
-                    button.btn.btn-success(style="width:200px;",type='submit') Thêm lich chieu
+                    button.btn.btn-success(style="width:200px;",type='submit') Thêm lịch chiếu
                 .col(style="display:flex; justify-content:center;")
                     button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
 

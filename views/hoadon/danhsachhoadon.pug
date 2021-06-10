@@ -108,57 +108,58 @@ include ../header.pug
       .container-fluid
         .row.mb-2
           .col-sm-6
-            h1.m-0.text-dark Thêm rạp chiếu
+            h1.m-0.text-dark Danh sách hóa đơn đặt vé
           // /.col
           .col-sm-6
             ol.breadcrumb.float-sm-right
               li.breadcrumb-item
                 a(href='/home') Trang chủ
               li.breadcrumb-item
-                a(href='#') Quản lý rạp chiếu
+                a(href='#') Quản lý hóa đơn
               li.breadcrumb-item.active 
-                a(href='#') Thêm rạp chiếu
+                a(href='#') Danh sách hóa đơn đặt vé
           // /.col
         // /.row
       // /.container-fluid
     // /.content-header
     // Main content
     section.content
-        form(action="themphim", method="post", enctype="multipart/form-data")    
-        .card
-            .card-body
-              .row
-                 h5(style="font-weight:bold;") Thông tin rạp chiếu
-              .row
-                .col
-                  .input-group.mb-3
-                        .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Tên Rạp
-                        input.form-control(name= "txttenrap", placeholder="Nhập tên rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')                    
-              .row    
-                    .col    
-                        .input-group.mb-3
-                            .input-group-prepend
-                              span.input-group-text(style = "color:red; font-weight:bold") Ảnh rạp
-                            .custom-file
-                              input.custom-file-input(id="inputGroupFile01", name="txtAnhRap", type='file', multiple='')
-                              label.custom-file-label(for='inputGroupFile01') Choose file
-              .row
-                .col
-                  .input-group.mb-3
-                        .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Địa chỉ rạp
-                        input.form-control(name= "txtdiachirap", placeholder="Nhập địa chỉ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
-              
-        .card
-            .card-body
-              .row
-                .col(style="display:flex; justify-content:center;")
-                    button.btn.btn-success(style="width:200px;",type='submit') Thêm rạp chiếu
-                .col(style="display:flex; justify-content:center;")
-                    button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
-
-        
+      table.table
+        thead
+          tr
+            th(scope='col') STT
+            th(scope='col') Ngày lập
+            th(scope='col') Tên khách hàng
+            th(scope='col') Số lượng vé
+            th(scope='col') Thành tiền
+            th(scope='col') Thao tác 
+        tbody
+          each hoadon in danhsachhoadon
+            tr
+              th(scope='row')=hoadon.ID
+              td=hoadon.Ngay
+              td=hoadon.HoTen
+              td=hoadon.SoLuong
+              td=hoadon.ThanhTien
+              td
+                span 
+                  a(href="#") Chi Tiết 
+                span 
+      //- nav(style="display:flex; justify-content:center",aria-label='Page navigation example')
+      //-   ul.pagination
+      //-     li.page-item
+      //-       a.page-link(href='#') Trang trước
+      //-     - for (var i = 1; i <= soluongtrang ; i++) {
+      //-           if i == pagerespon
+      //-             li.page-item.active
+      //-              a.page-link(href="danhsachhoadon?page=" + i)= i 
+      //-           else
+      //-             li.page-item
+      //-              a.page-link(href="danhsachhoadon?page=" + i)= i
+      //-     - }
+            
+      //-     li.page-item
+      //-       a.page-link(href='#') Trang kế
     // /.content
   // /.content-wrapper
   include ../footer.pug

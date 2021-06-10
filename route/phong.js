@@ -34,7 +34,14 @@ router.get("/xepphong", function(req, res){
 })
 
 router.get("/themphong", function(req, res){
-    res.render("phong/themphong");
+    // res.render("phong/themphong");
+    
+    let queryCinema = `select * from rapphim`;
+        conn.query(queryCinema, function(errorCinema, resultCinema){
+            res.render("phong/themphong", {
+                danhsachrap: resultCinema
+            });
+        }) 
 })
 
 router.get("/getroombycinemaid", function(req, res){

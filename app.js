@@ -11,21 +11,22 @@ const phong = require("./route/phong");
 const home = require("./route/home");
 const ghe = require("./route/ghe");
 const nhacungcap = require("./route/nhacungcap");
+const hoadon = require("./route/hoadon");
 
 app.listen(process.env.PORT || 3000)
 
-app.use("/uploadanh", uploadfile)
-app.use("/phim", phim)
-app.use("/ticker", ticker)
-app.use("/customer",customer)
-app.use("/rapchieu", rapchieu)
-app.use("/lichchieu", lichchieu)
+app.use("/uploadanh", uploadfile);
+app.use("/phim", phim);
+app.use("/ticker", ticker);
+app.use("/customer",customer);
+app.use("/rapchieu", rapchieu);
+app.use("/lichchieu", lichchieu);
 app.use("/login", login);
 app.use("/phong", phong);
 app.use("/home", home)
 app.use("/ghe", ghe);
 app.use("/nhacungcap", nhacungcap);
-
+app.use("/hoadon", hoadon);
 app.use(express.static("views"))
 
 app.set('views', './views')
