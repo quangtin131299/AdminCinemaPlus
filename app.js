@@ -9,7 +9,11 @@ const uploadfile = require("./route/uploadimg");
 const login = require("./route/login");
 const phong = require("./route/phong");
 const home = require("./route/home");
+<<<<<<< HEAD
 const ghe = require("./route/ghe");
+=======
+const nhacungcap = require("./route/nhacungcap");
+>>>>>>> feature/manager-provider
 
 app.listen(process.env.PORT || 3000)
 
@@ -23,6 +27,8 @@ app.use("/login", login);
 app.use("/phong", phong);
 app.use("/home", home)
 app.use("/ghe", ghe);
+app.use("/nhacungcap", nhacungcap);
+
 app.use(express.static("views"))
 
 app.set('views', './views')

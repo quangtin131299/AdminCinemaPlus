@@ -12,3 +12,8 @@
     display: flex;
     justify-content: center;
 }
+
+.btn-action-container{
+    display: flex;
+    justify-content: center;
+}
