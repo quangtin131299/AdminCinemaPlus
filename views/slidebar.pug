@@ -115,7 +115,23 @@ aside.main-sidebar.sidebar-dark-primary.elevation-4(style="position:fixed")
                             a.nav-link(href='/phong/xepphong')
                                 i.far.fa-circle.nav-icon
                                 p Xếp phòng
-
+                
+                li.nav-item.has-treeview
+                    a.nav-link(href='#')
+                        i.fas.fa-couch
+                        p
+                            | Quản lý ghế
+                            i.fas.fa-angle-left.right
+                    ul.nav.nav-treeview
+                        li.nav-item
+                            a.nav-link(href='/ghe/danhsachghe')
+                                i.far.fa-circle.nav-icon
+                                p Danh sách ghế
+                        li.nav-item
+                            a.nav-link(href='/ghe/themghe')
+                                i.far.fa-circle.nav-icon
+                                p Thêm ghế mới 
+                        
                 li.nav-header EXAMPLES
                 li.nav-item
                     a.nav-link(href='pages/calendar.html')

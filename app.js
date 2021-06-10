@@ -9,6 +9,7 @@ const uploadfile = require("./route/uploadimg");
 const login = require("./route/login");
 const phong = require("./route/phong");
 const home = require("./route/home");
+const ghe = require("./route/ghe");
 
 app.listen(process.env.PORT || 3000)
 
@@ -21,6 +22,7 @@ app.use("/lichchieu", lichchieu)
 app.use("/login", login);
 app.use("/phong", phong);
 app.use("/home", home)
+app.use("/ghe", ghe);
 app.use(express.static("views"))
 
 app.set('views', './views')
