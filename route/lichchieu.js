@@ -197,4 +197,8 @@ router.get("/loadphongtheorap", function (req, res) {
   });
 });
 
+router.get("/xeplichV2", function(req, res){
+    res.render("lichchieu/xeplichv2");
+})
+
 module.exports = router;
