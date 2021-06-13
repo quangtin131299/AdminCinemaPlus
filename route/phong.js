@@ -38,9 +38,9 @@ router.post('/themphong', function(req, res){
         if(errorRoom){
             console.log(errorRoom);
             
-            res.json({message: 'Fail', statusCode: 0})
+            res.json({message: 'Fail', statusCode: 0, messNotify: 'Thêm thất bại'})
         }else{
-            res.json({message: 'Success', statusCode: 1})
+            res.json({message: 'Success', statusCode: 1, messNotify: 'Thêm thành công'})
         }
     })
 })

@@ -79,7 +79,19 @@ include ../header.pug
               .modal-body
                 .d-flex.justify-content-center.align-item-center
                   .spinner-border(role='status')
-                    span.sr-only Loading...                  
+                    span.sr-only Loading...
+
+      #notifyModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              h5#exampleModalLabel.modal-title Thông báo
+              button.close(type='button' data-dismiss='modal' aria-label='Close')
+                span(aria-hidden='true') &times;
+            .modal-body
+              span#modalTextMessage
+            .modal-footer
+              button.btn.btn-primary(type='button' id='btnOK') Ok                 
 
 
                       

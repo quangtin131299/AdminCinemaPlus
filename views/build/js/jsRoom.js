@@ -1,3 +1,7 @@
+$('#exampleModalCenter').on('hidden.bs.modal', function (e) {
+    $("#exampleModalCenter").modal('hide');
+})
+
 function sendIdCinema(){
     let idCinema = $('#inputGroupSelect02').val();
 
@@ -52,10 +56,10 @@ $('#btnsubmit').click(function(){
             nameRoom: roomName
         },
         success: function(data){
-            if(data && data.statusCode == 1){
-                hideLoading();
-            }else{
-                hideLoading();
+            if(data){
+                hideLoading();        
+                $('#modalTextMessage').html(data.messNotify);
+                $('#notifyModal').modal('show')
             }
         },
         error: function(error) {
@@ -66,9 +70,7 @@ $('#btnsubmit').click(function(){
 })
 
 function hideLoading() {
-    $('#exampleModalCenter').on('shown.bs.modal', function (e) {
-        $("#exampleModalCenter").modal('hide');
-    })
+    $("#exampleModalCenter").modal('hide');
 }
 
 function showLoading(){
