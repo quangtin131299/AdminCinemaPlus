@@ -43,7 +43,7 @@ include ../header.pug
     // /.content-header
     // Main content
     section.content  
-      form(action="themphim", method="post" )  
+      form(action="themphim", method="post",enctype="multipart/form-data")  
         .card
             .card-body
               .row
@@ -89,17 +89,27 @@ include ../header.pug
                             .input-group-prepend
                                 label.input-group-text(style = "color:red; font-weight:bold",for='inputGroupSelect01') Nhà cung cấp
                             select#inputGroupSelect02.custom-select(name="dropdownNhaCungCap")
-                                option(selected='') Chọn nhà cung cấp
-                            //- each item in listNhaCungCap
-                            //-   option(value=item.ID)= item.TenNhaCungCap
+                              option(selected='') Chọn nhà cung cấp
+                              each itemSupplier in suppliers
+                                option(value=itemSupplier.ID)= itemSupplier.TenNhaCungCap
+
+              .row    
+                    .col    
+                        .input-group.mb-3
+                            .input-group-prepend
+                              span.input-group-text(style = "color:red; font-weight:bold") Hình phim
+                            .custom-file
+                              input.custom-file-input(id="inputGroupFile01", name="imgMovie", type='file', multiple='')
+                              label.custom-file-label(for='inputGroupFile01')
+
               .row    
                     .col    
                         .input-group.mb-3
                             .input-group-prepend
                               span.input-group-text(style = "color:red; font-weight:bold") Poster
                             .custom-file
-                              input.custom-file-input(id="inputGroupFile01", name="txthinh", type='file', multiple='')
-                              label.custom-file-label(for='inputGroupFile01') Choose file
+                              input.custom-file-input(id="inputGroupFile01", name="imgPoster", type='file', multiple='')
+                              label.custom-file-label(for='inputGroupFile01') 
 
         .card
             .card-body
@@ -107,27 +117,49 @@ include ../header.pug
                 h5(style="font-weight:bold;") Thể loại phim
               .row  
                 .col 
-                    each loai in danhsachloaiphim
+                    each itemMovieType in movieTypes
                       .form-check.form-check-inline
-                        input#inlineCheckbox1.form-check-input(type='checkbox',name= "chbloai", value=loai.ID)
-                        label.form-check-label(id=loai.ID,for='inlineCheckbox1')=loai.TenLoai
+                        input#inlineCheckbox1.form-check-input(type='checkbox',name= "chbloai", value=itemMovieType.ID)
+                        label.form-check-label(id=itemMovieType.ID,for='inlineCheckbox1')=itemMovieType.TenLoai
+
+        .card
+            .card-body
+              .row
+                h5(style="font-weight:bold;") Phim được chiếu ở rạp
+              .row  
+                .col 
+                    each itemCinema in cinemas
+                      .form-check.form-check-inline
+                        input#inlineCheckbox1.form-check-input(type='checkbox',name= "chbCinema", value=itemCinema.ID)
+                        label.form-check-label(id=itemCinema.ID,for='inlineCheckbox1')=itemCinema.TenRap
         .card
             .card-body
               .row
                 h5(style="font-weight:bold;") Mô tả phim 
               .row
-                textarea(id="txtmota", style='width: 100%; height: 150px;')
-                    
+                textarea.width-texarea(id="txtmota", name="txtDescription")
+            
         .card
             .card-body
               .row
                 .col(style="display:flex; justify-content:center;")
-                    button.btn.btn-success(id="btnsubmit",style="width:200px;",type='submit') Thêm phim
+                    button.btn.btn-dark.width-btn(type='button', id="btnhuy") Hủy bỏ
                 .col(style="display:flex; justify-content:center;")
-                    button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
+                    button.btn.btn-success.width-btn(id="btnsubmit",type='submit') Thêm phim
 
-              
-        
+      #exampleModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              h5#exampleModalLabel.modal-title Thông báo
+              button.close(type='button' data-dismiss='modal' aria-label='Close')
+                span(aria-hidden='true') &times;
+            .modal-body
+              span#modalTextMessage= messNotify
+            .modal-footer
+              button.btn.btn-primary(type='button' id='btnOK') Ok
+
+                     
     // /.content
   // /.content-wrapper
   include ../footer.pug
@@ -165,6 +197,7 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
+script(src="build/js/jsMovie.js")
 style.
  
   tbody {
@@ -184,63 +217,7 @@ style.
       width:400px;
       height: 300px;
   }
-script.
-    let danhsachphim = [];
-    document.getElementById("btnhuy").onclick=function(){
-         window.location.replace("danhsachphim?page=1") 
-    }
-    document.querySelector('.custom-file-input').addEventListener('change',function(e){
-       var fileName = document.getElementById("inputGroupFile01").files[0].name;
-       var nextSibling = e.target.nextElementSibling
-       nextSibling.innerText = fileName
-    })
-    let indexarrphim = 0;
-    $('#btnaddphim').click(function(){     
-        let tenphim = $("input[name=txttenphim]").val();
-        let ngaykhoichieu = $("input[name=txtngaykhoichieu]").val();
-        let thoigianchieu = $("input[name=txtthoigian]").val();
-        let filehinh = document.getElementById("inputGroupFile01").files[0];    
-        let trangthai = $("select[name=cboxtrangthai] option:selected").text();
-        let idtrailer = $("input[name=txtIDtrailer]").val();
-        let slloai = $("input[name=chbloai]:checked").length;
-        let mt = $(".nicEdit-main").text();
-        let strloaiphim = "";
-        let arridloai = [];
-        for(let i = 0; i < slloai; i++){
-            let temp = $("input[name=chbloai]:checked").get(i);
-            let textlabel = $("#"+temp.value).text()
-            arridloai.push(Number(temp.value))
-            strloaiphim+=textlabel +", ";
-        }
-        var fileReader = new FileReader();
-        
-        fileReader.onload = function(progressEvent) {
-           let url = fileReader.result;
-           $("#tbbody").html($("#tbbody").html() + `<tr>
-                                                    <th scope="row"></th>
-                                                    <td><input type="hidden" name="dataphim[${indexarrphim}][tenphim]" value="${tenphim}"/>${tenphim}</td>
-                                                    <td><input type="hidden" name="dataphim[${indexarrphim}][tenhinhanh]" value="${filehinh.name}"/><img src="${url}" width=80 height=80/></td>
-                                                    <td><input type="hidden" name="dataphim[${indexarrphim}][ngaykhoichieu]" value="${ngaykhoichieu}"/>${ngaykhoichieu}</td>
-                                                    <td><input type="hidden" name="dataphim[${indexarrphim}][thoigianchieu]" value="${thoigianchieu}"/>${thoigianchieu} phút</td>
-                                                    <td><input type="hidden" name="dataphim[${indexarrphim}][trangthai]" value="${trangthai}"/>${trangthai}</td>
-                                                    <td><input type="hidden" name="dataphim[${indexarrphim}][idtrailer]" value="${idtrailer}"/>${idtrailer}</td>
-                                                    <td><input type="hidden" name="dataphim[${indexarrphim}][loai]" value="${arridloai}"/>${strloaiphim}</td>
-                                                    <td><input type="hidden" name="dataphim[${indexarrphim}][mota]" value="${mt}"/>${mt}</td>
-                                                  </tr>`)  
-            indexarrphim++;                                                     
-        } 
-        
-        fileReader.readAsDataURL(filehinh);        
-        return false;
-    })
 
-
-    //- $('#btnsubmit').click(function(){
-    //-     //- $.post("themphim", {dsdata: JSON.stringify(danhsachphim)}, function(data){
-
-    //-     //- });
-    //-     return false;
-    //- })
- 
+    
 
 

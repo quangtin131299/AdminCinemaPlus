@@ -17,3 +17,21 @@
     display: flex;
     justify-content: center;
 }
+
+.card-container-max-width{
+    width: 100%;
+}
+
+.paging-center{
+    display:flex; 
+    justify-content:center;
+}
+
+.width-btn{
+    width:200px
+}
+
+.width-texarea{
+    width: 100%; 
+    height: 150px;
+}

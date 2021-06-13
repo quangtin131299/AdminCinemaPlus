@@ -47,10 +47,10 @@ include ../header.pug
         .card-body
             .row
                 .col-md-6 
-                    select#inputGroupSelect02.custom-select(name="dropdownCinema", onchange="sendIdCinema(this)")
-                        option(selected='') Chọn rạp chiếu
-                        each item in danhsachrap
-                          option(value=item.ID)= item.TenRap
+                  select#inputGroupSelect02.custom-select(name="dropdownCinema", onchange="sendIdCinema(this)")
+                      option(selected='') Chọn rạp chiếu
+                      each item in danhsachrap
+                        option(value=item.ID)= item.TenRap
             br
             table.table.table-bordered
                 thead

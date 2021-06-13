@@ -43,50 +43,54 @@ include ../header.pug
     // /.content-header
     // Main content
     section.content
-      table.table
-        thead
-          tr
-            th(scope='col') STT
-            th(scope='col') Tên Phim
-            th(scope='col') Poster
-            th(scope='col') Trạng thái 
-            th(scope='col') Thời gian 
-            th(scope='col') Trailer
-            th(scope='col') Thao tác
-        tbody
-          each phim in dataphimchieu
-            tr
-              th(scope='row')=phim.ID
-              td=phim.TenPhim
-              td
-                img(src=phim.Hinh, alt="photo", width=125, height=125)
-              td=phim.TrangThai
-              td=phim.ThoiGian + " phút"
-              td=(phim.Trailer?phim.Trailer:"Trống")
-              td
-                span 
-                  a(href="chitietphim?idphim= " + phim.ID) Chi Tiết 
-                span |
-                span 
-                  a(href="#", data-toggle="modal", data-target="#exampleModal") Xóa
-                span |
-                span 
-                  a(href="suaphim?idphim=" + phim.ID) Sửa
-      nav(style="display:flex; justify-content:center",aria-label='Page navigation example')
-        ul.pagination
-          li.page-item
-            a.page-link(href='#') Trang trước
-          - for (var i = 1; i <= soluongtrang ; i++) {
-                if i == pagerespon
-                  li.page-item.active
-                   a.page-link(href="danhsachphim?page=" + i)= i 
-                else
-                  li.page-item
-                   a.page-link(href="danhsachphim?page=" + i)= i
-          - } 
-          li.page-item
-            a.page-link(href='#') Trang kế   
+      .card.card-container-max-width
+        .card-body
+          table.table.table-bordered
+            thead
+              tr
+                th(scope='col') STT
+                th(scope='col') Tên Phim
+                th(scope='col') Poster
+                th(scope='col') Trạng thái 
+                th(scope='col') Thời gian 
+                th(scope='col') Trailer
+                th(scope='col') Thao tác
+            tbody
+              each phim in dataphimchieu
+                tr
+                  th(scope='row')=phim.ID
+                  td=phim.TenPhim
+                  td
+                    img(src=phim.Hinh, alt="photo", width=125, height=125)
+                  td=phim.TrangThai
+                  td=phim.ThoiGian + " phút"
+                  td=(phim.Trailer?phim.Trailer:"Trống")
+                  td
+                    span 
+                      a(href="chitietphim?idphim= " + phim.ID) Chi Tiết 
+                    span |
+                    span 
+                      a(href="#", data-toggle="modal", data-target="#exampleModal") Xóa
+                    span |
+                    span 
+                      a(href="suaphim?idphim=" + phim.ID) Sửa
+          br
+          nav.paging-center(aria-label='Page navigation example')
+            ul.pagination
+              li.page-item
+                a.page-link(href='#') Trang trước
+              - for (var i = 1; i <= soluongtrang ; i++) {
+                    if i == pagerespon
+                      li.page-item.active
+                      a.page-link(href="danhsachphim?page=" + i)= i 
+                    else
+                      li.page-item
+                      a.page-link(href="danhsachphim?page=" + i)= i
+              - } 
+              li.page-item
+                a.page-link(href='#') Trang kế   
      
+
       #exampleModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
         .modal-dialog(role='document')
           .modal-content
