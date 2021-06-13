@@ -222,8 +222,17 @@ router.post(
 
 router.get("/suaphim", function (req, res) {
   let idphim = req.query.idphim;
-  let query = `SELECT phim.ID, phim.TenPhim, phim.Hinh, phim.TrangThai, phim.ThoiGian, phim.Trailer, phim_loaiphim.MoTa, DATE_FORMAT(phim_loaiphim.NgayKhoiChieu, '%Y-%m-%d') as 'NgayKhoiChieu', loaiphim.ID as 'Id_Loai' ,loaiphim.TenLoai FROM phim JOIN phim_loaiphim ON phim.ID = phim_loaiphim.ID_Phim JOIN loaiphim ON phim_loaiphim.Id_Loai = loaiphim.ID where phim.ID =${idphim}`;
-  conn.query(query, function (err, result) {
+  let query = `SELECT phim.ID
+                      , phim.TenPhim
+                      , phim.Hinh
+                      , phim.TrangThai
+                      , phim.ThoiGian
+                      , phim.Trailer
+                      , phim.MoTa
+                      , DATE_FORMAT(phim.NgayKhoiChieu, '%Y-%m-%d') as 'NgayKhoiChieu'
+                      , DATE_FORMAT(phim.NgayKetThuc, '%Y-%m-%d') as 'NgayKetThuc'
+               FROM phim WHERE phim.ID = ?`;
+  conn.query(query,[idphim],function (err, result) {
     if (err) {
       console.log(err);
     } else {
