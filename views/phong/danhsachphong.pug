@@ -47,30 +47,33 @@ include ../header.pug
         .card-body
             .row
                 .col-md-6 
-                    select#inputGroupSelect02.custom-select(name="dropdownCinema", onchange="sendIdCinema(this)")
-                        option(selected='') Chọn rạp chiếu
-                        each item in danhsachrap
-                          option(value=item.ID)= item.TenRap
+                  select#inputGroupSelect02.custom-select(name="dropdownCinema")
+                      option(selected='') Chọn rạp chiếu
+                      each itemCinema in cinemas
+                        option(value=itemCinema.ID)= itemCinema.TenRap
+
+                .col-md-2
+                  button.btn.btn-success.width-btn(id="btnFilter",type='submit', onclick="sendIdCinema()") Lọc
             br
             table.table.table-bordered
                 thead
-                    tr
                     th(scope='col') STT
-                    th(scope='col') Rạp chiếu
+                    th(scope='col') Mã phòng
                     th(scope='col') Tên phòng
-                tbody
-                    tr
-                        th(scope='row') 1
-                        td Mark
-                        td Otto
-                    tr
-                        th(scope='row') 2
-                        td Jacob
-                        td Thornton
-                    tr
-                        th(scope='row') 3
-                        td Jacob
-                        td Thornton
+                tbody#tblBody
+                    each itemRoom in rooms
+                      tr
+                          th(scope='row') 1
+                          td= itemRoom.ID
+                          td= itemRoom.TenPhong
+
+      #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
+          .modal-dialog.modal-dialog-centered
+            .modal-content.dialog-loading
+              .modal-body
+                .d-flex.justify-content-center.align-item-center
+                  .spinner-border(role='status')
+                    span.sr-only Loading...
               
     // /.content
   // /.content-wrapper
@@ -109,21 +112,5 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
-script.
-  function sendIdCinema(elselect){
-    let idCinema = elselect.value;
-
-    $.ajax({
-      method: "GET",
-      url: '/phong/getroombycinemaid',
-      data: {
-        id: idCinema
-      },
-      success: function(data){
-         console.log(data);
-      },
-      error: function(error){
-
-      }
-    })
-  }
+script(src='build/js/jsRoom.js')
+  

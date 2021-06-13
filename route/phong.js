@@ -1,52 +1,104 @@
 const express = require("express");
-// const multer = require("multer");
 const conn = require("../db/connect");
 const bodyParser = require("body-parser");
-const { route } = require("./phim");
-
 const router = express.Router();
+
 router.use(express.static("views"));
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }));
 
+router.get("/themphong", function (req, res) {
 
-router.get("/danhsachphong", function(req, res){
-    
-    let queryRoom = `select * from phong`;
+    let queryCinema = `select * from rapphim`;
 
-    conn.query(queryRoom, function(error, result){
-        if(error){
-            console.log(error);
-        }else{
-            let queryCinema = `select * from rapphim`;
+    conn.query(queryCinema, function (errorCinema, resultCinema) {
+        if(errorCinema){
+            console.log(errorCinema);
             
-            conn.query(queryCinema, function(errorCinema, resultCinema){
+            res.render("phong/themphong", {
+                cinemas: []
+            });
+            
+        }else{
+            res.render("phong/themphong", {
+                cinemas: resultCinema
+            });
+        }      
+    })
 
-                res.render("phong/danhsachphong", {
-                    danhsachphong: result,
-                    danhsachrap: resultCinema
-                });
-            }) 
+})
+
+router.post('/themphong', function(req, res){
+    let idCinema = req.body.cinemaId;
+    let roomName = req.body.nameRoom;
+
+    let queryInsert = `INSERT INTO phong VALUES(NULL,?,?)`;
+
+    conn.query(queryInsert, [roomName, idCinema] ,function(errorRoom, resultRoom){
+        if(errorRoom){
+            console.log(errorRoom);
+            
+            res.json({message: 'Fail', statusCode: 0})
+        }else{
+            res.json({message: 'Success', statusCode: 1})
         }
     })
 })
 
-router.get("/xepphong", function(req, res){
+router.get("/xepphong", function (req, res) {
     res.render("phong/xepphong")
 })
 
-router.get("/themphong", function(req, res){
-    // res.render("phong/themphong");
-    
-    let queryCinema = `select * from rapphim`;
-        conn.query(queryCinema, function(errorCinema, resultCinema){
-            res.render("phong/themphong", {
-                danhsachrap: resultCinema
+router.get("/danhsachphong", function (req, res) {
+
+    let queryCinema = `SELECT * FROM rapphim`;
+
+    conn.query(queryCinema, function (errorCinema, resultCinema) {
+        if (errorCinema) {
+            console.log(errorCinema);
+
+            res.render("phong/danhsachphong", {
+                cinemas: [],
+                rooms: []
             });
-        }) 
+        } else {
+            let queryRoom = `SELECT phong.ID, phong.TenPhong FROM phong JOIN rapphim ON phong.ID_Rap = rapphim.ID WHERE rapphim.ID = 1`
+
+            conn.query(queryRoom, function (errorRoom, resultRooms) {
+                if (errorRoom) {
+                    console.log(errorRoom);
+
+                    res.render("phong/danhsachphong", {
+                        cinemas: resultCinema,
+                        rooms: []
+                    });
+                } else {
+                    res.render("phong/danhsachphong", {
+                        cinemas: resultCinema,
+                        rooms: resultRooms
+                    });
+                }
+            })
+        }
+
+
+    })
 })
 
-router.get("/getroombycinemaid", function(req, res){
+router.get("/getroombycinemaid", function (req, res) {
     let idCinema = req.query.id;
-    res.json({mess: 'Đã lên đây rôi !', idCinemaRequested: idCinema});
+
+    let queryRoom = `SELECT phong.ID, phong.TenPhong FROM phong JOIN rapphim ON phong.ID_Rap = rapphim.ID WHERE rapphim.ID = ?`
+
+    conn.query(queryRoom, [idCinema], function (errorRoom, resultRooms) {
+        if (errorRoom) {
+            console.log(errorRoom);
+
+            res.json([])
+        } else {
+            res.json(resultRooms);
+        }
+    })
 })
 
 module.exports = router

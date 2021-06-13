@@ -17,3 +17,12 @@
     display: flex;
     justify-content: center;
 }
+
+.dialog-loading{
+    position: relative; 
+    top: 50%; 
+    width: fit-content; 
+    display: flex;
+    justify-content: center; 
+    margin: 0 auto;
+}
