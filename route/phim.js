@@ -10,10 +10,10 @@ let fileNamePosterMovie = '';
 var storageImageMovie = multer.diskStorage({
   destination: function (req, file, cb) {
     if(file.fieldname == 'imgMovie'){
-      cb(null, "img/Movie/Avatar");
+      cb(null, "views/img/Movie/Avatar");
     }
     else if(file.fieldname == 'imgPoster'){
-      cb(null, "img/Movie/Poster");
+      cb(null, "views/img/Movie/Poster");
     }
     
   },
@@ -48,7 +48,6 @@ router.get("/danhsachphim", function (req, res) {
                  FROM phim limit ${vitribatdaulay}, 5`;
     conn.query(query, function (err, result) {
       if (err) {
-        //Coi lai
         res.send(err);
       } else {
         let temptenphim = "";
@@ -220,11 +219,15 @@ router.post(
   }
 );
 
+let fileImageMovieUrlOld = ''
+let fileImagePosterUrlOld = ''
+
 router.get("/suaphim", function (req, res) {
   let idphim = req.query.idphim;
   let query = `SELECT phim.ID
                       , phim.TenPhim
                       , phim.Hinh
+                      , phim.AnhBia
                       , phim.TrangThai
                       , phim.ThoiGian
                       , phim.Trailer
@@ -236,64 +239,37 @@ router.get("/suaphim", function (req, res) {
     if (err) {
       console.log(err);
     } else {
-      let temptenphim = "";
-      let mangkq = [];
-      let mangtheloai = [];
-      for (let i = 0; i < result.length; i++) {
-        if (result[i].TenPhim !== temptenphim) {
-          for (let j = i; j < result.length; j++) {
-            if (result[j].TenPhim === result[i].TenPhim) {
-              mangtheloai.push({
-                ID: result[j].Id_Loai,
-                TenLoai: result[j].TenLoai,
-              });
-            }
-          }
-          result[i].theloai = mangtheloai;
-          temptenphim = result[i].TenPhim;
-          mangkq.push(result[i]);
-          mangtheloai = [];
-        }
-      }
-      res.render("phim/suaphim", { phim: mangkq[0] });
+      fileImageMovieUrlOld = result.Hinh;
+      fileImagePosterUrlOld = result.AnhBia;
+
+      res.render("phim/suaphim", { phim: result[0] });
     }
   });
 });
 
-router.post("/suattphim", function (req, res) {
+router.post("/suattphim", uploadImage ,function (req, res) {
   let maphim = req.body.maphim;
   let tenphim = req.body.txttenphim;
-  let hinhphim = "Chưa cập nhật";
+  let imagMovie = fileNameImageMovie && fileNameImageMovie != '' ? `${req.protocol}://${(req.hostname =='localhost' ? req.hostname + ':3000' : req.hostname )}/img/Movie/Avatar/${fileNameImageMovie}`:  fileImageMovieUrlOld;
+  let imagPoster = fileNamePosterMovie && fileNameImageMovie != '' ? `${req.protocol}://${(req.hostname =='localhost' ? req.hostname + ':3000' : req.hostname )}/img/Movie/Poster/${fileNamePosterMovie}`: fileImagePosterUrlOld;
   let ngaykhoichieu = req.body.txtngaykhoichieu;
+  let endDate = req.body.txtNgayKetThuc;
   let trangthai = req.body.cboxtrangthai;
   let thoigian = req.body.txtthoigian;
   let idtrailer = req.body.txtIDtrailer;
   let mota = req.body.txtmota;
 
   let sqlquery = `UPDATE phim
-                  SET phim.TenPhim = ?, phim.Hinh = ?, phim.TrangThai = ?, phim.ThoiGian = ?, phim.Trailer = ?
+                  SET phim.TenPhim = ?, phim.Hinh = ?, phim.AnhBia = ? , phim.TrangThai = ?, phim.ThoiGian = ?, phim.Trailer = ?, phim.NgayKhoiChieu = ?, phim.NgayKetThuc = ?
                   WHERE phim.ID = ?`;
   conn.query(
     sqlquery,
-    [tenphim, hinhphim, trangthai, thoigian, idtrailer, maphim],
+    [tenphim, imagMovie, imagPoster, trangthai, thoigian, idtrailer, ngaykhoichieu, endDate ,maphim],
     function (err, result) {
       if (err) {
         res.send(err);
       } else {
-        let queryupdatephimloaiphim = `UPDATE phim_loaiphim
-        SET phim_loaiphim.MoTa = ?, phim_loaiphim.NgayKhoiChieu = ?
-        WHERE phim_loaiphim.ID_Phim = ? AND phim_loaiphim.ID_Loai = ?`;
-        conn.query(
-          queryupdatephimloaiphim,
-          [mota, ngaykhoichieu],
-          function (err, result) {
-            if (err) {
-              res.status(501);
-            } else {
-              res.redirect("/phim/danhsachphim?page=1");
-            }
-          }
-        );
+        res.redirect("/phim/danhsachphim?page=1");
       }
     }
   );

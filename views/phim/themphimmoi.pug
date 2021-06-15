@@ -99,8 +99,10 @@ include ../header.pug
                             .input-group-prepend
                               span.input-group-text(style = "color:red; font-weight:bold") Hình phim
                             .custom-file
-                              input.custom-file-input(id="inputGroupFile01", name="imgMovie", type='file', multiple='')
-                              label.custom-file-label(for='inputGroupFile01')
+                              input.custom-file-input(id="inputGroupFile01", name="imgMovie", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImageMovie(this)")
+                              label.custom-file-label.file-name-image-movie(for='inputGroupFile01')
+
+                        img(src="https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg",  id="imgMoviePreview", width="150",height="150")
 
               .row    
                     .col    
@@ -108,8 +110,10 @@ include ../header.pug
                             .input-group-prepend
                               span.input-group-text(style = "color:red; font-weight:bold") Poster
                             .custom-file
-                              input.custom-file-input(id="inputGroupFile01", name="imgPoster", type='file', multiple='')
-                              label.custom-file-label(for='inputGroupFile01') 
+                              input.custom-file-input(id="inputGroupFile01", name="imgPoster", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImagePoster(this)")
+                              label.custom-file-label.file-name-image-poster(for='inputGroupFile01') 
+
+                        img(src="https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg",  id="imgMoviePoster", width="150",height="150")  
 
         .card
             .card-body

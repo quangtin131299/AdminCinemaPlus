@@ -11,3 +11,49 @@ if (mess && mess != '') {
 $('#btnOK').click(function(){
     $('#myModal').modal('hide')
 })
+
+$('#inputGroupFile01').on('change',function(){
+
+    
+})
+
+function setFileImageMovie(elFileImageMovie){
+
+    var fullPath = elFileImageMovie.value;
+
+    if (fullPath) {
+        var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+        var filename = fullPath.substring(startIndex);
+        if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+            filename = filename.substring(1);
+        }
+        $('.file-name-image-movie').html(filename);
+    }
+
+    const [file] = elFileImageMovie.files
+
+    if (file) {
+        $("#imgMoviePreview").attr("src",URL.createObjectURL(file));
+    }
+}
+
+function setFileImagePoster(elFileImagePoster){
+
+    var fullPath = elFileImagePoster.value;
+
+    if (fullPath) {
+        var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+        var filename = fullPath.substring(startIndex);
+        if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+            filename = filename.substring(1);
+        }
+        $('.file-name-image-poster').html(filename);
+    }
+
+    const [file] = elFileImagePoster.files
+
+    if (file) {
+        $("#imgMoviePoster").attr("src",URL.createObjectURL(file));
+    }
+}
+
