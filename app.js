@@ -5,7 +5,6 @@ const customer = require("./route/customer")
 const ticker = require("./route/ticker")
 const rapchieu = require("./route/rapchieuphim")
 const lichchieu = require("./route/lichchieu")
-const uploadfile = require("./route/uploadimg");
 const login = require("./route/login");
 const phong = require("./route/phong");
 const home = require("./route/home");
@@ -15,7 +14,6 @@ const hoadon = require("./route/hoadon");
 
 app.listen(process.env.PORT || 3000)
 
-app.use("/uploadanh", uploadfile);
 app.use("/phim", phim);
 app.use("/ticker", ticker);
 app.use("/customer",customer);

@@ -27,7 +27,7 @@ include ../header.pug
       .container-fluid
         .row.mb-2
           .col-sm-6
-            h1.m-0.text-dark Thêm rạp chiếu
+            h1.m-0.text-dark Điều chỉnh thông tin rạp chiếu
           // /.col
           .col-sm-6
             ol.breadcrumb.float-sm-right
@@ -36,24 +36,25 @@ include ../header.pug
               li.breadcrumb-item
                 a(href='#') Quản lý rạp chiếu
               li.breadcrumb-item.active 
-                a(href='#') Thêm rạp chiếu
+                a(href='#') Điều chỉnh thông tin rạp chiếu
           // /.col
         // /.row
       // /.container-fluid
     // /.content-header
     // Main content
     section.content
-        form(action='/rapchieu/themrapchieu', method="post", enctype="multipart/form-data")  
+        form(action='/rapchieu/suarapchieu', method="post", enctype="multipart/form-data")  
           .card
             .card-body
               .row
                  h5(style="font-weight:bold;") Thông tin rạp chiếu
               .row
+                imput(value="rapphim.ID", type="hidden", name="maRap")
                 .col
                   .input-group.mb-3
                         .input-group-prepend
                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold" ) Tên Rạp
-                        input.form-control#txtTheaterName(name= "txtTheaterName", placeholder="Nhập tên rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default' )                    
+                        input.form-control#txtTheaterName(value = rapphim.TenRap,name= "txtTheaterName",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default' )                    
               .row    
                 .col    
                   .input-group.mb-3
@@ -62,34 +63,35 @@ include ../header.pug
                         .custom-file
                             input.custom-file-input(id="inputGroupFile01", name="imgCinema", type='file', ,accept="image/png, image/gif, image/jpeg", onchange="setFileImageCinema(this)")
                             label.custom-file-label.file-name-image-cinema(for='inputGroupFile01') Choose file
-                  img(src="https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg",  id="imgCinemaPreview", width="150",height="150")
+                  img(src=(rapphim.Hinh && rapphim.Hinh != "" ? rapphim.Hinh : 'https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg'),  id="imgCinemaPreview", width="150",height="150")
+              <br>
 
               .row
                 .col
                   .input-group.mb-3
                         .input-group-prepend
                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Địa chỉ
-                        input.form-control#txtCinemaAddress(name= "txtCinemaAddress", placeholder="Nhập địa chỉ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                        input.form-control#txtCinemaAddress(value = rapphim.DiaChi,name= "txtCinemaAddress",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
               
               .row
                 .col
                   .input-group.mb-3
                         .input-group-prepend
                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Vĩ độ
-                        input.form-control#txtViDo(name= "txtViDo", placeholder="Nhập vĩ độ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                        input.form-control#txtViDo(value = rapphim.ViDo,name= "txtViDo",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
 
               .row
                 .col
                   .input-group.mb-3
                         .input-group-prepend
                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Kinh độ
-                        input.form-control#txtKinhDo(name= "txtKinhDo", placeholder="Nhập kinh độ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                        input.form-control#txtKinhDo(value = rapphim.KinhDo,name= "txtKinhDo",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
               
           .card
             .card-body
               .row
                 .col(style="display:flex; justify-content:center;")
-                    button.btn.btn-success(id="btnsubmit",style="width:200px;",type='buton') Thêm rạp chiếu
+                    button.btn.btn-success(id="btnsubmit",style="width:200px;",type='buton') Cập nhật thông tin
                 .col(style="display:flex; justify-content:center;")
                     button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
                     
@@ -113,7 +115,7 @@ include ../header.pug
                 .modal-footer
                   button.btn.btn-primary(type='button' id='btnOK') Ok  
 
-        
+
     // /.content
   // /.content-wrapper
   include ../footer.pug
