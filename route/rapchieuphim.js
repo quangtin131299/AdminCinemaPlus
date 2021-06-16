@@ -1,14 +1,16 @@
 const express = require("express")
 const conn = require("../db/connect")
 const bodyParser = require("body-parser");
-const router = express.Router();
 const multer = require("multer");
+const { render } = require("pug");
+const router = express.Router();
 
 router.use(express.static("views"))
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
 let fileNameImageCinema = '';
+let fileImageCinemaUrlOld = '';
 
 var storageImageCinema = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -23,9 +25,9 @@ var storageImageCinema = multer.diskStorage({
       }
       cb(null, file.originalname);
     },
-  });
+});
   
-  const uploadImageCinema = multer({ storage: storageImageCinema });
+const uploadImageCinema = multer({ storage: storageImageCinema });
 
 
 router.get("/danhsachrapchieu", function(req, res){
@@ -82,11 +84,11 @@ router.get("/themrapchieu", function(req, res){
 let uploadImage = uploadImageCinema.fields([{ name: 'imgCinema', maxCount: 1 }])
 
 router.post('/themrapchieu',uploadImage, function(req,res){
-    let theaterName = req.body.theaterName;
+    let theaterName = req.body.txtTheaterName;
     let imgCinema = fileNameImageCinema && fileNameImageCinema != '' ? `${req.protocol}://${(req.hostname =='localhost' ? req.hostname + ':3000' : req.hostname )}/img/Cinema/${fileNameImageCinema}`: '' ;
-    let cinemaAddress = req.body.cinemaAddress;
-	let viDo = req.body.viDo;
-	let kinhDo = req.body.kinhDo;
+    let cinemaAddress = req.body.txtCinemaAddress;
+	let viDo = req.body.txtViDo;
+	let kinhDo = req.body.txtKinhDo;
 
     let queryInsert = `INSERT INTO rapphim VALUES (NULL,?,?,?,?,?)`;
 
@@ -100,12 +102,12 @@ router.post('/themrapchieu',uploadImage, function(req,res){
 
             res.json({message: 'False', statusCode: 0, messNotify: 'Thêm thất bại'})
         } else{
-            res.json({message: 'Success', statusCode: 1, messNotify: 'Thêm thành công'})
+            res.render("rapchieu/themrapchieu");
         }
     })
 })
 
-let fileImageCinemaUrlOld = '';
+
 
 router.get("/suarapchieu", function(req, res){
     let idCinema = req.query.idCinema;
@@ -116,12 +118,13 @@ router.get("/suarapchieu", function(req, res){
                         , rapphim.ViDo
                         , rapphim.KinhDo
                 FROM rapphim WHERE rapphim.ID = ?`;
+
     conn.query(query,[idCinema] ,function (err, result){
         if(err) {
             console.log(err);
         } else {
-            fileImageCinemaUrlOld = result.Hinh;
-
+            fileImageCinemaUrlOld = result[0].Hinh;
+            console.log(fileImageCinemaUrlOld);
             res.render("rapchieu/suarapchieu", {rapphim: result[0]});
         }
     })
@@ -134,14 +137,19 @@ router.post("/suarapchieu", uploadImage, function(req, res){
     let cinemaAddress = req.body.txtCinemaAddress;
     let viDo = req.body.txtViDo;
     let kinhDo = req.body.txtKinhDo;
-
+    console.log(maRap);
+    console.log(cinemaAddress);
+    console.log(imgCinema);
+    console.log(viDo);
+    console.log(kinhDo);
     let sqlquery = `UPDATE rapphim
                         SET rapphim.TenRap = ?, rapphim.Hinh = ?, rapphim.DiaChi = ?
                             , rapphim.ViDo = ?, rapphim.KinhDo = ?
                         WHERE rapphim.ID = ?`;
     
-    conn.query(sqlquery,[maRap, cinemaName, imgCinema, cinemaAddress, viDo, kinhDo], function(err, result){
+    conn.query(sqlquery,[cinemaName, imgCinema, cinemaAddress, viDo, kinhDo, maRap], function(err, result){
         if(err){
+            console.log(err);
             res.send(err);
         } else {
             res.redirect("/rapchieu/danhsachrapchieu?page=1")

@@ -43,7 +43,7 @@ include ../header.pug
     // /.content-header
     // Main content
     section.content
-        form(action='/rapchieu/themrapchieu', method="post", enctype="multipart/form-data")  
+        form(action='/rapchieu/themrapchieu', method="post", enctype="multipart/form-data", id="formAddCinema")  
           .card
             .card-body
               .row
@@ -60,10 +60,10 @@ include ../header.pug
                         .input-group-prepend
                             span.input-group-text(style = "color:red; font-weight:bold") Ảnh rạp
                         .custom-file
-                            input.custom-file-input(id="inputGroupFile01", name="imgCinema", type='file', ,accept="image/png, image/gif, image/jpeg", onchange="setFileImageCinema(this)")
+                            input.custom-file-input(id="inputGroupFile01", name="imgCinema", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImageCinema(this)")
                             label.custom-file-label.file-name-image-cinema(for='inputGroupFile01') Choose file
                   img(src="https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg",  id="imgCinemaPreview", width="150",height="150")
-
+              <br>
               .row
                 .col
                   .input-group.mb-3

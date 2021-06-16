@@ -43,13 +43,13 @@ include ../header.pug
     // /.content-header
     // Main content
     section.content
-        form(action='/rapchieu/suarapchieu', method="post", enctype="multipart/form-data")  
+        form(action='/rapchieu/suarapchieu', method="post", enctype="multipart/form-data", id="formAddCinema")  
           .card
             .card-body
               .row
                  h5(style="font-weight:bold;") Thông tin rạp chiếu
               .row
-                imput(value="rapphim.ID", type="hidden", name="maRap")
+                input(value=rapphim.ID, type="hidden", name="maRap")
                 .col
                   .input-group.mb-3
                         .input-group-prepend

@@ -1,5 +1,14 @@
+let danhsachnhacungcap = [];
+document.getElementById("btnhuy").onclick = function () {
+    window.location.replace("danhsachnhacungcap?page=1")
+}
+
 $('#exampleModalCenter').on('hidden.bs.modal', function (e) {
     $("#exampleModalCenter").modal('hide');
+})
+
+$('#btnOK').click(function(){
+    $('#myModal').modal('hide')
 })
 
 $('#btnsubmit').click(function() {
