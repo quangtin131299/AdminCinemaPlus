@@ -49,38 +49,61 @@ include ../header.pug
                 a#nav-profile-tab.nav-item.nav-link(data-toggle='tab' href='#nav-profile' role='tab' aria-controls='nav-profile' aria-selected='false') Tải file nhà cung cấp
             #nav-tabContent.tab-content
                 #nav-home.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='nav-home-tab')
+                  form(action='/nhacungcap/themnhacungcap', method="post", id='formAddSuppliers')
                     .card(style='width: 100%;')
                         .card-body
+                            .row
+                                h5(style="font-weight:bold;") Thông tin nhà cung cấp
                             .row
                                 .col
                                     .input-group.mb-3
                                         .input-group-prepend
                                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Tên nhà cung cấp
-                                        input.form-control(name= "txtten", placeholder="Nhập tên nhà cung cấp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                                        input.form-control#txtSupplierName(name= "txtSupplierName", placeholder="Nhập tên nhà cung cấp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                             .row
                                 .col
                                     .input-group.mb-3
                                         .input-group-prepend
                                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Địa chỉ 
-                                        input.form-control(name= "txtdiachi", placeholder="Nhập địa chỉ",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                                        input.form-control#txtAddress(name= "txtAddress", placeholder="Nhập địa chỉ",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                             .row 
                                 .col
                                     .input-group.mb-3
                                         .input-group-prepend
                                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Số điện thoại
-                                        input.form-control(name= "txtsodienthoai", placeholder="Nhập số điện thoại",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                                        input.form-control#txtPhoneNumber(name= "txtPhoneNumber", placeholder="Nhập số điện thoại",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                             .row
                                 .col 
                                     .input-group.mb-3
                                         .input-group-prepend
                                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Email
-                                        input.form-control(name= "txtdiachi", placeholder="Nhập địa chỉ",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                                        input.form-control#txtEmail(name= "txtEmail", placeholder="Nhập địa chỉ Email",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                             
                             .row
                                 .col.btn-action-container
-                                    button.btn.btn-success(id="btnsubmit",style="width:200px;",type='submit') Thêm nhà cung cấp
+                                    button.btn.btn-success(id="btnsubmit",style="width:200px;",type='button') Thêm nhà cung cấp
                                 .col.btn-action-container
                                     button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
+
+            #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
+                .modal-dialog.modal-dialog-centered
+                  .modal-content.dialog-loading
+                    .modal-body
+                      .d-flex.justify-content-center.align-item-center
+                        .spinner-border(role='status')
+                          span.sr-only Loading...
+
+            #notifyModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+                .modal-dialog(role='document')
+                  .modal-content
+                    .modal-header
+                      h5#exampleModalLabel.modal-title Thông báo
+                      button.close(type='button' data-dismiss='modal' aria-label='Close')
+                        span(aria-hidden='true') &times;
+                    .modal-body
+                      span#modalTextMessage
+                    .modal-footer
+                      button.btn.btn-primary(type='button' id='btnOK') Ok   
 
                 #nav-profile.tab-pane.fade(role='tabpanel' aria-labelledby='nav-profile-tab')
                     .card(style='width: 100%;')
@@ -139,3 +162,4 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
+script(src='build/js/jsSupplier.js')

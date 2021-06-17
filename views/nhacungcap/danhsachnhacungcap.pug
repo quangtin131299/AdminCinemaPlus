@@ -55,15 +55,16 @@ include ../header.pug
                     th(scope='col') Email
                     th(scope='col') Thao tác
                 tbody
+                  each nhacungcap in danhsachnhacungcap
                     tr
-                        th(scope='row') 1
-                        td Tên nhà cung cấp
-                        td Địa chỉ nhà cung cấp
-                        td Số điện thoại nhà cung cấp
-                        td Email nhà cung cấp
-                        td 
-                            a Xóa
-                       
+                      th(scope='row')=nhacungcap.ID
+                      td=nhacungcap.TenNhaCungCap
+                      td=nhacungcap.DiaChi
+                      td=nhacungcap.SĐT
+                      td=nhacungcap.Email
+                      td
+                        span 
+                          a(href="#") Xóa
               
     // /.content
   // /.content-wrapper
