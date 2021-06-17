@@ -12,7 +12,7 @@ const ghe = require("./route/ghe");
 const nhacungcap = require("./route/nhacungcap");
 const hoadon = require("./route/hoadon");
 
-app.listen(process.env.PORT || 3000)
+
 
 app.use("/phim", phim);
 app.use("/ticker", ticker);
@@ -33,6 +33,8 @@ app.set('view engine', 'pug')
 app.use(function(req, res){
     res.render("login/login")
 })
+
+app.listen(process.env.PORT || 3000)
 
 
 
