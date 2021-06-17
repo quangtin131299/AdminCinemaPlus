@@ -29,7 +29,7 @@ $(function () {
     var Calendar = FullCalendar.Calendar;
     var Draggable = FullCalendarInteraction.Draggable;
     var containerEl = document.getElementById('external-events');
-    var checkbox = document.getElementById('drop-remove');
+    // var checkbox = document.getElementById('drop-remove');
     var calendarEl = document.getElementById('calendar');
     // initialize the external events
     // -----------------------------------------------------------------
@@ -56,28 +56,28 @@ $(function () {
         //Random default events
         // hien thong tin phim chie 
         events: [{
-            title: 'All Day Event',
+            title: 'Tiệc trăng máu | Phòng 3',
             start: new Date(y, m, 1),
             backgroundColor: '#f56954', //red
             borderColor: '#f56954', //red
             allDay: true
         },
         {
-            title: 'Long Event',
+            title: 'Ròm | Phòng 4',
             start: new Date(y, m, d - 5),
-            end: new Date(y, m, d - 2),
+            end: new Date(y, m, d - 4),
             backgroundColor: '#f39c12', //yellow
             borderColor: '#f39c12' //yellow
         },
         {
-            title: 'Meeting',
+            title: 'Ròm | Phòng 4',
             start: new Date(y, m, d, 10, 30),
             allDay: false,
             backgroundColor: '#0073b7', //Blue
             borderColor: '#0073b7' //Blue
         },
         {
-            title: 'Lunch',
+            title: 'Quái vật săn đêm | Phòng 2',
             start: new Date(y, m, d, 12, 0),
             end: new Date(y, m, d, 14, 0),
             allDay: false,
@@ -85,7 +85,7 @@ $(function () {
             borderColor: '#00c0ef' //Info (aqua)
         },
         {
-            title: 'Birthday Party',
+            title: 'Cô gái đến từ hôm qua | Phòng 1',
             start: new Date(y, m, d + 1, 19, 0),
             end: new Date(y, m, d + 1, 22, 30),
             allDay: false,
@@ -103,13 +103,13 @@ $(function () {
         ],
         editable: true,
         droppable: true, // this allows things to be dropped onto the calendar !!!
-        drop: function (info) {
-            // is the "remove after drop" checkbox checked?
-            if (checkbox.checked) {
-                // if so, remove the element from the "Draggable Events" list
-                info.draggedEl.parentNode.removeChild(info.draggedEl);
-            }
-        }
+        // drop: function (info) {
+        //     // is the "remove after drop" checkbox checked?
+        //     if (checkbox.checked) {
+        //         // if so, remove the element from the "Draggable Events" list
+        //         info.draggedEl.parentNode.removeChild(info.draggedEl);
+        //     }
+        // }
     });
     calendar.render();
     // $('#calendar').fullCalendar()
@@ -149,3 +149,36 @@ $(function () {
         $('#new-event').val('')
     })
 })
+
+function loadMovieOfCinema(element){
+    let idCinema = element.value;
+
+    $.ajax({
+        method: 'GET',
+        url: '/lichchieu/getMovieOfCinema',
+        data: {
+            id: idCinema
+        },
+        success: function(data){
+            console.log(data);
+
+            $("select[name=dropdownMovie]").html('')
+            
+            if(data){
+                let countMovie = data.length;
+
+                for(let i = 0; i < countMovie; i ++ ){
+                    $("select[name=dropdownMovie]").html(
+                        $("select[name=dropdownMovie]").html() + `<option value="${data[i].ID}">${data[i].TenPhim}</option>`
+
+
+                    )
+
+                }
+            }
+        },
+        error: function(error){
+
+        }
+    })
+}

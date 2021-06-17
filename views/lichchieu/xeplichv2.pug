@@ -14,13 +14,6 @@ link(rel='stylesheet', href='plugins/fullcalendar-bootstrap/main.min.css')
           i.fas.fa-bars
       li.nav-item.d-none.d-sm-inline-block
         a.nav-link(href='/home') Trang chủ
-    // SEARCH FORM
-    form.form-inline.ml-3
-      .input-group.input-group-sm
-        input.form-control.form-control-navbar(type='search', placeholder='Search', aria-label='Search')
-        .input-group-append
-          button.btn.btn-navbar(type='submit')
-            i.fas.fa-search
   // /.navbar
   // Main Sidebar Container
   include ../slidebar.pug
@@ -53,25 +46,39 @@ link(rel='stylesheet', href='plugins/fullcalendar-bootstrap/main.min.css')
                     .sticky-top.mb-3
                     .card
                         .card-header
-                            h4.card-title B&#x1EA3;ng ghi ch&uacute;
+                            h4.card-title Lịch chiếu theo Rạp
                         .card-body
                             // the events
                             #external-events
-                                .external-event.bg-success Lunch
-                                .external-event.bg-warning Go home
-                                .external-event.bg-info Do homework
-                                .external-event.bg-primary Work on UI design
-                                .external-event.bg-danger Sleep tight
-                                .checkbox
-                                label(for='drop-remove')
-                                    input#drop-remove(type='checkbox')
-                                    |                         Lo&#x1EA1;i b&#x1ECF; sau khi th&#x1EA3;
+                                //- .external-event.bg-success Cô gái đến từ hôm qua | Phòng 1
+                                //- .external-event.bg-warning Chiến binh hồi sinh | Phòng 2
+                                //- .external-event.bg-info Quái vật săn đêm | Phòng 2
+                                //- .external-event.bg-primary Ròm | Phòng 4
+                                //- .external-event.bg-danger Tiệc trăng máu | Phòng 3
+                                //- .checkbox
+                                //- label(for='drop-remove')
+                                //-     input#drop-remove(type='checkbox')
+                                //-     | Loại bỏ sau khi thả
+                                select#inputGroupSelect02.custom-select(name="dropdownCinema", onchange="loadMovieOfCinema(this)")
+                                    option(selected='') Chọn rạp chiếu
+                                    each itemCinema in danhsachrap
+                                      option(value=itemCinema.ID)= itemCinema.TenRap
+                                
                         // /.card-body
                     // /.card
                     .card
                         .card-header
-                            h3.card-title T&#x1EA1;o s&#x1EF1; ki&#x1EC7;n ghi ch&uacute;
+                            h3.card-title Thêm lịch chiếu
                         .card-body
+                            select#inputGroupSelect02.custom-select(name="dropdownMovie")
+                                option(selected='') Chọn phim
+                                
+                            <br>
+                            //- select#inputGroupSelect02.custom-select(name="dropdownRoom")
+                            //-     option(selected='') Chọn phòng
+                            //-     each itemRoom in danhsachphong
+                            //-       option(value=itemRoom.ID)= itemRoom.TenPhong
+                            
                             .btn-group(style='width: 100%; margin-bottom: 10px;')
                                 // <button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>
                                 ul#color-chooser.fc-color-picker
@@ -94,7 +101,7 @@ link(rel='stylesheet', href='plugins/fullcalendar-bootstrap/main.min.css')
                             .input-group
                                 input#new-event.form-control(type='text' placeholder='Tiêu đề sự kiện')
                                 .input-group-append
-                                    button#add-new-event.btn.btn-primary(type='button') Th&ecirc;m
+                                    button#add-new-event.btn.btn-primary(type='button') Thêm
                                 // /btn-group
                             // /input-group
                 // /.col
