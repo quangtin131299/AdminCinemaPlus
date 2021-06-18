@@ -44,3 +44,8 @@
     justify-content: center; 
     margin: 0 auto;
 }
+
+.dialog-loading-for-login{
+    width: fit-content !important;
+    margin: auto !important;
+}
