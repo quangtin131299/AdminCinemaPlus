@@ -51,7 +51,7 @@ function sendIdCinema(){
         }
       },
       error: function(error){
-
+        hideLoading();
       }
     })
 }
@@ -77,6 +77,7 @@ $('#btnsubmit').click(function(){
             }
         },
         error: function(error) {
+            hideLoading();   
             console.log(error);
         }
     })
@@ -88,5 +89,5 @@ function hideLoading() {
 }
 
 function showLoading(){
-   $('.modal').modal('show');
+   $('#exampleModalCenter').modal('show');
 }
