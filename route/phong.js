@@ -45,10 +45,6 @@ router.post('/themphong', function(req, res){
     })
 })
 
-router.get("/xepphong", function (req, res) {
-    res.render("phong/xepphong")
-})
-
 router.get("/danhsachphong", function (req, res) {
 
     let queryCinema = `SELECT * FROM rapphim`;
