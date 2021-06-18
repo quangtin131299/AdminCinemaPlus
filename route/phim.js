@@ -75,23 +75,30 @@ router.get("/danhsachphim", function (req, res) {
 
 router.get("/chitietphim", function (req, res) {
   let idphim = req.query.idphim;
+ 
   let query = `SELECT phim.ID
                       , phim.TenPhim
                       , phim.Hinh
                       , phim.TrangThai
                       , phim.ThoiGian
                       , phim.Trailer
-                      , phim_loaiphim.MoTa
-                      , DATE_FORMAT(phim_loaiphim.NgayKhoiChieu, '%d/%m/%Y') as 'NgayKhoiChieu'
+                      , phim.MoTa
+                      , DATE_FORMAT(phim.NgayKetThuc, '%d/%m/%Y') as 'NgayKetThuc'
+                      , DATE_FORMAT(phim.NgayKhoiChieu, '%d/%m/%Y') as 'NgayKhoiChieu'
                       , loaiphim.ID 
-                      ,loaiphim.TenLoai 
-               FROM phim JOIN phim_loaiphim ON phim.ID = phim_loaiphim.ID_Phim JOIN loaiphim ON phim_loaiphim.Id_Loai = loaiphim.ID 
-               WHERE phim.ID = ${idphim}`;
-  conn.query(query, function (err, result) {
+                      , loaiphim.TenLoai
+                      , nhacungcap.TenNhaCungCap
+               FROM phim JOIN phim_loaiphim ON phim.ID = phim_loaiphim.ID_Phim 
+                         JOIN loaiphim ON phim_loaiphim.Id_Loai = loaiphim.ID 
+                         JOIN nhacungcap on nhacungcap.ID = phim.ID_NhaCungCap
+               WHERE phim.ID = ?`;
+  conn.query(query, [idphim] , function (err, result) {
     if (err) {
-      //Coi lai
-      res.send(err);
+      console.log(err);
+     
+      res.redirect("/phim/danhsachphim?page=1")
     } else {
+      
       let temptenphim = "";
       let mangkq = [];
       for (let i = 0; i < result.length; i++) {

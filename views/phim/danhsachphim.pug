@@ -67,7 +67,7 @@ include ../header.pug
                   td=(phim.Trailer?phim.Trailer:"Trống")
                   td
                     span 
-                      a(href="chitietphim?idphim= " + phim.ID) Chi Tiết 
+                      a(href="/phim/chitietphim?idphim=" + phim.ID) Chi Tiết 
                     span |
                     span 
                       a(href="#", data-toggle="modal", data-target="#exampleModal") Xóa
