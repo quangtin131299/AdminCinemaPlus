@@ -43,6 +43,7 @@ router.get("/danhsachphim", function (req, res) {
   let query =
     "SELECT phim.ID, phim.TenPhim, phim.Hinh, phim.TrangThai, phim.ThoiGian, phim.Trailer FROM phim";
   conn.query(query, function (err, result) {
+    console.log(err);
     soluongtrang = result.length / 5;
     let query = `SELECT phim.ID, phim.TenPhim, phim.Hinh, phim.TrangThai, phim.ThoiGian, phim.Trailer 
                  FROM phim limit ${vitribatdaulay}, 5`;
