@@ -79,6 +79,14 @@ include ../header.pug
                     .input-group-prepend
                         span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Ngày khởi chiếu
                     input.form-control(value=phim.NgayKhoiChieu,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Ngày kết thúc
+                    input.form-control(value=phim.NgayKetThuc,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Nhà cung cấp
+                    input.form-control(value=phim.TenNhaCungCap,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
         br
         br
         h3 Mô tả của phim 
