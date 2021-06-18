@@ -1,11 +1,25 @@
+document.getElementById("btnhuy").onclick = function () {
+    window.location.replace("danhsachphong")
+}
+
+$(document).ready(function(){
+    let mess = $("#modalTextMessage").html();
+
+    if(mess != ''){
+        $('#notifyModal').modal('show');
+    }
+})
+
 $('#exampleModalCenter').on('hidden.bs.modal', function (e) {
     $("#exampleModalCenter").modal('hide');
 })
 
+$('#btnOK').click(function(){
+    $('#notifyModal').modal('hide')
+})
+
 function sendIdCinema(){
     let idCinema = $('#inputGroupSelect02').val();
-
-    showLoading();
     
     $.ajax({
       method: "GET",
@@ -63,7 +77,7 @@ $('#btnsubmit').click(function(){
             }
         },
         error: function(error) {
-
+            console.log(error);
         }
     })
    
