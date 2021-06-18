@@ -57,11 +57,11 @@ router.get("/themrapchieu", function(req, res){
     let queryRapChieuPhim = `select * from rapphim`;
     let messAddCinema = '';
 
-    if(req.query.mess && req.query.mess == 1){
-        messAddCinema = 'Thêm thành công';
-    } else if (req.query.mess && req.query == -1){
-        messAddCinema = 'Thêm thất bại';
-    }
+    // if(req.query.mess && req.query.mess == 1){
+    //     messAddCinema = 'Thêm thành công';
+    // } else if (req.query.mess && req.query == -1){
+    //     messAddCinema = 'Thêm thất bại';
+    // }
 
     conn.query(queryRapChieuPhim, function(errorRapChieuPhim, resultRapChieuPhim){
         if(errorRapChieuPhim){
@@ -69,12 +69,12 @@ router.get("/themrapchieu", function(req, res){
 
             res.render("rapchieu/themrapchieu",{
                 rapchieuphim: [],
-                messNotify: messAddCinema
+               
             });
         } else{
             res.render("rapchieu/themrapchieu",{
                 rapchieuphim: resultRapChieuPhim,
-                messNotify: messAddCinema
+                
             });
         }
     })
@@ -100,9 +100,13 @@ router.post('/themrapchieu',uploadImage, function(req,res){
         if(errorRapChieuPhim){
             console.log(errorRapChieuPhim);
 
-            res.json({message: 'False', statusCode: 0, messNotify: 'Thêm thất bại'})
+            res.render("rapchieu/themrapchieu", {
+                messNotify: 'Thêm thất bại'
+            });
         } else{
-            res.render("rapchieu/themrapchieu");
+            res.render("rapchieu/themrapchieu", {
+                messNotify: 'Thêm thành công'
+            });
         }
     })
 })
