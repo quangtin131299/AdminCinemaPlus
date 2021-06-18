@@ -246,9 +246,8 @@ router.get("/suaphim", function (req, res) {
     if (err) {
       console.log(err);
     } else {
-      fileImageMovieUrlOld = result.Hinh;
-      fileImagePosterUrlOld = result.AnhBia;
-
+      fileImageMovieUrlOld = result[0].Hinh;
+      fileImagePosterUrlOld = result[0].AnhBia;
       res.render("phim/suaphim", { phim: result[0] });
     }
   });
