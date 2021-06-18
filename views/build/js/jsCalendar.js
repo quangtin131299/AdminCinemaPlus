@@ -46,15 +46,15 @@ $(function () {
         }
     });
     var calendar = new Calendar(calendarEl, {
-        plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid'],
+        plugins: ['bootstrap', 'interaction','timeGrid'],
+        initialView: 'timeGridDay',
         header: {
             left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            right: 'timeGridWeek,timeGridDay'
         },
         'themeSystem': 'bootstrap',
-        //Random default events
-        // hien thong tin phim chie 
+        //Random default events 
         events: [{
             title: 'Tiệc trăng máu | Phòng 3',
             start: new Date(y, m, 1),
@@ -64,22 +64,23 @@ $(function () {
         },
         {
             title: 'Ròm | Phòng 4',
-            start: new Date(y, m, d - 5),
-            end: new Date(y, m, d - 4),
+            start: new Date(y, m, d - 5, 10, 30),
+            end: new Date(y, m, d - 5, 13, 00),
             backgroundColor: '#f39c12', //yellow
             borderColor: '#f39c12' //yellow
         },
         {
             title: 'Ròm | Phòng 4',
             start: new Date(y, m, d, 10, 30),
+            end: new Date(y, m, d , 12, 30),
             allDay: false,
             backgroundColor: '#0073b7', //Blue
             borderColor: '#0073b7' //Blue
         },
         {
             title: 'Quái vật săn đêm | Phòng 2',
-            start: new Date(y, m, d, 12, 0),
-            end: new Date(y, m, d, 14, 0),
+            start: new Date(y, m, d, 13, 0),
+            end: new Date(y, m, d, 15, 0),
             allDay: false,
             backgroundColor: '#00c0ef', //Info (aqua)
             borderColor: '#00c0ef' //Info (aqua)
@@ -103,13 +104,6 @@ $(function () {
         ],
         editable: true,
         droppable: true, // this allows things to be dropped onto the calendar !!!
-        // drop: function (info) {
-        //     // is the "remove after drop" checkbox checked?
-        //     if (checkbox.checked) {
-        //         // if so, remove the element from the "Draggable Events" list
-        //         info.draggedEl.parentNode.removeChild(info.draggedEl);
-        //     }
-        // }
     });
     calendar.render();
     // $('#calendar').fullCalendar()
@@ -160,25 +154,44 @@ function loadMovieOfCinema(element){
             id: idCinema
         },
         success: function(data){
-            console.log(data);
-
-            $("select[name=dropdownMovie]").html('')
             
+            $("select[name=dropdownMovie]").html('')
+
             if(data){
                 let countMovie = data.length;
 
                 for(let i = 0; i < countMovie; i ++ ){
                     $("select[name=dropdownMovie]").html(
                         $("select[name=dropdownMovie]").html() + `<option value="${data[i].ID}">${data[i].TenPhim}</option>`
-
-
+                        
                     )
-
                 }
+                $.ajax({
+                    method: "GET",
+                    url:'/lichchieu/getRoomOfCinema',
+                    data: {
+                        id: idCinema
+                    },
+                    success: function(data){
+                        $("select[name=dropdownRoom]").html('');
+                        if( data){
+                            let countRoom = data.length;
+
+                            for(let i = 0; i< countRoom ; i++){
+                                $("select[name=dropdownRoom]").html(
+                                    $("select[name=dropdownRoom]").html() + `<option value="${data[i].ID}">${data[i].TenPhong}</option>`                    
+                                )
+                            }
+                        }
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                })      
             }
         },
         error: function(error){
-
+            console.log(error);
         }
     })
 }

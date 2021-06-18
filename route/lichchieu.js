@@ -244,11 +244,12 @@ router.get("/getMovieOfCinema", function (req, res) {
   })
 })
 
-router.get("/getroombycinemaid", function (req, res) {
+router.get("/getRoomOfCinema", function (req, res) {
   let idCinema = req.query.id;
 
-  let queryRoom = `SELECT phong.ID, phong.TenPhong 
-                    FROM phong JOIN rapphim ON phong.ID_Rap = rapphim.ID WHERE rapphim.ID = ?`
+  let queryRoom = `SELECT *
+                    FROM phong JOIN rapphim ON phong.ID_Rap = rapphim.ID 
+                    WHERE rapphim.ID = ?`
 
   conn.query(queryRoom, [idCinema], function (errorRoom, resultRooms) {
     if (errorRoom) {

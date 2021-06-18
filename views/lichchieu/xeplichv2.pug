@@ -4,6 +4,8 @@ link(rel='stylesheet', href='plugins/fullcalendar/main.min.css')
 link(rel='stylesheet', href='plugins/fullcalendar-daygrid/main.min.css')
 link(rel='stylesheet', href='plugins/fullcalendar-timegrid/main.min.css')
 link(rel='stylesheet', href='plugins/fullcalendar-bootstrap/main.min.css')
+link(href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.css', rel='stylesheet')     
+script(src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js')
 .wrapper
   // Navbar
   nav.main-header.navbar.navbar-expand.navbar-white.navbar-light
@@ -73,37 +75,15 @@ link(rel='stylesheet', href='plugins/fullcalendar-bootstrap/main.min.css')
                             select#inputGroupSelect02.custom-select(name="dropdownMovie")
                                 option(selected='') Chọn phim
                                 
-                            <br>
-                            //- select#inputGroupSelect02.custom-select(name="dropdownRoom")
-                            //-     option(selected='') Chọn phòng
-                            //-     each itemRoom in danhsachphong
-                            //-       option(value=itemRoom.ID)= itemRoom.TenPhong
-                            
-                            .btn-group(style='width: 100%; margin-bottom: 10px;')
-                                // <button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>
-                                ul#color-chooser.fc-color-picker
-                                    li
-                                        a.text-primary(href='#')
-                                        i.fas.fa-square
-                                    li
-                                        a.text-warning(href='#')
-                                        i.fas.fa-square
-                                    li
-                                        a.text-success(href='#')
-                                        i.fas.fa-square
-                                    li
-                                        a.text-danger(href='#')
-                                        i.fas.fa-square
-                                    li
-                                        a.text-muted(href='#')
-                                        i.fas.fa-square
-                            // /btn-group
-                            .input-group
-                                input#new-event.form-control(type='text' placeholder='Tiêu đề sự kiện')
-                                .input-group-append
-                                    button#add-new-event.btn.btn-primary(type='button') Thêm
-                                // /btn-group
-                            // /input-group
+                        .card-body
+                            select#inputGroupSelect02.custom-select(name="dropdownRoom")
+                                option(selected='') Chọn phòng
+                        .card-body 
+                            input.form-control(name= "txtSuatChieu",type='time', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                        .card-body
+                            input.form-control(name= "txtNgayChieu",type='date', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                        .card-body
+                            button.btn.btn-success(style="width:200px;",type='submit') Thêm lịch chiếu
                 // /.col
                 .col-md-9
                     .card.card-primary
