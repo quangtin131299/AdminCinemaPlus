@@ -59,25 +59,25 @@ include ../header.pug
                                     .input-group.mb-3
                                         .input-group-prepend
                                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Tên nhà cung cấp
-                                        input.form-control#txtSupplierName(name= "txtSupplierName", placeholder="Nhập tên nhà cung cấp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                                        input.form-control#txtSupplierName(name= "txtSupplierName", placeholder="Nhập tên nhà cung cấp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', required)
                             .row
                                 .col
                                     .input-group.mb-3
                                         .input-group-prepend
                                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Địa chỉ 
-                                        input.form-control#txtAddress(name= "txtAddress", placeholder="Nhập địa chỉ",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                                        input.form-control#txtAddress(name= "txtAddress", placeholder="Nhập địa chỉ",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default',required)
                             .row 
                                 .col
                                     .input-group.mb-3
                                         .input-group-prepend
                                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Số điện thoại
-                                        input.form-control#txtPhoneNumber(name= "txtPhoneNumber", placeholder="Nhập số điện thoại",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                                        input.form-control#txtPhoneNumber(name= "txtPhoneNumber", placeholder="Nhập số điện thoại",type='tel', aria-label='Default',aria-describedby='inputGroup-sizing-default',maxlength="10",required)
                             .row
                                 .col 
                                     .input-group.mb-3
                                         .input-group-prepend
                                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Email
-                                        input.form-control#txtEmail(name= "txtEmail", placeholder="Nhập địa chỉ Email",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                                        input.form-control#txtEmail(name= "txtEmail", placeholder="Nhập địa chỉ Email",type='email', aria-label='Default', aria-describedby='inputGroup-sizing-default', required)
                             
                             .row
                                 .col.btn-action-container
@@ -118,9 +118,10 @@ include ../header.pug
                                             label.custom-file-label(for='inputGroupFile01') Choose file
                             .row
                                 .col.btn-action-container
-                                    button.btn.btn-success(id="btnsubmit",style="width:200px;",type='submit') Thêm nhà cung cấp
+                                  button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
                                 .col.btn-action-container
-                                    button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
+                                  button.btn.btn-success(id="btnsubmit",style="width:200px;",type='submit') Thêm nhà cung cấp
+                                    
 
                                     
                             

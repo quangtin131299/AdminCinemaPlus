@@ -91,9 +91,10 @@ include ../header.pug
             .card-body
               .row
                 .col(style="display:flex; justify-content:center;")
-                    button.btn.btn-success(id="btnsubmit",style="width:200px;",type='buton') Cập nhật thông tin
+                  button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
                 .col(style="display:flex; justify-content:center;")
-                    button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
+                  button.btn.btn-success(id="btnsubmit",style="width:200px;",type='buton') Cập nhật thông tin
+                    
                     
         #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
             .modal-dialog.modal-dialog-centered
@@ -111,7 +112,7 @@ include ../header.pug
                   button.close(type='button' data-dismiss='modal' aria-label='Close')
                     span(aria-hidden='true') &times;
                 .modal-body
-                  span#modalTextMessage
+                  span#modalTextMessage= messNotify
                 .modal-footer
                   button.btn.btn-primary(type='button' id='btnOK') Ok  
 
