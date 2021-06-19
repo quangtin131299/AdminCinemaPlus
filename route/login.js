@@ -26,7 +26,7 @@ router.post("/", function(req, res){
             res.render('login/login', {isLogin: 0});
         }else{
             if(resultLogin.length != 0){
-                res.redirect("/home")
+                res.redirect(`/home?idAdmin=${resultLogin[0].ID}`)
             }else{
                 res.render("login/login", {isLogin: 'Đăng nhập thất bại'})  
             }
