@@ -2,10 +2,10 @@ document.getElementById("btnhuy").onclick = function () {
     window.location.replace("danhsachphong")
 }
 
-$(document).ready(function(){
+$(document).ready(function () {
     let mess = $("#modalTextMessage").html();
 
-    if(mess != ''){
+    if (mess != ''){
         $('#notifyModal').modal('show');
     }
 })
@@ -14,7 +14,12 @@ $('#exampleModalCenter').on('hidden.bs.modal', function (e) {
     $("#exampleModalCenter").modal('hide');
 })
 
-$('#btnOK').click(function(){
+$('#notifyModal').on('shown.bs.modal', function (e) {
+    $("#exampleModalCenter").modal("hide");
+});
+
+
+$('#btnOK').click(function () {
     $('#notifyModal').modal('hide')
 })
 
@@ -88,6 +93,6 @@ function hideLoading() {
     $("#exampleModalCenter").modal('hide');
 }
 
-function showLoading(){
+function showLoading() {
    $('#exampleModalCenter').modal('show');
 }
