@@ -47,7 +47,7 @@ include ../header.pug
     section.content
         .row
           .col-md-5(style="display: flex;  align-items: center;justify-content: center;")
-            img(src=phim.Hinh, alt="photo", style="text-align: center;")
+            img(src=(phim.Hinh && phim.Hinh != "" ? phim.Hinh : 'https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg'), alt="photo", style="text-align: center;")
           .col-lg-7
            .card(style)
             .card-body
@@ -91,7 +91,8 @@ include ../header.pug
         br
         h3 Mô tả của phim 
         p= phim.MoTa
-        <iframe width="1320" height="620"src="https://www.youtube.com/embed/#{phim.Trailer}"></iframe>
+
+        iframe(width='100%', height='620', src='https://www.youtube.com/embed/'+phim.Trailer)
   
 
 
