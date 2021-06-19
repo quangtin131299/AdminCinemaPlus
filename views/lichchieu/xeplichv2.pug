@@ -52,15 +52,6 @@ script(src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js')
                         .card-body
                             // the events
                             #external-events
-                                //- .external-event.bg-success Cô gái đến từ hôm qua | Phòng 1
-                                //- .external-event.bg-warning Chiến binh hồi sinh | Phòng 2
-                                //- .external-event.bg-info Quái vật săn đêm | Phòng 2
-                                //- .external-event.bg-primary Ròm | Phòng 4
-                                //- .external-event.bg-danger Tiệc trăng máu | Phòng 3
-                                //- .checkbox
-                                //- label(for='drop-remove')
-                                //-     input#drop-remove(type='checkbox')
-                                //-     | Loại bỏ sau khi thả
                                 select#inputGroupSelect02.custom-select(name="dropdownCinema", onchange="loadMovieOfCinema(this)")
                                     option(selected='') Chọn rạp chiếu
                                     each itemCinema in danhsachrap

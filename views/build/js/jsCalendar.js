@@ -29,7 +29,6 @@ $(function () {
     var Calendar = FullCalendar.Calendar;
     var Draggable = FullCalendarInteraction.Draggable;
     var containerEl = document.getElementById('external-events');
-    // var checkbox = document.getElementById('drop-remove');
     var calendarEl = document.getElementById('calendar');
     // initialize the external events
     // -----------------------------------------------------------------
@@ -106,7 +105,7 @@ $(function () {
         droppable: true, // this allows things to be dropped onto the calendar !!!
     });
     calendar.render();
-    // $('#calendar').fullCalendar()
+    $('#calendar').fullCalendar()
     /* ADDING EVENTS */
     var currColor = '#3c8dbc' //Red by default
     //Color chooser button
