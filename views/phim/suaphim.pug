@@ -43,7 +43,7 @@ include ../header.pug
     // /.content-header
     // Main content
     section.content
-      form(action="suattphim", method="post", ,enctype="multipart/form-data")    
+      form(action="suattphim", method="post", ,enctype="multipart/form-data", id="formEditMovie")    
         .card
             .card-body
               .row
@@ -137,9 +137,30 @@ include ../header.pug
             .card-body
               .row
                 .col(style="display:flex; justify-content:center;")
-                    button.btn.btn-success(style="width:200px;",type='submit') Cập nhật thông tin phim
-                .col(style="display:flex; justify-content:center;")
-                    button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
+                  button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
+                .col(style="display:flex; justify-content:center;")  
+                  button.btn.btn-success(style="width:200px;",type='button', onclick="onSubmitEditMovie()") Cập nhật thông tin phim
+                
+      #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
+        .modal-dialog.modal-dialog-centered
+          .modal-content.dialog-loading
+            .modal-body
+              .d-flex.justify-content-center.align-item-center
+                .spinner-border(role='status')
+                  span.sr-only Loading...
+
+      #notifyModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              h5#exampleModalLabel.modal-title Thông báo
+              button.close(type='button' data-dismiss='modal' aria-label='Close')
+                span(aria-hidden='true') &times;
+            .modal-body
+              span#modalTextMessage= messNotify
+            .modal-footer
+              button.btn.btn-primary(type='button' id='btnOK') Ok
+        
 
               
         

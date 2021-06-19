@@ -127,7 +127,6 @@ router.get("/themphimmoi", function (req, res) {
     messAddMovie = 'Thêm thất bại'
   }
 
-
   conn.query(queryMovieType, function (errorMovieType, resultMovieTypes) {
     if (errorMovieType) {
       console.log(errorMovieType);
@@ -194,6 +193,7 @@ router.post(
       , endDate], function (err, resultNewMovie) {
         if (err) {
           console.log(err);
+
           res.redirect('/phim/themphimmoi?mess=0')
         } else {
           let countMovieType = idMovieTypes.length;
@@ -248,7 +248,16 @@ router.get("/suaphim", function (req, res) {
     } else {
       fileImageMovieUrlOld = result[0].Hinh;
       fileImagePosterUrlOld = result[0].AnhBia;
-      res.render("phim/suaphim", { phim: result[0] });
+
+      let mess = '';
+
+      if(req.query.mess && req.query.mess == 0 ){
+         mess = 'Sửa thất bại'
+      }else if(req.query.mess && req.query.mess == 1){
+         mess = 'Sửa thành công'
+      }
+
+      res.render("phim/suaphim", { phim: result[0], messNotify: mess });
     }
   });
 });
@@ -266,16 +275,26 @@ router.post("/suattphim", uploadImage, function (req, res) {
   let mota = req.body.txtmota;
 
   let sqlquery = `UPDATE phim
-                  SET phim.TenPhim = ?, phim.Hinh = ?, phim.AnhBia = ? , phim.TrangThai = ?, phim.ThoiGian = ?, phim.Trailer = ?, phim.NgayKhoiChieu = ?, phim.NgayKetThuc = ?
+                  SET phim.TenPhim = ?
+                    , phim.Hinh = ?
+                    , phim.AnhBia = ? 
+                    , phim.TrangThai = ?
+                    , phim.ThoiGian = ?
+                    , phim.Trailer = ?
+                    , phim.NgayKhoiChieu = ?
+                    , phim.NgayKetThuc = ?
+                    , phim.MoTa = ?
                   WHERE phim.ID = ?`;
   conn.query(
     sqlquery,
-    [tenphim, imagMovie, imagPoster, trangthai, thoigian, idtrailer, ngaykhoichieu, endDate, maphim],
+    [tenphim, imagMovie, imagPoster, trangthai, thoigian, idtrailer, ngaykhoichieu, endDate, mota ,maphim],
     function (err, result) {
       if (err) {
         res.send(err);
+
+        res.redirect(`/phim/suaphim?mess=0&idphim=${maphim}`);
       } else {
-        res.redirect("/phim/danhsachphim?page=1");
+        res.redirect(`/phim/suaphim?mess=1&idphim=${maphim}`);
       }
     }
   );

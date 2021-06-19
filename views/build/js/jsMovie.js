@@ -12,9 +12,12 @@ $('#btnOK').click(function(){
     $('#myModal').modal('hide')
 })
 
-$('#inputGroupFile01').on('change',function(){
+$(document).ready(function(){
+    let mess = $("#modalTextMessage").html();
 
-    
+    if(mess != ''){
+        $('#notifyModal').modal('show');
+    }
 })
 
 function setFileImageMovie(elFileImageMovie){
@@ -57,3 +60,20 @@ function setFileImagePoster(elFileImagePoster){
     }
 }
 
+function onSubmitEditMovie(){
+    showLoading();
+    $('#formEditMovie').submit();
+}
+
+function hideLoading() {
+    $("#exampleModalCenter").modal('hide');
+}
+
+function showLoading(){
+   $('#exampleModalCenter').modal('show');
+}
+
+function onSubmitAddMovie(){
+    showLoading();
+    $('#formAddMovie').submit();
+}

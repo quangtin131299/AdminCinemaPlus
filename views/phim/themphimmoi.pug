@@ -43,7 +43,7 @@ include ../header.pug
     // /.content-header
     // Main content
     section.content  
-      form(action="themphim", method="post",enctype="multipart/form-data")  
+      form(action="themphim", method="post",enctype="multipart/form-data", id="formAddMovie")  
         .card
             .card-body
               .row
@@ -149,9 +149,17 @@ include ../header.pug
                 .col(style="display:flex; justify-content:center;")
                     button.btn.btn-dark.width-btn(type='button', id="btnhuy") Hủy bỏ
                 .col(style="display:flex; justify-content:center;")
-                    button.btn.btn-success.width-btn(id="btnsubmit",type='submit') Thêm phim
+                    button.btn.btn-success.width-btn(type='button', id="btnSubmit", onclick="onSubmitAddMovie()") Thêm phim
+      
+      #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
+        .modal-dialog.modal-dialog-centered
+          .modal-content.dialog-loading
+            .modal-body
+              .d-flex.justify-content-center.align-item-center
+                .spinner-border(role='status')
+                  span.sr-only Loading...
 
-      #exampleModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+      #notifyModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
         .modal-dialog(role='document')
           .modal-content
             .modal-header
