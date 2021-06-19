@@ -47,7 +47,7 @@ include ../header.pug
     section.content
         .row
           .col-md-5(style="display: flex;  align-items: center;justify-content: center;")
-            img(src=(phim.Hinh && phim.Hinh != "" ? phim.Hinh : 'https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg'), alt="photo", style="text-align: center;")
+            img(src=(phim.Hinh && phim.Hinh != "" ? phim.Hinh : 'https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg'), alt="photo", style="text-align: center; width: 450px; height: 500px")
           .col-lg-7
            .card(style)
             .card-body
@@ -59,10 +59,6 @@ include ../header.pug
                     .input-group-prepend
                         span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tên Phim:
                     input.form-control(value=phim.TenPhim, disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
-                .input-group.mb-3
-                    .input-group-prepend
-                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Hình Phim:
-                    input.form-control(value =phim.Hinh  ,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
                         span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Trạng thái:
