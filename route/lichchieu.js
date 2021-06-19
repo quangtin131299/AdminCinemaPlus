@@ -2,11 +2,16 @@ const express = require("express");
 const format = require("date-format");
 const conn = require("../db/connect");
 const bodyParser = require("body-parser");
+const {
+  route
+} = require("./phim");
 
 const router = express.Router();
 router.use(express.static("views"));
 router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 let soluongtrang = 0;
 router.get("/danhsachlichchieu", function (req, res) {
@@ -46,7 +51,10 @@ router.get("/chitietlichchieu", function (req, res) {
       let arrrs = [];
       let namemovie = "";
       if (result.length == 1) {
-        arrtemp.push({ idsuat: result[0].ID, gio: result[0].Gio });
+        arrtemp.push({
+          idsuat: result[0].ID,
+          gio: result[0].Gio
+        });
         arrrs.push(result[0]);
         arrrs[0].suatchieu = arrtemp;
         console.log(arrrs);
@@ -62,7 +70,10 @@ router.get("/chitietlichchieu", function (req, res) {
                 });
               }
             }
-            arrtemp.unshift({ idsuat: temp.IdSuatChieu, gio: temp.Gio });
+            arrtemp.unshift({
+              idsuat: temp.IdSuatChieu,
+              gio: temp.Gio
+            });
             temp.suatchieu = arrtemp;
             namemovie = temp.TenPhim;
             arrrs.push(temp);
@@ -70,7 +81,9 @@ router.get("/chitietlichchieu", function (req, res) {
           }
         }
       }
-      res.render("lichchieu/chitietlichchieu", { danhsachphimsuat: arrrs });
+      res.render("lichchieu/chitietlichchieu", {
+        danhsachphimsuat: arrrs
+      });
     }
   });
 });
@@ -192,9 +205,61 @@ router.get("/loadphongtheorap", function (req, res) {
     if (err) {
       console.log(err);
     } else {
-      res.send({ dataphong: result });
+      res.send({
+        dataphong: result
+      });
     }
   });
 });
+
+router.get("/xeplichV2", function (req, res) {
+  let queryrap = "select* from rapphim";
+  conn.query(queryrap, function (err, resultrap) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("lichchieu/xeplichv2", {
+        danhsachrap: resultrap,
+      });
+    }
+  });
+})
+
+router.get("/getMovieOfCinema", function (req, res) {
+  let idCinema = req.query.id;
+  
+  let queryMovie = `select * 
+                    from phim JOIN phim_rapphim ON phim_rapphim.ID_Phim = phim.ID 
+                              JOIN rapphim on phim_rapphim.ID_Rap = rapphim.ID
+                    where phim.TrangThai = N'Đang chiếu' and rapphim.ID = ?`
+
+  conn.query(queryMovie, [idCinema], function (errMovie, resultMovie) {
+    if (errMovie) {
+      console.log(errMovie);
+
+      res.json([])
+    } else {
+      res.json(resultMovie);
+    }
+  })
+})
+
+router.get("/getRoomOfCinema", function (req, res) {
+  let idCinema = req.query.id;
+
+  let queryRoom = `SELECT *
+                    FROM phong JOIN rapphim ON phong.ID_Rap = rapphim.ID 
+                    WHERE rapphim.ID = ?`
+
+  conn.query(queryRoom, [idCinema], function (errorRoom, resultRooms) {
+    if (errorRoom) {
+      console.log(errorRoom);
+
+      res.json([])
+    } else {
+      res.json(resultRooms);
+    }
+  })
+})
 
 module.exports = router;
