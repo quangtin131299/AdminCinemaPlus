@@ -1,8 +1,7 @@
-const express = require("express")
-const conn = require("../db/connect")
+const express = require("express");
+const conn = require("../db/connect");
+const router = express.Router();
 
-
-const router = express.Router()
 router.use(express.static("views"))
 
 router.get("/", function(req, res){
