@@ -41,10 +41,10 @@ router.get("/danhsachphim", function (req, res) {
   let vitribatdaulay = (page - 1) * 5;
   let soluongtrang = 0;
   let query =
-    "SELECT phim.ID, phim.TenPhim, phim.Hinh, phim.TrangThai, phim.ThoiGian, phim.Trailer FROM phim";
+    "SELECT phim.ID, DATE_FORMAT(phim.NgayKhoiChieu, '%d/%m/%Y') as 'NgayKhoiChieu', phim.TenPhim, phim.Hinh, phim.TrangThai, phim.ThoiGian FROM phim";
   conn.query(query, function (err, result) {
     soluongtrang = result.length / 5;
-    let query = `SELECT phim.ID, phim.TenPhim, phim.Hinh, phim.TrangThai, phim.ThoiGian, phim.Trailer 
+    let query = `SELECT phim.ID, DATE_FORMAT(phim.NgayKhoiChieu, '%d/%m/%Y') as 'NgayKhoiChieu', phim.TenPhim, phim.Hinh, phim.TrangThai, phim.ThoiGian
                  FROM phim limit ${vitribatdaulay}, 5`;
     conn.query(query, function (err, result) {
       if (err) {

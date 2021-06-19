@@ -53,44 +53,45 @@ include ../header.pug
             .card-body
                 .input-group.mb-3
                     .input-group-prepend
-                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") ID phim chiếu
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") ID Phim:
                     input.form-control(value=phim.ID  , disabled ,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
-                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tên phim chiếu
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tên Phim:
                     input.form-control(value=phim.TenPhim, disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
-                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Hình him chiếu
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Hình Phim:
                     input.form-control(value =phim.Hinh  ,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
-                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Trạng thái
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Trạng thái:
                     input.form-control(value=phim.TrangThai,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
-                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Thời gian chiếu
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Thời lượng:
                     input.form-control(value=phim.ThoiGian + " phút",disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
-                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") ID trailer
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") ID Trailer:
                     input.form-control(value= phim.Trailer,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
-                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Ngày khởi chiếu
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Ngày khởi chiếu:
                     input.form-control(value=phim.NgayKhoiChieu,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
-                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Ngày kết thúc
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Ngày kết thúc:
                     input.form-control(value=phim.NgayKetThuc,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
-                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Nhà cung cấp
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Nhà cung cấp:
                     input.form-control(value=phim.TenNhaCungCap,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
         br
         br
         h3 Mô tả của phim 
         p= phim.MoTa
+        <iframe width="1320" height="620"src="https://www.youtube.com/embed/#{phim.Trailer}"></iframe>
   
 
 
