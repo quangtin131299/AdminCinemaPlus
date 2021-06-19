@@ -104,6 +104,7 @@ router.post('/themrapchieu',uploadImage, function(req,res){
                 messNotify: 'Thêm thất bại'
             });
         } else{
+            fileNameImageCinema = '';
             res.render("rapchieu/themrapchieu", {
                 messNotify: 'Thêm thành công'
             });
@@ -115,6 +116,7 @@ router.post('/themrapchieu',uploadImage, function(req,res){
 
 router.get("/suarapchieu", function(req, res){
     let idCinema = req.query.idCinema;
+    let messageEdit = '';
     let query =`SELECT rapphim.ID
                         , rapphim.TenRap
                         , rapphim.Hinh
@@ -123,13 +125,19 @@ router.get("/suarapchieu", function(req, res){
                         , rapphim.KinhDo
                 FROM rapphim WHERE rapphim.ID = ?`;
 
+
+    if(req.query.mess &&  req.query.mess == 1){
+        messageEdit = "Sửa thành công";
+    }else if(req.query.mess &&  req.query.mess == 0){
+        messageEdit = "Sửa thất bại";
+    }
+
     conn.query(query,[idCinema] ,function (err, result){
         if(err) {
             console.log(err);
         } else {
             fileImageCinemaUrlOld = result[0].Hinh;
-            console.log(fileImageCinemaUrlOld);
-            res.render("rapchieu/suarapchieu", {rapphim: result[0]});
+            res.render("rapchieu/suarapchieu", {rapphim: result[0] , messNotify: messageEdit});
         }
     })
 });
@@ -141,11 +149,6 @@ router.post("/suarapchieu", uploadImage, function(req, res){
     let cinemaAddress = req.body.txtCinemaAddress;
     let viDo = req.body.txtViDo;
     let kinhDo = req.body.txtKinhDo;
-    console.log(maRap);
-    console.log(cinemaAddress);
-    console.log(imgCinema);
-    console.log(viDo);
-    console.log(kinhDo);
     let sqlquery = `UPDATE rapphim
                         SET rapphim.TenRap = ?, rapphim.Hinh = ?, rapphim.DiaChi = ?
                             , rapphim.ViDo = ?, rapphim.KinhDo = ?
@@ -154,9 +157,11 @@ router.post("/suarapchieu", uploadImage, function(req, res){
     conn.query(sqlquery,[cinemaName, imgCinema, cinemaAddress, viDo, kinhDo, maRap], function(err, result){
         if(err){
             console.log(err);
-            res.send(err);
+
+            res.redirect(`/rapchieu/suarapchieu?mess=0&idCinema=${maRap}`)
         } else {
-            res.redirect("/rapchieu/danhsachrapchieu?page=1")
+            fileNameImageCinema = ''
+            res.redirect(`/rapchieu/suarapchieu?mess=1&idCinema=${maRap}`)
         }
     })
 });

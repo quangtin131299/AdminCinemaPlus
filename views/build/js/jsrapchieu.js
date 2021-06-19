@@ -17,13 +17,17 @@ $('#exampleModalCenter').on('hidden.bs.modal', function (e) {
 })
 
 $('#btnOK').click(function () {
-    $('#notifyModal').modal('hide')
+    window.location.replace('/rapchieu/danhsachrapchieu?page=1');
 })
 
 
 $('#btnsubmit').click(function () {
     showLoading();
     $('#formAddCinema').submit();
+})
+
+$('#btnOKAddMovie').click(function(){
+    $('#notifyModal').modal('hide')
 })
 
 function setFileImageCinema(elFileImageCinema) {
