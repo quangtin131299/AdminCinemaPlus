@@ -26,3 +26,7 @@
     justify-content: center; 
     margin: 0 auto;
 }
+
+.width-input-address{
+    width: 100%;
+}

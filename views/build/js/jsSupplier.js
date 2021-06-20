@@ -92,3 +92,24 @@ function validateEmail() {
    
     return false;
 }
+
+const searchClient = algoliasearch(
+    'latency',
+    '6be0576ff61c053d5f9a3225e2a90f76'
+);
+
+const search = instantsearch({
+    indexName: 'airports',
+    searchClient,
+});
+
+const index = searchClient.initIndex("airports");
+
+search.addWidgets([
+    instantsearch.widgets.places({
+        container: '#txtAddress',
+        placesReference: window.places,
+    }),
+]);
+
+search.start();

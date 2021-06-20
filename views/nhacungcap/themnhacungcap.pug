@@ -63,9 +63,9 @@ include ../header.pug
                             .row
                                 .col
                                     .input-group.mb-3
-                                        .input-group-prepend
+                                        .input-group-prepend.width-input-address
                                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Địa chỉ 
-                                        input.form-control#txtAddress(name= "txtAddress", placeholder="Nhập địa chỉ",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default',required)
+                                            input.form-control#txtAddress(name= "txtAddress", placeholder="Nhập địa chỉ",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default',required)
                             .row 
                                 .col
                                     .input-group.mb-3
@@ -163,4 +163,9 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
+script(src='https://cdn.jsdelivr.net/npm/scriptjs@2.5.9/dist/script.min.js')
+script(src='https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js')
+script(src='https://cdn.jsdelivr.net/npm/places.js@^1.17.0')
+script(src='https://cdn.jsdelivr.net/npm/instantsearch.js@4')
+script(src='https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyBawL8VbstJDdU5397SUX7pEt9DslAwWgQ')
 script(src='build/js/jsSupplier.js')
