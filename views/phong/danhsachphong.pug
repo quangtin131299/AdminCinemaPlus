@@ -54,16 +54,14 @@ include ../header.pug
 
                 .col-md-2
                   button.btn.btn-success.width-btn(id="btnFilter",type='submit', onclick="sendIdCinema()") Lọc
-            br
+            <br>
             table.table.table-bordered
                 thead
-                    th(scope='col') STT
                     th(scope='col') Mã phòng
                     th(scope='col') Tên phòng
                 tbody#tblBody
                     each itemRoom in rooms
                       tr
-                          th(scope='row') 1
                           td= itemRoom.ID
                           td= itemRoom.TenPhong
 

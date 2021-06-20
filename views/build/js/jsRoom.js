@@ -45,7 +45,6 @@ function sendIdCinema(){
             for(let i = 0; i < countRoom; i++){
                 tblBody.html(tblBody.html() 
                                 + ` <tr>
-                                        <th scope='row'>1</th>
                                         <td> ${data[i].ID}</td>
                                         <td> ${data[i].TenPhong}</td>
                                     </tr>
