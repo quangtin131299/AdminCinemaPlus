@@ -3,24 +3,38 @@ document.getElementById("btnhuy").onclick = function () {
     window.location.replace("danhsachphim?page=1")
 }
 
+let dtToday = new Date();
+let month = dtToday.getMonth() + 1;
+var day = dtToday.getDate();
+var year = dtToday.getFullYear();
+if (month < 10) {
+    month = '0' + month.toString();
+}
+if (day < 10) {
+    day = '0' + day.toString();
+}
+let maxDate = year + '-' + month + '-' + day;
+$('#txtngaykhoichieu').attr('min', maxDate);
+$('#txtNgayKetThuc').attr('min', maxDate);
+
 let mess = $('#modalTextMessage').html();
 if (mess && mess != '') {
     $('#exampleModal').modal('show')
 }
 
-$('#btnOK').click(function(){
-    $('#myModal').modal('hide')
+$('#btnOK').click(function () {
+    $('#notifyModal').modal('hide')
 })
 
-$(document).ready(function(){
+$(document).ready(function () {
     let mess = $("#modalTextMessage").html();
 
-    if(mess != ''){
+    if (mess != '') {
         $('#notifyModal').modal('show');
     }
 })
 
-function setFileImageMovie(elFileImageMovie){
+function setFileImageMovie(elFileImageMovie) {
 
     var fullPath = elFileImageMovie.value;
 
@@ -36,11 +50,11 @@ function setFileImageMovie(elFileImageMovie){
     const [file] = elFileImageMovie.files
 
     if (file) {
-        $("#imgMoviePreview").attr("src",URL.createObjectURL(file));
+        $("#imgMoviePreview").attr("src", URL.createObjectURL(file));
     }
 }
 
-function setFileImagePoster(elFileImagePoster){
+function setFileImagePoster(elFileImagePoster) {
 
     var fullPath = elFileImagePoster.value;
 
@@ -56,11 +70,11 @@ function setFileImagePoster(elFileImagePoster){
     const [file] = elFileImagePoster.files
 
     if (file) {
-        $("#imgMoviePoster").attr("src",URL.createObjectURL(file));
+        $("#imgMoviePoster").attr("src", URL.createObjectURL(file));
     }
 }
 
-function onSubmitEditMovie(){
+function onSubmitEditMovie() {
     showLoading();
     $('#formEditMovie').submit();
 }
@@ -69,11 +83,11 @@ function hideLoading() {
     $("#exampleModalCenter").modal('hide');
 }
 
-function showLoading(){
-   $('#exampleModalCenter').modal('show');
+function showLoading() {
+    $('#exampleModalCenter').modal('show');
 }
 
-function onSubmitAddMovie(){
+function onSubmitAddMovie() {
     showLoading();
     $('#formAddMovie').submit();
 }

@@ -181,16 +181,17 @@ router.post(
 
     let sqlquery = `INSERT INTO phim VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?)`;
     conn.query(sqlquery, [movieName
-      , imagMovie
-      , imagPoster
-      , status
-      , time
-      , idTrailer
-      , description
-      , openDate
-      , like
-      , idSupplier
-      , endDate], function (err, resultNewMovie) {
+                        , imagMovie
+                        , imagPoster
+                        , status
+                        , time
+                        , idTrailer
+                        , description
+                        , openDate
+                        , like
+                        , idSupplier
+                        , endDate]
+                        , function (err, resultNewMovie) {
         if (err) {
           console.log(err);
 
