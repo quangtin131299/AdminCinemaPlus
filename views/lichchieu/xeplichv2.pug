@@ -74,7 +74,8 @@ script(src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js')
                         .card-body
                             input.form-control(name= "txtNgayChieu",type='date', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                         .card-body
-                            button.btn.btn-success(style="width:200px;",type='submit') Thêm lịch chiếu
+                            button.btn.btn-success(style="width:200px;",type='button', onclick="onSubmit()") Thêm lịch chiếu
+                          
                 // /.col
                 .col-md-9
                     .card.card-primary
