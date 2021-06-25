@@ -1,5 +1,6 @@
 doctype html
 include ../header.pug
+link(rel='stylesheet', href='https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.0/themes/algolia.css')
 script(src='https://polyfill.io/v3/polyfill.min.js?features=default')
 .wrapper
   // Navbar
@@ -85,6 +86,11 @@ script(src='https://polyfill.io/v3/polyfill.min.js?features=default')
                         .input-group-prepend
                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Kinh độ
                         input.form-control#txtKinhDo(name= "txtKinhDo", placeholder="Nhập kinh độ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
+          .card
+            .card-body
+              .row
+                .col-md-12
+                  #maps(style="height:500px;")
               
           .card
             .card-body

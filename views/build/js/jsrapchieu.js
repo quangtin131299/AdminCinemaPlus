@@ -77,6 +77,10 @@ search.addWidgets([
         container: '#txtCinemaAddress',
         placesReference: window.places,
     }),
+    instantsearch.widgets.geoSearch({
+        container: '#maps',
+        googleReference: window.google,
+    }),
 ]);
 
 search.start();
