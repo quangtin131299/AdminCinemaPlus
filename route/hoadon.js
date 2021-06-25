@@ -32,5 +32,37 @@ router.get("/danhsachhoadon", function (req, res) {
 	})
 })
 
+router.get("/chitiethoadon", function(req, res){
+	let idhoadon = req.query.idhoadon;
+
+	let query = `SELECT hoadon.ID
+						, hoadon.Ngay
+						, hoadon.ThanhTien
+						, khachhang.ID
+						, vedat.ID_Ghe
+						, ghe.TenGhe
+						, phim.TenPhim
+						, phim.ThoiGian
+						, rapphim.TenRap
+						, phong.TenPhong
+						, suatchieu.Gio
+				FROM hoadon JOIN khachhang ON hoadon.ID_KhachHang = khachhang.ID
+							JOIN vedat ON hoadon.ID = vedat.ID_HoaDon
+							JOIN ghe ON vedat.ID_Ghe = ghe.ID
+							JOIN phim ON vedat.ID_Phim = phim.ID
+							JOIN rapphim ON vedat.ID_Rap = rapphim.ID
+							JOIN phong ON vedat.ID_Phong = phong.ID
+							JOIN suatchieu ON vedat.ID_Suat = suatchieu.ID
+				WHERE hoadon.ID = ?`;
+	conn.query(query, [idhoadon], function(err, result){
+		if (err) {
+			console.log(err);
+			res.redirect("/hoadon/danhsachhoadon")
+		} else {
+			res.render("hoadon/chitiethoadon", { hoadon: result[0]});
+		}
+	})
+})
+
 
 module.exports = router
