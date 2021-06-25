@@ -61,14 +61,15 @@ router.get("/chitietlichchieu", function (req, res) {
                                  JOIN phim on phim.ID = phim_lichchieu.ID_Phim
                                  JOIN phim_phong_xuat on phim_phong_xuat.ID_Phim = phim.ID
                                  JOIN phong on phong.ID = phim_phong_xuat.ID_Phong AND suatchieu.ID = phim_phong_xuat.ID_XuatChieu
-                  WHERE rapphim.ID = ? AND lichchieu.Ngay = ? AND phim_phong_xuat.Ngay = ?`;
+                  WHERE rapphim.ID = ? and (lichchieu.Ngay between '2021-06-20' and '2021-06-26') AND (phim_phong_xuat.Ngay between '2021-06-20' and '2021-06-26')`;
 
-  conn.query(sqlquery,[idrap, ngay, ngay],function (err, result) {
+  conn.query(sqlquery, [idrap, ngay, ngay], function (err, result) {
     if (err) {
       console.log(err);
     } else {
       let arrShowTime = [];
       let arrrs = [];
+      let date = '';
       let namemovie = "";
 
       if (result.length == 1) {
@@ -82,32 +83,41 @@ router.get("/chitietlichchieu", function (req, res) {
 
         arrrs[0].suatchieu = arrShowTime;
 
-        console.log(arrrs);
       } else {
-        for (let i = 0; i < result.length; i++) {
-          let temp = result[i];
-
-          if (temp.TenPhim != namemovie) {
-
-            for (let j = i; j < result.length; j++) {
-
-              if (temp.TenPhim == result[j].TenPhim) {
-                arrShowTime.push({
-                  tenphong: result[j].TenPhong,
-                  idsuat: result[j].IdSuatChieu,
-                  gio: result[j].gio,
-                });
+        // console.log(result);
+        for (let k = 0; k < result.length; k++) {
+          let schedule = result[k];
+        
+          if (schedule.Ngay != date) {
+          
+            //Phim
+            for (let i = k ; i < result.length; i++) {
+              if (result[i].TenPhim != namemovie && result[i].Ngay == schedule.Ngay) {
+                for (let j = i; j < result.length; j++) {
+                  if (result[i].TenPhim == result[j].TenPhim && result[j].Ngay == schedule.Ngay) {
+                    arrShowTime.push({
+                      tenphong: result[j].TenPhong,
+                      idsuat: result[j].IdSuatChieu,
+                      gio: result[j].gio,
+                    });
+                  }
+                }
+                
+                schedule.suatchieu = arrShowTime; 
+                namemovie = result[i].TenPhim;
+                arrrs.push(schedule);
+                arrShowTime = [];
               }
+              
             }
-
-            temp.suatchieu = arrShowTime;
-            namemovie = temp.TenPhim;
-            arrrs.push(temp);
-            arrtemp = [];
+            date = schedule.Ngay;
+            namemovie = '';
+            // console.log(arrrs[k]);
           }
+          
         }
       }
-     
+      console.log(arrrs);
       res.json(arrrs);
     }
   });
@@ -146,18 +156,18 @@ router.post("/xeplich", function (req, res) {
   console.log(gio);
   console.log(idphong);
   console.log(idphim);
-  
-  
+
+
   let sqlquerytemplichcchieu = `SELECT * FROM lichchieu WHERE lichchieu.Ngay = ? AND lichchieu.ID_Rap = ?`;
 
-  conn.query(sqlquerytemplichcchieu, [ngay, idrapphim],function (err, result) {
+  conn.query(sqlquerytemplichcchieu, [ngay, idrapphim], function (err, result) {
     if (err) {
       console.log(err);
     } else {
       if (result.length == 0) {
         let querylichchieu = `INSERT INTO lichchieu VALUES (NULL, ?, ?)`;
-        
-        conn.query(querylichchieu, [ngay,idrapphim],function (err, resultlichchieu) {
+
+        conn.query(querylichchieu, [ngay, idrapphim], function (err, resultlichchieu) {
           if (err) {
             console.log(err);
           } else {
@@ -172,23 +182,23 @@ router.post("/xeplich", function (req, res) {
                 conn.query(
                   queryphimphongsuat,
                   [idphim, idphong, reultsuatchieu.insertId, ngay],
-                    function (err) {
+                  function (err) {
                     if (err) {
                       console.log(err);
                     }
                   }
                 );
 
-                let queryphonglichchieu = `INSERT INTO phim_lichchieu VALUES(?,?,?)`;               
+                let queryphonglichchieu = `INSERT INTO phim_lichchieu VALUES(?,?,?)`;
 
                 conn.query(
                   queryphonglichchieu,
-                  [idphong, resultlichchieu.insertId, reultsuatchieu.insertId],
+                  [idphim, resultlichchieu.insertId, reultsuatchieu.insertId],
                   function (err) {
                     if (err) {
                       console.log(err);
                     } else {
-                     
+
                       res.json({
                         message: 'Thêm lịch chiếu thành công.',
                         statusCode: 1
@@ -197,11 +207,11 @@ router.post("/xeplich", function (req, res) {
                   }
                 );
               }
-            });  
+            });
           }
         });
       } else {
-       
+
         let querysuatchieu = `INSERT INTO suatchieu VALUES (NULL, ?)`;
 
         conn.query(querysuatchieu, [gio], function (err, reultsuatchieu) {
@@ -213,18 +223,18 @@ router.post("/xeplich", function (req, res) {
             conn.query(
               queryphimphongsuat,
               [idphim, idphong, reultsuatchieu.insertId, ngay],
-                function (err) {
+              function (err) {
                 if (err) {
                   console.log(err);
                 }
               }
             );
 
-            let queryphonglichchieu = `INSERT INTO phim_lichchieu VALUES(?,?,?)`;               
+            let queryphonglichchieu = `INSERT INTO phim_lichchieu VALUES(?,?,?)`;
 
             conn.query(
               queryphonglichchieu,
-              [idphim, result.ID,reultsuatchieu.insertId],
+              [idphim, result[0].ID, reultsuatchieu.insertId],
               function (err) {
                 if (err) {
                   console.log(err);
@@ -241,7 +251,7 @@ router.post("/xeplich", function (req, res) {
             );
           }
         });
-        
+
       }
     }
   });
@@ -278,8 +288,8 @@ router.get("/xeplichV2", function (req, res) {
 
 router.get("/getMovieOfCinema", function (req, res) {
   let idCinema = req.query.id;
-  
-  let queryMovie = `SELECT * 
+
+  let queryMovie = `SELECT phim.ID, phim.TenPhim, phim.ThoiGian
                     FROM phim JOIN phim_rapphim ON phim_rapphim.ID_Phim = phim.ID 
                               JOIN rapphim on phim_rapphim.ID_Rap = rapphim.ID
                     WHERE rapphim.ID = ?`
@@ -298,7 +308,7 @@ router.get("/getMovieOfCinema", function (req, res) {
 router.get("/getRoomOfCinema", function (req, res) {
   let idCinema = req.query.id;
 
-  let queryRoom = `SELECT *
+  let queryRoom = `SELECT phong.ID, phong.TenPhong
                    FROM phong JOIN rapphim ON phong.ID_Rap = rapphim.ID 
                    WHERE rapphim.ID = ?`
 

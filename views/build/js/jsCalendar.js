@@ -89,12 +89,15 @@ $('#add-new-event').click(function (e) {
     }
     //Create events
     var event = $('<div />')
+
     event.css({
         'background-color': currColor,
         'border-color': currColor,
         'color': '#fff'
     }).addClass('external-event')
+
     event.html(val)
+
     $('#external-events').prepend(event)
     //Add draggable funtionality
     ini_events(event)
@@ -102,7 +105,8 @@ $('#add-new-event').click(function (e) {
     $('#new-event').val('')
 })
 
-
+let movies = [];
+let rooms =[];
 function loadMovieOfCinema(element) {
     let idCinema = element.value;
 
@@ -158,17 +162,17 @@ function loadMovieOfCinema(element) {
             $("select[name=dropdownMovie]").html('')
 
             if (data) {
+                movies = data;
                 let countMovie = data.length;
 
                 for (let i = 0; i < countMovie; i++) {
                     $("select[name=dropdownMovie]").html(
                         $("select[name=dropdownMovie]").html() + `<option value="${data[i].ID}">
-                                                                    <pre>
                                                                         ${data[i].TenPhim}
-                                                                    </pre>
                                                                   </option>`
                     )
                 }
+
                 $.ajax({
                     method: "GET",
                     url: '/lichchieu/getRoomOfCinema',
@@ -177,8 +181,9 @@ function loadMovieOfCinema(element) {
                     },
                     success: function (data) {
                         $("select[name=dropdownRoom]").html('');
-
+                      
                         if (data) {
+                            rooms = data;
                             let countRoom = data.length;
 
                             for (let i = 0; i < countRoom; i++) {
@@ -210,7 +215,7 @@ function calulatorEndTime(time, minuteMovie) {
     if (time != '') {
         let arrTime = time.split(':');
 
-        dt.setHours(parseInt(arrTime[0]))
+        dt.setHours(arrTime[0])
         dt.setMinutes(arrTime[1]);
         dt.setSeconds(arrTime[2]);
         dt.setMinutes(dt.getMinutes() + minuteMovie);
@@ -240,6 +245,9 @@ function onSubmit() {
     let showTime = $('input[name=txtSuatChieu]').val();
     let idRoom = $('select[name=dropdownRoom]').val();
     let dateSchedule = $('input[name=txtNgayChieu]').val();
+    let room = rooms.filter(room => room.ID == idRoom);
+    let movie =  movies.filter(movie => movie.ID == idMovie);
+    let timeOfMoive = movie[0].ThoiGian;
 
     $.ajax({
         method: 'POST',
@@ -252,7 +260,18 @@ function onSubmit() {
             idmovie: idMovie
         },
         success: function (data) {
-            console.log(data);
+            if(data.statusCode == 1){
+                let endTime = calulatorEndTime(`${showTime}:00`, timeOfMoive);
+                let newEvent = {
+                    title: `${movie[0].TenPhim} | ${room[0].TenPhong}`,
+                    start: `${dateSchedule} ${showTime}`,
+                    end: `${dateSchedule} ${endTime}`,
+                    backgroundColor: '#3c8dbc',
+                    borderColor: '#3c8dbc',
+                };
+
+                calendar.addEvent(newEvent)
+            }  
         },
         error: function (error) {
 
@@ -266,4 +285,12 @@ function clearEvent() {
     for (var i = 0; i < len; i++) {
         eventSources[i].remove();
     }
+}
+
+function hideLoading() {
+    $("#exampleModalCenter").modal('hide');
+}
+
+function showLoading() {
+   $('#exampleModalCenter').modal('show');
 }
