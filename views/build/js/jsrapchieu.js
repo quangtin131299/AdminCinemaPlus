@@ -77,13 +77,19 @@ search.addWidgets([
         container: '#txtCinemaAddress',
         placesReference: window.places,
     }),
-    instantsearch.widgets.geoSearch({
-        container: '#maps',
-        googleReference: window.google,
-    }),
 ]);
 
 search.start();
+
+goongjs.accessToken = 'sEWmdGHz9T3IEP2ND6KlMMX9QMgPGjjHHOpofqCT';
+
+var map = new goongjs.Map({
+    container: 'map',
+    style: 'https://tiles.goong.io/assets/goong_map_web.json', // stylesheet location
+    center: [106.67783681139827, 10.738047815253331], // starting position [lng, lat]
+    zoom: 17// starting zoom
+});
+
 
 function getLatLng() {
     searchLngLat();
@@ -91,8 +97,7 @@ function getLatLng() {
 
 function searchLngLat() {
     var api_key = '2a4d1678277d4f1689e79a1655298d59';
-    var latitude = '51.0';
-    var longitude = '7.0';
+
 
     var api_url = 'https://api.opencagedata.com/geocode/v1/json'
 
@@ -107,9 +112,15 @@ function searchLngLat() {
         method: 'GET',
         url: request_url,
         success: function (dataResult) {
-            if (dataResult) {                  
+            if (dataResult) {
                 $('#txtViDo').val(dataResult.results[0].geometry.lat);
                 $('#txtKinhDo').val(dataResult.results[0].geometry.lng)
+
+                var marker = new goongjs.Marker()
+                    .setLngLat([dataResult.results[0].geometry.lng, dataResult.results[0].geometry.lat])
+                    .addTo(map);
+
+                map.setCenter([dataResult.results[0].geometry.lng, dataResult.results[0].geometry.lat])
             }
         },
         error: function (error) {
@@ -117,4 +128,5 @@ function searchLngLat() {
         }
     })
 }
+
 
