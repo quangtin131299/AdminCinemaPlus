@@ -84,15 +84,16 @@ router.get("/chitietlichchieu", function (req, res) {
         arrrs[0].suatchieu = arrShowTime;
 
       } else {
-        // console.log(result);
         for (let k = 0; k < result.length; k++) {
           let schedule = result[k];
         
           if (schedule.Ngay != date) {
-          
-            //Phim
+            
+            schedule.phims = [];
+            //Phim trong ngày
             for (let i = k ; i < result.length; i++) {
               if (result[i].TenPhim != namemovie && result[i].Ngay == schedule.Ngay) {
+                // Suất chiếu của một phim trong một ngày
                 for (let j = i; j < result.length; j++) {
                   if (result[i].TenPhim == result[j].TenPhim && result[j].Ngay == schedule.Ngay) {
                     arrShowTime.push({
@@ -100,23 +101,33 @@ router.get("/chitietlichchieu", function (req, res) {
                       idsuat: result[j].IdSuatChieu,
                       gio: result[j].gio,
                     });
+
                   }
                 }
+                  
+                schedule.phims.push({
+                    tenPhim: result[i].TenPhim,
+                    suatchieus: arrShowTime
+                })
                 
-                schedule.suatchieu = arrShowTime; 
                 namemovie = result[i].TenPhim;
-                arrrs.push(schedule);
+                
                 arrShowTime = [];
               }
               
             }
+            
+            let checkDateExist = arrrs.filter(x => x.Ngay == schedule.Ngay);
+            if(checkDateExist.length == 0){
+              arrrs.push(schedule);
+            }
+           
             date = schedule.Ngay;
-            namemovie = '';
-            // console.log(arrrs[k]);
-          }
-          
+            
+          }      
         }
       }
+
       console.log(arrrs);
       res.json(arrrs);
     }

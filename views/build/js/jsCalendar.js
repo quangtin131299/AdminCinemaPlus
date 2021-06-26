@@ -106,7 +106,7 @@ $('#add-new-event').click(function (e) {
 })
 
 let movies = [];
-let rooms =[];
+let rooms = [];
 function loadMovieOfCinema(element) {
     let idCinema = element.value;
 
@@ -121,24 +121,30 @@ function loadMovieOfCinema(element) {
             clearEvent();
 
             if (dataSchedule) {
-
+                console.log(dataSchedule);
                 let countMovie = dataSchedule.length;
 
                 for (let i = 0; i < countMovie; i++) {
 
-                    let countShoWTime = dataSchedule[i].suatchieu.length;
+                    let countShoWTime = dataSchedule[i].phims.length;
 
                     for (let j = 0; j < countShoWTime; j++) {
-                        let title = `${dataSchedule[i].TenPhim}  |  ${dataSchedule[i].suatchieu[j].tenphong}`;
-                        let endTime = calulatorEndTime(dataSchedule[i].suatchieu[j].gio, dataSchedule[i].ThoiGian);
+                        
 
-                        calendar.addEvent({
-                            title: title,
-                            start: `${dataSchedule[i].Ngay} ${dataSchedule[i].suatchieu[j].gio}`,
-                            end: `${dataSchedule[i].Ngay} ${endTime}`,
-                            backgroundColor: '#3c8dbc',
-                            borderColor: '#3c8dbc',
-                        })
+                        for (let k = 0; k < dataSchedule[i].phims[j].suatchieus.length; k++) {
+                            
+                            let title = `${dataSchedule[i].phims[j].tenPhim}  |  ${dataSchedule[i].phims[j].suatchieus[k].tenphong}`;
+                            let endTime = calulatorEndTime(dataSchedule[i].phims[j].suatchieus[k].gio, dataSchedule[i].ThoiGian);
+
+                            calendar.addEvent({
+                                title: title,
+                                start: `${dataSchedule[i].Ngay} ${dataSchedule[i].phims[j].suatchieus[k].gio}`,
+                                end: `${dataSchedule[i].Ngay} ${endTime}`,
+                                backgroundColor: '#3c8dbc',
+                                borderColor: '#3c8dbc',
+                            })
+                        }
+
                     }
 
                 }
@@ -181,7 +187,7 @@ function loadMovieOfCinema(element) {
                     },
                     success: function (data) {
                         $("select[name=dropdownRoom]").html('');
-                      
+
                         if (data) {
                             rooms = data;
                             let countRoom = data.length;
@@ -229,7 +235,7 @@ function calulatorEndTime(time, minuteMovie) {
     return `${hh}:${mm}:${ss}`;;
 }
 
-function formatDateToServer(){
+function formatDateToServer() {
     let date = new Date();
 
     dd = date.getDate().toString().padStart(2, '0');
@@ -246,7 +252,7 @@ function onSubmit() {
     let idRoom = $('select[name=dropdownRoom]').val();
     let dateSchedule = $('input[name=txtNgayChieu]').val();
     let room = rooms.filter(room => room.ID == idRoom);
-    let movie =  movies.filter(movie => movie.ID == idMovie);
+    let movie = movies.filter(movie => movie.ID == idMovie);
     let timeOfMoive = movie[0].ThoiGian;
 
     $.ajax({
@@ -260,7 +266,7 @@ function onSubmit() {
             idmovie: idMovie
         },
         success: function (data) {
-            if(data.statusCode == 1){
+            if (data.statusCode == 1) {
                 let endTime = calulatorEndTime(`${showTime}:00`, timeOfMoive);
                 let newEvent = {
                     title: `${movie[0].TenPhim} | ${room[0].TenPhong}`,
@@ -271,7 +277,7 @@ function onSubmit() {
                 };
 
                 calendar.addEvent(newEvent)
-            }  
+            }
         },
         error: function (error) {
 
@@ -292,5 +298,5 @@ function hideLoading() {
 }
 
 function showLoading() {
-   $('#exampleModalCenter').modal('show');
+    $('#exampleModalCenter').modal('show');
 }
