@@ -47,9 +47,8 @@ router.get("/danhsachlichchieu", function (req, res) {
 
 router.get("/chitietlichchieu", function (req, res) {
   let idrap = req.query.idrap;
-  let ngay = req.query.ngay;
-  // let arr = ngay.split("/");
-  // let ngayresult = arr[2] + "-" + arr[1] + "-" + arr[0];
+  let firstDate = req.query.fristDate;
+  let lastDate = req.query.lastDate;
   let sqlquery = `SELECT DATE_FORMAT(lichchieu.Ngay, '%Y-%m-%d') as 'Ngay'
                          , suatchieu.gio
                          , phim.TenPhim
@@ -61,9 +60,9 @@ router.get("/chitietlichchieu", function (req, res) {
                                  JOIN phim on phim.ID = phim_lichchieu.ID_Phim
                                  JOIN phim_phong_xuat on phim_phong_xuat.ID_Phim = phim.ID
                                  JOIN phong on phong.ID = phim_phong_xuat.ID_Phong AND suatchieu.ID = phim_phong_xuat.ID_XuatChieu
-                  WHERE rapphim.ID = ? and (lichchieu.Ngay between '2021-06-20' and '2021-06-26') AND (phim_phong_xuat.Ngay between '2021-06-20' and '2021-06-26')`;
+                  WHERE rapphim.ID = ? and (lichchieu.Ngay between ? and ?) AND (phim_phong_xuat.Ngay between ? and ?)`;
 
-  conn.query(sqlquery, [idrap, ngay, ngay], function (err, result) {
+  conn.query(sqlquery, [idrap, firstDate, lastDate, firstDate, lastDate], function (err, result) {
     if (err) {
       console.log(err);
     } else {
@@ -128,7 +127,6 @@ router.get("/chitietlichchieu", function (req, res) {
         }
       }
 
-      console.log(arrrs);
       res.json(arrrs);
     }
   });
@@ -161,13 +159,6 @@ router.post("/xeplich", function (req, res) {
   let gio = req.body.showtime;
   let idphong = req.body.idroom;
   let idphim = req.body.idmovie;
-
-  console.log(idrapphim);
-  console.log(ngay);
-  console.log(gio);
-  console.log(idphong);
-  console.log(idphim);
-
 
   let sqlquerytemplichcchieu = `SELECT * FROM lichchieu WHERE lichchieu.Ngay = ? AND lichchieu.ID_Rap = ?`;
 

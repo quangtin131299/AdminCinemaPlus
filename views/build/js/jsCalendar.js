@@ -109,19 +109,22 @@ let movies = [];
 let rooms = [];
 function loadMovieOfCinema(element) {
     let idCinema = element.value;
+    let fristDate = getFristDayWeek();
+    let lastDate = getLastDayWeek();
 
     $.ajax({
         method: 'GET',
         url: '/lichchieu/chitietlichchieu',
         data: {
             idrap: idCinema,
-            ngay: formatDateToServer()
+            fristDate: fristDate,
+            lastDate: lastDate
         },
         success: function (dataSchedule) {
             clearEvent();
 
             if (dataSchedule) {
-                console.log(dataSchedule);
+               
                 let countMovie = dataSchedule.length;
 
                 for (let i = 0; i < countMovie; i++) {
@@ -235,15 +238,15 @@ function calulatorEndTime(time, minuteMovie) {
     return `${hh}:${mm}:${ss}`;;
 }
 
-function formatDateToServer() {
-    let date = new Date();
+// function formatDateToServer() {
+//     let date = new Date();
 
-    dd = date.getDate().toString().padStart(2, '0');
-    mm = (date.getMonth() + 1).toString().padStart(2, '0');
-    yyyy = date.getFullYear().toString().padStart(2, '0');
+//     dd = date.getDate().toString().padStart(2, '0');
+//     mm = (date.getMonth() + 1).toString().padStart(2, '0');
+//     yyyy = date.getFullYear().toString().padStart(2, '0');
 
-    return `${yyyy}-${mm}-${dd}`;
-}
+//     return `${yyyy}-${mm}-${dd}`;
+// }
 
 function onSubmit() {
     let idCinema = $('select[name=dropdownCinema]').val();
@@ -299,4 +302,25 @@ function hideLoading() {
 
 function showLoading() {
     $('#exampleModalCenter').modal('show');
+}
+
+function getFristDayWeek(){
+    let curr = new Date; 
+    let first = curr.getDate() - curr.getDay();
+    let firstday = new Date(curr.setDate(first))
+
+    let dateString =firstday.getUTCFullYear() + "-" + ("0" + (firstday.getUTCMonth() + 1)).slice(-2) + "-" + ("0" + firstday.getUTCDate()).slice(-2);
+
+    return dateString;
+}
+
+function getLastDayWeek(){
+    let curr = new Date; 
+    let first = curr.getDate() - curr.getDay();
+    let last = first + 6;
+    let lastday = new Date(curr.setDate(last))
+
+    let dateString = lastday.getUTCFullYear() + "-" + ("0" + (lastday.getUTCMonth() + 1)).slice(-2) + "-" + ("0" + lastday.getUTCDate()).slice(-2);
+
+    return dateString;
 }
