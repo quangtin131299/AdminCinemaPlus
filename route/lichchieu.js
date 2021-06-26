@@ -18,7 +18,11 @@ router.get("/danhsachlichchieu", function (req, res) {
   let page = req.query.page;
   let vitribatdaulay = (page - 1) * 5;
   if (soluongtrang == 0) {
-    let querysl = `SELECT lichchieu.ID, DATE_FORMAT(lichchieu.Ngay, '%d/%m/%Y') as 'Ngay', rapphim.ID as 'IDRapPhim', rapphim.TenRap FROM lichchieu JOIN rapphim ON lichchieu.ID_Rap = rapphim.ID`;
+    let querysl = `SELECT lichchieu.ID
+                          , DATE_FORMAT(lichchieu.Ngay, '%d/%m/%Y') as 'Ngay'
+                          , rapphim.ID as 'IDRapPhim'
+                          , rapphim.TenRap 
+                   FROM lichchieu JOIN rapphim ON lichchieu.ID_Rap = rapphim.ID`;
     conn.query(querysl, function (err, resultsl) {
       if (err) {
         res.send(err);
@@ -27,7 +31,11 @@ router.get("/danhsachlichchieu", function (req, res) {
       }
     });
   }
-  let query = `SELECT lichchieu.ID, DATE_FORMAT(lichchieu.Ngay, '%d/%m/%Y') as 'Ngay', rapphim.ID as 'IDRapPhim', rapphim.TenRap FROM lichchieu JOIN rapphim ON lichchieu.ID_Rap = rapphim.ID ORDER BY lichchieu.Ngay limit ${vitribatdaulay}, 5 `;
+  let query = `SELECT lichchieu.ID
+                      , DATE_FORMAT(lichchieu.Ngay, '%d/%m/%Y') as 'Ngay'
+                      , rapphim.ID as 'IDRapPhim', rapphim.TenRap 
+               FROM lichchieu JOIN rapphim ON lichchieu.ID_Rap = rapphim.ID 
+               ORDER BY lichchieu.Ngay limit ${vitribatdaulay}, 5 `;
   conn.query(query, function (err, result) {
     res.render("lichchieu/danhsachlichchieu", {
       pagerespon: page,
@@ -40,50 +48,88 @@ router.get("/danhsachlichchieu", function (req, res) {
 router.get("/chitietlichchieu", function (req, res) {
   let idrap = req.query.idrap;
   let ngay = req.query.ngay;
-  let arr = ngay.split("/");
-  let ngayresult = arr[2] + "-" + arr[1] + "-" + arr[0];
-  let sqlquery = `SELECT phim.Hinh,suatchieu.ID as 'IdSuatChieu', suatchieu.Gio, phim.TenPhim, phim.ID from phim_phong_xuat JOIN suatchieu ON phim_phong_xuat.ID_XuatChieu = suatchieu.ID JOIN lichchieu on lichchieu.ID = suatchieu.ID_LichChieu JOIN rapphim on rapphim.ID = lichchieu.ID_Rap JOIN phim ON phim_phong_xuat.ID_Phim = phim.ID WHERE rapphim.ID = ${idrap} AND lichchieu.Ngay = '${ngayresult}' AND phim_phong_xuat.Ngay = '${ngayresult}'`;
-  conn.query(sqlquery, function (err, result) {
+  // let arr = ngay.split("/");
+  // let ngayresult = arr[2] + "-" + arr[1] + "-" + arr[0];
+  let sqlquery = `SELECT DATE_FORMAT(lichchieu.Ngay, '%Y-%m-%d') as 'Ngay'
+                         , suatchieu.gio
+                         , phim.TenPhim
+                         , phong.TenPhong
+                         ,phim.ThoiGian
+                  FROM lichchieu JOIN phim_lichchieu on lichchieu.ID = phim_lichchieu.ID_Lichchieu
+                                 JOIN suatchieu on phim_lichchieu.ID_Suatchieu = suatchieu.ID
+                                 JOIN rapphim on rapphim.ID = lichchieu.ID_Rap
+                                 JOIN phim on phim.ID = phim_lichchieu.ID_Phim
+                                 JOIN phim_phong_xuat on phim_phong_xuat.ID_Phim = phim.ID
+                                 JOIN phong on phong.ID = phim_phong_xuat.ID_Phong AND suatchieu.ID = phim_phong_xuat.ID_XuatChieu
+                  WHERE rapphim.ID = ? and (lichchieu.Ngay between '2021-06-20' and '2021-06-26') AND (phim_phong_xuat.Ngay between '2021-06-20' and '2021-06-26')`;
+
+  conn.query(sqlquery, [idrap, ngay, ngay], function (err, result) {
     if (err) {
       console.log(err);
     } else {
-      let arrtemp = [];
+      let arrShowTime = [];
       let arrrs = [];
+      let date = '';
       let namemovie = "";
+
       if (result.length == 1) {
-        arrtemp.push({
+
+        arrShowTime.push({
           idsuat: result[0].ID,
           gio: result[0].Gio
         });
+
         arrrs.push(result[0]);
-        arrrs[0].suatchieu = arrtemp;
-        console.log(arrrs);
+
+        arrrs[0].suatchieu = arrShowTime;
+
       } else {
-        for (let i = 0; i < result.length; i++) {
-          let temp = result[i];
-          if (temp.TenPhim != namemovie) {
-            for (let j = i + 1; j < result.length; j++) {
-              if (temp.TenPhim == result[j].TenPhim) {
-                arrtemp.push({
-                  idsuat: result[j].IdSuatChieu,
-                  gio: result[j].Gio,
-                });
+        for (let k = 0; k < result.length; k++) {
+          let schedule = result[k];
+        
+          if (schedule.Ngay != date) {
+            
+            schedule.phims = [];
+            //Phim trong ngày
+            for (let i = k ; i < result.length; i++) {
+              if (result[i].TenPhim != namemovie && result[i].Ngay == schedule.Ngay) {
+                // Suất chiếu của một phim trong một ngày
+                for (let j = i; j < result.length; j++) {
+                  if (result[i].TenPhim == result[j].TenPhim && result[j].Ngay == schedule.Ngay) {
+                    arrShowTime.push({
+                      tenphong: result[j].TenPhong,
+                      idsuat: result[j].IdSuatChieu,
+                      gio: result[j].gio,
+                    });
+
+                  }
+                }
+                  
+                schedule.phims.push({
+                    tenPhim: result[i].TenPhim,
+                    suatchieus: arrShowTime
+                })
+                
+                namemovie = result[i].TenPhim;
+                
+                arrShowTime = [];
               }
+              
             }
-            arrtemp.unshift({
-              idsuat: temp.IdSuatChieu,
-              gio: temp.Gio
-            });
-            temp.suatchieu = arrtemp;
-            namemovie = temp.TenPhim;
-            arrrs.push(temp);
-            arrtemp = [];
-          }
+            
+            let checkDateExist = arrrs.filter(x => x.Ngay == schedule.Ngay);
+            if(checkDateExist.length == 0){
+              arrrs.push(schedule);
+            }
+           
+            date = schedule.Ngay;
+            
+          }      
         }
       }
-      res.render("lichchieu/chitietlichchieu", {
-        danhsachphimsuat: arrrs
-      });
+
+      console.log(arrrs);
+      res.json(arrrs);
     }
   });
 });
@@ -110,89 +156,113 @@ router.get("/themlichchieu", function (req, res) {
 });
 
 router.post("/xeplich", function (req, res) {
-  let idrapphim = req.body.rdorap;
-  let ngay = req.body.txtngaylichchieu;
-  // let gio = req.body.txtsuatchieu;
-  // let idphong = req.body.rdophong;
-  // let idphim = req.body.rdophim;
-  let arraythoigian = Array.from(req.body.datathoigian);
-  let slthoigian = arraythoigian.length;
-  let sqlquerytemplichcchieu = `SELECT * FROM lichchieu WHERE lichchieu.Ngay = '${ngay}'`;
-  conn.query(sqlquerytemplichcchieu, function (err, result) {
+  let idrapphim = req.body.idcinema;
+  let ngay = req.body.date;
+  let gio = req.body.showtime;
+  let idphong = req.body.idroom;
+  let idphim = req.body.idmovie;
+
+  console.log(idrapphim);
+  console.log(ngay);
+  console.log(gio);
+  console.log(idphong);
+  console.log(idphim);
+
+
+  let sqlquerytemplichcchieu = `SELECT * FROM lichchieu WHERE lichchieu.Ngay = ? AND lichchieu.ID_Rap = ?`;
+
+  conn.query(sqlquerytemplichcchieu, [ngay, idrapphim], function (err, result) {
     if (err) {
       console.log(err);
     } else {
       if (result.length == 0) {
-        let querylichchieu = `INSERT INTO lichchieu VALUES (NULL, '${ngay}', '${idrapphim}')`;
-        conn.query(querylichchieu, function (err, resultlichchieu) {
+        let querylichchieu = `INSERT INTO lichchieu VALUES (NULL, ?, ?)`;
+
+        conn.query(querylichchieu, [ngay, idrapphim], function (err, resultlichchieu) {
           if (err) {
             console.log(err);
           } else {
-            for (let i = 0; i < slthoigian; i++) {
-              let querysuatchieu = `INSERT INTO suatchieu VALUES (NULL, '${arraythoigian[i].thoigian}', '${resultlichchieu.insertId}')`;
-              conn.query(querysuatchieu, function (err, reultsuatchieu) {
-                if (err) {
-                  console.log(err);
-                } else {
-                  let queryphimphongsuat = `INSERT INTO phim_phong_xuat VALUES('${arraythoigian[i].idphim}','${arraythoigian[i].idphong}','${reultsuatchieu.insertId}','${ngay}')`;
-                  conn.query(
-                    queryphimphongsuat,
-                    function (err, resultphimphongxuat) {
-                      if (err) {
-                        console.log(err);
-                      } else {
-                        let queryphonglichchieu = `INSERT INTO phim_lichchieu VALUES('${rraythoigian[i].idphong}','${resultlichchieu.insertId}','${gio}')`;
-                        conn.query(
-                          queryphonglichchieu,
-                          function (err, resultphimlichchieu) {
-                            if (err) {
-                              console.log(err);
-                            } else {
-                              // console.log("Thành công");
-                              res.redirect("/lichchieu/danhsachlichchieu?page=1");
-                            }
-                          }
-                        );
-                      }
+            let querysuatchieu = `INSERT INTO suatchieu VALUES (NULL, ?)`;
+
+            conn.query(querysuatchieu, [gio], function (err, reultsuatchieu) {
+              if (err) {
+                console.log(err);
+              } else {
+                let queryphimphongsuat = `INSERT INTO phim_phong_xuat VALUES(?,?,?,?)`;
+
+                conn.query(
+                  queryphimphongsuat,
+                  [idphim, idphong, reultsuatchieu.insertId, ngay],
+                  function (err) {
+                    if (err) {
+                      console.log(err);
                     }
-                  );
-                }
-              });
-            }
+                  }
+                );
+
+                let queryphonglichchieu = `INSERT INTO phim_lichchieu VALUES(?,?,?)`;
+
+                conn.query(
+                  queryphonglichchieu,
+                  [idphim, resultlichchieu.insertId, reultsuatchieu.insertId],
+                  function (err) {
+                    if (err) {
+                      console.log(err);
+                    } else {
+
+                      res.json({
+                        message: 'Thêm lịch chiếu thành công.',
+                        statusCode: 1
+                      })
+                    }
+                  }
+                );
+              }
+            });
           }
         });
       } else {
-        for (let i = 0; i < slthoigian; i++) {
-          let querysuatchieu = `INSERT INTO suatchieu VALUES (NULL, '${arraythoigian[i].thoigian}', '62')`;
-          conn.query(querysuatchieu, function (err, reultsuatchieu) {
-            if (err) {
-              console.log(err);
-            } else {
-              let queryphimphongsuat = `INSERT INTO phim_phong_xuat VALUES('${arraythoigian[i].idphim}','${arraythoigian[i].idphong}','${reultsuatchieu.insertId}','${ngay}')`;
-              conn.query(
-                queryphimphongsuat,
-                function (err, resultphimphongxuat) {
-                  if (err) {
-                    console.log(err);
-                  } else {
-                    let queryphonglichchieu = `INSERT INTO phim_lichchieu VALUES('${arraythoigian[i].idphim}','62','${arraythoigian[i].thoigian}')`;
-                    conn.query(
-                      queryphonglichchieu,
-                      function (err, resultphimlichchieu) {
-                        if (err) {
-                          console.log(err);
-                        } else {
-                          console.log("Thành công");
-                          // res.redirect("/lichchieu/danhsachlichchieu?page=1");
-                        }
-                      }
-                    );
-                  }
+
+        let querysuatchieu = `INSERT INTO suatchieu VALUES (NULL, ?)`;
+
+        conn.query(querysuatchieu, [gio], function (err, reultsuatchieu) {
+          if (err) {
+            console.log(err);
+          } else {
+            let queryphimphongsuat = `INSERT INTO phim_phong_xuat VALUES(?,?,?,?)`;
+
+            conn.query(
+              queryphimphongsuat,
+              [idphim, idphong, reultsuatchieu.insertId, ngay],
+              function (err) {
+                if (err) {
+                  console.log(err);
                 }
-              );
-            }
-          });
-        }
+              }
+            );
+
+            let queryphonglichchieu = `INSERT INTO phim_lichchieu VALUES(?,?,?)`;
+
+            conn.query(
+              queryphonglichchieu,
+              [idphim, result[0].ID, reultsuatchieu.insertId],
+              function (err) {
+                if (err) {
+                  console.log(err);
+                } else {
+                  console.log('thành công');
+                  // res.redirect("/lichchieu/danhsachlichchieu?page=1");
+
+                  res.json({
+                    message: 'Thêm lịch chiếu thành công.',
+                    statusCode: 1
+                  })
+                }
+              }
+            );
+          }
+        });
+
       }
     }
   });
@@ -200,7 +270,9 @@ router.post("/xeplich", function (req, res) {
 
 router.get("/loadphongtheorap", function (req, res) {
   let idrap = req.query.idrap;
-  let query = `SELECT phong.ID as 'ID_Phong', phong.TenPhong FROM phong JOIN rapphim ON phong.ID_Rap = rapphim.ID WHERE rapphim.ID = ${idrap}`;
+  let query = `SELECT phong.ID as 'ID_Phong', phong.TenPhong 
+               FROM phong JOIN rapphim ON phong.ID_Rap = rapphim.ID 
+               WHERE rapphim.ID = ${idrap}`;
   conn.query(query, function (err, result) {
     if (err) {
       console.log(err);
@@ -227,11 +299,11 @@ router.get("/xeplichV2", function (req, res) {
 
 router.get("/getMovieOfCinema", function (req, res) {
   let idCinema = req.query.id;
-  
-  let queryMovie = `select * 
-                    from phim JOIN phim_rapphim ON phim_rapphim.ID_Phim = phim.ID 
+
+  let queryMovie = `SELECT phim.ID, phim.TenPhim, phim.ThoiGian
+                    FROM phim JOIN phim_rapphim ON phim_rapphim.ID_Phim = phim.ID 
                               JOIN rapphim on phim_rapphim.ID_Rap = rapphim.ID
-                    where phim.TrangThai = N'Đang chiếu' and rapphim.ID = ?`
+                    WHERE rapphim.ID = ?`
 
   conn.query(queryMovie, [idCinema], function (errMovie, resultMovie) {
     if (errMovie) {
@@ -247,9 +319,9 @@ router.get("/getMovieOfCinema", function (req, res) {
 router.get("/getRoomOfCinema", function (req, res) {
   let idCinema = req.query.id;
 
-  let queryRoom = `SELECT *
-                    FROM phong JOIN rapphim ON phong.ID_Rap = rapphim.ID 
-                    WHERE rapphim.ID = ?`
+  let queryRoom = `SELECT phong.ID, phong.TenPhong
+                   FROM phong JOIN rapphim ON phong.ID_Rap = rapphim.ID 
+                   WHERE rapphim.ID = ?`
 
   conn.query(queryRoom, [idCinema], function (errorRoom, resultRooms) {
     if (errorRoom) {
