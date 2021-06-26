@@ -1,5 +1,7 @@
 doctype html
 include ../header.pug
+link(href='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.css', rel='stylesheet')
+script(src='https://polyfill.io/v3/polyfill.min.js?features=default')
 .wrapper
   // Navbar
   nav.main-header.navbar.navbar-expand.navbar-white.navbar-light
@@ -63,27 +65,32 @@ include ../header.pug
                             input.custom-file-input(id="inputGroupFile01", name="imgCinema", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImageCinema(this)")
                             label.custom-file-label.file-name-image-cinema(for='inputGroupFile01') Choose file
                   img(src="https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg",  id="imgCinemaPreview", width="150",height="150")
-              <br>
+              br
               .row
                 .col
                   .input-group.mb-3
-                        .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Địa chỉ
+                    .input-group-prepend.width-input-address
+                        span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Địa chỉ
                         input.form-control#txtCinemaAddress(name= "txtCinemaAddress", placeholder="Nhập địa chỉ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
-              
+                        button.btn.btn-success(style="width:200px;",type='button', onclick="getLatLng()") Lấy kinh độ vĩ độ
               .row
                 .col
                   .input-group.mb-3
                         .input-group-prepend
                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Vĩ độ
-                        input.form-control#txtViDo(name= "txtViDo", placeholder="Nhập vĩ độ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                        input.form-control#txtViDo(name= "txtViDo", placeholder="Nhập vĩ độ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
 
               .row
                 .col
                   .input-group.mb-3
                         .input-group-prepend
                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Kinh độ
-                        input.form-control#txtKinhDo(name= "txtKinhDo", placeholder="Nhập kinh độ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                        input.form-control#txtKinhDo(name= "txtKinhDo", placeholder="Nhập kinh độ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
+          .card
+            .card-body
+              .row
+                .col-md-12
+                  #map(style="height:500px;")
               
           .card
             .card-body
@@ -91,7 +98,7 @@ include ../header.pug
                 .col(style="display:flex; justify-content:center;")
                   button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
                 .col(style="display:flex; justify-content:center;")
-                  button.btn.btn-success(id="btnsubmit",style="width:200px;",type='buton') Thêm rạp chiếu
+                  button.btn.btn-success(id="btnsubmit",style="width:200px;",type='button') Thêm rạp chiếu
                     
         #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
             .modal-dialog.modal-dialog-centered
@@ -112,6 +119,8 @@ include ../header.pug
                   span#modalTextMessage= messNotify
                 .modal-footer
                   button.btn.btn-primary(type='button' id='btnOKAddMovie') Ok  
+
+        #map
 
         
     // /.content
@@ -151,4 +160,11 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
+script(src='https://cdn.jsdelivr.net/npm/scriptjs@2.5.9/dist/script.min.js')
+script(src='https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js')
+script(src='https://cdn.jsdelivr.net/npm/places.js@^1.17.0')
+script(src='https://cdn.jsdelivr.net/npm/instantsearch.js@4')
+script(src='https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyBawL8VbstJDdU5397SUX7pEt9DslAwWgQ')
+script(src='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.js')
 script(src='build/js/jsrapchieu.js')
+
