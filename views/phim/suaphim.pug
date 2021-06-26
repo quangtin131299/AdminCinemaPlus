@@ -128,6 +128,14 @@ include ../header.pug
 
                         img(src=(phim.AnhBia && phim.AnhBia != "" ? phim.AnhBia : 'https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg'),  id="imgMoviePoster", width="150",height="150")
         .card
+          .card-body
+            .row  
+                .col 
+                    each itemCinema in cinemas
+                      .form-check.form-check-inline
+                        input#inlineCheckbox1.form-check-input(type='checkbox',name= "chbCinema", value=itemCinema.ID)
+                        label.form-check-label(id=itemCinema.ID,for='inlineCheckbox1')=itemCinema.TenRap
+        .card
             .card-body
               .row
                 h5(style="font-weight:bold;") Mô tả của phim 

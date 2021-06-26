@@ -280,7 +280,16 @@ router.get("/suaphim", function (req, res) {
          mess = 'Sửa thành công'
       }
 
-      res.render("phim/suaphim", { phim: result[0], messNotify: mess });
+      let queryCinema = `SELECT rapphim.ID, rapphim.TenRap FROM rapphim;`;
+
+      conn.query(queryCinema, function (errorCinema, resultCinemas) {
+        if(errorCinema){
+          console.log(errorCinema);
+          res.render("phim/suaphim", { phim: result[0], messNotify: mess, cinemas: [] });
+        }else{
+          res.render("phim/suaphim", { phim: result[0], messNotify: mess, cinemas: resultCinemas  });
+        }
+      })
     }
   });
 });
