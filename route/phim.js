@@ -177,8 +177,8 @@ router.post(
     let like = 0;
     let imagMovie = fileNameImageMovie && fileNameImageMovie != '' ? `${req.protocol}://${(req.hostname == 'localhost' ? req.hostname + ':3000' : req.hostname)}/img/Movie/Avatar/${fileNameImageMovie}` : '';
     let imagPoster = fileNamePosterMovie && fileNameImageMovie != '' ? `${req.protocol}://${(req.hostname == 'localhost' ? req.hostname + ':3000' : req.hostname)}/img/Movie/Poster/${fileNamePosterMovie}` : '';
-
-
+    
+    // console.log(typeof(idCinemas));
     let sqlquery = `INSERT INTO phim VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?)`;
     conn.query(sqlquery, [movieName
                         , imagMovie
@@ -197,28 +197,50 @@ router.post(
 
           res.redirect('/phim/themphimmoi?mess=0')
         } else {
-          let countMovieType = idMovieTypes.length;
           let queryType = `INSERT INTO phim_loaiphim VALUES(?,?)`;
 
-          for (let i = 0; i < countMovieType; i++) {
-            conn.query(queryType, [resultNewMovie.insertId, idMovieTypes[i]], function (errorMovieType) {
-              if (errorMovieType) {
-                console.log(errorMovieType);
-                return res.redirect('/phim/themphimmoi?mess=-1')
-              }
-            })
-          }
+          if(typeof(idMovieTypes) == 'string'){
+              conn.query(queryType, [resultNewMovie.insertId,idMovieTypes], function (errorMovieType) {
+                if (errorMovieType) {
+                  console.log(errorMovieType);
+                  return res.redirect("/phim/themphimmoi?mess=-1");
+                }
+              });
+          }else{
+            let countMovieType = idMovieTypes.length;
 
-          let countCinema = idCinemas.length;
+            for (let i = 0; i < countMovieType; i++) {
+              conn.query(queryType, [resultNewMovie.insertId, idMovieTypes[i]], function (errorMovieType) {
+                if (errorMovieType) {
+                  console.log(errorMovieType);
+                  return res.redirect('/phim/themphimmoi?mess=-1')
+                }
+              })
+            }
+          }
+          
+          
           let queryCinema = `INSERT INTO phim_rapphim VALUES(?,?)`;
 
-          for (let i = 0; i < countCinema; i++) {
-            conn.query(queryCinema, [idCinemas[i], resultNewMovie.insertId], function (errorCinema) {
-              if (errorCinema) {
-                console.log(errorCinema);
+          if(typeof(idCinemas) == 'string'){
+            console.log("ABDSDAS");
+            conn.query(queryCinema, [idCinemas, resultNewMovie.insertId],function(errorMovie){
+              if(errorMovie){
+                console.log(errorMovie);
                 return res.redirect('/phim/themphimmoi?mess=-1')
               }
             })
+          }else{
+            let countCinema = idCinemas.length;
+
+            for (let i = 0; i < countCinema; i++) {
+              conn.query(queryCinema, [idCinemas[i], resultNewMovie.insertId], function (errorCinema) {
+                if (errorCinema) {
+                  console.log(errorCinema);
+                  return res.redirect('/phim/themphimmoi?mess=-1')
+                }
+              })
+            }
           }
 
           res.redirect('/phim/themphimmoi?mess=1')
