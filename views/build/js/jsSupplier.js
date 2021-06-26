@@ -113,3 +113,51 @@ search.addWidgets([
 ]);
 
 search.start();
+
+goongjs.accessToken = 'sEWmdGHz9T3IEP2ND6KlMMX9QMgPGjjHHOpofqCT';
+
+var map = new goongjs.Map({
+    container: 'map',
+    style: 'https://tiles.goong.io/assets/goong_map_web.json', // stylesheet location
+    center: [106.67783681139827, 10.738047815253331], // starting position [lng, lat]
+    zoom: 17// starting zoom
+});
+
+
+function onBlur(){
+    var api_key = '2a4d1678277d4f1689e79a1655298d59';
+
+    var api_url = 'https://api.opencagedata.com/geocode/v1/json'
+
+    var request_url = api_url
+        + '?'
+        + 'key=' + api_key
+        + '&q=' + encodeURIComponent($('#txtAddress').val())
+        + '&pretty=1'
+        + '&no_annotations=1';
+
+    $.ajax({
+        method: 'GET',
+        url: request_url,
+        success: function (dataResult) {
+            if (dataResult) {
+                $('#txtViDo').val(dataResult.results[0].geometry.lat);
+                $('#txtKinhDo').val(dataResult.results[0].geometry.lng)
+                
+                map.jumpTo({
+                    center: [dataResult.results[0].geometry.lng, dataResult.results[0].geometry.lat],
+                    zoom: 17
+                })
+
+                var marker = new goongjs.Marker()
+                    .setLngLat([dataResult.results[0].geometry.lng, dataResult.results[0].geometry.lat])
+                    .addTo(map);
+
+
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    })
+}

@@ -116,11 +116,18 @@ function searchLngLat() {
                 $('#txtViDo').val(dataResult.results[0].geometry.lat);
                 $('#txtKinhDo').val(dataResult.results[0].geometry.lng)
 
+                // map.setCenter([dataResult.results[0].geometry.lng, dataResult.results[0].geometry.lat])
+                
+                map.jumpTo({
+                    center: [dataResult.results[0].geometry.lng, dataResult.results[0].geometry.lat],
+                    zoom: 17
+                })
+
                 var marker = new goongjs.Marker()
                     .setLngLat([dataResult.results[0].geometry.lng, dataResult.results[0].geometry.lat])
                     .addTo(map);
 
-                map.setCenter([dataResult.results[0].geometry.lng, dataResult.results[0].geometry.lat])
+
             }
         },
         error: function (error) {
