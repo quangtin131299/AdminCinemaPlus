@@ -133,8 +133,8 @@ include ../header.pug
                 .col 
                     each itemCinema in cinemas
                       .form-check.form-check-inline
-                        input#inlineCheckbox1.form-check-input(type='checkbox',name= "chbCinema", value=itemCinema.ID)
-                        label.form-check-label(id=itemCinema.ID,for='inlineCheckbox1')=itemCinema.TenRap
+                        input#inlineCheckbox1.form-check-input.chbCinema(type='checkbox',name= "chbCinema", value=itemCinema.ID)
+                        label.form-check-label.lbNameCinema(id=itemCinema.ID,for='inlineCheckbox1')=itemCinema.TenRap
         .card
             .card-body
               .row
@@ -214,17 +214,19 @@ script.
     document.getElementById("btnhuy").onclick=function(){
          window.location.replace("danhsachphim?page=1") 
     }
-    let arrlb = document.getElementsByClassName("lbtenloai")
-    let arrinputchb = document.getElementsByClassName("chekboxloai")
-    let theloai = !{JSON.stringify(phim.theloai)}
-    let n = theloai.length
-    for(let i = 0; i < n; i++){
-        for(let j = 0; j < arrlb.length; j++){
-          if(theloai[i].TenLoai === arrlb[j].innerHTML){
-              arrinputchb[j].checked = true;
-          }
+    let arrlb = document.getElementsByClassName("lbNameCinema")
+    let arrinputchb = document.getElementsByClassName("chbCinema")
+    let cinemas = !{JSON.stringify(phim.cinemas)}
+    let countCinema = cinemas.length;
+
+    for(let i = 0; i < countCinema; i++){
+      for(let j = 0; j < arrlb.length; j++){
+        if(arrlb[j].innerHTML == cinemas[i].tenRap){
+            arrinputchb[j].checked = true;
         }
+      }
     }
+ 
 
  
 
