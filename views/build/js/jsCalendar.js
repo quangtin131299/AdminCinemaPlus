@@ -124,7 +124,8 @@ function loadMovieOfCinema(element) {
             clearEvent();
 
             if (dataSchedule) {
-               
+                console.log(dataSchedule);
+                
                 let countMovie = dataSchedule.length;
 
                 for (let i = 0; i < countMovie; i++) {
