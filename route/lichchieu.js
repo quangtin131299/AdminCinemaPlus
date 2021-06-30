@@ -83,6 +83,7 @@ router.get("/chitietlichchieu", function (req, res) {
         arrrs[0].suatchieu = arrShowTime;
 
       } else {
+        console.log(result);
         for (let k = 0; k < result.length; k++) {
           let schedule = result[k];
         
@@ -108,14 +109,15 @@ router.get("/chitietlichchieu", function (req, res) {
                     tenPhim: result[i].TenPhim,
                     suatchieus: arrShowTime
                 })
-                
+
                 namemovie = result[i].TenPhim;
                 
                 arrShowTime = [];
               }
               
             }
-            
+
+            namemovie = '';
             let checkDateExist = arrrs.filter(x => x.Ngay == schedule.Ngay);
             if(checkDateExist.length == 0){
               arrrs.push(schedule);
@@ -126,7 +128,7 @@ router.get("/chitietlichchieu", function (req, res) {
           }      
         }
       }
-
+      console.log(arrrs);
       res.json(arrrs);
     }
   });
