@@ -57,31 +57,11 @@ include ../header.pug
               th(scope='row')=ticker.ID
               td=ticker.NgayDat
               td=ticker.HoTen
-              td=ticker.Status
+              td=ticker.TrangThai
               td
                 span 
                   a(href="#") Chi Tiết 
-                span |
-                span 
-                  a(href="#") Cập nhật
-                span |
-                span 
-                  a(href="#") Xóa
-      nav(style="display:flex; justify-content:center",aria-label='Page navigation example')
-        ul.pagination
-          li.page-item
-            a.page-link(href='#') Trang trước
-          - for (var i = 1; i <= soluongtrang ; i++) {
-                if i == pagerespon
-                  li.page-item.active
-                   a.page-link(href="danhsachve?page=" + i)= i 
-                else
-                  li.page-item
-                   a.page-link(href="danhsachve?page=" + i)= i
-          - }
-            
-          li.page-item
-            a.page-link(href='#') Trang kế
+                span
     // /.content
   // /.content-wrapper
   include ../footer.pug
