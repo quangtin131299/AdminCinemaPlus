@@ -177,47 +177,70 @@ router.post(
     let like = 0;
     let imagMovie = fileNameImageMovie && fileNameImageMovie != '' ? `${req.protocol}://${(req.hostname == 'localhost' ? req.hostname + ':3000' : req.hostname)}/img/Movie/Avatar/${fileNameImageMovie}` : '';
     let imagPoster = fileNamePosterMovie && fileNameImageMovie != '' ? `${req.protocol}://${(req.hostname == 'localhost' ? req.hostname + ':3000' : req.hostname)}/img/Movie/Poster/${fileNamePosterMovie}` : '';
-
-
+    
+    // console.log(typeof(idCinemas));
     let sqlquery = `INSERT INTO phim VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?)`;
     conn.query(sqlquery, [movieName
-      , imagMovie
-      , imagPoster
-      , status
-      , time
-      , idTrailer
-      , description
-      , openDate
-      , like
-      , idSupplier
-      , endDate], function (err, resultNewMovie) {
+                        , imagMovie
+                        , imagPoster
+                        , status
+                        , time
+                        , idTrailer
+                        , description
+                        , openDate
+                        , like
+                        , idSupplier
+                        , endDate]
+                        , function (err, resultNewMovie) {
         if (err) {
           console.log(err);
 
           res.redirect('/phim/themphimmoi?mess=0')
         } else {
-          let countMovieType = idMovieTypes.length;
           let queryType = `INSERT INTO phim_loaiphim VALUES(?,?)`;
 
-          for (let i = 0; i < countMovieType; i++) {
-            conn.query(queryType, [resultNewMovie.insertId, idMovieTypes[i]], function (errorMovieType) {
-              if (errorMovieType) {
-                console.log(errorMovieType);
-                return res.redirect('/phim/themphimmoi?mess=-1')
-              }
-            })
-          }
+          if(typeof(idMovieTypes) == 'string'){
+              conn.query(queryType, [resultNewMovie.insertId,idMovieTypes], function (errorMovieType) {
+                if (errorMovieType) {
+                  console.log(errorMovieType);
+                  return res.redirect("/phim/themphimmoi?mess=-1");
+                }
+              });
+          }else{
+            let countMovieType = idMovieTypes.length;
 
-          let countCinema = idCinemas.length;
+            for (let i = 0; i < countMovieType; i++) {
+              conn.query(queryType, [resultNewMovie.insertId, idMovieTypes[i]], function (errorMovieType) {
+                if (errorMovieType) {
+                  console.log(errorMovieType);
+                  return res.redirect('/phim/themphimmoi?mess=-1')
+                }
+              })
+            }
+          }
+          
+          
           let queryCinema = `INSERT INTO phim_rapphim VALUES(?,?)`;
 
-          for (let i = 0; i < countCinema; i++) {
-            conn.query(queryCinema, [idCinemas[i], resultNewMovie.insertId], function (errorCinema) {
-              if (errorCinema) {
-                console.log(errorCinema);
+          if(typeof(idCinemas) == 'string'){
+            console.log("ABDSDAS");
+            conn.query(queryCinema, [idCinemas, resultNewMovie.insertId],function(errorMovie){
+              if(errorMovie){
+                console.log(errorMovie);
                 return res.redirect('/phim/themphimmoi?mess=-1')
               }
             })
+          }else{
+            let countCinema = idCinemas.length;
+
+            for (let i = 0; i < countCinema; i++) {
+              conn.query(queryCinema, [idCinemas[i], resultNewMovie.insertId], function (errorCinema) {
+                if (errorCinema) {
+                  console.log(errorCinema);
+                  return res.redirect('/phim/themphimmoi?mess=-1')
+                }
+              })
+            }
           }
 
           res.redirect('/phim/themphimmoi?mess=1')
@@ -226,8 +249,8 @@ router.post(
   }
 );
 
-let fileImageMovieUrlOld = ''
-let fileImagePosterUrlOld = ''
+let fileImageMovieUrlOld = '';
+let fileImagePosterUrlOld = '';
 
 router.get("/suaphim", function (req, res) {
   let idphim = req.query.idphim;
@@ -241,11 +264,16 @@ router.get("/suaphim", function (req, res) {
                       , phim.MoTa
                       , DATE_FORMAT(phim.NgayKhoiChieu, '%Y-%m-%d') as 'NgayKhoiChieu'
                       , DATE_FORMAT(phim.NgayKetThuc, '%Y-%m-%d') as 'NgayKetThuc'
-               FROM phim WHERE phim.ID = ?`;
+                      , rapphim.TenRap
+               FROM phim JOIN phim_rapphim on phim.ID = phim_rapphim.ID_Phim 
+                         JOIN rapphim on phim_rapphim.ID_Rap = rapphim.ID
+               WHERE phim.ID = ?`;
+               
   conn.query(query, [idphim], function (err, result) {
     if (err) {
       console.log(err);
     } else {
+    
       fileImageMovieUrlOld = result[0].Hinh;
       fileImagePosterUrlOld = result[0].AnhBia;
 
@@ -257,7 +285,40 @@ router.get("/suaphim", function (req, res) {
          mess = 'Sửa thành công'
       }
 
-      res.render("phim/suaphim", { phim: result[0], messNotify: mess });
+      let queryCinema = `SELECT rapphim.ID, rapphim.TenRap FROM rapphim;`;
+
+      conn.query(queryCinema, function (errorCinema, resultCinemas) {
+        if(errorCinema){
+          console.log(errorCinema);
+          res.render("phim/suaphim", { phim: result[0], messNotify: mess, cinemas: [] });
+        }else{
+         
+          let nameMovie = '';
+          let resultMovie = [];
+          let countMovie = result.length;
+          let cinemasOfMovie = [];
+
+          for (let i = 0; i < countMovie; i++) {
+
+            if (result[i].TenPhim != nameMovie) {
+              for (let j = i; j < countMovie; j++) {
+                if (result[i].TenPhim == result[j].TenPhim) {
+                  cinemasOfMovie.push({
+                    id: result[j].ID,
+                    tenRap: result[j].TenRap
+                  })
+                }
+              }
+
+              nameMovie = result[i].TenPhim;
+              result[i].cinemas = cinemasOfMovie;
+              resultMovie.push(result[i]);
+              cinemasOfMovie = [];
+            }
+          }
+          res.render("phim/suaphim", { phim: resultMovie[0], messNotify: mess, cinemas: resultCinemas  });
+        }
+      })
     }
   });
 });
@@ -273,31 +334,104 @@ router.post("/suattphim", uploadImage, function (req, res) {
   let thoigian = req.body.txtthoigian;
   let idtrailer = req.body.txtIDtrailer;
   let mota = req.body.txtmota;
+  let idCinemas = req.body.chbCinema && typeof req.body.chbCinema == 'string' ? [req.body.chbCinema] : req.body.chbCinema;
 
-  let sqlquery = `UPDATE phim
-                  SET phim.TenPhim = ?
-                    , phim.Hinh = ?
-                    , phim.AnhBia = ? 
-                    , phim.TrangThai = ?
-                    , phim.ThoiGian = ?
-                    , phim.Trailer = ?
-                    , phim.NgayKhoiChieu = ?
-                    , phim.NgayKetThuc = ?
-                    , phim.MoTa = ?
-                  WHERE phim.ID = ?`;
-  conn.query(
-    sqlquery,
-    [tenphim, imagMovie, imagPoster, trangthai, thoigian, idtrailer, ngaykhoichieu, endDate, mota ,maphim],
-    function (err, result) {
-      if (err) {
-        res.send(err);
+  let queryMovieCinema = `SELECT * FROM phim_rapphim WHERE phim_rapphim.ID_Phim = ?`;
 
-        res.redirect(`/phim/suaphim?mess=0&idphim=${maphim}`);
-      } else {
-        res.redirect(`/phim/suaphim?mess=1&idphim=${maphim}`);
+  conn.query(queryMovieCinema, [maphim] ,function(errorMovieCinema, resultMovieCinema){
+      if(errorMovieCinema){
+        console.log(errorMovieCinema);
+      }else{
+
+        let newIdCinema;
+        let countNewIdCinema = idCinemas.length;
+        let countOldMovieCinema = resultMovieCinema.length;
+
+        let oldIdCinema = resultMovieCinema.map(x=> x.ID_Rap);
+
+        for(let i = 0; i < countNewIdCinema; i++){
+            let resultCinemasFilter = oldIdCinema.includes(parseInt(idCinemas[i]));
+            
+            //ID Mới
+            if(resultCinemasFilter == false){
+                newIdCinema = idCinemas[i];
+
+                if(countNewIdCinema > countOldMovieCinema){
+                   let insertNewIdCinema = `INSERT INTO phim_rapphim VALUES(?,?)`;
+                  
+                   conn.query(insertNewIdCinema, [newIdCinema, maphim], function(errorInsertIdCinema){
+                   
+                    if(errorInsertIdCinema){
+                        console.log(errorInsertIdCinema);
+
+                        res.redirect(`/phim/suaphim?mess=0&idphim=${maphim}`);
+                      }
+                   });
+                }else{
+                  let updateIdCinema = `UPDATE phim_rapphim 
+                                        SET phim_rapphim.ID_Rap = ?
+                                        WHERE phim_rapphim.ID_Phim = ? AND phim_rapphim.ID_Rap = ?`;
+
+                  conn.query(updateIdCinema, [newIdCinema, maphim, oldIdCinema[i]], function(errorUpdateIdCinema){
+                      if(errorUpdateIdCinema){
+                        console.log(errorUpdateIdCinema);
+
+                        res.redirect(`/phim/suaphim?mess=0&idphim=${maphim}`);
+                      }
+                  });
+                }
+            }else{     
+              if(countNewIdCinema < countOldMovieCinema){
+               
+                for(let j = 0 ; j < countOldMovieCinema; j++){
+                    if(idCinemas.includes(oldIdCinema[j].toString()) == false){
+                      
+                      let deleteIdCinema = `DELETE FROM phim_rapphim 
+                                            WHERE phim_rapphim.ID_Phim = ? AND phim_rapphim.ID_Rap = ?`;
+
+                        conn.query(deleteIdCinema, [maphim, oldIdCinema[j]], function (errorDeleteIdCinema) {
+                          if (errorDeleteIdCinema) {
+                            console.log(errorDeleteIdCinema);
+
+                            res.redirect(`/phim/suaphim?mess=0&idphim=${maphim}`);
+                          }
+                        })
+                    }
+                }
+              }
+            }
+        }
+      
+        let sqlquery = `UPDATE phim
+                        SET phim.TenPhim = ?
+                          , phim.Hinh = ?
+                          , phim.AnhBia = ? 
+                          , phim.TrangThai = ?
+                          , phim.ThoiGian = ?
+                          , phim.Trailer = ?
+                          , phim.NgayKhoiChieu = ?
+                          , phim.NgayKetThuc = ?
+                          , phim.MoTa = ?
+                        WHERE phim.ID = ?`;
+        conn.query(
+          sqlquery,
+          [tenphim, imagMovie, imagPoster, trangthai, thoigian, idtrailer, ngaykhoichieu, endDate, mota, maphim],
+          function (err, result) {
+            if (err) {
+              res.send(err);
+
+              res.redirect(`/phim/suaphim?mess=0&idphim=${maphim}`);
+            } else {
+              res.redirect(`/phim/suaphim?mess=1&idphim=${maphim}`);
+            }
+          }
+        );
       }
-    }
-  );
+
+  })
+  
+
+  
 });
 
 module.exports = router;
