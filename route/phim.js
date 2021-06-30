@@ -334,7 +334,7 @@ router.post("/suattphim", uploadImage, function (req, res) {
   let thoigian = req.body.txtthoigian;
   let idtrailer = req.body.txtIDtrailer;
   let mota = req.body.txtmota;
-  let idCinemas = req.body.chbCinema;
+  let idCinemas = req.body.chbCinema && typeof req.body.chbCinema == 'string' ? [req.body.chbCinema] : req.body.chbCinema;
 
   let queryMovieCinema = `SELECT * FROM phim_rapphim WHERE phim_rapphim.ID_Phim = ?`;
 
@@ -342,6 +342,7 @@ router.post("/suattphim", uploadImage, function (req, res) {
       if(errorMovieCinema){
         console.log(errorMovieCinema);
       }else{
+
         let newIdCinema;
         let countNewIdCinema = idCinemas.length;
         let countOldMovieCinema = resultMovieCinema.length;
@@ -400,33 +401,31 @@ router.post("/suattphim", uploadImage, function (req, res) {
               }
             }
         }
-       
-        res.redirect(`/phim/suaphim?mess=1&idphim=${maphim}`);
+      
+        let sqlquery = `UPDATE phim
+                        SET phim.TenPhim = ?
+                          , phim.Hinh = ?
+                          , phim.AnhBia = ? 
+                          , phim.TrangThai = ?
+                          , phim.ThoiGian = ?
+                          , phim.Trailer = ?
+                          , phim.NgayKhoiChieu = ?
+                          , phim.NgayKetThuc = ?
+                          , phim.MoTa = ?
+                        WHERE phim.ID = ?`;
+        conn.query(
+          sqlquery,
+          [tenphim, imagMovie, imagPoster, trangthai, thoigian, idtrailer, ngaykhoichieu, endDate, mota, maphim],
+          function (err, result) {
+            if (err) {
+              res.send(err);
 
-        // let sqlquery = `UPDATE phim
-        //                 SET phim.TenPhim = ?
-        //                   , phim.Hinh = ?
-        //                   , phim.AnhBia = ? 
-        //                   , phim.TrangThai = ?
-        //                   , phim.ThoiGian = ?
-        //                   , phim.Trailer = ?
-        //                   , phim.NgayKhoiChieu = ?
-        //                   , phim.NgayKetThuc = ?
-        //                   , phim.MoTa = ?
-        //                 WHERE phim.ID = ?`;
-        // conn.query(
-        //   sqlquery,
-        //   [tenphim, imagMovie, imagPoster, trangthai, thoigian, idtrailer, ngaykhoichieu, endDate, mota, maphim],
-        //   function (err, result) {
-        //     if (err) {
-        //       res.send(err);
-
-        //       res.redirect(`/phim/suaphim?mess=0&idphim=${maphim}`);
-        //     } else {
-        //       res.redirect(`/phim/suaphim?mess=1&idphim=${maphim}`);
-        //     }
-        //   }
-        // );
+              res.redirect(`/phim/suaphim?mess=0&idphim=${maphim}`);
+            } else {
+              res.redirect(`/phim/suaphim?mess=1&idphim=${maphim}`);
+            }
+          }
+        );
       }
 
   })
