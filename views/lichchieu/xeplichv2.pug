@@ -53,7 +53,7 @@ script(src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js')
                             // the events
                             #external-events
                                 select#inputGroupSelect02.custom-select(name="dropdownCinema", onchange="loadMovieOfCinema(this)")
-                                    option(selected='') Chọn rạp chiếu
+                                    option(value='' .selected) Chọn rạp chiếu
                                     each itemCinema in danhsachrap
                                       option(value=itemCinema.ID)= itemCinema.TenRap
                                 
@@ -87,6 +87,26 @@ script(src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js')
                 // /.col
             // /.row
         // /.container-fluid
+
+        #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
+          .modal-dialog.modal-dialog-centered
+            .modal-content.dialog-loading
+              .modal-body
+                .d-flex.justify-content-center.align-item-center
+                  .spinner-border(role='status')
+                    span.sr-only Loading...
+
+        #notifyModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+          .modal-dialog(role='document')
+            .modal-content
+              .modal-header
+                h5#exampleModalLabel.modal-title Thông báo
+                button.close(type='button' data-dismiss='modal' aria-label='Close')
+                  span(aria-hidden='true') &times;
+              .modal-body
+                span#modalTextMessage= messNotify
+              .modal-footer
+                button.btn.btn-primary(type='button' id='btnOK') Ok
     // /.content
     // /.content-wrapper
 include ../footer.pug

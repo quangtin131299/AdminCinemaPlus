@@ -1,3 +1,10 @@
+$('#exampleModalCenter').on('hidden.bs.modal', function (e) {
+    $("#exampleModalCenter").modal('hide');
+})
+
+$('#notifyModal').on('shown.bs.modal', function (e) {
+    $("#exampleModalCenter").modal("hide");
+});
 
 /* initialize the external events
 -----------------------------------------------------------------*/
@@ -44,6 +51,18 @@ var calendarEl = document.getElementById('calendar');
 //         };
 //     }
 // });
+let dtToday = new Date();
+let month = dtToday.getMonth() + 1;
+var day = dtToday.getDate();
+var year = dtToday.getFullYear();
+if (month < 10) {
+    month = '0' + month.toString();
+}
+if (day < 10) {
+    day = '0' + day.toString();
+}
+let maxDate = year + '-' + month + '-' + day;
+$('input[name=txtNgayChieu]').attr('min', maxDate);
 
 var calendar = new Calendar(calendarEl, {
     plugins: ['bootstrap', 'interaction', 'timeGrid'],
@@ -124,7 +143,8 @@ function loadMovieOfCinema(element) {
             clearEvent();
 
             if (dataSchedule) {
-               
+                console.log(dataSchedule);
+                
                 let countMovie = dataSchedule.length;
 
                 for (let i = 0; i < countMovie; i++) {
@@ -256,7 +276,14 @@ function onSubmit() {
     let dateSchedule = $('input[name=txtNgayChieu]').val();
     let room = rooms.filter(room => room.ID == idRoom);
     let movie = movies.filter(movie => movie.ID == idMovie);
-    let timeOfMoive = movie[0].ThoiGian;
+    let timeOfMoive = movie && movie.length != 0?  movie[0].ThoiGian: 0;
+
+    // if(idCinema === '' || idMovie === '' || showTime == '' || idRoom == '' || dateSchedule == ''){
+    //     alert('Thông tin không hợp lệ');
+    //     return;
+    // }
+
+    showLoading();
 
     $.ajax({
         method: 'POST',
@@ -269,6 +296,7 @@ function onSubmit() {
             idmovie: idMovie
         },
         success: function (data) {
+            hideLoading();
             if (data.statusCode == 1) {
                 let endTime = calulatorEndTime(`${showTime}:00`, timeOfMoive);
                 let newEvent = {
