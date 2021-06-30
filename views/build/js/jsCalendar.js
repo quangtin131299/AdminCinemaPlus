@@ -278,10 +278,10 @@ function onSubmit() {
     let movie = movies.filter(movie => movie.ID == idMovie);
     let timeOfMoive = movie && movie.length != 0?  movie[0].ThoiGian: 0;
 
-    if(idCinema === '' || idMovie === '' || showTime == '' || idRoom == '' || dateSchedule == ''){
-        alert('Thông tin không hợp lệ');
-        return;
-    }
+    // if(idCinema === '' || idMovie === '' || showTime == '' || idRoom == '' || dateSchedule == ''){
+    //     alert('Thông tin không hợp lệ');
+    //     return;
+    // }
 
     showLoading();
 
