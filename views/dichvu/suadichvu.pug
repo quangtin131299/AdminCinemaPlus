@@ -1,0 +1,150 @@
+doctype html
+include ../header.pug
+.wrapper
+  // Navbar
+  nav.main-header.navbar.navbar-expand.navbar-white.navbar-light
+    // Left navbar links
+    ul.navbar-nav
+      li.nav-item
+        a.nav-link(data-widget='pushmenu', href='#', role='button')
+          i.fas.fa-bars
+      li.nav-item.d-none.d-sm-inline-block
+        a.nav-link(href='/home') Trang chủ
+    // SEARCH FORM
+    form.form-inline.ml-3
+      .input-group.input-group-sm
+        input.form-control.form-control-navbar(type='search', placeholder='Search', aria-label='Search')
+        .input-group-append
+          button.btn.btn-navbar(type='submit')
+            i.fas.fa-search
+  // /.navbar
+  // Main Sidebar Container
+  include ../slidebar.pug
+  // Content Wrapper. Contains page content
+  .content-wrapper
+    // Content Header (Page header)
+    .content-header
+      .container-fluid
+        .row.mb-2
+          .col-sm-6
+            h1.m-0.text-dark Điều chỉnh thông tin dịch vụ
+          // /.col
+          .col-sm-6
+            ol.breadcrumb.float-sm-right
+              li.breadcrumb-item
+                a(href='/home') Trang chủ
+              li.breadcrumb-item
+                a(href='#') Quản lý dịch vụ
+              li.breadcrumb-item.active 
+                a(href='#') Điều chỉnh thông tin dịch vụ
+          // /.col
+        // /.row
+      // /.container-fluid
+    // /.content-header
+    // Main content
+    section.content
+        form(action='/dichvu/suadichvu', method="post", enctype="multipart/form-data", id="formAddService")  
+          .card
+            .card-body
+              .row
+                 h5(style="font-weight:bold;") Thông tin dịch vụ
+              .row
+                input(value=bapnuoc.ID, type="hidden", name="maService")
+                .col
+                  .input-group.mb-3
+                        .input-group-prepend
+                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold" ) Tên dịch vụ
+                        input.form-control#txtServiceName(value = bapnuoc.TenCombo,name= "txtServiceName",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default' )                    
+              .row    
+                .col    
+                  .input-group.mb-3
+                        .input-group-prepend
+                            span.input-group-text(style = "color:red; font-weight:bold") Ảnh
+                        .custom-file
+                            input.custom-file-input(id="inputGroupFile01", name="imgService", type='file', ,accept="image/png, image/gif, image/jpeg", onchange="setFileImageService(this)")
+                            label.custom-file-label.file-name-image-service(for='inputGroupFile01') Choose file
+                  img(src=(bapnuoc.Hinh && bapnuoc.Hinh != "" ? bapnuoc.Hinh : 'https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg'),  id="imgServicePreview", width="150",height="150")
+              <br>
+
+              .row
+                .col
+                  .input-group.mb-3
+                        .input-group-prepend
+                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Mô tả
+                        input.form-control#txtDescribe(value = bapnuoc.MoTa,name= "txtDescribe",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+              
+              .row
+                .col
+                  .input-group.mb-3
+                        .input-group-prepend
+                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Đơn giá
+                        input.form-control#txtUnitPrice(value = bapnuoc.DonGia,name= "txtUnitPrice",type='number',min=1000, aria-label='Default', aria-describedby='inputGroup-sizing-default')
+              
+          .card
+            .card-body
+              .row
+                .col(style="display:flex; justify-content:center;")
+                  button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
+                .col(style="display:flex; justify-content:center;")
+                  button.btn.btn-success(id="btnsubmit",style="width:200px;",type='buton') Cập nhật thông tin
+                    
+                    
+        #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
+            .modal-dialog.modal-dialog-centered
+              .modal-content.dialog-loading
+                .modal-body
+                  .d-flex.justify-content-center.align-item-center
+                    .spinner-border(role='status')
+                      span.sr-only Loading...
+
+        #notifyModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+            .modal-dialog(role='document')
+              .modal-content
+                .modal-header
+                  h5#exampleModalLabel.modal-title Thông báo
+                  button.close(type='button' data-dismiss='modal' aria-label='Close')
+                    span(aria-hidden='true') &times;
+                .modal-body
+                  span#modalTextMessage= messNotify
+                .modal-footer
+                  button.btn.btn-primary(type='button' id='btnOK') Ok  
+
+
+    // /.content
+  // /.content-wrapper
+  include ../footer.pug
+// ./wrapper
+// jQuery
+script(src='plugins/jquery/jquery.min.js')
+// jQuery UI 1.11.4
+script(src='plugins/jquery-ui/jquery-ui.min.js')
+// Resolve conflict in jQuery UI tooltip with Bootstrap tooltip
+script.
+  $.widget.bridge('uibutton', $.ui.button)
+// Bootstrap 4
+script(src='plugins/bootstrap/js/bootstrap.bundle.min.js')
+// ChartJS
+script(src='plugins/chart.js/Chart.min.js')
+// Sparkline
+script(src='plugins/sparklines/sparkline.js')
+// JQVMap
+script(src='plugins/jqvmap/jquery.vmap.min.js')
+script(src='plugins/jqvmap/maps/jquery.vmap.usa.js')
+// jQuery Knob Chart
+script(src='plugins/jquery-knob/jquery.knob.min.js')
+// daterangepicker
+script(src='plugins/moment/moment.min.js')
+script(src='plugins/daterangepicker/daterangepicker.js')
+// Tempusdominus Bootstrap 4
+script(src='plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')
+// Summernote
+script(src='plugins/summernote/summernote-bs4.min.js')
+// overlayScrollbars
+script(src='plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')
+// AdminLTE App
+script(src='dist/js/adminlte.js')
+// AdminLTE dashboard demo (This is only for demo purposes)
+script(src='dist/js/pages/dashboard.js')
+// AdminLTE for demo purposes
+script(src='dist/js/demo.js')
+script(src='build/js/jsService.js')

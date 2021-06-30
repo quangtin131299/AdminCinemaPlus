@@ -55,13 +55,6 @@ router.get("/danhsachrapchieu", function(req, res){
 router.get("/themrapchieu", function(req, res){
 
     let queryRapChieuPhim = `select * from rapphim`;
-    let messAddCinema = '';
-
-    // if(req.query.mess && req.query.mess == 1){
-    //     messAddCinema = 'Thêm thành công';
-    // } else if (req.query.mess && req.query == -1){
-    //     messAddCinema = 'Thêm thất bại';
-    // }
 
     conn.query(queryRapChieuPhim, function(errorRapChieuPhim, resultRapChieuPhim){
         if(errorRapChieuPhim){
