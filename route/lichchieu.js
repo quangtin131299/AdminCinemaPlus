@@ -49,7 +49,6 @@ router.get("/chitietlichchieu", function (req, res) {
   let idrap = req.query.idrap;
   let firstDate = req.query.fristDate;
   let lastDate = req.query.lastDate;
-
   let sqlquery = `SELECT DATE_FORMAT(lichchieu.Ngay, '%Y-%m-%d') as 'Ngay'
                          , suatchieu.gio
                          , phim.TenPhim
@@ -72,86 +71,65 @@ router.get("/chitietlichchieu", function (req, res) {
       let date = '';
       let namemovie = "";
 
-      for (let k = 0; k < result.length; k++) {
-        let schedule = result[k];
+      if (result.length == 1) {
 
-        if (schedule.Ngay != date) {
+        arrShowTime.push({
+          idsuat: result[0].ID,
+          gio: result[0].Gio
+        });
 
-          schedule.phims = [];
-          //Phim trong ngày
-          for (let i = k; i < result.length; i++) {
-            if (result[i].TenPhim != namemovie && result[i].Ngay == schedule.Ngay) {
-              // Suất chiếu của một phim trong một ngày
-              for (let j = i; j < result.length; j++) {
-                if (result[i].TenPhim == result[j].TenPhim && result[j].Ngay == schedule.Ngay) {
-                  arrShowTime.push({
-                    tenphong: result[j].TenPhong,
-                    idsuat: result[j].IdSuatChieu,
-                    gio: result[j].gio,
-                  });
+        arrrs.push(result[0]);
 
-                }
-              }
+        arrrs[0].suatchieu = arrShowTime;
 
-              schedule.phims.push({
-                tenPhim: result[i].TenPhim,
-                suatchieus: arrShowTime
-              })
+      } else {
+        console.log(result);
+        for (let k = 0; k < result.length; k++) {
+          let schedule = result[k];
+        
+          if (schedule.Ngay != date) {
+            
+            schedule.phims = [];
+            //Phim trong ngày
+            for (let i = k ; i < result.length; i++) {
+              if (result[i].TenPhim != namemovie && result[i].Ngay == schedule.Ngay) {
+                // Suất chiếu của một phim trong một ngày
+                for (let j = i; j < result.length; j++) {
+                  if (result[i].TenPhim == result[j].TenPhim && result[j].Ngay == schedule.Ngay) {
+                    arrShowTime.push({
+                      tenphong: result[j].TenPhong,
+                      idsuat: result[j].IdSuatChieu,
+                      gio: result[j].gio,
+                    });
 
-              namemovie = result[i].TenPhim;
-
-              arrShowTime = [];
-            }
-          }
-        } else {
-          for (let k = 0; k < result.length; k++) {
-            let schedule = result[k];
-
-            if (schedule.Ngay != date) {
-
-              schedule.phims = [];
-              //Phim trong ngày
-              for (let i = k; i < result.length; i++) {
-                if (result[i].TenPhim != namemovie && result[i].Ngay == schedule.Ngay) {
-                  // Suất chiếu của một phim trong một ngày
-                  for (let j = i; j < result.length; j++) {
-                    if (result[i].TenPhim == result[j].TenPhim && result[j].Ngay == schedule.Ngay) {
-                      arrShowTime.push({
-                        tenphong: result[j].TenPhong,
-                        idsuat: result[j].IdSuatChieu,
-                        gio: result[j].gio,
-                      });
-
-                    }
                   }
-
-                  schedule.phims.push({
+                }
+                  
+                schedule.phims.push({
                     tenPhim: result[i].TenPhim,
                     suatchieus: arrShowTime
-                  })
+                })
 
-                  namemovie = result[i].TenPhim;
-
-                  arrShowTime = [];
-                }
-
+                namemovie = result[i].TenPhim;
+                
+                arrShowTime = [];
               }
-
-              namemovie = '';
-              let checkDateExist = arrrs.filter(x => x.Ngay == schedule.Ngay);
-              if (checkDateExist.length == 0) {
-                arrrs.push(schedule);
-              }
-
-              date = schedule.Ngay;
-
+              
             }
-          }
-        }
-        res.json(arrrs);
-      }
-    }
 
+            namemovie = '';
+            let checkDateExist = arrrs.filter(x => x.Ngay == schedule.Ngay);
+            if(checkDateExist.length == 0){
+              arrrs.push(schedule);
+            }
+           
+            date = schedule.Ngay;
+            
+          }      
+        }
+      }
+      res.json(arrrs);
+    }
   });
 });
 
