@@ -53,3 +53,8 @@
 .width-input-address{
     width: 100%;
 }
+
+.error{
+    color: #F74242;
+    font-weight: bold;
+}

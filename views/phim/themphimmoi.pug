@@ -50,56 +50,57 @@ include ../header.pug
                  h5(style="font-weight:bold;") Thông tin phim
               .row
                 .col
-                  .input-group.mb-3
-                        .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Tên phim
-                        input.form-control(name= "txttenphim", placeholder="Nhập tên phim",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                  .input-group.mb-3#nameMovie
+                    .input-group-prepend
+                      span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Tên phim
+                    input.form-control(name= "txttenphim", placeholder="Nhập tên phim",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default') 
+                 
               .row
                 .col
                     .input-group.mb-3
                         .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Ngày khởi chiếu
+                            span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Ngày khởi chiếu
                         input.form-control(id="txtngaykhoichieu",name= "txtngaykhoichieu",type='date', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .col
                     .input-group.mb-3
                         .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Ngày kết thúc
+                            span#inputGroup-sizing-default.input-group-text(style = " font-weight:bold") Ngày kết thúc
                         input.form-control(id="txtNgayKetThuc",name= "txtNgayKetThuc",type='date', aria-label='Default', aria-describedby='inputGroup-sizing-default')
               .row
                     .col
                         .input-group.mb-3
                             .input-group-prepend
-                                span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Thời lượng
+                                span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Thời lượng
                             input.form-control(name="txtthoigian", placeholder="Nhập thời lượng phim (Phút)", type='number',min=1, aria-label='Default', aria-describedby='inputGroup-sizing-default')
                     .col
                         .input-group.mb-3
                             .input-group-prepend
-                                label.input-group-text(style = "color:red; font-weight:bold",for='inputGroupSelect01') Trạng thái của phim
+                                label.input-group-text(style = "font-weight:bold",for='inputGroupSelect01') Trạng thái của phim
                             select#inputGroupSelect01.custom-select(name="cboxtrangthai")
                                 option(selected='',value='Sắp chiếu') Sắp chiếu
-                                option(selected='',value='Đang chiếu') Đang chiếu
+                                option(value='Đang chiếu') Đang chiếu
                                 
                     .col
                         .input-group.mb-3
                             .input-group-prepend
-                                span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") ID Trailer
+                                span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") ID Trailer
                             input.form-control(name="txtIDtrailer",placeholder ="Nhập ID video trailer từ Youtube", type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
               .row
                     .col
                         .input-group.mb-3
                             .input-group-prepend
-                                label.input-group-text(style = "color:red; font-weight:bold",for='inputGroupSelect01') Nhà cung cấp
+                                label.input-group-text(style = "font-weight:bold",for='inputGroupSelect01') Nhà cung cấp
                             select#inputGroupSelect02.custom-select(name="dropdownNhaCungCap")
-                              option(selected='') Chọn nhà cung cấp
+                              option(value = '') Chọn nhà cung cấp
                               each itemSupplier in suppliers
                                 option(value=itemSupplier.ID)= itemSupplier.TenNhaCungCap
               .row
                     .col
                         .input-group.mb-3
                             .input-group-prepend
-                                label.input-group-text(style = "color:red; font-weight:bold",for='inputGroupSelect01') Quốc gia
-                            select#inputGroupSelect02.custom-select(name="dropdownCountry")
-                              option(selected='') Chọn quốc gia
+                                label.input-group-text(style = "font-weight:bold",for='inputGroupSelect01') Quốc gia
+                            select.custom-select(name="dropdownCountry")
+                              option(value='') Chọn quốc gia
                               each country  in countrys
                                 option(value=country.ID)= country.Iso + ' - '+ country.TenQuocGia
 
@@ -107,7 +108,7 @@ include ../header.pug
                     .col    
                         .input-group.mb-3
                             .input-group-prepend
-                              span.input-group-text(style = "color:red; font-weight:bold") Poster
+                              span.input-group-text(style = "font-weight:bold") Poster
                             .custom-file
                               input.custom-file-input(id="inputGroupFile01", name="imgMovie", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImageMovie(this)")
                               label.custom-file-label.file-name-image-movie(for='inputGroupFile01')
@@ -118,7 +119,7 @@ include ../header.pug
                     .col    
                         .input-group.mb-3
                             .input-group-prepend
-                              span.input-group-text(style = "color:red; font-weight:bold") Hình phim
+                              span.input-group-text(style = "font-weight:bold") Hình phim
                             .custom-file
                               input.custom-file-input(id="inputGroupFile01", name="imgPoster", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImagePoster(this)")
                               label.custom-file-label.file-name-image-poster(for='inputGroupFile01') 
@@ -219,6 +220,10 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js'
+    , integrity='sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=='
+    , crossorigin='anonymous'
+    , referrerpolicy='no-referrer')
 script(src='https://cdnjs.cloudflare.com/ajax/libs/NicEdit/0.93/nicEdit.min.js', type='text/javascript')
 script(type='text/javascript').
   bkLib.onDomLoaded(function() { 
