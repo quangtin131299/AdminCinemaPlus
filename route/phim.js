@@ -149,7 +149,19 @@ router.get("/themphimmoi", function (req, res) {
 
               return res.render("phim/themphimmoi", { movieTypes: resultMovieTypes, cinemas: resultCinemas, suppliers: [] });
             } else {
-              return res.render("phim/themphimmoi", { movieTypes: resultMovieTypes, cinemas: resultCinemas, suppliers: resultSuppliers, messNotify: messAddMovie });
+              
+              let queryCountry = `SELECT quocgia.ID, quocgia.Iso ,quocgia.TenQuocGia FROM quocgia`;
+
+              conn.query(queryCountry, function(errorCountry, resultCountry){
+                  if(errorCountry){
+                    console.log(errorCountry);
+
+                    return res.render("phim/themphimmoi", { movieTypes: resultMovieTypes, cinemas: resultCinemas, suppliers: resultSuppliers, messNotify: messAddMovie, countrys: [] });
+                  }else{
+                    return res.render("phim/themphimmoi", { movieTypes: resultMovieTypes, cinemas: resultCinemas, suppliers: resultSuppliers, messNotify: messAddMovie, countrys: resultCountry });
+                  }
+              })
+
             }
           })
         }
@@ -173,13 +185,13 @@ router.post(
     let idSupplier = req.body.dropdownNhaCungCap;
     let idMovieTypes = req.body.chbloai;
     let idCinemas = req.body.chbCinema;
-    let description = req.body.txtDescription;
+    let description = req.body.area2;
     let like = 0;
+    let idCountry = req.body.dropdownCountry;
     let imagMovie = fileNameImageMovie && fileNameImageMovie != '' ? `${req.protocol}://${(req.hostname == 'localhost' ? req.hostname + ':3000' : req.hostname)}/img/Movie/Avatar/${fileNameImageMovie}` : '';
     let imagPoster = fileNamePosterMovie && fileNameImageMovie != '' ? `${req.protocol}://${(req.hostname == 'localhost' ? req.hostname + ':3000' : req.hostname)}/img/Movie/Poster/${fileNamePosterMovie}` : '';
-    
-    // console.log(typeof(idCinemas));
-    let sqlquery = `INSERT INTO phim VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?)`;
+
+    let sqlquery = `INSERT INTO phim VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?)`;
     conn.query(sqlquery, [movieName
                         , imagMovie
                         , imagPoster
@@ -190,7 +202,9 @@ router.post(
                         , openDate
                         , like
                         , idSupplier
-                        , endDate]
+                        , endDate
+                        , idCountry
+                        ]
                         , function (err, resultNewMovie) {
         if (err) {
           console.log(err);
@@ -429,9 +443,6 @@ router.post("/suattphim", uploadImage, function (req, res) {
       }
 
   })
-  
-
-  
 });
 
 module.exports = router;
