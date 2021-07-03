@@ -1,3 +1,34 @@
+$('#formAddService').validate({
+    rules: {
+        txtServiceName: {
+            required: true
+        },
+        txtDescribe: {
+            required: true,
+        },
+        txtUnitPrice: {
+            required: true
+        }
+    },
+    messages: {
+        txtServiceName: {
+            required: 'Tên dịch vụ không được bỏ trống'
+        },
+        txtDescribe: {
+            required: 'Thông tin mô tả dịch vụ không được bỏ trống'
+        },
+        txtUnitPrice: {
+            required: 'Giá dịch vụ không được bỏ trống'
+        }
+    },
+    errorPlacement: function(label, element) {
+        label[0].children[0].id = element[0].name;
+        label.insertAfter(element.parent("div"));
+        
+    },
+    wrapper: 'span'
+})
+
 let danhsachdichvu = [];
 
 $(document).ready(function () {
