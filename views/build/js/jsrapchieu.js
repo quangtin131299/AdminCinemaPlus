@@ -1,3 +1,28 @@
+$('#formAddCinema').validate({
+    rules: {
+        txtTheaterName: {
+            required: true,
+        },
+        txtCinemaAddress: {
+            required: true,
+        }
+    },
+    messages: {
+        txtTheaterName: {
+            required: 'Tên rạp chiếu không được bỏ trống',
+        },
+        txtCinemaAddress: {
+            required: 'Địa chỉ rạp chiếu không được bỏ trống',
+        }
+    },
+    errorPlacement: function(label, element) {
+        label[0].children[0].id = element[0].name;
+        label.insertAfter(element.parent("div"));
+        
+    },
+    wrapper: 'span'
+})
+
 let danhsachrapchieu = [];
 
 $(document).ready(function () {
