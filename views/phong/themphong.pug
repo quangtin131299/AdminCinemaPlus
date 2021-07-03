@@ -56,7 +56,7 @@ include ../header.pug
                   .row
                       .col-md-12 
                           select#inputGroupSelect02.custom-select(name="dropdownCinema")
-                            option(selected='') Chọn rạp chiếu
+                            option(value = '') Chọn rạp chiếu
                             each itemCinema in cinemas
                               option(value=itemCinema.ID)= itemCinema.TenRap
                   br
@@ -132,4 +132,8 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js'
+    , integrity='sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=='
+    , crossorigin='anonymous'
+    , referrerpolicy='no-referrer')
 script(src='build/js/jsRoom.js')

@@ -26,3 +26,8 @@
     justify-content: center; 
     margin: 0 auto;
 }
+
+.error{
+    color: #F74242;
+    font-weight: bold;
+} 

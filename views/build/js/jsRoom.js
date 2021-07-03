@@ -1,3 +1,29 @@
+$('#formAddRoom').validate({
+    rules: {
+        dropdownCinema: {
+            required: true,
+        },
+        txtRoomName: {
+            required: true,
+        }
+    },
+    messages: {
+        dropdownCinema: {
+            required: 'Rạp chiếu không được bỏ trống',
+        },
+        txtRoomName: {
+            required: 'Tên phòng không được bỏ trống',
+        }
+    },
+    errorPlacement: function(label, element) {
+        label[0].children[0].id = element[0].name;
+
+        label.insertAfter(element.parent("div"));
+           
+    },
+    wrapper: 'span'
+})
+
 document.getElementById("btnhuy").onclick = function () {
     window.location.replace("danhsachphong")
 }
