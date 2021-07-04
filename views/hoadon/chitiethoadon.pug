@@ -10,13 +10,6 @@ include ../header.pug
           i.fas.fa-bars
       li.nav-item.d-none.d-sm-inline-block
         a.nav-link(href='/home') Trang chủ
-    // SEARCH FORM
-    form.form-inline.ml-3
-      .input-group.input-group-sm
-        input.form-control.form-control-navbar(type='search', placeholder='Search', aria-label='Search')
-        .input-group-append
-          button.btn.btn-navbar(type='submit')
-            i.fas.fa-search
   // /.navbar
   // Main Sidebar Container
   include ../slidebar.pug
@@ -58,23 +51,23 @@ include ../header.pug
                 .input-group.mb-3
                     .input-group-prepend
                         span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tên khách hàng:
-                    input.form-control(value=khachhang.HoTen, disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                    input.form-control(value=hoadon.HoTen, disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
-                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Phim:
-                    input.form-control(value=phim.TenPhim,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tên phim:
+                    input.form-control(value=hoadon.TenPhim,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
-                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Rạp:
-                    input.form-control(value=rapphim.TenRap,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Rạp chiếu:
+                    input.form-control(value=hoadon.TenRap,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
-                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Phòng:
-                    input.form-control(value=phong.TenPhong,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tên phòng:
+                    input.form-control(value=hoadon.TenPhong,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
                         span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Thời lượng:
-                    input.form-control(value=phim.ThoiGian + " phút",disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                    input.form-control(value=hoadon.ThoiGian + " phút",disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
                         span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Ngày lập:
@@ -82,19 +75,19 @@ include ../header.pug
                 .input-group.mb-3
                     .input-group-prepend
                         span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Ngày chiếu:
-                    input.form-control(value=lichchieu.Ngay,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                    input.form-control(value=hoadon.Ngay,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
                         span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Suất chiếu:
-                    input.form-control(value=suatchieu.Gio,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                    input.form-control(value=hoadon.Gio,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
-                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Ghế:
-                    input.form-control(value=ghe.TenGhe,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Mã ghế:
+                    input.form-control(value=hoadon.TenGhe,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
                         span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Thành tiền:
-                    input.form-control(value=hoadon.ThanhTien,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                    input.form-control(value=hoadon.ThanhTienVe + ' VND',disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
   
         
     // /.content

@@ -58,27 +58,13 @@ include ../header.pug
               th(scope='row')=hoadon.ID
               td=hoadon.Ngay
               td=hoadon.HoTen
-              td=hoadon.SoLuong
-              td=hoadon.ThanhTien
+              td=hoadon.SoLuongVe
+              td=hoadon.ThanhTienVe
               td
                 span 
                   a(href="/hoadon/chitiethoadon?idhoadon=" + hoadon.ID) Chi Tiết 
                 span 
-      //- nav(style="display:flex; justify-content:center",aria-label='Page navigation example')
-      //-   ul.pagination
-      //-     li.page-item
-      //-       a.page-link(href='#') Trang trước
-      //-     - for (var i = 1; i <= soluongtrang ; i++) {
-      //-           if i == pagerespon
-      //-             li.page-item.active
-      //-              a.page-link(href="danhsachhoadon?page=" + i)= i 
-      //-           else
-      //-             li.page-item
-      //-              a.page-link(href="danhsachhoadon?page=" + i)= i
-      //-     - }
-            
-      //-     li.page-item
-      //-       a.page-link(href='#') Trang kế
+      
     // /.content
   // /.content-wrapper
   include ../footer.pug

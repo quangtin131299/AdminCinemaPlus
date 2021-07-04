@@ -4,31 +4,15 @@ const router = express.Router()
 router.use(express.static("views"))
 
 router.get("/danhsachhoadon", function (req, res) {
-	// let page = req.query.page;
-	// let vitribatdaulay = (page - 1)	* 5
-	let querysoluong = `SELECT hoadon.ID,  DATE_FORMAT(hoadon.Ngay, '%d/%m/%Y') as 'Ngay', khachhang.HoTen, hoadon.SoLuong, hoadon.ThanhTien, hoadon.TrangThai 
+	let querysoluong = `SELECT hoadon.ID,  DATE_FORMAT(hoadon.Ngay, '%d/%m/%Y') as 'Ngay', khachhang.HoTen, hoadon.SoLuongVe, hoadon.ThanhTienVe, hoadon.TrangThai 
 						from hoadon join khachhang on hoadon.ID_KhachHang = khachhang.ID`;
 						
 	conn.query(querysoluong, function (err, result) {
 		if (err) {
-			console.log();
+			console.log(err);
 		} else {
 			res.render("hoadon/danhsachhoadon", { danhsachhoadon: result })
 		}
-
-		// let soluongtrang = result.length / 5
-		// if(err){
-		// 	console.log(err);
-		// }else{
-		// 	// let query = `SELECT hoadon.ID, hoadon.Ngay, khachhang.HoTen, hoadon.SoLuong, hoadon.ThanhTien, hoadon.TrangThai from hoadon join khachhang on hoadon.ID_KhachHang = khachhang.ID limit ${vitribatdaulay}, 5`
-		// 	conn.query(query, function(err, result){
-		// 		if(err){
-		// 			console.log(err);
-		// 		}else{
-		// 			res.render("hoadon/danhsachhoadon", {pagerespon: page,danhsachhoadon: result , soluongtrang: Math.ceil(soluongtrang)})
-		// 		}
-		// 	})
-		// }	
 	})
 })
 
@@ -36,9 +20,10 @@ router.get("/chitiethoadon", function(req, res){
 	let idhoadon = req.query.idhoadon;
 
 	let query = `SELECT hoadon.ID
-						, hoadon.Ngay
-						, hoadon.ThanhTien
+						, DATE_FORMAT(hoadon.Ngay, '%d/%m/%Y') as 'Ngay'
+						, hoadon.ThanhTienVe
 						, khachhang.ID
+						, khachhang.HoTen
 						, vedat.ID_Ghe
 						, ghe.TenGhe
 						, phim.TenPhim
