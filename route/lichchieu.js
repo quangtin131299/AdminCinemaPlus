@@ -70,19 +70,6 @@ router.get("/chitietlichchieu", function (req, res) {
       let arrrs = [];
       let date = '';
       let namemovie = "";
-
-      if (result.length == 1) {
-
-        arrShowTime.push({
-          idsuat: result[0].ID,
-          gio: result[0].Gio
-        });
-
-        arrrs.push(result[0]);
-
-        arrrs[0].suatchieu = arrShowTime;
-
-      } else {
         console.log(result);
         for (let k = 0; k < result.length; k++) {
           let schedule = result[k];
@@ -127,7 +114,7 @@ router.get("/chitietlichchieu", function (req, res) {
             
           }      
         }
-      }
+     
       res.json(arrrs);
     }
   });
@@ -327,3 +314,16 @@ router.get("/getRoomOfCinema", function (req, res) {
 })
 
 module.exports = router;
+
+// if (result.length == 1) {
+
+//   arrShowTime.push({
+//     idsuat: result[0].ID,
+//     gio: result[0].Gio
+//   });
+
+//   arrrs.push(result[0]);
+
+//   arrrs[0].suatchieu = arrShowTime;
+
+// } else {
