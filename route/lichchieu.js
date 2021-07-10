@@ -13,36 +13,121 @@ router.use(bodyParser.urlencoded({
   extended: true
 }));
 
-let soluongtrang = 0;
+
 router.get("/danhsachlichchieu", function (req, res) {
-  let page = req.query.page;
-  let vitribatdaulay = (page - 1) * 5;
-  if (soluongtrang == 0) {
-    let querysl = `SELECT lichchieu.ID
-                          , DATE_FORMAT(lichchieu.Ngay, '%d/%m/%Y') as 'Ngay'
-                          , rapphim.ID as 'IDRapPhim'
-                          , rapphim.TenRap 
-                   FROM lichchieu JOIN rapphim ON lichchieu.ID_Rap = rapphim.ID`;
-    conn.query(querysl, function (err, resultsl) {
-      if (err) {
-        res.send(err);
-      } else {
-        soluongtrang = resultsl.length / 5;
+  let queryCinema = `SELECT rapphim.ID , rapphim.TenRap, phong.ID as 'ID_Phong', phong.TenPhong 
+                     FROM rapphim JOIN phong ON rapphim.ID = phong.ID_Rap`;
+
+  conn.query(queryCinema, function(error, resultCinema){
+      if(error){
+        console.log(error);
+
+        res.render("lichchieu/danhsachlichchieu", {cinemas: []});
+      }else{
+        let resultCinemaRoom = [];
+        let arrayRoom = [];
+        let cinemaName = '';
+        let countCinema = resultCinema.length;
+
+        for (let i = 0; i < countCinema; i++) {
+
+          if(resultCinema[i].TenRap != cinemaName){
+            for(let j = i; j < countCinema; j++){
+              if(resultCinema[i].TenRap ==  resultCinema[j].TenRap){
+                arrayRoom.push({
+                  id: resultCinema[j].ID_Phong,
+                  nameRoom: resultCinema[j].TenPhong
+                })
+              }
+            }
+            
+            resultCinemaRoom.push({
+              idCinema: resultCinema[i].ID,
+              nameCinema: resultCinema[i].TenRap,
+              rooms: arrayRoom
+            })
+
+            cinemaName = resultCinema[i].TenRap;
+            arrayRoom = [];
+          }
+        }
+
+        let queryScheduleAllCinema = `SELECT DATE_FORMAT(lichchieu.Ngay, '%Y-%m-%d') as 'Ngay'
+                                              , suatchieu.gio
+                                              , phim.TenPhim
+                                              , phong.ID as 'ID_Phong'
+                                              , phong.TenPhong
+                                              , phim.ThoiGian
+                                              , rapphim.ID
+                                              , rapphim.TenRap
+                                      FROM lichchieu JOIN phim_lichchieu on lichchieu.ID = phim_lichchieu.ID_Lichchieu
+                                                      JOIN suatchieu on phim_lichchieu.ID_Suatchieu = suatchieu.ID
+                                                      JOIN rapphim on rapphim.ID = lichchieu.ID_Rap
+                                                      JOIN phim on phim.ID = phim_lichchieu.ID_Phim
+                                                      JOIN phim_phong_xuat on phim_phong_xuat.ID_Phim = phim.ID
+                                                      JOIN phong on phong.ID = phim_phong_xuat.ID_Phong AND suatchieu.ID = phim_phong_xuat.ID_XuatChieu
+                                      WHERE lichchieu.Ngay = '2021-07-10'`;
+
+        conn.query(queryScheduleAllCinema, function (error, resultSchedultCinema){
+          if(error){
+            console.log(error);
+
+            res.render("lichchieu/danhsachlichchieu", {cinemas: []});
+          }else{
+              let movies = [];
+              let showTimeOfmovie = [];
+              let countCinemaResult = resultCinemaRoom.length;
+              let nameMovieApproved =  '';
+              //Rap
+              for(let k = 0; k < countCinemaResult; k++){                  
+
+                  resultCinemaRoom[k].date = resultSchedultCinema[0].Ngay;
+                  let countRoom = resultCinemaRoom[k].rooms.length;
+                  //Phong
+                  for(let i = 0; i < countRoom; i++){
+                    resultCinemaRoom[k].rooms[i].movies = [];
+                    //phim
+                    for(let j = 0; j < resultSchedultCinema.length; j++){
+                       
+                        if(resultSchedultCinema[j].TenPhim != nameMovieApproved 
+                                                           && resultSchedultCinema[j].ID_Phong == resultCinemaRoom[k].rooms[i].id 
+                                                           && resultSchedultCinema[j].TenRap == resultCinemaRoom[k].nameCinema){
+
+                          for(let z = j; z < resultSchedultCinema.length; z++){
+                            if(resultSchedultCinema[j].TenPhim == resultSchedultCinema[z].TenPhim 
+                                        && resultSchedultCinema[z].ID_Phong == resultCinemaRoom[k].rooms[i].id 
+                                        && resultSchedultCinema[z].TenRap == resultCinemaRoom[k].nameCinema){
+                                showTimeOfmovie.push({
+                                    showtime: resultSchedultCinema[z].gio
+                                })
+                            }
+                          }  
+                          
+                          movies.push({
+                            nameMovie: resultSchedultCinema[j].TenPhim,
+                            showTime: showTimeOfmovie
+                          })
+
+                          nameMovieApproved = resultSchedultCinema[j].TenPhim;
+                          showTimeOfmovie = [];
+                        }
+                      
+                    }
+                    resultCinemaRoom[k].rooms[i].movies = movies;
+                    movies = [];
+               
+                  }   
+
+              }
+
+              res.render("lichchieu/danhsachlichchieu", {cinemas: resultCinemaRoom});
+          }
+
+        })
+        
+        
       }
-    });
-  }
-  let query = `SELECT lichchieu.ID
-                      , DATE_FORMAT(lichchieu.Ngay, '%d/%m/%Y') as 'Ngay'
-                      , rapphim.ID as 'IDRapPhim', rapphim.TenRap 
-               FROM lichchieu JOIN rapphim ON lichchieu.ID_Rap = rapphim.ID 
-               ORDER BY lichchieu.Ngay limit ${vitribatdaulay}, 5 `;
-  conn.query(query, function (err, result) {
-    res.render("lichchieu/danhsachlichchieu", {
-      pagerespon: page,
-      soluongtrang: Math.ceil(soluongtrang),
-      danhsachlichchieu: result,
-    });
-  });
+  })
 });
 
 router.get("/chitietlichchieu", function (req, res) {
@@ -70,7 +155,7 @@ router.get("/chitietlichchieu", function (req, res) {
       let arrrs = [];
       let date = '';
       let namemovie = "";
-        console.log(result);
+        
         for (let k = 0; k < result.length; k++) {
           let schedule = result[k];
         
@@ -314,16 +399,3 @@ router.get("/getRoomOfCinema", function (req, res) {
 })
 
 module.exports = router;
-
-// if (result.length == 1) {
-
-//   arrShowTime.push({
-//     idsuat: result[0].ID,
-//     gio: result[0].Gio
-//   });
-
-//   arrrs.push(result[0]);
-
-//   arrrs[0].suatchieu = arrShowTime;
-
-// } else {

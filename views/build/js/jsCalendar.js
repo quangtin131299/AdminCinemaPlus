@@ -34,7 +34,7 @@ var d = date.getDate(),
     m = date.getMonth(),
     y = date.getFullYear()
 var Calendar = FullCalendar.Calendar;
-var Draggable = FullCalendarInteraction.Draggable;
+// var Draggable = FullCalendarInteraction.Draggable;
 var containerEl = document.getElementById('external-events');
 var calendarEl = document.getElementById('calendar');
 // initialize the external events
@@ -64,15 +64,15 @@ if (day < 10) {
 let maxDate = year + '-' + month + '-' + day;
 $('input[name=txtNgayChieu]').attr('min', maxDate);
 
-var calendar = new Calendar(calendarEl, {
-    plugins: ['bootstrap', 'interaction', 'timeGrid'],
+var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'timeGridDay',
-    header: {
+    headerToolbar: {
         left: 'prev,next today',
         center: 'title',
-        right: 'timeGridWeek,timeGridDay'
+        right: 'timeGridWeek,timeGridDay,listMonth'
     },
-    'themeSystem': 'bootstrap',
+    locale: 'vi',
+
     //Random default events 
     height: "auto",
     editable: true,
@@ -80,8 +80,6 @@ var calendar = new Calendar(calendarEl, {
 });
 
 calendar.render();
-
-
 
 /* ADDING EVENTS */
 var currColor = '#3c8dbc' //Red by default
@@ -99,30 +97,30 @@ $('#color-chooser > li > a').click(function (e) {
     })
 })
 
-$('#add-new-event').click(function (e) {
-    e.preventDefault()
-    //Get value and make sure it is not null
-    var val = $('#new-event').val()
-    if (val.length == 0) {
-        return
-    }
-    //Create events
-    var event = $('<div />')
+// $('#add-new-event').click(function (e) {
+//     e.preventDefault()
+//     //Get value and make sure it is not null
+//     var val = $('#new-event').val()
+//     if (val.length == 0) {
+//         return
+//     }
+//     //Create events
+//     var event = $('<div />')
 
-    event.css({
-        'background-color': currColor,
-        'border-color': currColor,
-        'color': '#fff'
-    }).addClass('external-event')
+//     event.css({
+//         'background-color': currColor,
+//         'border-color': currColor,
+//         'color': '#fff'
+//     }).addClass('external-event')
 
-    event.html(val)
+//     event.html(val)
 
-    $('#external-events').prepend(event)
-    //Add draggable funtionality
-    ini_events(event)
-    //Remove event from text input
-    $('#new-event').val('')
-})
+//     $('#external-events').prepend(event)
+//     //Add draggable funtionality
+//     ini_events(event)
+//     //Remove event from text input
+//     $('#new-event').val('')
+// })
 
 let movies = [];
 let rooms = [];

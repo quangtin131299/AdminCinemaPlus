@@ -53,3 +53,22 @@
 .width-input-address{
     width: 100%;
 }
+
+.card-schedule-intro{
+    padding-top: 50px; 
+    padding-right: 50px; 
+    padding-left: 50px;
+}
+
+.filter-container{
+    display: flex;
+}
+
+.date-filter{
+    width: 300px;
+}
+
+.btn-filter{
+    margin-left: 10px;
+    height: fit-content;
+}

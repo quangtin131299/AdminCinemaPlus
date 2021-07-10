@@ -1,5 +1,8 @@
 doctype html
 include ../header.pug
+link(rel='stylesheet', href='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.8.0/main.min.css')
+script(src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.8.0/main.min.js')
+script(src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.js")
 .wrapper
   // Navbar
   nav.main-header.navbar.navbar-expand.navbar-white.navbar-light
@@ -43,44 +46,29 @@ include ../header.pug
     // /.content-header
     // Main content
     section.content
-      .card(style="padding-top: 50px; padding-right: 50px; padding-left: 50px;")
+      .card
         .card-body
+          .filter-container
+            .input-group.mb-3.date-filter
+              .input-group-prepend
+                span#inputGroup-sizing-default.input-group-text Ngày
+              input.form-control(type='date', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+            button.btn.btn-success.btn-filter(type='button') Lọc
+
           table.table.table-bordered
             thead
               tr
-                th(scope='col') STT
-                th(scope='col') Ngày chiếu
-                th(scope='col') Tên rạp
-                th(scope='col') Thao tác
+                th(scope='col') Tên rạp chiếu
+                th(scope='col') Lịch chiếu ngày
+                th(scope='col') 
             tbody
-              each lichchieu in danhsachlichchieu
+              each item in cinemas 
                 tr
-                  th(scope='row' width=150)=lichchieu.ID
-                  td(width=150)=lichchieu.Ngay
-                  td(width=150)=lichchieu.TenRap
-                  td(width=150)
-                    span 
-                      a(href="chitietlichchieu?idrap="+lichchieu.IDRapPhim+"&ngay="+lichchieu.Ngay) Chi Tiết 
-                    span |
-                    span 
-                      a(href="chitietlichchieu?idrap="+lichchieu.IDRapPhim+"&ngay="+lichchieu.Ngay) Cập nhật 
-                    span |
-                    span 
-                      a(href="#") Hủy lịch
-          nav(style="display:flex; justify-content:center",aria-label='Page navigation example')
-              ul.pagination
-                li.page-item
-                  a.page-link(href='#') Trang trước
-                - for (var i = 1; i <= soluongtrang ; i++) {
-                      if i == pagerespon
-                        li.page-item.active
-                        a.page-link(href="danhsachlichchieu?page=" + i)= i 
-                      else
-                        li.page-item
-                        a.page-link(href="danhsachlichchieu?page=" + i)= i
-                - } 
-                li.page-item
-                  a.page-link(href='#') Trang kế   
+                  td= item.nameCinema
+                  td= item.date
+                  td
+                    a Xem chi tiết
+                    
     // /.content
   // /.content-wrapper
   include ../footer.pug
@@ -118,6 +106,6 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
-
+script(src="build/js/jsCalendarIntro.js", data-cinemas= cinemas,id="cinemas") 
 
 
