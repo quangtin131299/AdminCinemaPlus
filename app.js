@@ -12,6 +12,7 @@ const ghe = require("./route/ghe");
 const nhacungcap = require("./route/nhacungcap");
 const hoadon = require("./route/hoadon");
 const dichvu = require("./route/dichvu");
+const soatve = require("./route/soatve");
 
 
 
@@ -27,6 +28,7 @@ app.use("/ghe", ghe);
 app.use("/nhacungcap", nhacungcap);
 app.use("/hoadon", hoadon);
 app.use("/dichvu", dichvu);
+app.use("/soatve", soatve);
 app.use(express.static("views"))
 
 app.set('views', './views')
