@@ -9,10 +9,10 @@ router.get("/", function(req, res){
 })
 
 router.get("/thongkephim", function (req, res){
-    let sqlquery = `SELECT phim.ID, phim.TenPhim, phim.TrangThai, ID_Phim, GiaVe, SUM(GiaVe) AS "DoanhThuPhim"
-                    FROM phim JOIN vedat ON phim.ID = vedat.ID_Phim
-                    WHERE phim.TrangThai = N'Đang chiếu' AND vedat.TrangThai = N'Đã thanh toán'
-                    GROUP BY phim.TenPhim`
+    let sqlquery = `SELECT phim.TenPhim, SUM(GiaVe) AS "DoanhThuPhim"
+                    FROM phim LEFT JOIN vedat ON phim.ID = vedat.ID_Phim
+                    where phim.Trangthai = 'Đang chiếu'
+                    GROUP BY phim.ID`
     
     conn.query(sqlquery,function(err, result){
         if(err){
@@ -24,7 +24,7 @@ router.get("/thongkephim", function (req, res){
                 
                 arrMovie.push({
                     nameMovie : result[i].TenPhim,
-                    doanhthuphim : result[i].DoanhThuPhim,
+                    doanhthuphim : result[i].DoanhThuPhim ? result[i].DoanhThuPhim : 0 ,
                 });
             }
             res.json(arrMovie);
