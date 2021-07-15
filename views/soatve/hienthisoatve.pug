@@ -99,22 +99,7 @@ script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
 // QRCode
-script(src='build/js/jsSoatVe.js')
+script(src='build/js/jsScanQRcode.js')
 script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js')
 script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js')
 script(type='text/javascript' src='https://rawgit.com/schmich/instascan-builds/master/instascan.min.js')
-//- link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css')
-script.
-  let scanner = new Instascan.Scanner({ video: document.getElementById('preview')});
-  Instascan.Camera.getCameras().then(function(cameras){
-  if(cameras.length > 0 ){
-  scanner.start(cameras[0]);
-  } else{
-  alert('No cameras found');
-  }
-  }).catch(function(e) {
-  console.error(e);
-  });
-  scanner.addListener('scan',function(c){
-  document.getElementById('text').value=c;
-  });
