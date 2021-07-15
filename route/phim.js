@@ -1,8 +1,12 @@
 // /phim/...
 const express = require("express");
 const multer = require("multer");
+const axios = require('axios');
 const conn = require("../db/connect");
 const bodyParser = require("body-parser");
+
+const urlSendNotify = 'https://fcm.googleapis.com/fcm/send';
+const apiKey = 'key=AAAAci70i2E:APA91bHWdz71FyDIR_Ru-a-CAV7M7mSe2RwbCL8tZ7GlOceg3FYcrDZShkae6P88RNL0BXMSQDtj-EyTgQv2ypSU9KRdiGWSbigYpHBerEE4aIVVEhMHBiBeAXGFtSj6ZCQ0_g77O-LJ';
 
 let fileNameImageMovie = '';
 let fileNamePosterMovie = '';
@@ -260,8 +264,22 @@ router.post(
           res.redirect('/phim/themphimmoi?mess=1')
         }
       });
-  }
-);
+    res.redirect('/phim/themphimmoi?mess=1')
+
+    let queryToken = `SELECT * FROM tokenclient;`;
+
+    conn.query(queryToken, function(error, resultTokens){
+      if(error){
+          console.log(error);
+      }else{
+        let count = resultTokens.length;
+
+        for (let i = 0; i < count; i++) {
+          notifyAppClient(resultTokens[i].Token);
+        }
+      }
+    })
+});
 
 let fileImageMovieUrlOld = '';
 let fileImagePosterUrlOld = '';
@@ -444,5 +462,27 @@ router.post("/suattphim", uploadImage, function (req, res) {
 
   })
 });
+
+
+function notifyAppClient(tokenClient) {
+  axios.post(urlSendNotify, {
+    data: {
+      title: 'Cinema Plus',
+      body: 'Hi, Thanh cong roi vui qua',
+    },
+    to: tokenClient,
+  }, {
+    headers: {
+      "Authorization": apiKey,
+
+      "Content-Type": 'application/json'
+    }
+  }).then(function (data) {
+    console.log("Gửi thành công");
+  }).catch(function (error) {
+    console.log("Loi roi: ", error.response.status);
+  })
+}
+
 
 module.exports = router;
