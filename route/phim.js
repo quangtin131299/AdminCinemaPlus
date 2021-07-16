@@ -241,7 +241,7 @@ router.post(
           let queryCinema = `INSERT INTO phim_rapphim VALUES(?,?)`;
 
           if(typeof(idCinemas) == 'string'){
-            console.log("ABDSDAS");
+           
             conn.query(queryCinema, [idCinemas, resultNewMovie.insertId],function(errorMovie){
               if(errorMovie){
                 console.log(errorMovie);
@@ -264,21 +264,20 @@ router.post(
           res.redirect('/phim/themphimmoi?mess=1')
         }
       });
-    res.redirect('/phim/themphimmoi?mess=1')
 
-    let queryToken = `SELECT * FROM tokenclient;`;
+      let queryToken = `SELECT * FROM tokenclient;`;
 
-    conn.query(queryToken, function(error, resultTokens){
-      if(error){
-          console.log(error);
-      }else{
-        let count = resultTokens.length;
-
-        for (let i = 0; i < count; i++) {
-          notifyAppClient(resultTokens[i].Token);
+      conn.query(queryToken, function(error, resultTokens){
+        if(error){
+            console.log(error);
+        }else{
+          let count = resultTokens.length;
+  
+          for (let i = 0; i < count; i++) {
+            notifyAppClient(resultTokens[i].Token);
+          }
         }
-      }
-    })
+      })
 });
 
 let fileImageMovieUrlOld = '';
