@@ -72,3 +72,8 @@
     margin-left: 10px;
     height: fit-content;
 }
+
+.error{
+    color: #F74242;
+    font-weight: bold;
+}

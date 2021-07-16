@@ -14,8 +14,6 @@ const hoadon = require("./route/hoadon");
 const dichvu = require("./route/dichvu");
 const soatve = require("./route/soatve");
 
-
-
 app.use("/phim", phim);
 app.use("/ticker", ticker);
 app.use("/customer",customer);
