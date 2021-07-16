@@ -77,3 +77,48 @@
     color: #F74242;
     font-weight: bold;
 }
+
+.video-container{
+    display: flex;
+    justify-content: center;
+}
+
+.secion-video{
+    height: 500px; 
+     display: flex; 
+     align-items: center 
+}
+
+.card-video{
+    height: fit-content;
+}
+
+.video-qr{
+    margin: 1.5rem;
+}
+
+.content-qr-container{
+    display: flex;
+    align-items: center;
+    padding-left: 1.5rem;
+    padding-bottom: 15px;
+}
+
+.label-bill{
+    padding-top: 10px;
+    width: 9rem;
+}
+
+.input-content-scan{
+    width: 70%;
+}
+
+.title-scan{
+    margin-top: 0.5rem;
+}
+
+.container-scan-qr{
+    width: fit-content;
+    margin-bottom: 20px;
+}
+

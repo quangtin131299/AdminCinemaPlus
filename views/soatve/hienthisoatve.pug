@@ -40,26 +40,36 @@ include ../header.pug
       // /.container-fluid
     // /.content-header
     // Main content
-    section.content
-        .container-fluid
-            .row
-                .col
-                    .card.card-primary
-                        .card-body.p-0
-                            // THE CALENDAR
-                            .row
-                                .col-md-6
-                                    video#preview(width='100%')
-                                .col-md-6
-                                    label SCAN QR CODE
-                                    input#text.form-control(type='text' name='text' readonyy='' placeholder='scan qrcode')
+    section.content.secion-video
+        .container-fluid.container-scan-qr
+          .card.card-primary.card-video
+              .card-body.p-0
+                .row 
+                  .col-md-12
+                    h3.text-center.title-scan Quét mã QR hóa đơn
+                .row
+                    .col-md-12.video-container
+                      video#preview.video-qr(width='300%')
+                .row 
+                  .col-md-12.content-qr-container
+                    label.label-bill Mã hóa đơn:
+                    input#text.form-control.input-content-scan(type='text' name='text' readonyy='' placeholder='scan qrcode')
 
-                        // /.card-body
-                    // /.card
-                // /.col
-            // /.row
+              // /.card-body
+          // /.card
+              
         // /.container-fluid
-
+        #notifyModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+          .modal-dialog(role='document')
+            .modal-content
+              .modal-header
+                h5#exampleModalLabel.modal-title Thông báo
+                button.close(type='button' data-dismiss='modal' aria-label='Close')
+                  span(aria-hidden='true') &times;
+              .modal-body
+                span#modalTextMessage
+              .modal-footer
+                button.btn.btn-primary(type='button' id='btnOK') Ok
       
     // /.content
   // /.content-wrapper

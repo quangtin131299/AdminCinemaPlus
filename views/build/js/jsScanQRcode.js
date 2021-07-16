@@ -22,23 +22,23 @@ function scanQRcode() {
         document.getElementById('text').value=c;
         let id = $('#text').val();
         if (id != '') {
-            $.ajax({
-                method: 'POST',
-                url: '/soatve/updateStatus',
-                data: {
-                    id: id
-                },
-                success: function (data) {
-                    if (data) {
-                        hideLoading();
-                        $('#modalTextMessage').html(data.messNotify);
-                        $('#notifyModal').modal('show')
-                    }
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            })
+            // $.ajax({
+            //     method: 'POST',
+            //     url: '/soatve/updateStatus',
+            //     data: {
+            //         id: id
+            //     },
+            //     success: function (data) {
+            //         if (data) {
+            //             hideLoading();
+            //             $('#modalTextMessage').html(data.message);
+            //             $('#notifyModal').modal('show')
+            //         }
+            //     },
+            //     error: function (error) {
+            //         console.log(error);
+            //     }
+            // })
         }
     });
 }
