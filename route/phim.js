@@ -58,7 +58,7 @@ router.get("/danhsachphim", function (req, res) {
         let mangkq = [];
         for (let i = 0; i < result.length; i++) {
           if (result[i].TenPhim !== temptenphim) {
-            for (let j = i + 1; j < result.length; j++) {
+            for (let j = i; j < result.length; j++) {
               if (result[j].TenPhim === result[i].TenPhim) {
                 result[i].TenLoai += ", " + result[j].TenLoai;
               }
@@ -67,6 +67,7 @@ router.get("/danhsachphim", function (req, res) {
             mangkq.push(result[i]);
           }
         }
+
         res.render("phim/danhsachphim", {
           pagerespon: page,
           dataphimchieu: mangkq,
@@ -105,17 +106,23 @@ router.get("/chitietphim", function (req, res) {
 
       let temptenphim = "";
       let mangkq = [];
+
       for (let i = 0; i < result.length; i++) {
         if (result[i].TenPhim !== temptenphim) {
-          for (let j = i + 1; j < result.length; j++) {
-            if (result[j].TenPhim === result[i].TenPhim) {
+
+          for (let j = i; j < result.length; j++) {
+
+            if (result[j].TenPhim == result[i].TenPhim) {
               result[i].TenLoai += ", " + result[j].TenLoai;
             }
           }
+
           temptenphim = result[i].TenPhim;
+
           mangkq.push(result[i]);
         }
       }
+
       res.render("phim/chitietphim", { phim: mangkq[0] });
     }
   });
@@ -221,6 +228,7 @@ router.post(
               conn.query(queryType, [resultNewMovie.insertId,idMovieTypes], function (errorMovieType) {
                 if (errorMovieType) {
                   console.log(errorMovieType);
+
                   return res.redirect("/phim/themphimmoi?mess=-1");
                 }
               });
@@ -231,6 +239,7 @@ router.post(
               conn.query(queryType, [resultNewMovie.insertId, idMovieTypes[i]], function (errorMovieType) {
                 if (errorMovieType) {
                   console.log(errorMovieType);
+                  
                   return res.redirect('/phim/themphimmoi?mess=-1')
                 }
               })
@@ -477,7 +486,7 @@ function notifyAppClient(tokenClient) {
       "Content-Type": 'application/json'
     }
   }).then(function (data) {
-    console.log("Gửi thành công");
+   
   }).catch(function (error) {
     console.log("Loi roi: ", error.response.status);
   })
