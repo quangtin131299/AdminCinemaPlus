@@ -108,7 +108,7 @@ include ../header.pug
                     .col    
                         .input-group.mb-3
                             .input-group-prepend
-                              span.input-group-text(style = "font-weight:bold") Poster
+                              span.input-group-text(style = "font-weight:bold") Hình phim
                             .custom-file
                               input.custom-file-input(id="inputGroupFile01", name="imgMovie", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImageMovie(this)")
                               label.custom-file-label.file-name-image-movie(for='inputGroupFile01')
@@ -119,7 +119,7 @@ include ../header.pug
                     .col    
                         .input-group.mb-3
                             .input-group-prepend
-                              span.input-group-text(style = "font-weight:bold") Hình phim
+                              span.input-group-text(style = "font-weight:bold") Poster
                             .custom-file
                               input.custom-file-input(id="inputGroupFile01", name="imgPoster", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImagePoster(this)")
                               label.custom-file-label.file-name-image-poster(for='inputGroupFile01') 
@@ -229,6 +229,8 @@ script(type='text/javascript').
   bkLib.onDomLoaded(function() { 
      new nicEditor({fullPanel : true, buttonList : ['fontSize','bold','italic','underline','strikeThrough','subscript','superscript']}).panelInstance('txtmota');
   });
+script(src='https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js')  
+script(src='https://www.gstatic.com/firebasejs/8.7.1/firebase-storage.js')
 script(src="build/js/jsMovie.js")
 style.
  

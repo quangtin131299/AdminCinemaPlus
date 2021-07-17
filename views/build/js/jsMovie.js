@@ -1,3 +1,15 @@
+let firebaseConfig = {
+    apiKey: "AIzaSyA1UFC_oKZFOqG5RYb49aGhqR_ZrRvYvrs",
+    authDomain: "cinemaplus-f6e86.firebaseapp.com",
+    projectId: "cinemaplus-f6e86",
+    storageBucket: "cinemaplus-f6e86.appspot.com",
+    messagingSenderId: "490414050145",
+    appId: "1:490414050145:web:d7b6db72a8c690a0b65320",
+    measurementId: "G-HHG6KKPKCL"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
 $('#formAddMovie').validate({
     rules: {
         txttenphim: {
@@ -19,7 +31,7 @@ $('#formAddMovie').validate({
         dropdownCountry: {
             required: true,
         },
-        dropdownNhaCungCap:{
+        dropdownNhaCungCap: {
             required: true,
         },
         chbloai: {
@@ -55,18 +67,18 @@ $('#formAddMovie').validate({
         chbCinema: {
             required: 'Rạp chiếu chưa được chọn',
         },
-        dropdownNhaCungCap:{
+        dropdownNhaCungCap: {
             required: 'Nhà cung cấp chưa được chọn',
         }
     },
-    errorPlacement: function(label, element) {
+    errorPlacement: function (label, element) {
         label[0].children[0].id = element[0].name;
-        
-        if(element[0].name == 'chbloai' || element[0].name == 'chbCinema'){
-            label.insertAfter( element.parent("div").parent('div').parent('div'));
-        }else{
-           label.insertAfter(element.parent("div"));
-        }     
+
+        if (element[0].name == 'chbloai' || element[0].name == 'chbCinema') {
+            label.insertAfter(element.parent("div").parent('div').parent('div'));
+        } else {
+            label.insertAfter(element.parent("div"));
+        }
     },
     wrapper: 'span'
 })
@@ -103,7 +115,7 @@ $(document).ready(function () {
     let mess = $("#modalTextMessage").html();
 
     if (mess != '') {
-        $('#notifyModal').modal('show');
+        
     }
 })
 
@@ -162,5 +174,143 @@ function showLoading() {
 
 function onSubmitAddMovie() {
     showLoading();
-    $('#formAddMovie').submit();
+
+    let movieName = $('input[name=txttenphim]').val();
+    let openDate = $('input[name=txtngaykhoichieu]').val();
+    let endDate = $('input[name=txtNgayKetThuc]').val();
+    let time = $('input[name=txtthoigian]').val();
+    let status = $('select[name=cboxtrangthai]').val();
+    let idTrailer = $('input[name=txtIDtrailer]').val();
+    let idSupplier = $('select[name=dropdownNhaCungCap]').val();
+    let idMovieTypes = $('input[name=chbloai]:checked').map(function () {
+        return $(this).val();
+    }).get();
+    let idCinemas = $('input[name=chbCinema]:checked').map(function () {
+        return $(this).val();
+    }).get();
+    let description = $('textarea[name=area2]').text();
+    let idCountry = $('select[name=dropdownCountry]').val();
+
+
+    $.ajax({
+        method: 'POST',
+        url: '/phim/themphim',
+        data: {
+            txttenphim: movieName,
+            txtngaykhoichieu: openDate,
+            txtNgayKetThuc: endDate,
+            txtthoigian: time,
+            cboxtrangthai: status,
+            txtIDtrailer: idTrailer,
+            dropdownNhaCungCap: idSupplier,
+            chbloai: idMovieTypes,
+            chbCinema: idCinemas,
+            area2: description,
+            dropdownCountry: idCountry,
+        },
+        success: function (data) {
+            if (data) {
+                hideLoading();
+
+                uploadfile(data.newIdMovie, true);
+                
+                uploadfile(data.newIdMovie, false);
+
+                $('#modalTextMessage').html(data.message);
+                $('#notifyModal').modal('show');
+                
+            }
+        },
+        error: function (error) {
+
+        }
+    })
+    // $('#formAddMovie').submit();
+}
+
+function uploadfile(newIdMovie, isImage) {
+    const storageRef = firebase.storage().ref()
+    let task = null;
+
+    if (isImage == true) {
+        let inputImage = $('input[name=imgMovie]').prop('files')[0];
+        console.log(inputImage);
+        let final = storageRef.child(`movies/Image/${newIdMovie}`)
+        task = final.put(inputImage);
+
+        task.on(
+            "state_changed",
+            // PROGRESS FUNCTION
+            function progress(progress) { },
+            function error(err) { },
+            function completed() {
+                final.getDownloadURL()
+    
+                    .then((url) => {
+                       
+                        updateImage(newIdMovie, url, true);
+                    });
+            }
+        );
+    } else {
+        let inputPoster = $('input[name=imgPoster]').prop('files')[0];
+        let final = storageRef.child(`movies/posters/${newIdMovie}`)
+        task = final.put(inputPoster);
+
+        task.on(
+            "state_changed",
+            // PROGRESS FUNCTION
+            function progress(progress) { },
+            function error(err) { },
+            function completed() {
+                final.getDownloadURL()
+    
+                    .then((url) => {
+                       
+                        updateImage(newIdMovie, url, false);
+                    });
+            }
+        );
+    } 
+}
+
+function updateImage(idMovie, url,isImage) {
+    if (isImage == true) {
+        $.ajax({
+            method: 'PUT',
+            url: '/phim/updateLinkImage',
+            data: {
+                idMovie: idMovie,
+                urlImage: url
+            },
+
+            success: function(data){
+                // if(data){
+                //     console.log(data);
+                // }
+            },
+
+            error: function(error){
+
+            }
+        });
+    }else{
+        $.ajax({
+            method: 'PUT',
+            url: '/phim/updateLinkPost',
+            data: {
+                idMovie: idMovie,
+                urlPoster: url
+            },
+            success: function(data){
+                // if(data){
+                   
+                // }
+            },
+
+            error: function(error){
+
+            }
+        });
+    }
 }

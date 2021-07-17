@@ -220,7 +220,8 @@ router.post(
         if (err) {
           console.log(err);
 
-          res.redirect('/phim/themphimmoi?mess=0')
+          // res.redirect('/phim/themphimmoi?mess=0')
+          return res.json({statusCode: 0, message: 'Thêm phim thất bại!'})
         } else {
           let queryType = `INSERT INTO phim_loaiphim VALUES(?,?)`;
 
@@ -229,7 +230,8 @@ router.post(
                 if (errorMovieType) {
                   console.log(errorMovieType);
 
-                  return res.redirect("/phim/themphimmoi?mess=-1");
+                  // return res.redirect("/phim/themphimmoi?mess=-1");
+                  return res.json({statusCode: 0, message: 'Thêm phim thất bại!'})
                 }
               });
           }else{
@@ -240,13 +242,13 @@ router.post(
                 if (errorMovieType) {
                   console.log(errorMovieType);
                   
-                  return res.redirect('/phim/themphimmoi?mess=-1')
+                  // return res.redirect('/phim/themphimmoi?mess=-1')
+                  return res.json({statusCode: 0, message: 'Thêm phim thất bại!'});
                 }
               })
             }
           }
-          
-          
+            
           let queryCinema = `INSERT INTO phim_rapphim VALUES(?,?)`;
 
           if(typeof(idCinemas) == 'string'){
@@ -254,7 +256,8 @@ router.post(
             conn.query(queryCinema, [idCinemas, resultNewMovie.insertId],function(errorMovie){
               if(errorMovie){
                 console.log(errorMovie);
-                return res.redirect('/phim/themphimmoi?mess=-1')
+                // return res.redirect('/phim/themphimmoi?mess=-1')
+                return res.json({statusCode: 0, message: 'Thêm phim thất bại!'});
               }
             })
           }else{
@@ -264,13 +267,15 @@ router.post(
               conn.query(queryCinema, [idCinemas[i], resultNewMovie.insertId], function (errorCinema) {
                 if (errorCinema) {
                   console.log(errorCinema);
-                  return res.redirect('/phim/themphimmoi?mess=-1')
+                  // return res.redirect('/phim/themphimmoi?mess=-1')
+                  return res.json({statusCode: 0, message: 'Thêm phim thất bại!'})
                 }
               })
             }
           }
 
-          res.redirect('/phim/themphimmoi?mess=1')
+          // res.redirect('/phim/themphimmoi?mess=1')
+          res.json({statusCode: 1, message: 'Thêm phim thành công!', newIdMovie: resultNewMovie.insertId})
         }
       });
 
@@ -287,6 +292,8 @@ router.post(
           }
         }
       })
+
+    
 });
 
 let fileImageMovieUrlOld = '';
@@ -471,6 +478,43 @@ router.post("/suattphim", uploadImage, function (req, res) {
   })
 });
 
+router.put("/updateLinkImage", function(req, res){
+    let idMovie = req.body.idMovie;
+    let urlImage = req.body.urlImage;
+
+    let queryUpdate = `UPDATE phim 
+                       SET phim.Hinh = ?
+                       Where phim.ID = ?;`;
+
+    conn.query(queryUpdate, [urlImage,idMovie],function(errorUpdate){
+        if(errorUpdate){
+            console.log(errorUpdate);
+
+            res.json({statusCode: 0, message: 'Cập nhật ảnh thất bại!'})
+        }
+
+        res.json({statusCode: 1, message: 'Cap nhat anh thanh cong!'})
+    })                       
+});
+
+router.put("/updateLinkPost", function(req, res){
+    console.log();
+    let idMovie = req.body.idMovie;
+    let urlPoster = req.body.urlPoster;
+    let queryUpdate = `UPDATE phim
+                        SET phim.AnhBia = ?
+                        WHERE phim.ID = ?`;
+
+    conn.query(queryUpdate, [urlPoster,idMovie],function(errorUpdate){
+        if(errorUpdate){
+          console.log(errorUpdate);
+
+          res.json({statusCode: 0, message: 'Cập nhật ảnh bìa thất bại!'})
+        }
+
+        res.json({statusCode: 1, message: 'Cập nhật ảnh bìa thành công !'})
+    })               
+})
 
 function notifyAppClient(tokenClient) {
   axios.post(urlSendNotify, {
