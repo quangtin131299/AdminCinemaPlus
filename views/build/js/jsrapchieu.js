@@ -90,6 +90,43 @@ var map = new goongjs.Map({
     zoom: 17// starting zoom
 });
 
+function onBlur(){
+    var api_key = '2a4d1678277d4f1689e79a1655298d59';
+
+    var api_url = 'https://api.opencagedata.com/geocode/v1/json'
+
+    var request_url = api_url
+        + '?'
+        + 'key=' + api_key
+        + '&q=' + encodeURIComponent($('#txtAddress').val())
+        + '&pretty=1'
+        + '&no_annotations=1';
+
+    $.ajax({
+        method: 'GET',
+        url: request_url,
+        success: function (dataResult) {
+            if (dataResult) {
+                $('#txtViDo').val(dataResult.results[0].geometry.lat);
+                $('#txtKinhDo').val(dataResult.results[0].geometry.lng)
+
+                map.jumpTo({
+                    center: [dataResult.results[0].geometry.lng, dataResult.results[0].geometry.lat],
+                    zoom: 17
+                })
+
+                var marker = new goongjs.Marker()
+                    .setLngLat([dataResult.results[0].geometry.lng, dataResult.results[0].geometry.lat])
+                    .addTo(map);
+
+
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    })
+}
 
 function getLatLng() {
     searchLngLat();

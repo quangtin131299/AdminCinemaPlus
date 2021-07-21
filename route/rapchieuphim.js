@@ -159,5 +159,26 @@ router.post("/suarapchieu", uploadImage, function(req, res){
     })
 });
 
+router.get("/chitietrapchieu", function (req, res) {
+    let idCinema = req.query.idCinema;
+  
+    let query = `SELECT rapphim.ID
+                        , rapphim.TenRap
+                        , rapphim.Hinh
+                        , rapphim.DiaChi
+                        , rapphim.KinhDo
+                        , rapphim.ViDo
+                 FROM rapphim 
+                 WHERE rapphim.ID = ?`;
+    conn.query(query, [idCinema], function (err, result) {
+      if (err) {
+        console.log(err);
+  
+        res.redirect("/rapchieu/danhsachrap?page=1")
+      } else {
 
+        res.render("rapchieu/chitietrapchieu", { rapchieu: result[0] });
+      }
+    });
+  });
 module.exports = router

@@ -1,0 +1,121 @@
+doctype html
+include ../header.pug
+link(href='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.css', rel='stylesheet')
+.wrapper
+  // Navbar
+  nav.main-header.navbar.navbar-expand.navbar-white.navbar-light
+    // Left navbar links
+    ul.navbar-nav
+      li.nav-item
+        a.nav-link(data-widget='pushmenu', href='#', role='button')
+          i.fas.fa-bars
+      li.nav-item.d-none.d-sm-inline-block
+        a.nav-link(href='/home') Trang chủ
+    // SEARCH FORM
+    form.form-inline.ml-3
+      .input-group.input-group-sm
+        input.form-control.form-control-navbar(type='search', placeholder='Search', aria-label='Search')
+        .input-group-append
+          button.btn.btn-navbar(type='submit')
+            i.fas.fa-search
+  // /.navbar
+  // Main Sidebar Container
+  include ../slidebar.pug
+  // Content Wrapper. Contains page content
+  .content-wrapper
+    // Content Header (Page header)
+    .content-header
+      .container-fluid
+        .row.mb-2
+          .col-sm-6
+            h1.m-0.text-dark Chi tiết rạp chiếu phim
+          // /.col
+          .col-sm-6
+            ol.breadcrumb.float-sm-right
+              li.breadcrumb-item
+                a(href='/home') Trang chủ
+              li.breadcrumb-item
+                a(href='#') Quản lý rạp chiếu
+              li.breadcrumb-item
+                a(href='#') Danh sách rạp chiếu
+              li.breadcrumb-item.active 
+                a(href='#') Chi tiết rạp chiếu
+          // /.col
+        // /.row
+      // /.container-fluid
+    // /.content-header
+    // Main content
+    section.content
+        .row
+          .col-md-5(style="display: flex;  align-items: center;justify-content: center;")
+            img(src=(rapchieu.Hinh && rapchieu.Hinh != "" ? rapchieu.Hinh : 'https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg'), alt="photo",width="280",height="280", style="text-align: center;")
+          .col-lg-7
+           .card(style)
+            .card-body
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Mã Rạp:
+                    input.form-control(value=rapchieu.ID  , disabled ,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tên Rạp Chiếu:
+                    input.form-control(value=rapchieu.TenRap, disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Địa chỉ:
+                    input.form-control(value=rapchieu.DiaChi,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Kinh Độ:
+                    input.form-control(value=rapchieu.KinhDo,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Vĩ độ:
+                    input.form-control(value= rapchieu.ViDo,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+        .card(style='width: 100%;')
+            .card-body
+                #map(style="height:500px;")
+    // /.content
+  // /.content-wrapper
+  include ../footer.pug
+// ./wrapper
+// jQuery
+script(src='plugins/jquery/jquery.min.js')
+// jQuery UI 1.11.4
+script(src='plugins/jquery-ui/jquery-ui.min.js')
+// Resolve conflict in jQuery UI tooltip with Bootstrap tooltip
+script.
+  $.widget.bridge('uibutton', $.ui.button)
+// Bootstrap 4
+script(src='plugins/bootstrap/js/bootstrap.bundle.min.js')
+// ChartJS
+script(src='plugins/chart.js/Chart.min.js')
+// Sparkline
+script(src='plugins/sparklines/sparkline.js')
+// JQVMap
+script(src='plugins/jqvmap/jquery.vmap.min.js')
+script(src='plugins/jqvmap/maps/jquery.vmap.usa.js')
+// jQuery Knob Chart
+script(src='plugins/jquery-knob/jquery.knob.min.js')
+// daterangepicker
+script(src='plugins/moment/moment.min.js')
+script(src='plugins/daterangepicker/daterangepicker.js')
+// Tempusdominus Bootstrap 4
+script(src='plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')
+// Summernote
+script(src='plugins/summernote/summernote-bs4.min.js')
+// overlayScrollbars
+script(src='plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')
+// AdminLTE App
+script(src='dist/js/adminlte.js')
+// AdminLTE dashboard demo (This is only for demo purposes)
+script(src='dist/js/pages/dashboard.js')
+// AdminLTE for demo purposes
+script(src='dist/js/demo.js')
+script(src='https://cdn.jsdelivr.net/npm/scriptjs@2.5.9/dist/script.min.js')
+script(src='https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js')
+script(src='https://cdn.jsdelivr.net/npm/places.js@^1.17.0')
+script(src='https://cdn.jsdelivr.net/npm/instantsearch.js@4')
+script(src='https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyBawL8VbstJDdU5397SUX7pEt9DslAwWgQ')
+script(src='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.js')
+script(src='build/js/jsrapchieu.js')
