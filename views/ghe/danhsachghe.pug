@@ -43,36 +43,45 @@ include ../header.pug
     // /.content-header
     // Main content
     section.content
+      .row
+        .col-md-6
+          .card(style='width: 100%;')
+            .card-body
+              h4 Thêm ghế mới
+              .input-group.mb-3
+                  .input-group-prepend
+                      span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tên ghế
+                  input.form-control(name='txtIdCinema' ,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default') 
+              .btn-add-seat-container
+                button.btn.btn-dark.btn-add-back-to Hủy bỏ
+                button.btn.btn-success Thêm ghế
+        .col-md-6
+          .card(style='width: 100%;')
+            .card-body
+              h4 Tìm kiếm ghế
+
       .card(style='width: 100%;')
         .card-body
-            .row
-                .col-md-6
-                    select#inputGroupSelect02.custom-select(name="dropdownCinema", onchange="sendIdCinema(this)")
-                        option(selected='') Chọn rạp
-                        option Rap 1
-                        option Rap 2
-                        option Rap 3
-                .col-md-6 
-                    select#inputGroupSelect02.custom-select(name="dropdownCinema", onchange="sendIdCinema(this)")
-                        option(selected='') Chọn phòng
-                        option Phong 1
-                        option Phong 2
-                        option Phong 3
-                        option Phong 4
-        
-            br
-            table.table.table-bordered
-                thead
-                    tr
-                    th(scope='col') Mã ghế
-                    th(scope='col') Tên ghế
-                    th(scope='col') Thao tác
-                tbody
-                    tr
-                        td 1
-                        td A1
-                        td 
-                            a Xóa
+          table.table.table-bordered
+              thead
+                th(scope='col') Mã ghế
+                th(scope='col') Tên ghế
+                th(scope='col') Trạng thái
+                th(scope='col')
+              tbody
+                each seat in seats 
+                  tr
+                    td= seat.ID
+                    td= seat.TenGhe
+                    td
+                      select#exampleFormControlSelect1.form-control
+                        option Trống
+                        option Đã đặt
+                        option Bị hư
+                    td
+                      button.btn.btn-success Cập nhật
+                          
+
               
     // /.content
   // /.content-wrapper

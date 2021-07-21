@@ -48,33 +48,58 @@ link(href='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.
     section.content
         .row
           .col-md-5(style="display: flex;  align-items: center;justify-content: center;")
-            img(src=(rapchieu.Hinh && rapchieu.Hinh != "" ? rapchieu.Hinh : 'https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg'), alt="photo",width="280",height="280", style="text-align: center;")
+            img(src=(cinema.Hinh && cinema.Hinh != "" ? cinema.Hinh : 'https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg'), alt="photo",width="500",height="280", style="text-align: center;")
           .col-lg-7
            .card(style)
             .card-body
                 .input-group.mb-3
                     .input-group-prepend
                         span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Mã Rạp:
-                    input.form-control(value=rapchieu.ID  , disabled ,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                    input.form-control(name='txtIdCinema',value=cinema.ID  , disabled ,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
                         span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tên Rạp Chiếu:
-                    input.form-control(value=rapchieu.TenRap, disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                    input.form-control(value=cinema.TenRap, disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
                         span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Địa chỉ:
-                    input.form-control(value=rapchieu.DiaChi,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                    input.form-control(value=cinema.DiaChi,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
                         span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Kinh Độ:
-                    input.form-control(value=rapchieu.KinhDo,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                    input.form-control#inputLng(value=cinema.KinhDo,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .input-group.mb-3
                     .input-group-prepend
                         span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Vĩ độ:
-                    input.form-control(value= rapchieu.ViDo,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
-        .card(style='width: 100%;')
-            .card-body
-                #map(style="height:500px;")
+                    input.form-control#inputLat(value= cinema.ViDo,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+        
+        .card 
+          .card-body
+            h4 Phòng
+            .row 
+              .col-md-12
+                #accordion.collapse-room
+                  each item in cinema.rooms
+                    .card
+                      #headingOne.card-header
+                        .row 
+                          .col-md-6.container-infor-room
+                            h5.mb-0
+                              | MaPhong: &ensp;
+                              span#idRoom= item.id  
+                              | &emsp; - &emsp;
+                              | Tên phong: &ensp;
+                              span= item.nameRoom
+                          .col-md-6.container-btn-show-seat
+                            a.btn.btn-primary(href=`/ghe/danhsachghe?idRoom=${item.id}&idCinema=${cinema.ID}`) Xem ghế                          
+                      .collapse(id=item.id, aria-labelledby='headingOne', data-parent='#accordion')
+                        .card-body
+        .card.card-map
+          .card-body
+            h4 Vị rạp trí trên bảng đồ 
+            br
+            #map.map-cinema
+        
     // /.content
   // /.content-wrapper
   include ../footer.pug
@@ -118,4 +143,4 @@ script(src='https://cdn.jsdelivr.net/npm/places.js@^1.17.0')
 script(src='https://cdn.jsdelivr.net/npm/instantsearch.js@4')
 script(src='https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyBawL8VbstJDdU5397SUX7pEt9DslAwWgQ')
 script(src='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.js')
-script(src='build/js/jsrapchieu.js')
+script(src='build/js/jsCinemaDetails.js')

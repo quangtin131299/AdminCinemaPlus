@@ -12,6 +12,7 @@ document.getElementById("btnhuy").onclick = function () {
     window.location.replace("danhsachrapchieu?page=1")
 }
 
+
 $('#exampleModalCenter').on('hidden.bs.modal', function (e) {
     $("#exampleModalCenter").modal('hide');
 })
