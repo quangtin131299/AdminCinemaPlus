@@ -188,7 +188,8 @@ function onSubmitAddMovie() {
     let idCinemas = $('input[name=chbCinema]:checked').map(function () {
         return $(this).val();
     }).get();
-    let description = $('textarea[name=area2]').text();
+
+    let description = $('textarea[name=area2]').val();
     let idCountry = $('select[name=dropdownCountry]').val();
 
 
@@ -213,7 +214,7 @@ function onSubmitAddMovie() {
                 hideLoading();
 
                 uploadfile(data.newIdMovie, true);
-                
+
                 uploadfile(data.newIdMovie, false);
 
                 $('#modalTextMessage').html(data.message);
@@ -225,7 +226,7 @@ function onSubmitAddMovie() {
 
         }
     })
-    // $('#formAddMovie').submit();
+    $('#formAddMovie').submit();
 }
 
 function uploadfile(newIdMovie, isImage) {
@@ -234,7 +235,7 @@ function uploadfile(newIdMovie, isImage) {
 
     if (isImage == true) {
         let inputImage = $('input[name=imgMovie]').prop('files')[0];
-        console.log(inputImage);
+       
         let final = storageRef.child(`movies/Image/${newIdMovie}`)
         task = final.put(inputImage);
 
@@ -288,6 +289,7 @@ function updateImage(idMovie, url,isImage) {
                 // if(data){
                 //     console.log(data);
                 // }
+                
             },
 
             error: function(error){
