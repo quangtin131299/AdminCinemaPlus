@@ -10,13 +10,6 @@ include ../header.pug
           i.fas.fa-bars
       li.nav-item.d-none.d-sm-inline-block
         a.nav-link(href='/home') Trang chủ
-    // SEARCH FORM
-    form.form-inline.ml-3
-      .input-group.input-group-sm
-        input.form-control.form-control-navbar(type='search', placeholder='Search', aria-label='Search')
-        .input-group-append
-          button.btn.btn-navbar(type='submit')
-            i.fas.fa-search
   // /.navbar
   // Main Sidebar Container
   include ../slidebar.pug
@@ -71,7 +64,7 @@ include ../header.pug
                         .input-group.mb-3
                             .input-group-prepend
                                 span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Thời lượng
-                            input.form-control(name="txtthoigian", placeholder="Nhập thời lượng phim (Phút)", type='number',min=1, aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                            input.form-control(name="txtthoigian", placeholder="Nhập thời lượng phim (Phút)", type='number',min=50, aria-label='Default', aria-describedby='inputGroup-sizing-default')
                     .col
                         .input-group.mb-3
                             .input-group-prepend
@@ -108,7 +101,7 @@ include ../header.pug
                     .col    
                         .input-group.mb-3
                             .input-group-prepend
-                              span.input-group-text(style = "font-weight:bold") Hình phim
+                              span.input-group-text(style = "font-weight:bold") Poster
                             .custom-file
                               input.custom-file-input(id="inputGroupFile01", name="imgMovie", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImageMovie(this)")
                               label.custom-file-label.file-name-image-movie(for='inputGroupFile01')
@@ -119,7 +112,7 @@ include ../header.pug
                     .col    
                         .input-group.mb-3
                             .input-group-prepend
-                              span.input-group-text(style = "font-weight:bold") Poster
+                              span.input-group-text(style = "font-weight:bold") Hình phim
                             .custom-file
                               input.custom-file-input(id="inputGroupFile01", name="imgPoster", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImagePoster(this)")
                               label.custom-file-label.file-name-image-poster(for='inputGroupFile01') 
