@@ -17,6 +17,7 @@ $('#exampleModalCenter').on('hidden.bs.modal', function (e) {
     $("#exampleModalCenter").modal('hide');
 })
 
+
 $('#btnOK').click(function () {
     window.location.replace('/rapchieu/danhsachrapchieu?page=1');
 })
