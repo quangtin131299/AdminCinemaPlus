@@ -167,9 +167,17 @@ router.get("/themphimmoi", function (req, res) {
                   if(errorCountry){
                     console.log(errorCountry);
 
-                    return res.render("phim/themphimmoi", { movieTypes: resultMovieTypes, cinemas: resultCinemas, suppliers: resultSuppliers, messNotify: messAddMovie, countrys: [] });
+                    return res.render("phim/themphimmoi", { movieTypes: resultMovieTypes
+                                                            , cinemas: resultCinemas
+                                                            , suppliers: resultSuppliers
+                                                            , messNotify: messAddMovie
+                                                            , countrys: [] });
                   }else{
-                    return res.render("phim/themphimmoi", { movieTypes: resultMovieTypes, cinemas: resultCinemas, suppliers: resultSuppliers, messNotify: messAddMovie, countrys: resultCountry });
+                    return res.render("phim/themphimmoi", { movieTypes: resultMovieTypes
+                                                            , cinemas: resultCinemas
+                                                            , suppliers: resultSuppliers
+                                                            , messNotify: messAddMovie
+                                                            , countrys: resultCountry });
                   }
               })
 
@@ -385,8 +393,6 @@ router.get("/suaphim", function (req, res) {
 router.post("/suattphim", uploadImage, function (req, res) {
   let maphim = req.body.maphim;
   let tenphim = req.body.txttenphim;
-  let imagMovie = fileNameImageMovie && fileNameImageMovie != '' ? `${req.protocol}://${(req.hostname == 'localhost' ? req.hostname + ':3000' : req.hostname)}/img/Movie/Avatar/${fileNameImageMovie}` : fileImageMovieUrlOld;
-  let imagPoster = fileNamePosterMovie && fileNameImageMovie != '' ? `${req.protocol}://${(req.hostname == 'localhost' ? req.hostname + ':3000' : req.hostname)}/img/Movie/Poster/${fileNamePosterMovie}` : fileImagePosterUrlOld;
   let ngaykhoichieu = req.body.txtngaykhoichieu;
   let endDate = req.body.txtNgayKetThuc;
   let trangthai = req.body.cboxtrangthai;
@@ -474,7 +480,7 @@ router.post("/suattphim", uploadImage, function (req, res) {
                         WHERE phim.ID = ?`;
         conn.query(
           sqlquery,
-          [tenphim, imagMovie, imagPoster, trangthai, thoigian, idtrailer, ngaykhoichieu, endDate, mota, maphim],
+          [tenphim, '', '', trangthai, thoigian, idtrailer, ngaykhoichieu, endDate, mota, maphim],
           function (err, result) {
             if (err) {
               res.send(err);

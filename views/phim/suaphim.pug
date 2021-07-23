@@ -43,13 +43,18 @@ include ../header.pug
     // /.content-header
     // Main content
     section.content
-      form(action="suattphim", method="post", ,enctype="multipart/form-data", id="formEditMovie")    
+      form#formAddMovie(action="suattphim", method="post", ,enctype="multipart/form-data")    
         .card
             .card-body
               .row
-                 h5(style="font-weight:bold;") Thông tin của phim
+                h5(style="font-weight:bold;") Thông tin của phim
               .row
-                input(value=phim.ID,type="hidden", name="maphim")
+                .col
+                  .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Mã phim
+                    input.form-control(value=phim.ID,name= "maphim", placeholder="Nhập tên phim",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
+              .row
                 .col
                   .input-group.mb-3
                         .input-group-prepend
@@ -129,18 +134,26 @@ include ../header.pug
                         img(src=(phim.AnhBia && phim.AnhBia != "" ? phim.AnhBia : 'https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg'),  id="imgMoviePoster", width="150",height="150")
         .card
           .card-body
+            .row
+              .col-md-6
+                h5(style="font-weight:bold;") Phim được chiếu ở rạp
+              .col-md-6.check-all-container
+                .form-check.form-check-inline
+                  input#inlineCheckbox1.form-check-input(type='checkbox',name="checkAll", value="false")
+                  label.form-check-label Chọn tất cả rạp chiếu
             .row  
                 .col 
-                    each itemCinema in cinemas
-                      .form-check.form-check-inline
-                        input#inlineCheckbox1.form-check-input.chbCinema(type='checkbox',name= "chbCinema", value=itemCinema.ID)
-                        label.form-check-label.lbNameCinema(id=itemCinema.ID,for='inlineCheckbox1')=itemCinema.TenRap
+                  each itemCinema in cinemas
+                    .form-check.form-check-inline
+                      input#inlineCheckbox1.form-check-input.chbCinema(type='checkbox',name= "chbCinema", value=itemCinema.ID)
+                      label.form-check-label.lbNameCinema(id=itemCinema.ID,for='inlineCheckbox1')=itemCinema.TenRap
         .card
             .card-body
               .row
                 h5(style="font-weight:bold;") Mô tả của phim 
               .row
-                textarea(name='txtmota', style='width: 100%; height: 250px;')= phim.MoTa  
+                //- textarea(name='txtmota', style='width: 100%; height: 250px;')= phim.MoTa
+                #editor(data-description=phim.MoTa)  
         .card
             .card-body
               .row
@@ -168,9 +181,7 @@ include ../header.pug
               span#modalTextMessage= messNotify
             .modal-footer
               button.btn.btn-primary(type='button' id='btnOK') Ok
-        
-
-              
+                      
         
     // /.content
   // /.content-wrapper
@@ -209,6 +220,13 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js'
+    , integrity='sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=='
+    , crossorigin='anonymous'
+    , referrerpolicy='no-referrer')
+script(src='https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js')
+script(src='https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js')  
+script(src='https://www.gstatic.com/firebasejs/8.7.1/firebase-storage.js')
 script(src="build/js/jsMovie.js")
 script.
     document.getElementById("btnhuy").onclick=function(){

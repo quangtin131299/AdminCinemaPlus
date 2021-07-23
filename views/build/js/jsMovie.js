@@ -1,12 +1,19 @@
 let editorDescriptionMovie;
 ClassicEditor
-        .create( document.querySelector('#editor') )
-        .then(function(newEditor){
-            editorDescriptionMovie = newEditor;
-        })
-        .catch( error => {
-            console.error( error );
-        } );
+    .create( document.querySelector('#editor') )
+    .then(function(newEditor){
+        let description = $('#editor').data('description');
+        editorDescriptionMovie = newEditor;
+
+        if(description && description != ''){
+            editorDescriptionMovie.setData(description);
+        }
+        
+       
+    })
+    .catch( error => {
+        console.error(error);
+    });
 
 let firebaseConfig = {
     apiKey: "AIzaSyA1UFC_oKZFOqG5RYb49aGhqR_ZrRvYvrs",
@@ -92,6 +99,7 @@ $('#formAddMovie').validate({
     },
     wrapper: 'span'
 })
+
 
 let danhsachphim = [];
 document.getElementById("btnhuy").onclick = function () {
@@ -195,7 +203,43 @@ function setFileImagePoster(elFileImagePoster) {
 
 function onSubmitEditMovie() {
     showLoading();
-    $('#formEditMovie').submit();
+
+    let MovieId = $('input[name=maphim]').val();
+    let movieName = $('input[name=txttenphim]').val();
+    let openDate = $('input[name=txtngaykhoichieu]').val();
+    let endDate = $('input[name=txtNgayKetThuc]').val();
+    let time = $('input[name=txtthoigian]').val();
+    let status = $('select[name=cboxtrangthai]').val();
+    let idTrailer = $('input[name=txtIDtrailer]').val();
+    let idCinemas = $('input[name=chbCinema]:checked').map(function () {
+        return $(this).val();
+    }).get();
+
+    $.ajax({
+        method: 'POST',
+        url:'/phim/suattphim',
+        data:{
+            maphim:MovieId,
+            txttenphim:movieName,
+            txtngaykhoichieu:openDate,
+            txtNgayKetThuc:endDate,
+            cboxtrangthai:status,
+            txtthoigian:time,
+            txtIDtrailer:idTrailer,
+            txtmota:'',
+            chbCinema:idCinemas
+
+        },
+        success: function(data){
+            if(data){
+
+            }
+        },
+        error: function(){
+
+        }
+    })
+
 }
 
 function hideLoading() {
