@@ -197,6 +197,7 @@ router.get("/chitietrapchieu", function (req, res) {
               resultCinema.push({
                 ID: result[i].ID,
                 TenRap: result[i].TenRap,
+                DiaChi: result[i].DiaChi,
                 Hinh:  result[i].Hinh,
                 KinhDo:result[i].KinhDo,
                 ViDo: result[i].ViDo,

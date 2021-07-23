@@ -85,10 +85,10 @@ link(href='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.
                         .row 
                           .col-md-6.container-infor-room
                             h5.mb-0
-                              | MaPhong: &ensp;
+                              | Mã Phòng: &ensp;
                               span#idRoom= item.id  
                               | &emsp; - &emsp;
-                              | Tên phong: &ensp;
+                              | Tên Phòng: &ensp;
                               span= item.nameRoom
                           .col-md-6.container-btn-show-seat
                             a.btn.btn-primary(href=`/ghe/danhsachghe?idRoom=${item.id}&idCinema=${cinema.ID}`) Xem ghế                          
@@ -96,7 +96,7 @@ link(href='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.
                         .card-body
         .card.card-map
           .card-body
-            h4 Vị rạp trí trên bảng đồ 
+            h4 Vị trí rạp trên bảng đồ 
             br
             #map.map-cinema
         
