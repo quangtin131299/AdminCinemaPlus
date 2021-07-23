@@ -126,3 +126,11 @@
     display: flex;
     justify-content: flex-end;
 }
+
+.ck.ck-editor {
+    width: 100% !important;
+}
+
+.ck-rounded-corners{
+    height: 200px;
+}

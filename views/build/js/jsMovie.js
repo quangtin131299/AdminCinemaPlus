@@ -1,3 +1,13 @@
+let editorDescriptionMovie;
+ClassicEditor
+        .create( document.querySelector('#editor') )
+        .then(function(newEditor){
+            editorDescriptionMovie = newEditor;
+        })
+        .catch( error => {
+            console.error( error );
+        } );
+
 let firebaseConfig = {
     apiKey: "AIzaSyA1UFC_oKZFOqG5RYb49aGhqR_ZrRvYvrs",
     authDomain: "cinemaplus-f6e86.firebaseapp.com",
@@ -125,7 +135,6 @@ $('#txtngaykhoichieu').attr('min', maxDateKhoiChieu);
 // }
 // let maxDateKetThuc = yearKetThuc + '-' + monthKetThuc + '-' + dayKetThuc;
 
-$('#txtNgayKetThuc').attr('min', maxDateKetThuc);
 
 let mess = $('#modalTextMessage').html();
 if (mess && mess != '') {
@@ -199,7 +208,7 @@ function showLoading() {
 
 function onSubmitAddMovie() {
     let form = $('#formAddMovie');
-    
+
     if (form.valid() == true) {
         showLoading();
 
@@ -216,9 +225,8 @@ function onSubmitAddMovie() {
         let idCinemas = $('input[name=chbCinema]:checked').map(function () {
             return $(this).val();
         }).get();
-        let description = $('textarea[name=area2]').text();
+        let description = editorDescriptionMovie.getData().replace( /(<([^>]+)>)/ig, '');
         let idCountry = $('select[name=dropdownCountry]').val();
-
 
         $.ajax({
             method: 'POST',
