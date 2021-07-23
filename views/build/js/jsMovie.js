@@ -1,16 +1,16 @@
 let editorDescriptionMovie;
 ClassicEditor
-    .create( document.querySelector('#editor') )
-    .then(function(newEditor){
+    .create(document.querySelector('#editor'))
+    .then(function (newEditor) {
         let description = $('#editor').data('description');
         editorDescriptionMovie = newEditor;
 
-        if(description && description != ''){
+        if (description && description != '') {
             editorDescriptionMovie.setData(description);
-        }    
-       
+        }
+
     })
-    .catch( error => {
+    .catch(error => {
         console.error(error);
     });
 
@@ -119,28 +119,21 @@ let maxDateKhoiChieu = yearKhoiChieu + '-' + monthKhoiChieu + '-' + dayKhoiChieu
 $('#txtngaykhoichieu').attr('min', maxDateKhoiChieu);
 
 //Ràng buộc ngày kết thúc
-// $('#txtngaykhoichieu').change(function() {
-//     var interval = 7;
-  
-//     function convertDateString(p) {
-//       return (p < 10) ? '0' + p : p;
-//     }
-  
-//     var txtngaykhoichieu = new Date($(this).val());
-//     txtngaykhoichieu.setDate(txtngaykhoichieu.getDate() + interval);
-//     $('#txtNgayKetThuc').val(txtngaykhoichieu.getFullYear() + '/' + convertDateString(txtngaykhoichieu.getMonth() + 1) + '/' + convertDateString(txtngaykhoichieu.getDate()));
-//   });
-// let dtKetThuc = new Date();
-// let monthKetThuc = dtKetThuc.getMonth() + 1;
-// var dayKetThuc = dayKhoiChieu.getDate() + 1;
-// var yearKetThuc = dtKetThuc.getFullYear();
-// if (monthKetThuc < 10) {
-//     monthKetThuc = '0' + monthKetThuc.toString();
-// }
-// if (dayKetThuc < 10) {
-//     dayKetThuc = '0' + dayKetThuc.toString();
-// }
-// let maxDateKetThuc = yearKetThuc + '-' + monthKetThuc + '-' + dayKetThuc;
+$('#txtngaykhoichieu').change(function () {
+    let dtKetThuc = new Date();
+    let monthKetThuc = dtKetThuc.getMonth() + 1;
+    var dayKetThuc = dayKhoiChieu.getDate() + 7;
+    var yearKetThuc = dtKetThuc.getFullYear();
+    if (monthKetThuc < 10) {
+        monthKetThuc = '0' + monthKetThuc.toString();
+    }
+    if (dayKetThuc < 10) {
+        dayKetThuc = '0' + dayKetThuc.toString();
+    }
+    let maxDateKetThuc = yearKetThuc + '-' + monthKetThuc + '-' + dayKetThuc;
+    $('#txtngayketthuc').attr('min', maxDateKetThuc);
+});
+
 
 
 let mess = $('#modalTextMessage').html();
@@ -160,7 +153,7 @@ $(document).ready(function () {
     let imgPoster = $('#imgMoviePoster');
     let imgMovie = $('#imgMoviePreview');
 
-    posterMovieOld = imgPoster.prop('src').includes('no-image-available-icon-vector.jpg') == true? '' : imgPoster.prop('src');
+    posterMovieOld = imgPoster.prop('src').includes('no-image-available-icon-vector.jpg') == true ? '' : imgPoster.prop('src');
     imageMovieOld = imgMovie.prop('src').includes('no-image-available-icon-vector.jpg') == true ? '' : imgMovie.prop('src');
 })
 
@@ -221,42 +214,42 @@ function onSubmitEditMovie() {
 
     $.ajax({
         method: 'POST',
-        url:'/phim/suattphim',
-        data:{
-            maphim:MovieId,
-            txttenphim:movieName,
-            txtngaykhoichieu:openDate,
-            txtNgayKetThuc:endDate,
-            cboxtrangthai:status,
-            txtthoigian:time,
-            txtIDtrailer:idTrailer,
+        url: '/phim/suattphim',
+        data: {
+            maphim: MovieId,
+            txttenphim: movieName,
+            txtngaykhoichieu: openDate,
+            txtNgayKetThuc: endDate,
+            cboxtrangthai: status,
+            txtthoigian: time,
+            txtIDtrailer: idTrailer,
             txtmota: description,
-            chbCinema:idCinemas
+            chbCinema: idCinemas
         },
-        success: async function(data){
-            if(data){
+        success: async function (data) {
+            if (data) {
                 hideLoading();
 
                 let imgPoster = $('#imgMoviePoster');
                 let imgMovie = $('#imgMoviePreview');
 
-                let newPoster = imgPoster.prop('src').includes('no-image-available-icon-vector.jpg') == true ?  posterMovieOld: imgPoster.prop('src');
-                let newImageMovie = imgMovie.prop('src').includes('no-image-available-icon-vector.jpg') == true ? imageMovieOld: imgMovie.prop('src');
-        
+                let newPoster = imgPoster.prop('src').includes('no-image-available-icon-vector.jpg') == true ? posterMovieOld : imgPoster.prop('src');
+                let newImageMovie = imgMovie.prop('src').includes('no-image-available-icon-vector.jpg') == true ? imageMovieOld : imgMovie.prop('src');
 
-                if(imageMovieOld != newImageMovie){
+
+                if (imageMovieOld != newImageMovie) {
                     await uploadfile(MovieId, true);
                 }
 
-                if(newPoster != posterMovieOld){
-                    await uploadfile(MovieId, false); 
+                if (newPoster != posterMovieOld) {
+                    await uploadfile(MovieId, false);
                 }
 
                 $('#modalTextMessage').html(data.message);
                 $('#notifyModal').modal('show');
             }
         },
-        error: function(){
+        error: function () {
 
         }
     })
@@ -290,7 +283,7 @@ function onSubmitAddMovie() {
         let idCinemas = $('input[name=chbCinema]:checked').map(function () {
             return $(this).val();
         }).get();
-        let description = editorDescriptionMovie.getData().replace( /(<([^>]+)>)/ig, '');
+        let description = editorDescriptionMovie.getData().replace(/(<([^>]+)>)/ig, '');
         let idCountry = $('select[name=dropdownCountry]').val();
 
         $.ajax({
@@ -337,7 +330,7 @@ function uploadfile(newIdMovie, isImage) {
     if (isImage == true) {
         let inputImage = $('input[name=imgMovie]').prop('files')[0];
 
-        if(inputImage){
+        if (inputImage) {
             let final = storageRef.child(`movies/Image/${newIdMovie}`);
 
             task = final.put(inputImage);
@@ -345,46 +338,46 @@ function uploadfile(newIdMovie, isImage) {
             task.on(
                 "state_changed",
                 // PROGRESS FUNCTION
-                function progress(progress) { },
-                function error(err) { },
+                function progress(progress) {},
+                function error(err) {},
                 function completed() {
                     final.getDownloadURL()
-        
+
                         .then((url) => {
-                        
+
                             updateImage(newIdMovie, url, true);
                         });
                 }
             );
         }
-        
+
     } else {
         let inputPoster = $('input[name=imgPoster]').prop('files')[0];
 
-        if(inputPoster){
+        if (inputPoster) {
             let final = storageRef.child(`movies/posters/${newIdMovie}`)
             task = final.put(inputPoster);
-    
+
             task.on(
                 "state_changed",
                 // PROGRESS FUNCTION
-                function progress(progress) { },
-                function error(err) { },
+                function progress(progress) {},
+                function error(err) {},
                 function completed() {
                     final.getDownloadURL()
-        
+
                         .then((url) => {
-                           
+
                             updateImage(newIdMovie, url, false);
                         });
                 }
             );
         }
-       
-    } 
+
+    }
 }
 
-function updateImage(idMovie, url,isImage) {
+function updateImage(idMovie, url, isImage) {
     if (isImage == true) {
         $.ajax({
             method: 'PUT',
@@ -394,18 +387,18 @@ function updateImage(idMovie, url,isImage) {
                 urlImage: url
             },
 
-            success: function(data){
+            success: function (data) {
                 // if(data){
                 //     console.log(data);
                 // }
-                
+
             },
 
-            error: function(error){
+            error: function (error) {
 
             }
         });
-    }else{
+    } else {
         $.ajax({
             method: 'PUT',
             url: '/phim/updateLinkPost',
@@ -413,28 +406,28 @@ function updateImage(idMovie, url,isImage) {
                 idMovie: idMovie,
                 urlPoster: url
             },
-            success: function(data){
+            success: function (data) {
                 // if(data){
-                   
+
                 // }
             },
 
-            error: function(error){
+            error: function (error) {
                 console.log(error);
             }
         });
     }
 }
 
-$('input[name=checkAll]').change(function(){
+$('input[name=checkAll]').change(function () {
     let isCheck = $(this).prop('checked');
 
-    if(isCheck == true){
-        $('input[name=chbCinema]').map(function(){
+    if (isCheck == true) {
+        $('input[name=chbCinema]').map(function () {
             this.checked = true
         });
-    }else{
-        $('input[name=chbCinema]').map(function(){
+    } else {
+        $('input[name=chbCinema]').map(function () {
             this.checked = false
         });
     }
