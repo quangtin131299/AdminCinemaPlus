@@ -135,18 +135,23 @@ include ../header.pug
                     each itemMovieType in movieTypes
                       .form-check.form-check-inline
                         input#inlineCheckbox1.form-check-input(type='checkbox',name= "chbloai", value=itemMovieType.ID)
-                        label.form-check-label(id=itemMovieType.ID,for='inlineCheckbox1')=itemMovieType.TenLoai
+                        label.form-check-label(id=itemMovieType.ID)=itemMovieType.TenLoai
 
         .card
             .card-body
               .row
-                h5(style="font-weight:bold;") Phim được chiếu ở rạp
+                .col-md-6
+                  h5(style="font-weight:bold;") Phim được chiếu ở rạp
+                .col-md-6.check-all-container
+                  .form-check.form-check-inline
+                    input#inlineCheckbox1.form-check-input(type='checkbox',name="checkAll", value="false")
+                    label.form-check-label Chọn tất cả rạp chiếu
               .row  
                 .col 
                     each itemCinema in cinemas
                       .form-check.form-check-inline
                         input#inlineCheckbox1.form-check-input(type='checkbox',name= "chbCinema", value=itemCinema.ID)
-                        label.form-check-label(id=itemCinema.ID,for='inlineCheckbox1')=itemCinema.TenRap
+                        label.form-check-label(id=itemCinema.ID)=itemCinema.TenRap
         .card
             .card-body
               .row

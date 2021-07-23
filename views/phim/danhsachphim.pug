@@ -48,7 +48,7 @@ include ../header.pug
           tr
             th(scope='col') STT
             th(scope='col') Tên Phim
-            th(scope='col') Poster
+            th(scope='col') Hình
             th(scope='col') Trạng thái 
             th(scope='col') Thời gian 
             th(scope='col') Ngày công chiếu
@@ -84,21 +84,7 @@ include ../header.pug
           - } 
           li.page-item
             a.page-link(href='#') Trang kế   
-     
-
-      #exampleModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
-        .modal-dialog(role='document')
-          .modal-content
-            .modal-header
-              h5#exampleModalLabel.modal-title Thông báo
-              button.close(type='button' data-dismiss='modal' aria-label='Close')
-                span(aria-hidden='true') &times;
-            .modal-body
-              | Bạn có muốn xóa phim này hay không ?
-            .modal-footer
-              button.btn.btn-secondary(type='button' data-dismiss='modal') Đóng
-              button.btn.btn-primary(type='button') Lưu thay đổi
-
+  
     // /.content
   // /.content-wrapper
   include ../footer.pug

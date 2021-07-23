@@ -173,58 +173,61 @@ function showLoading() {
 }
 
 function onSubmitAddMovie() {
-    showLoading();
+    let form = $('#formAddMovie');
+    if (form.valid() == true) {
+        showLoading();
 
-    let movieName = $('input[name=txttenphim]').val();
-    let openDate = $('input[name=txtngaykhoichieu]').val();
-    let endDate = $('input[name=txtNgayKetThuc]').val();
-    let time = $('input[name=txtthoigian]').val();
-    let status = $('select[name=cboxtrangthai]').val();
-    let idTrailer = $('input[name=txtIDtrailer]').val();
-    let idSupplier = $('select[name=dropdownNhaCungCap]').val();
-    let idMovieTypes = $('input[name=chbloai]:checked').map(function () {
-        return $(this).val();
-    }).get();
-    let idCinemas = $('input[name=chbCinema]:checked').map(function () {
-        return $(this).val();
-    }).get();
-    let description = $('textarea[name=area2]').text();
-    let idCountry = $('select[name=dropdownCountry]').val();
+        let movieName = $('input[name=txttenphim]').val();
+        let openDate = $('input[name=txtngaykhoichieu]').val();
+        let endDate = $('input[name=txtNgayKetThuc]').val();
+        let time = $('input[name=txtthoigian]').val();
+        let status = $('select[name=cboxtrangthai]').val();
+        let idTrailer = $('input[name=txtIDtrailer]').val();
+        let idSupplier = $('select[name=dropdownNhaCungCap]').val();
+        let idMovieTypes = $('input[name=chbloai]:checked').map(function () {
+            return $(this).val();
+        }).get();
+        let idCinemas = $('input[name=chbCinema]:checked').map(function () {
+            return $(this).val();
+        }).get();
+        let description = $('textarea[name=area2]').text();
+        let idCountry = $('select[name=dropdownCountry]').val();
 
 
-    $.ajax({
-        method: 'POST',
-        url: '/phim/themphim',
-        data: {
-            txttenphim: movieName,
-            txtngaykhoichieu: openDate,
-            txtNgayKetThuc: endDate,
-            txtthoigian: time,
-            cboxtrangthai: status,
-            txtIDtrailer: idTrailer,
-            dropdownNhaCungCap: idSupplier,
-            chbloai: idMovieTypes,
-            chbCinema: idCinemas,
-            area2: description,
-            dropdownCountry: idCountry,
-        },
-        success: function (data) {
-            if (data) {
-                hideLoading();
+        $.ajax({
+            method: 'POST',
+            url: '/phim/themphim',
+            data: {
+                txttenphim: movieName,
+                txtngaykhoichieu: openDate,
+                txtNgayKetThuc: endDate,
+                txtthoigian: time,
+                cboxtrangthai: status,
+                txtIDtrailer: idTrailer,
+                dropdownNhaCungCap: idSupplier,
+                chbloai: idMovieTypes,
+                chbCinema: idCinemas,
+                area2: description,
+                dropdownCountry: idCountry,
+            },
+            success: function (data) {
+                if (data) {
+                    hideLoading();
 
-                uploadfile(data.newIdMovie, true);
-                
-                uploadfile(data.newIdMovie, false);
+                    uploadfile(data.newIdMovie, true);
 
-                $('#modalTextMessage').html(data.message);
-                $('#notifyModal').modal('show');
-                
+                    uploadfile(data.newIdMovie, false);
+
+                    $('#modalTextMessage').html(data.message);
+                    $('#notifyModal').modal('show');
+
+                }
+            },
+            error: function (error) {
+
             }
-        },
-        error: function (error) {
-
-        }
-    })
+        })
+    }
     // $('#formAddMovie').submit();
 }
 
@@ -234,43 +237,51 @@ function uploadfile(newIdMovie, isImage) {
 
     if (isImage == true) {
         let inputImage = $('input[name=imgMovie]').prop('files')[0];
-        console.log(inputImage);
-        let final = storageRef.child(`movies/Image/${newIdMovie}`)
-        task = final.put(inputImage);
 
-        task.on(
-            "state_changed",
-            // PROGRESS FUNCTION
-            function progress(progress) { },
-            function error(err) { },
-            function completed() {
-                final.getDownloadURL()
-    
-                    .then((url) => {
-                       
-                        updateImage(newIdMovie, url, true);
-                    });
-            }
-        );
+        if(inputImage){
+            let final = storageRef.child(`movies/Image/${newIdMovie}`);
+
+            task = final.put(inputImage);
+
+            task.on(
+                "state_changed",
+                // PROGRESS FUNCTION
+                function progress(progress) { },
+                function error(err) { },
+                function completed() {
+                    final.getDownloadURL()
+        
+                        .then((url) => {
+                        
+                            updateImage(newIdMovie, url, true);
+                        });
+                }
+            );
+        }
+        
     } else {
         let inputPoster = $('input[name=imgPoster]').prop('files')[0];
-        let final = storageRef.child(`movies/posters/${newIdMovie}`)
-        task = final.put(inputPoster);
 
-        task.on(
-            "state_changed",
-            // PROGRESS FUNCTION
-            function progress(progress) { },
-            function error(err) { },
-            function completed() {
-                final.getDownloadURL()
+        if(inputPoster){
+            let final = storageRef.child(`movies/posters/${newIdMovie}`)
+            task = final.put(inputPoster);
     
-                    .then((url) => {
-                       
-                        updateImage(newIdMovie, url, false);
-                    });
-            }
-        );
+            task.on(
+                "state_changed",
+                // PROGRESS FUNCTION
+                function progress(progress) { },
+                function error(err) { },
+                function completed() {
+                    final.getDownloadURL()
+        
+                        .then((url) => {
+                           
+                            updateImage(newIdMovie, url, false);
+                        });
+                }
+            );
+        }
+       
     } 
 }
 
@@ -314,3 +325,17 @@ function updateImage(idMovie, url,isImage) {
         });
     }
 }
+
+$('input[name=checkAll]').change(function(){
+    let isCheck = $(this).prop('checked');
+
+    if(isCheck == true){
+        $('input[name=chbCinema]').map(function(){
+            this.checked = true
+        });
+    }else{
+        $('input[name=chbCinema]').map(function(){
+            this.checked = false
+        });
+    }
+})

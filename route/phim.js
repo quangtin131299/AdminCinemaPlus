@@ -199,101 +199,112 @@ router.post(
     let description = req.body.area2;
     let like = 0;
     let idCountry = req.body.dropdownCountry;
-    let imagMovie = fileNameImageMovie && fileNameImageMovie != '' ? `${req.protocol}://${(req.hostname == 'localhost' ? req.hostname + ':3000' : req.hostname)}/img/Movie/Avatar/${fileNameImageMovie}` : '';
-    let imagPoster = fileNamePosterMovie && fileNameImageMovie != '' ? `${req.protocol}://${(req.hostname == 'localhost' ? req.hostname + ':3000' : req.hostname)}/img/Movie/Poster/${fileNamePosterMovie}` : '';
 
-    let sqlquery = `INSERT INTO phim VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?)`;
-    conn.query(sqlquery, [movieName
-                        , imagMovie
-                        , imagPoster
-                        , status
-                        , time
-                        , idTrailer
-                        , description
-                        , openDate
-                        , like
-                        , idSupplier
-                        , endDate
-                        , idCountry
-                        ]
-                        , function (err, resultNewMovie) {
-        if (err) {
-          console.log(err);
+    let queryDuplicateNameMovie = `SELECT * FROM phim where phim.TenPhim = ? `;
 
-          // res.redirect('/phim/themphimmoi?mess=0')
-          return res.json({statusCode: 0, message: 'Thêm phim thất bại!'})
-        } else {
-          let queryType = `INSERT INTO phim_loaiphim VALUES(?,?)`;
+    conn.query(queryDuplicateNameMovie, [movieName], function(errorDuplicateNameMovie, resultNameMovie){
+        if(errorDuplicateNameMovie){
+          console.log(errorDuplicateNameMovie);
 
-          if(typeof(idMovieTypes) == 'string'){
-              conn.query(queryType, [resultNewMovie.insertId,idMovieTypes], function (errorMovieType) {
-                if (errorMovieType) {
-                  console.log(errorMovieType);
+          return res.json({statusCode: 0, message: 'Không thể kiểm tra trùng tên phim'})
+        }else{
+          if(resultNameMovie.length == 0){
+            let sqlquery = `INSERT INTO phim VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?)`;
 
-                  // return res.redirect("/phim/themphimmoi?mess=-1");
+            conn.query(sqlquery, [movieName
+                                , ''
+                                , ''
+                                , status
+                                , time
+                                , idTrailer
+                                , description
+                                , openDate
+                                , like
+                                , idSupplier
+                                , endDate
+                                , idCountry
+                                ]
+                                , function (err, resultNewMovie) {
+                if (err) {
+                  console.log(err);
+        
+                  // res.redirect('/phim/themphimmoi?mess=0')
                   return res.json({statusCode: 0, message: 'Thêm phim thất bại!'})
-                }
-              });
-          }else{
-            let countMovieType = idMovieTypes.length;
-
-            for (let i = 0; i < countMovieType; i++) {
-              conn.query(queryType, [resultNewMovie.insertId, idMovieTypes[i]], function (errorMovieType) {
-                if (errorMovieType) {
-                  console.log(errorMovieType);
+                } else {
+                  let queryType = `INSERT INTO phim_loaiphim VALUES(?,?)`;
+        
+                  if(typeof(idMovieTypes) == 'string'){
+                      conn.query(queryType, [resultNewMovie.insertId,idMovieTypes], function (errorMovieType) {
+                        if (errorMovieType) {
+                          console.log(errorMovieType);
+        
+                          // return res.redirect("/phim/themphimmoi?mess=-1");
+                          return res.json({statusCode: 0, message: 'Thêm phim thất bại!'})
+                        }
+                      });
+                  }else{
+                    let countMovieType = idMovieTypes.length;
+        
+                    for (let i = 0; i < countMovieType; i++) {
+                      conn.query(queryType, [resultNewMovie.insertId, idMovieTypes[i]], function (errorMovieType) {
+                        if (errorMovieType) {
+                          console.log(errorMovieType);
+                          
+                          // return res.redirect('/phim/themphimmoi?mess=-1')
+                          return res.json({statusCode: 0, message: 'Thêm phim thất bại!'});
+                        }
+                      })
+                    }
+                  }
+                    
+                  let queryCinema = `INSERT INTO phim_rapphim VALUES(?,?)`;
+        
+                  if(typeof(idCinemas) == 'string'){
                   
-                  // return res.redirect('/phim/themphimmoi?mess=-1')
-                  return res.json({statusCode: 0, message: 'Thêm phim thất bại!'});
+                    conn.query(queryCinema, [idCinemas, resultNewMovie.insertId],function(errorMovie){
+                      if(errorMovie){
+                        console.log(errorMovie);
+                        // return res.redirect('/phim/themphimmoi?mess=-1')
+                        return res.json({statusCode: 0, message: 'Thêm phim thất bại!'});
+                      }
+                    })
+                  }else{
+                    let countCinema = idCinemas.length;
+        
+                    for (let i = 0; i < countCinema; i++) {
+                      conn.query(queryCinema, [idCinemas[i], resultNewMovie.insertId], function (errorCinema) {
+                        if (errorCinema) {
+                          console.log(errorCinema);
+                          // return res.redirect('/phim/themphimmoi?mess=-1')
+                          return res.json({statusCode: 0, message: 'Thêm phim thất bại!'})
+                        }
+                      })
+                    }
+                  }
+        
+                  // res.redirect('/phim/themphimmoi?mess=1')
+                  res.json({statusCode: 1, message: 'Thêm phim thành công!', newIdMovie: resultNewMovie.insertId})
                 }
-              })
-            }
-          }
-            
-          let queryCinema = `INSERT INTO phim_rapphim VALUES(?,?)`;
-
-          if(typeof(idCinemas) == 'string'){
-           
-            conn.query(queryCinema, [idCinemas, resultNewMovie.insertId],function(errorMovie){
-              if(errorMovie){
-                console.log(errorMovie);
-                // return res.redirect('/phim/themphimmoi?mess=-1')
-                return res.json({statusCode: 0, message: 'Thêm phim thất bại!'});
+            });
+        
+            let queryToken = `SELECT * FROM tokenclient;`;
+      
+            conn.query(queryToken, function(error, resultTokens){
+              if(error){
+                  console.log(error);
+              }else{
+                let count = resultTokens.length;
+        
+                for (let i = 0; i < count; i++) {
+                  notifyAppClient(resultTokens[i].Token);
+                }
               }
             })
           }else{
-            let countCinema = idCinemas.length;
-
-            for (let i = 0; i < countCinema; i++) {
-              conn.query(queryCinema, [idCinemas[i], resultNewMovie.insertId], function (errorCinema) {
-                if (errorCinema) {
-                  console.log(errorCinema);
-                  // return res.redirect('/phim/themphimmoi?mess=-1')
-                  return res.json({statusCode: 0, message: 'Thêm phim thất bại!'})
-                }
-              })
-            }
-          }
-
-          // res.redirect('/phim/themphimmoi?mess=1')
-          res.json({statusCode: 1, message: 'Thêm phim thành công!', newIdMovie: resultNewMovie.insertId})
-        }
-      });
-
-      let queryToken = `SELECT * FROM tokenclient;`;
-
-      conn.query(queryToken, function(error, resultTokens){
-        if(error){
-            console.log(error);
-        }else{
-          let count = resultTokens.length;
-  
-          for (let i = 0; i < count; i++) {
-            notifyAppClient(resultTokens[i].Token);
+            return res.json({statusCode: 0, message: 'Tên phim bị trùng lặp'})
           }
         }
-      })
-
-    
+    });
 });
 
 let fileImageMovieUrlOld = '';
@@ -337,6 +348,7 @@ router.get("/suaphim", function (req, res) {
       conn.query(queryCinema, function (errorCinema, resultCinemas) {
         if(errorCinema){
           console.log(errorCinema);
+
           res.render("phim/suaphim", { phim: result[0], messNotify: mess, cinemas: [] });
         }else{
          

@@ -122,3 +122,7 @@
     margin-bottom: 20px;
 }
 
+.check-all-container{
+    display: flex;
+    justify-content: flex-end;
+}
