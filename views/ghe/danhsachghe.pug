@@ -45,11 +45,14 @@ include ../header.pug
                 .input-group.mb-3
                     .input-group-prepend
                         span#inputGroup-sizing-default.input-group-text(style="font-weight: bold") Tên Rạp
-                    input.form-control(name='txtNameCinema' ,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', value=seats.TenRap, readonly)
+                    input.form-control(name='txtNameCinema' ,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', value=seats[0].TenRap, readonly)
                 .input-group.mb-3
                     .input-group-prepend
-                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold") Mã phòng
-                    input.form-control(name='txtIdRoom' ,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', value=idRoom, readonly)
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold") Tên Phòng
+                    input.form-control(name='txtNameRoom' ,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', value=seats[0].TenPhong, readonly)
+                .input-group.mb-3
+                    .input-group-prepend
+                    input.form-control(name='txtIdRoom' ,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', value=idRoom, readonly, hidden)
                 .input-group.mb-3
                     .input-group-prepend
                         span#inputGroup-sizing-default.input-group-text(style="font-weight: bold") Tên ghế
