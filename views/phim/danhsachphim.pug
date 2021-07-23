@@ -10,13 +10,6 @@ include ../header.pug
           i.fas.fa-bars
       li.nav-item.d-none.d-sm-inline-block
         a.nav-link(href='/home') Trang chủ
-    // SEARCH FORM
-    form.form-inline.ml-3
-      .input-group.input-group-sm
-        input.form-control.form-control-navbar(type='search', placeholder='Search', aria-label='Search')
-        .input-group-append
-          button.btn.btn-navbar(type='submit')
-            i.fas.fa-search
   // /.navbar
   // Main Sidebar Container
   include ../slidebar.pug
@@ -27,28 +20,59 @@ include ../header.pug
       .container-fluid
         .row.mb-2
           .col-sm-6
-            h1.m-0.text-dark Danh sách phim đang chiếu
+            h1.m-0.text-dark Danh sách phim
           // /.col
           .col-sm-6
             ol.breadcrumb.float-sm-right
               li.breadcrumb-item
                 a(href='/home') Trang chủ
               li.breadcrumb-item
-                a(href='#') Quản lý phim chiếu
+                a(href='#') Quản lý phim
               li.breadcrumb-item.active 
-                a(href='#') Danh sách phim chiếu
+                a(href='#') Danh sách phim
           // /.col
         // /.row
       // /.container-fluid
     // /.content-header
     // Main content
     section.content
+      .row
+        .col
+          .card(style='width: 100%;')
+            .card-body
+              .input-group.mb-3
+                .col-md-9
+                  input.form-control(name='txtSearch' ,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', placeholder="Search")
+                .col-md-3
+                  .btn-add-seat-container
+                    button.btn.btn-success Tìm kiếm
+              .input-group.mb-3
+                .col-md-3
+                    select#inputGroupSelect02.custom-select(name="dropdownTheLoaiPhim", onchange="sendIdTheLoaiPhim(this)")
+                        option(selected='') Chọn thể loại phim
+                        option Thể loại 1
+                        option Thể loại 2
+                        option Thể loại 3
+                .col-md-3
+                    select#inputGroupSelect02.custom-select(name="dropdownQuocGia", onchange="sendIdQuocGia(this)")
+                        option(selected='') Chọn quốc gia
+                        option Quốc Gia 1
+                        option Quốc Gia 2
+                        option Quốc Gia 3
+                        option Quốc Gia 4
+                .col-md-3
+                    select#inputGroupSelect02.custom-select(name="dropdownCinema", onchange="sendIdCinema(this)")
+                        option(selected='') Chọn rạp chiếu
+                        option Rạp chiếu 1
+                        option Rạp chiếu 2
+                        option Rạp chiếu 3
+                        option Rạp chiếu 4
       table.table
         thead
           tr
             th(scope='col') STT
             th(scope='col') Tên Phim
-            th(scope='col') Hình
+            th(scope='col') Poster
             th(scope='col') Trạng thái 
             th(scope='col') Thời gian 
             th(scope='col') Ngày công chiếu
