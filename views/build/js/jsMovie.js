@@ -87,20 +87,45 @@ let danhsachphim = [];
 document.getElementById("btnhuy").onclick = function () {
     window.location.replace("danhsachphim?page=1")
 }
+// Ràng buộc ngày khởi chiếu
+let dtKhoiChieu = new Date();
+let monthKhoiChieu = dtKhoiChieu.getMonth() + 1;
+var dayKhoiChieu = dtKhoiChieu.getDate() + 7;
+var yearKhoiChieu = dtKhoiChieu.getFullYear();
+if (monthKhoiChieu < 10) {
+    monthKhoiChieu = '0' + monthKhoiChieu.toString();
+}
+if (dayKhoiChieu < 10) {
+    dayKhoiChieu = '0' + dayKhoiChieu.toString();
+}
+let maxDateKhoiChieu = yearKhoiChieu + '-' + monthKhoiChieu + '-' + dayKhoiChieu;
+$('#txtngaykhoichieu').attr('min', maxDateKhoiChieu);
 
-let dtToday = new Date();
-let month = dtToday.getMonth() + 1;
-var day = dtToday.getDate();
-var year = dtToday.getFullYear();
-if (month < 10) {
-    month = '0' + month.toString();
-}
-if (day < 10) {
-    day = '0' + day.toString();
-}
-let maxDate = year + '-' + month + '-' + day;
-$('#txtngaykhoichieu').attr('min', maxDate);
-$('#txtNgayKetThuc').attr('min', maxDate);
+//Ràng buộc ngày kết thúc
+// $('#txtngaykhoichieu').change(function() {
+//     var interval = 7;
+  
+//     function convertDateString(p) {
+//       return (p < 10) ? '0' + p : p;
+//     }
+  
+//     var txtngaykhoichieu = new Date($(this).val());
+//     txtngaykhoichieu.setDate(txtngaykhoichieu.getDate() + interval);
+//     $('#txtNgayKetThuc').val(txtngaykhoichieu.getFullYear() + '/' + convertDateString(txtngaykhoichieu.getMonth() + 1) + '/' + convertDateString(txtngaykhoichieu.getDate()));
+//   });
+// let dtKetThuc = new Date();
+// let monthKetThuc = dtKetThuc.getMonth() + 1;
+// var dayKetThuc = dayKhoiChieu.getDate() + 1;
+// var yearKetThuc = dtKetThuc.getFullYear();
+// if (monthKetThuc < 10) {
+//     monthKetThuc = '0' + monthKetThuc.toString();
+// }
+// if (dayKetThuc < 10) {
+//     dayKetThuc = '0' + dayKetThuc.toString();
+// }
+// let maxDateKetThuc = yearKetThuc + '-' + monthKetThuc + '-' + dayKetThuc;
+
+$('#txtNgayKetThuc').attr('min', maxDateKetThuc);
 
 let mess = $('#modalTextMessage').html();
 if (mess && mess != '') {
@@ -174,6 +199,7 @@ function showLoading() {
 
 function onSubmitAddMovie() {
     let form = $('#formAddMovie');
+    
     if (form.valid() == true) {
         showLoading();
 
@@ -299,6 +325,7 @@ function updateImage(idMovie, url,isImage) {
                 // if(data){
                 //     console.log(data);
                 // }
+                
             },
 
             error: function(error){
