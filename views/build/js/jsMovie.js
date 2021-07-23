@@ -7,8 +7,7 @@ ClassicEditor
 
         if(description && description != ''){
             editorDescriptionMovie.setData(description);
-        }
-        
+        }    
        
     })
     .catch( error => {
@@ -153,12 +152,16 @@ $('#btnOK').click(function () {
     $('#notifyModal').modal('hide')
 })
 
-$(document).ready(function () {
-    let mess = $("#modalTextMessage").html();
+let imageMovieOld;
+let posterMovieOld;
 
-    if (mess != '') {
-        
-    }
+$(document).ready(function () {
+
+    let imgPoster = $('#imgMoviePoster');
+    let imgMovie = $('#imgMoviePreview');
+
+    posterMovieOld = imgPoster.prop('src').includes('no-image-available-icon-vector.jpg') == true? '' : imgPoster.prop('src');
+    imageMovieOld = imgMovie.prop('src').includes('no-image-available-icon-vector.jpg') == true ? '' : imgMovie.prop('src');
 })
 
 function setFileImageMovie(elFileImageMovie) {
@@ -210,6 +213,7 @@ function onSubmitEditMovie() {
     let endDate = $('input[name=txtNgayKetThuc]').val();
     let time = $('input[name=txtthoigian]').val();
     let status = $('select[name=cboxtrangthai]').val();
+    let description = editorDescriptionMovie.getData();
     let idTrailer = $('input[name=txtIDtrailer]').val();
     let idCinemas = $('input[name=chbCinema]:checked').map(function () {
         return $(this).val();
@@ -226,13 +230,30 @@ function onSubmitEditMovie() {
             cboxtrangthai:status,
             txtthoigian:time,
             txtIDtrailer:idTrailer,
-            txtmota:'',
+            txtmota: description,
             chbCinema:idCinemas
-
         },
-        success: function(data){
+        success: async function(data){
             if(data){
+                hideLoading();
 
+                let imgPoster = $('#imgMoviePoster');
+                let imgMovie = $('#imgMoviePreview');
+
+                let newPoster = imgPoster.prop('src').includes('no-image-available-icon-vector.jpg') == true ?  posterMovieOld: imgPoster.prop('src');
+                let newImageMovie = imgMovie.prop('src').includes('no-image-available-icon-vector.jpg') == true ? imageMovieOld: imgMovie.prop('src');
+        
+
+                if(imageMovieOld != newImageMovie){
+                    await uploadfile(MovieId, true);
+                }
+
+                if(newPoster != posterMovieOld){
+                    await uploadfile(MovieId, false); 
+                }
+
+                $('#modalTextMessage').html(data.message);
+                $('#notifyModal').modal('show');
             }
         },
         error: function(){
@@ -399,7 +420,7 @@ function updateImage(idMovie, url,isImage) {
             },
 
             error: function(error){
-
+                console.log(error);
             }
         });
     }

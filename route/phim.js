@@ -469,8 +469,6 @@ router.post("/suattphim", uploadImage, function (req, res) {
       
         let sqlquery = `UPDATE phim
                         SET phim.TenPhim = ?
-                          , phim.Hinh = ?
-                          , phim.AnhBia = ? 
                           , phim.TrangThai = ?
                           , phim.ThoiGian = ?
                           , phim.Trailer = ?
@@ -480,14 +478,16 @@ router.post("/suattphim", uploadImage, function (req, res) {
                         WHERE phim.ID = ?`;
         conn.query(
           sqlquery,
-          [tenphim, '', '', trangthai, thoigian, idtrailer, ngaykhoichieu, endDate, mota, maphim],
+          [tenphim, trangthai, thoigian, idtrailer, ngaykhoichieu, endDate, mota, maphim],
           function (err, result) {
             if (err) {
-              res.send(err);
+              console.log(err);
 
-              res.redirect(`/phim/suaphim?mess=0&idphim=${maphim}`);
+              // res.redirect(`/phim/suaphim?mess=0&idphim=${maphim}`);
+              res.json({status: 0, message: 'Cập nhật phim thất bại'});
             } else {
-              res.redirect(`/phim/suaphim?mess=1&idphim=${maphim}`);
+              // res.redirect(`/phim/suaphim?mess=1&idphim=${maphim}`);
+              res.json({status: 1, message: 'Cập nhật phim thành công'})
             }
           }
         );
@@ -516,7 +516,6 @@ router.put("/updateLinkImage", function(req, res){
 });
 
 router.put("/updateLinkPost", function(req, res){
-    console.log();
     let idMovie = req.body.idMovie;
     let urlPoster = req.body.urlPoster;
     let queryUpdate = `UPDATE phim
