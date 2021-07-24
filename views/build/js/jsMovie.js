@@ -122,14 +122,8 @@ $('#txtngaykhoichieu').attr('min', maxDateKhoiChieu);
 function onChangeOpenDate(dataInput){
     let openData = dataInput.value;
     let endDate = new Date(openData);
-    console.log(openData);
-    console.log(endDate);
 
     endDate.setDate(endDate.getDate() + 7);
-
-    console.log(`${endDate.getFullYear()}
-    -${(endDate.getMonth()+1).toString().padStart('2','0')}
-    -${endDate.getDate().toString().padStart('2','0')}`);
 
     $('input[name=txtNgayKetThuc]').prop('min', `${endDate.getFullYear()}-${(endDate.getMonth()+1).toString().padStart('2','0')}-${endDate.getDate().toString().padStart('2','0')}`);
 }
