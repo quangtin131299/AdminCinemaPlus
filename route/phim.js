@@ -67,12 +67,35 @@ router.get("/danhsachphim", function (req, res) {
             mangkq.push(result[i]);
           }
         }
-
-        res.render("phim/danhsachphim", {
-          pagerespon: page,
-          dataphimchieu: mangkq,
-          soluongtrang: Math.ceil(soluongtrang),
-        });
+        let queryTheLoaiPhim = `SELECT * FROM loaiphim`;
+        conn.query(queryTheLoaiPhim, function(errTheLoaiPhim,resultTheLoaiPhim){
+          if(errTheLoaiPhim){
+            res.send(errTheLoaiPhim);
+          } else{
+            let queryCinema = `SELECT * FROM rapphim`;
+            conn.query(queryCinema, function(errCinema, resultCinema){
+              if(errCinema){
+                res.send(errCinema);
+              } else{
+                let queryQuocGia = `SELECT * FROM quocgia`;
+                conn.query(queryQuocGia, function(errQuocGia, resultQuocGia){
+                  if(errQuocGia){
+                    res.send(errQuocGia);
+                  } else {
+                    res.render("phim/danhsachphim", {
+                      pagerespon: page,
+                      dataphimchieu: mangkq,
+                      datatheloai: resultTheLoaiPhim,
+                      dataCinema: resultCinema,
+                      dataQuocGia: resultQuocGia,
+                      soluongtrang: Math.ceil(soluongtrang),
+                    });
+                  }
+                })
+              }
+            })
+          }
+        })
       }
     });
   });

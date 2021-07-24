@@ -50,23 +50,18 @@ include ../header.pug
                 .col-md-3
                     select#inputGroupSelect02.custom-select(name="dropdownTheLoaiPhim", onchange="sendIdTheLoaiPhim(this)")
                         option(selected='') Chọn thể loại phim
-                        option Thể loại 1
-                        option Thể loại 2
-                        option Thể loại 3
+                        each itemTheLoaiPhim in datatheloai
+                                      option(value=itemTheLoaiPhim.ID)= itemTheLoaiPhim.TenLoai
                 .col-md-3
                     select#inputGroupSelect02.custom-select(name="dropdownQuocGia", onchange="sendIdQuocGia(this)")
                         option(selected='') Chọn quốc gia
-                        option Quốc Gia 1
-                        option Quốc Gia 2
-                        option Quốc Gia 3
-                        option Quốc Gia 4
+                        each itemQuocGia in dataQuocGia
+                                      option(value=itemQuocGia.ID)= itemQuocGia.TenQuocGia
                 .col-md-3
                     select#inputGroupSelect02.custom-select(name="dropdownCinema", onchange="sendIdCinema(this)")
                         option(selected='') Chọn rạp chiếu
-                        option Rạp chiếu 1
-                        option Rạp chiếu 2
-                        option Rạp chiếu 3
-                        option Rạp chiếu 4
+                        each itemCinema in dataCinema
+                                      option(value=itemCinema.ID)= itemCinema.TenRap
       table.table
         thead
           tr
