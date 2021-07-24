@@ -119,20 +119,20 @@ let maxDateKhoiChieu = yearKhoiChieu + '-' + monthKhoiChieu + '-' + dayKhoiChieu
 $('#txtngaykhoichieu').attr('min', maxDateKhoiChieu);
 
 //Ràng buộc ngày kết thúc
-$('#txtngaykhoichieu').change(function () {
-    let dtKetThuc = new Date();
-    let monthKetThuc = dtKetThuc.getMonth() + 1;
-    var dayKetThuc = dayKhoiChieu.getDate() + 7;
-    var yearKetThuc = dtKetThuc.getFullYear();
-    if (monthKetThuc < 10) {
-        monthKetThuc = '0' + monthKetThuc.toString();
-    }
-    if (dayKetThuc < 10) {
-        dayKetThuc = '0' + dayKetThuc.toString();
-    }
-    let maxDateKetThuc = yearKetThuc + '-' + monthKetThuc + '-' + dayKetThuc;
-    $('#txtngayketthuc').attr('min', maxDateKetThuc);
-});
+function onChangeOpenDate(dataInput){
+    let openData = dataInput.value;
+    let endDate = new Date(openData);
+    console.log(openData);
+    console.log(endDate);
+
+    endDate.setDate(endDate.getDate() + 7);
+
+    console.log(`${endDate.getFullYear()}
+    -${(endDate.getMonth()+1).toString().padStart('2','0')}
+    -${endDate.getDate().toString().padStart('2','0')}`);
+
+    $('input[name=txtNgayKetThuc]').prop('min', `${endDate.getFullYear()}-${(endDate.getMonth()+1).toString().padStart('2','0')}-${endDate.getDate().toString().padStart('2','0')}`);
+}
 
 
 
