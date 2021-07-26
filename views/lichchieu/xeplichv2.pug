@@ -1,6 +1,7 @@
 doctype html
 include ../header.pug
 link(rel='stylesheet', href='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.8.0/main.min.css')
+link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.css' integrity='sha512-BB0bszal4NXOgRP9MYCyVA0NNK2k1Rhr+8klY17rj4OhwTmqdPUQibKUDeHesYtXl7Ma2+tqC6c7FzYuHhw94g==' crossorigin='anonymous' referrerpolicy='no-referrer')
 script(src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.8.0/main.min.js')
 .wrapper
   // Navbar
@@ -59,14 +60,18 @@ script(src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.8.0/main.min.j
                         .card-header
                             h3.card-title Thêm lịch chiếu
                         .card-body
-                            select#inputGroupSelect02.custom-select(name="dropdownMovie")
+                            select#inputGroupSelect02.custom-select(name="dropdownMovie", onchange="validateDateSchedule(this)")
                                 option(selected='') Chọn phim
                                 
                         .card-body
                             select#inputGroupSelect02.custom-select(name="dropdownRoom")
                                 option(selected='') Chọn phòng
                         .card-body 
-                            input.form-control(name= "txtSuatChieu",type='time', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                            //- input.form-control(name= "txtSuatChieu",type='time', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                            .input-group.clockpicker(data-align='top' data-autoclose='true')
+                              input.form-control(placeholder="Chọn suất chiếu" ,name= "txtSuatChieu", type='text')
+                              span.input-group-addon
+                                span.glyphicon.glyphicon-time
                         .card-body
                             input.form-control(id="txtNgayChieu",name= "txtNgayChieu",type='date', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                         .card-body
@@ -119,4 +124,10 @@ script(src='dist/js/adminlte.min.js')
 script(src='dist/js/demo.js')
 // fullCalendar 2.2.5
 script(src='plugins/moment/moment.min.js')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/jquery-clockpicker.min.js' 
+       integrity='sha512-x0qixPCOQbS3xAQw8BL9qjhAh185N7JSw39hzE/ff71BXg7P1fkynTqcLYMlNmwRDtgdoYgURIvos+NJ6g0rNg==' 
+       crossorigin='anonymous' 
+       referrerpolicy='no-referrer')
 script(src='build/js/jsCalendar.js')
+script(type='text/javascript').
+  $('.clockpicker').clockpicker();

@@ -90,9 +90,8 @@ function loadMovieOfCinema(element) {
         },
         success: function (dataSchedule) {
             clearEvent();
-
+           
             if (dataSchedule) {
-                console.log(dataSchedule);
                 
                 let countMovie = dataSchedule.length;
 
@@ -133,9 +132,10 @@ function loadMovieOfCinema(element) {
         },
         success: function (data) {
 
-            $("select[name=dropdownMovie]").html('')
+            $("select[name=dropdownMovie]").html(`<option value=''>Chọn phim</option>`)
 
             if (data) {
+                
                 movies = data;
                 let countMovie = data.length;
 
@@ -180,8 +180,7 @@ function loadMovieOfCinema(element) {
 }
 
 function calulatorEndTime(time, minuteMovie) {
-
-    var dt = new Date();
+    let dt = new Date();
     let hh = '';
     let mm = '';
     let ss = '';
@@ -212,11 +211,6 @@ function onSubmit() {
     let room = rooms.filter(room => room.ID == idRoom);
     let movie = movies.filter(movie => movie.ID == idMovie);
     let timeOfMoive = movie && movie.length != 0?  movie[0].ThoiGian: 0;
-
-    // if(idCinema === '' || idMovie === '' || showTime == '' || idRoom == '' || dateSchedule == ''){
-    //     alert('Thông tin không hợp lệ');
-    //     return;
-    // }
 
     showLoading();
 
@@ -265,6 +259,30 @@ function hideLoading() {
 
 function showLoading() {
     $('#exampleModalCenter').modal('show');
+}
+
+function validateDateSchedule(movieSelect){
+    let idMovie = movieSelect.value;
+
+    let movie = movies.filter(x => x.ID == idMovie);
+
+    let openDate = movie[0].NgayKhoiChieu;
+    let endDate = movie[0].NgayKetThuc;
+    let inputDateSchedule = $('input[name=txtNgayChieu]');
+    let date = new Date(openDate);
+
+    if(Date.now() >= date.getTime()){
+        let currentDate = new Date();
+        let year = currentDate.getFullYear();
+        let moth = currentDate.getMonth() + 1;
+        let date = currentDate.getDate();
+    
+        inputDateSchedule.prop('min', `${year}-${moth.toString().padStart('2','0')}-${date.toString().padStart('2','0')}`);
+    }else{
+        inputDateSchedule.prop('min', openDate);
+    }
+
+    inputDateSchedule.prop('max', endDate);
 }
 
 function getFristDayWeek(){
