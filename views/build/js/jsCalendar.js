@@ -216,41 +216,41 @@ function onSubmit() {
 
     if(checkTimeInvalid(showTime) == true){
         showLoading();
-        // $.ajax({
-        //     method: 'POST',
-        //     url: '/lichchieu/xeplich',
-        //     data: {
-        //         idcinema: idCinema,
-        //         date: dateSchedule,
-        //         showtime: showTime,
-        //         idroom: idRoom,
-        //         idmovie: idMovie
-        //     },
-        //     success: function (data) {
-        //         hideLoading();
+        $.ajax({
+            method: 'POST',
+            url: '/lichchieu/xeplich',
+            data: {
+                idcinema: idCinema,
+                date: dateSchedule,
+                showtime: showTime,
+                idroom: idRoom,
+                idmovie: idMovie
+            },
+            success: function (data) {
+                hideLoading();
     
-        //         if (data.statusCode == 1) {
+                if (data.statusCode == 1) {
     
-        //             let endTime = calulatorEndTime(`${showTime}:00`, timeOfMoive);
-        //             let newEvent = {
-        //                 title: `${movie[0].TenPhim} | ${room[0].TenPhong}`,
-        //                 start: `${dateSchedule} ${showTime}`,
-        //                 end: `${dateSchedule} ${endTime}`,
-        //                 backgroundColor: '#3c8dbc',
-        //                 borderColor: '#3c8dbc',
-        //             };
+                    let endTime = calulatorEndTime(`${showTime}:00`, timeOfMoive);
+                    let newEvent = {
+                        title: `${movie[0].TenPhim} | ${room[0].TenPhong}`,
+                        start: `${dateSchedule} ${showTime}`,
+                        end: `${dateSchedule} ${endTime}`,
+                        backgroundColor: '#3c8dbc',
+                        borderColor: '#3c8dbc',
+                    };
     
-        //             calendar.addEvent(newEvent)
-        //         }
+                    calendar.addEvent(newEvent)
+                }
     
-        //         $('#modalTextMessage').text(data.message);
-        //         $('#notifyModal').modal('show');
+                $('#modalTextMessage').text(data.message);
+                $('#notifyModal').modal('show');
                 
-        //     },
-        //     error: function (error) {
+            },
+            error: function (error) {
     
-        //     }
-        // })
+            }
+        })
     }else{
         $('#modalTextMessage').text('Suất chiếu không hợp');
                 $('#notifyModal').modal('show');
