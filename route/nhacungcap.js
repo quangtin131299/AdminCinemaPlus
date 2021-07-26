@@ -58,5 +58,51 @@ router.post('/themnhacungcap', function(req,res){
     })
 })
 
+router.get("/suanhacungcap", function (req, res){
+    let idSupplier = req.query.idSupplier;
+    let messageEdit = '';
+    let query = `SELECT nhacungcap.ID
+                        , nhacungcap.TenNhaCungCap
+                        , nhacungcap.DiaChi
+                        , nhacungcap.SĐT
+                        , nhacungcap.Email
+                FROM nhacungcap WHERE nhacungcap.ID = ?`;
+    if( req.query.mess &&  req.query.mess == 1){
+        messageEdit = "Sửa thành công";
+    } else if( req.query.mess && req.query.mess == 0){
+        messageEdit = "Sửa thất bại";
+    }
+
+    conn.query(query, [idSupplier], function (err, result){
+        if(err){
+            console.log(err);
+        } else {
+            res.render("nhacungcap/suanhacungcap", {nhacungcap: result[0], messNotify: messageEdit});
+        }
+    })
+})
+
+router.post("/suanhacungcap", function (req, res){
+    let maSupplier = req.body.maSupplier;
+    let supplierName = req.body.txtSupplierName;
+    let supplierAddress = req.body.txtAddress;
+    let sdt = req.body.txtPhoneNumber;
+    let email = req.body.txtEmail;
+
+    let query = `UPDATE nhacungcap
+                    SET nhacungcap.TenNhaCungCap = ?, nhacungcap.DiaChi = ?,
+                        nhacungcap.SĐT = ?, nhacungcap.Email = ?
+                    WHERE nhacungcap.ID = ?`
+    
+    conn.query(query, [supplierName, supplierAddress, sdt, email, maSupplier], function (err, result){
+        if(err){
+            console.log(err);
+            res.redirect(`/nhacungcap/suanhacungcap?mess=0&idSupplier=${maSupplier}`)
+        } else {
+            res.redirect(`/nhacungcap/suanhacungcap?mess=1&idSupplier=${maSupplier}`);
+        }
+    })
+})
+
 
 module.exports = router;

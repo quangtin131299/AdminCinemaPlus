@@ -43,28 +43,29 @@ include ../header.pug
     // /.content-header
     // Main content
     section.content
-      .card(style='width: 100%;')
-        .card-body
-            table.table.table-bordered
-                thead
-                    tr
-                    th(scope='col') STT
-                    th(scope='col') Tên nhà cung cấp
-                    th(scope='col') Địa chỉ 
-                    th(scope='col') SĐT
-                    th(scope='col') Email
-                    th(scope='col') Thao tác
-                tbody
-                  each nhacungcap in danhsachnhacungcap
-                    tr
-                      th(scope='row')=nhacungcap.ID
-                      td=nhacungcap.TenNhaCungCap
-                      td=nhacungcap.DiaChi
-                      td=nhacungcap.SĐT
-                      td=nhacungcap.Email
-                      td
-                        span 
-                          a(href="#") Xóa
+      table.table
+        thead
+          tr
+            th(scope='col') STT
+            th(scope='col') Tên nhà cung cấp
+            th(scope='col') Địa chỉ 
+            th(scope='col') SĐT
+            th(scope='col') Email
+            th(scope='col') Thao tác
+        tbody
+            each nhacungcap in danhsachnhacungcap
+              tr
+                th(scope='row')=nhacungcap.ID
+                td=nhacungcap.TenNhaCungCap
+                td=nhacungcap.DiaChi
+                td=nhacungcap.SĐT
+                td=nhacungcap.Email
+                td
+                  span 
+                    a(href="suanhacungcap?idSupplier=" + nhacungcap.ID) Sửa
+                  span |
+                  span 
+                    a(href="#") Xóa
               
     // /.content
   // /.content-wrapper
