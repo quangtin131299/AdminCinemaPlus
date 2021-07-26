@@ -159,5 +159,55 @@ router.post("/suarapchieu", uploadImage, function(req, res){
     })
 });
 
+router.get("/chitietrapchieu", function (req, res) {
+    let idCinema = req.query.idCinema;
+  
+    let query = `SELECT rapphim.ID
+                        , rapphim.TenRap
+                        , rapphim.Hinh
+                        , rapphim.DiaChi
+                        , rapphim.KinhDo
+                        , rapphim.ViDo
+                        , phong.ID as 'ID_Phong'
+                        , phong.TenPhong
+                 FROM rapphim JOIN phong ON rapphim.ID = phong.ID_Rap
+                 WHERE rapphim.ID = ?`;
+    conn.query(query, [idCinema], function (err, result) {
+      if (err) {
+        console.log(err);
+  
+        res.redirect("/rapchieu/danhsachrap?page=1")
+      } else {
+          let resultCinema = [];
+          let nameCinema = '';
+          let rooms =[];
+          let countCinema = result.length;
 
+          for (let i = 0; i < countCinema; i++) {
+              for (let j = i; j < countCinema; j++) {
+                  if (result[i].TenRap == result[j].TenRap) {
+                    rooms.push({
+                        id: result[j].ID_Phong,
+                        nameRoom: result[j].TenPhong
+                    })
+                  }
+              }
+
+              nameCinema = result[i].TenRap;
+              resultCinema.push({
+                ID: result[i].ID,
+                TenRap: result[i].TenRap,
+                Hinh:  result[i].Hinh,
+                KinhDo:result[i].KinhDo,
+                ViDo: result[i].ViDo,
+                rooms :rooms
+              })
+              rooms = [];
+              
+          }
+
+        res.render("rapchieu/chitietrapchieu", { cinema: resultCinema[0] });
+      }
+    });
+  });
 module.exports = router

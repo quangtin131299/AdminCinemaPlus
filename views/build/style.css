@@ -122,3 +122,35 @@
     margin-bottom: 20px;
 }
 
+.map-cinema{
+    height: 520px;
+}
+
+.card-map{
+    width: 100%;
+    margin-bottom: 1rem !important;
+}
+
+.collapse-room{
+    margin-top: 15px;
+}
+
+.container-btn-show-seat{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.container-infor-room{
+    display: flex;
+    align-items:center;
+}
+
+.btn-add-seat-container{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-add-back-to{
+    margin-right: 15px;
+}
+

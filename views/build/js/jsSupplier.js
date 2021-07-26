@@ -152,8 +152,6 @@ function onBlur(){
                 var marker = new goongjs.Marker()
                     .setLngLat([dataResult.results[0].geometry.lng, dataResult.results[0].geometry.lat])
                     .addTo(map);
-
-
             }
         },
         error: function (error) {
