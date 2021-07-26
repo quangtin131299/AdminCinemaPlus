@@ -238,136 +238,146 @@ router.post("/xeplich", function (req, res) {
   let queryTime = `SELECT DATE_FORMAT(phim_phong_xuat.Ngay, '%Y-%m-%d') as 'Ngay', phim.ThoiGian, suatchieu.Gio 
                    FROM phim_phong_xuat JOIN suatchieu ON phim_phong_xuat.ID_XuatChieu = suatchieu.ID 
                                         JOIN phim ON phim_phong_xuat.ID_Phim = phim.ID
-                   WHERE phim_phong_xuat.ID_Phim = ? 
-                         AND phim_phong_xuat.ID_Phong = ? 
-                         AND phim_phong_xuat.Ngay = '2021-08-01'`;
+                   WHERE phim_phong_xuat.ID_Phong = ? 
+                         AND phim_phong_xuat.Ngay = ?`;
 
-  conn.query(queryTime, [idphim, idphong], function(error, result){
-      if(error){
-        console.log(error);
-      }else{
-        let partialNewShowTime = gio.split(':');
-        let newShowTime = moment();
-        newShowTime.hour(parseInt(partialNewShowTime[0]));
-        newShowTime.minute(parseInt(partialNewShowTime[1]) +  result[i].ThoiGian);
-  
-        if(result.length != 0){
-            let countDetailRoom = result.length;
-            let newShowTime
-            for (let i = 0; i < countDetailRoom; i++) {
-                let parialTimeOfRoom = result[i].Gio.split(':');
-                // {hour: parseInt(parialTimeOfRoom[0]), minute:  parseInt(parialTimeOfRoom[1]) +  result[i].ThoiGian}
-                let endTimeOfRoom = moment();
-                endTimeOfRoom.hour(parseInt(parialTimeOfRoom[0]));
-                endTimeOfRoom.minute(parseInt(parialTimeOfRoom[1]) +  result[i].ThoiGian);
+  conn.query(queryTime, [idphong, ngay], function (error, result) {
+    if (error) {
+      console.log(error);
+    } else {
+      let partialNewShowTime = gio.split(':');
+      let newShowTime = moment();
+      newShowTime.hour(parseInt(partialNewShowTime[0]));
+      newShowTime.minute(parseInt(partialNewShowTime[1]));
 
-                
-                
+      if (result.length != 0) {
+        let countDetailRoom = result.length;
 
+        for (let i = 0; i < countDetailRoom; i++) {
+          let parialTimeOfRoom = result[i].Gio.split(':');
+          let endTimeOfRoom = moment();
 
+          endTimeOfRoom.hour(parseInt(parialTimeOfRoom[0]));
+          endTimeOfRoom.minute(parseInt(parialTimeOfRoom[1]) + result[i].ThoiGian);
+
+          if (newShowTime.isAfter(endTimeOfRoom) == true) {
+            let duration = moment.duration(newShowTime.diff(endTimeOfRoom))
+            let minute = duration.minutes();
+
+            if (minute < 30) {
+              return res.json({
+                message: 'Thời gian cách thời gian kết thúc là 30 phút',
+                statusCode: 0
+              });
             }
+          } else {
+            return res.json({
+              message: 'Suất chiếu không hợp lệ',
+              statusCode: 0
+            });
+          }
         }
       }
+
+      let sqlquerytemplichcchieu = `SELECT * FROM lichchieu WHERE lichchieu.Ngay = ? AND lichchieu.ID_Rap = ?`;
+
+      conn.query(sqlquerytemplichcchieu, [ngay, idrapphim], function (err, result) {
+        if (err) {
+          console.log(err);
+        } else {
+          if (result.length == 0) {
+            let querylichchieu = `INSERT INTO lichchieu VALUES (NULL, ?, ?)`;
+
+            conn.query(querylichchieu, [ngay, idrapphim], function (err, resultlichchieu) {
+              if (err) {
+                console.log(err);
+              } else {
+                let querysuatchieu = `INSERT INTO suatchieu VALUES (NULL, ?)`;
+
+                conn.query(querysuatchieu, [gio], function (err, reultsuatchieu) {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    let queryphimphongsuat = `INSERT INTO phim_phong_xuat VALUES(?,?,?,?)`;
+
+                    conn.query(
+                      queryphimphongsuat,
+                      [idphim, idphong, reultsuatchieu.insertId, ngay],
+                      function (err) {
+                        if (err) {
+                          console.log(err);
+                        }
+                      }
+                    );
+
+                    let queryphonglichchieu = `INSERT INTO phim_lichchieu VALUES(?,?,?)`;
+
+                    conn.query(
+                      queryphonglichchieu,
+                      [idphim, resultlichchieu.insertId, reultsuatchieu.insertId],
+                      function (err) {
+                        if (err) {
+                          console.log(err);
+                        } else {
+
+                          res.json({
+                            message: 'Thêm lịch chiếu thành công.',
+                            statusCode: 1
+                          })
+                        }
+                      }
+                    );
+                  }
+                });
+              }
+            });
+          } else {
+
+            let querysuatchieu = `INSERT INTO suatchieu VALUES (NULL, ?)`;
+
+            conn.query(querysuatchieu, [gio], function (err, reultsuatchieu) {
+              if (err) {
+                console.log(err);
+              } else {
+                let queryphimphongsuat = `INSERT INTO phim_phong_xuat VALUES(?,?,?,?)`;
+
+                conn.query(
+                  queryphimphongsuat,
+                  [idphim, idphong, reultsuatchieu.insertId, ngay],
+                  function (err) {
+                    if (err) {
+                      console.log(err);
+                    }
+                  }
+                );
+
+                let queryphonglichchieu = `INSERT INTO phim_lichchieu VALUES(?,?,?)`;
+
+                conn.query(
+                  queryphonglichchieu,
+                  [idphim, result[0].ID, reultsuatchieu.insertId],
+                  function (err) {
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      console.log('thành công');
+                      // res.redirect("/lichchieu/danhsachlichchieu?page=1");
+
+                      res.json({
+                        message: 'Thêm lịch chiếu thành công.',
+                        statusCode: 1
+                      })
+                    }
+                  }
+                );
+              }
+            });
+
+          }
+        }
+      });
+    }
   });
-
-  // let sqlquerytemplichcchieu = `SELECT * FROM lichchieu WHERE lichchieu.Ngay = ? AND lichchieu.ID_Rap = ?`;
-
-  // conn.query(sqlquerytemplichcchieu, [ngay, idrapphim], function (err, result) {
-  //   if (err) {
-  //     console.log(err);
-  //   } else {
-  //     if (result.length == 0) {
-  //       let querylichchieu = `INSERT INTO lichchieu VALUES (NULL, ?, ?)`;
-
-  //       conn.query(querylichchieu, [ngay, idrapphim], function (err, resultlichchieu) {
-  //         if (err) {
-  //           console.log(err);
-  //         } else {
-  //           let querysuatchieu = `INSERT INTO suatchieu VALUES (NULL, ?)`;
-
-  //           conn.query(querysuatchieu, [gio], function (err, reultsuatchieu) {
-  //             if (err) {
-  //               console.log(err);
-  //             } else {
-  //               let queryphimphongsuat = `INSERT INTO phim_phong_xuat VALUES(?,?,?,?)`;
-
-  //               conn.query(
-  //                 queryphimphongsuat,
-  //                 [idphim, idphong, reultsuatchieu.insertId, ngay],
-  //                 function (err) {
-  //                   if (err) {
-  //                     console.log(err);
-  //                   }
-  //                 }
-  //               );
-
-  //               let queryphonglichchieu = `INSERT INTO phim_lichchieu VALUES(?,?,?)`;
-
-  //               conn.query(
-  //                 queryphonglichchieu,
-  //                 [idphim, resultlichchieu.insertId, reultsuatchieu.insertId],
-  //                 function (err) {
-  //                   if (err) {
-  //                     console.log(err);
-  //                   } else {
-
-  //                     res.json({
-  //                       message: 'Thêm lịch chiếu thành công.',
-  //                       statusCode: 1
-  //                     })
-  //                   }
-  //                 }
-  //               );
-  //             }
-  //           });
-  //         }
-  //       });
-  //     } else {
-
-  //       let querysuatchieu = `INSERT INTO suatchieu VALUES (NULL, ?)`;
-
-  //       conn.query(querysuatchieu, [gio], function (err, reultsuatchieu) {
-  //         if (err) {
-  //           console.log(err);
-  //         } else {
-  //           let queryphimphongsuat = `INSERT INTO phim_phong_xuat VALUES(?,?,?,?)`;
-
-  //           conn.query(
-  //             queryphimphongsuat,
-  //             [idphim, idphong, reultsuatchieu.insertId, ngay],
-  //             function (err) {
-  //               if (err) {
-  //                 console.log(err);
-  //               }
-  //             }
-  //           );
-
-  //           let queryphonglichchieu = `INSERT INTO phim_lichchieu VALUES(?,?,?)`;
-
-  //           conn.query(
-  //             queryphonglichchieu,
-  //             [idphim, result[0].ID, reultsuatchieu.insertId],
-  //             function (err) {
-  //               if (err) {
-  //                 console.log(err);
-  //               } else {
-  //                 console.log('thành công');
-  //                 // res.redirect("/lichchieu/danhsachlichchieu?page=1");
-
-  //                 res.json({
-  //                   message: 'Thêm lịch chiếu thành công.',
-  //                   statusCode: 1
-  //                 })
-  //               }
-  //             }
-  //           );
-  //         }
-  //       });
-
-  //     }
-  //   }
-  // });
-
 });
 
 router.get("/loadphongtheorap", function (req, res) {

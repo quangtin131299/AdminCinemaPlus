@@ -212,37 +212,51 @@ function onSubmit() {
     let movie = movies.filter(movie => movie.ID == idMovie);
     let timeOfMoive = movie && movie.length != 0?  movie[0].ThoiGian: 0;
 
-    showLoading();
+    
 
-    $.ajax({
-        method: 'POST',
-        url: '/lichchieu/xeplich',
-        data: {
-            idcinema: idCinema,
-            date: dateSchedule,
-            showtime: showTime,
-            idroom: idRoom,
-            idmovie: idMovie
-        },
-        success: function (data) {
-            hideLoading();
-            if (data.statusCode == 1) {
-                let endTime = calulatorEndTime(`${showTime}:00`, timeOfMoive);
-                let newEvent = {
-                    title: `${movie[0].TenPhim} | ${room[0].TenPhong}`,
-                    start: `${dateSchedule} ${showTime}`,
-                    end: `${dateSchedule} ${endTime}`,
-                    backgroundColor: '#3c8dbc',
-                    borderColor: '#3c8dbc',
-                };
+    if(checkTimeInvalid(showTime) == true){
+        showLoading();
+        // $.ajax({
+        //     method: 'POST',
+        //     url: '/lichchieu/xeplich',
+        //     data: {
+        //         idcinema: idCinema,
+        //         date: dateSchedule,
+        //         showtime: showTime,
+        //         idroom: idRoom,
+        //         idmovie: idMovie
+        //     },
+        //     success: function (data) {
+        //         hideLoading();
+    
+        //         if (data.statusCode == 1) {
+    
+        //             let endTime = calulatorEndTime(`${showTime}:00`, timeOfMoive);
+        //             let newEvent = {
+        //                 title: `${movie[0].TenPhim} | ${room[0].TenPhong}`,
+        //                 start: `${dateSchedule} ${showTime}`,
+        //                 end: `${dateSchedule} ${endTime}`,
+        //                 backgroundColor: '#3c8dbc',
+        //                 borderColor: '#3c8dbc',
+        //             };
+    
+        //             calendar.addEvent(newEvent)
+        //         }
+    
+        //         $('#modalTextMessage').text(data.message);
+        //         $('#notifyModal').modal('show');
+                
+        //     },
+        //     error: function (error) {
+    
+        //     }
+        // })
+    }else{
+        $('#modalTextMessage').text('Suất chiếu không hợp');
+                $('#notifyModal').modal('show');
+    }
 
-                calendar.addEvent(newEvent)
-            }
-        },
-        error: function (error) {
-
-        }
-    })
+    
 }
 
 function clearEvent() {
@@ -304,4 +318,39 @@ function getLastDayWeek(){
     let dateString = lastday.getUTCFullYear() + "-" + ("0" + (lastday.getUTCMonth() + 1)).slice(-2) + "-" + ("0" + lastday.getUTCDate()).slice(-2);
 
     return dateString;
+}
+
+function checkTimeInvalid(time){
+    let min = moment();
+    min.hour(8);
+
+    let max = moment();
+
+    max.hour(21)
+    max.minute(30);
+
+    let partialTime = time.split(':');
+    let timeSelected = moment();
+    timeSelected.hour(parseInt(partialTime[0]));
+    timeSelected.minute(parseInt(partialTime[1]));
+
+
+    if (timeSelected.isBefore(min) == true ) {
+        return false;
+    }
+
+    if(timeSelected.isAfter(max) == true){
+        return false;
+    }
+
+    return true;
+}
+
+function checkTime(inputTime){
+    let time = inputTime.value;
+    let regEx = new RegExp('^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$');
+
+    if(regEx.test(time) == false){
+        inputTime.value = ''
+    }
 }

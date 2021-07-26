@@ -69,7 +69,7 @@ script(src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.8.0/main.min.j
                         .card-body 
                             //- input.form-control(name= "txtSuatChieu",type='time', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                             .input-group.clockpicker(data-align='top' data-autoclose='true')
-                              input.form-control(placeholder="Chọn suất chiếu" ,name= "txtSuatChieu", type='text')
+                              input.form-control(placeholder="Chọn suất chiếu" ,name= "txtSuatChieu", type='text', onblur="checkTime(this)")
                               span.input-group-addon
                                 span.glyphicon.glyphicon-time
                         .card-body
