@@ -54,3 +54,6 @@ function hideLoading() {
 function showLoading(){
    $('#exampleModalCenter').modal('show');
 }
+
+
+
