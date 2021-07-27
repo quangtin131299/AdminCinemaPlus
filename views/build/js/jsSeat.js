@@ -23,8 +23,7 @@ $('#formAddSeat').validate({
     },
     messages: {
         txtNameSeat: {
-            required: 'Tên phim không được bỏ trống',
-            maxlength: 'Hãy nhập tối đa 5 ký tự'
+            required: 'Tên ghế không được bỏ trống'
         },
     },
     errorPlacement: function (label, element) {
