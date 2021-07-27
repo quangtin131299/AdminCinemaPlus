@@ -154,3 +154,14 @@
     margin-right: 15px;
 }
 
+.container-intro-schedule{
+    display:flex; 
+    flex-wrap:wrap; 
+    justify-content: center
+}
+
+.card-schedule-cinema{
+    width: fit-content; 
+    margin-right: 55px
+}
+

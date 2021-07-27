@@ -6,51 +6,32 @@ $('#notifyModal').on('shown.bs.modal', function (e) {
     $("#exampleModalCenter").modal("hide");
 });
 
-/* initialize the external events
------------------------------------------------------------------*/
 function ini_events(ele) {
     ele.each(function () {
-        // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-        // it doesn't need to have a start or end
+        
         var eventObject = {
-            title: $.trim($(this).text()) // use the element's text as the event title
+            title: $.trim($(this).text())
         }
-        // store the Event Object in the DOM element so we can get to it later
+        
         $(this).data('eventObject', eventObject)
-        // make the event draggable using jQuery UI
         $(this).draggable({
             zIndex: 1070,
-            revert: true, // will cause the event to go back to its
-            revertDuration: 0 //  original position after the drag
+            revert: true,
+            revertDuration: 0 
         })
     })
 }
 ini_events($('#external-events div.external-event'))
-/* initialize the calendar
------------------------------------------------------------------*/
-//Date for the calendar events (dummy data)
+
 var date = new Date()
 var d = date.getDate(),
     m = date.getMonth(),
     y = date.getFullYear()
 var Calendar = FullCalendar.Calendar;
-// var Draggable = FullCalendarInteraction.Draggable;
+
 var containerEl = document.getElementById('external-events');
 var calendarEl = document.getElementById('calendar');
-// initialize the external events
-// -----------------------------------------------------------------
-// new Draggable(containerEl, {
-//     itemSelector: '.external-event',
-//     eventData: function (eventEl) {
-//         console.log(eventEl);
-//         return {
-//             title: eventEl.innerText,
-//             backgroundColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),
-//             borderColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),
-//             textColor: window.getComputedStyle(eventEl, null).getPropertyValue('color'),
-//         };
-//     }
-// });
+
 let dtToday = new Date();
 let month = dtToday.getMonth() + 1;
 var day = dtToday.getDate();
@@ -65,6 +46,7 @@ let maxDate = year + '-' + month + '-' + day;
 $('input[name=txtNgayChieu]').attr('min', maxDate);
 
 var calendar = new FullCalendar.Calendar(calendarEl, {
+    schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
     initialView: 'timeGridDay',
     headerToolbar: {
         left: 'prev,next today',
@@ -73,54 +55,24 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
     },
     locale: 'vi',
 
-    //Random default events 
     height: "auto",
     editable: true,
-    droppable: true, // this allows things to be dropped onto the calendar !!!
+    droppable: true,
 });
 
 calendar.render();
 
-/* ADDING EVENTS */
-var currColor = '#3c8dbc' //Red by default
-//Color chooser button
+var currColor = '#3c8dbc' 
 var colorChooser = $('#color-chooser-btn')
 
 $('#color-chooser > li > a').click(function (e) {
     e.preventDefault()
-    //Save color
     currColor = $(this).css('color')
-    //Add color effect to button
     $('#add-new-event').css({
         'background-color': currColor,
         'border-color': currColor
     })
 })
-
-// $('#add-new-event').click(function (e) {
-//     e.preventDefault()
-//     //Get value and make sure it is not null
-//     var val = $('#new-event').val()
-//     if (val.length == 0) {
-//         return
-//     }
-//     //Create events
-//     var event = $('<div />')
-
-//     event.css({
-//         'background-color': currColor,
-//         'border-color': currColor,
-//         'color': '#fff'
-//     }).addClass('external-event')
-
-//     event.html(val)
-
-//     $('#external-events').prepend(event)
-//     //Add draggable funtionality
-//     ini_events(event)
-//     //Remove event from text input
-//     $('#new-event').val('')
-// })
 
 let movies = [];
 let rooms = [];
@@ -139,9 +91,8 @@ function loadMovieOfCinema(element) {
         },
         success: function (dataSchedule) {
             clearEvent();
-
+           
             if (dataSchedule) {
-                console.log(dataSchedule);
                 
                 let countMovie = dataSchedule.length;
 
@@ -165,12 +116,8 @@ function loadMovieOfCinema(element) {
                                 borderColor: '#3c8dbc',
                             })
                         }
-
                     }
-
                 }
-
-
             }
         },
         error: function (erroSchedule) {
@@ -186,9 +133,10 @@ function loadMovieOfCinema(element) {
         },
         success: function (data) {
 
-            $("select[name=dropdownMovie]").html('')
+            $("select[name=dropdownMovie]").html(`<option value=''>Chọn phim</option>`)
 
             if (data) {
+                
                 movies = data;
                 let countMovie = data.length;
 
@@ -233,8 +181,7 @@ function loadMovieOfCinema(element) {
 }
 
 function calulatorEndTime(time, minuteMovie) {
-
-    var dt = new Date();
+    let dt = new Date();
     let hh = '';
     let mm = '';
     let ss = '';
@@ -256,16 +203,6 @@ function calulatorEndTime(time, minuteMovie) {
     return `${hh}:${mm}:${ss}`;;
 }
 
-// function formatDateToServer() {
-//     let date = new Date();
-
-//     dd = date.getDate().toString().padStart(2, '0');
-//     mm = (date.getMonth() + 1).toString().padStart(2, '0');
-//     yyyy = date.getFullYear().toString().padStart(2, '0');
-
-//     return `${yyyy}-${mm}-${dd}`;
-// }
-
 function onSubmit() {
     let idCinema = $('select[name=dropdownCinema]').val();
     let idMovie = $('select[name=dropdownMovie]').val();
@@ -276,42 +213,51 @@ function onSubmit() {
     let movie = movies.filter(movie => movie.ID == idMovie);
     let timeOfMoive = movie && movie.length != 0?  movie[0].ThoiGian: 0;
 
-    // if(idCinema === '' || idMovie === '' || showTime == '' || idRoom == '' || dateSchedule == ''){
-    //     alert('Thông tin không hợp lệ');
-    //     return;
-    // }
+    
 
-    showLoading();
-
-    $.ajax({
-        method: 'POST',
-        url: '/lichchieu/xeplich',
-        data: {
-            idcinema: idCinema,
-            date: dateSchedule,
-            showtime: showTime,
-            idroom: idRoom,
-            idmovie: idMovie
-        },
-        success: function (data) {
-            hideLoading();
-            if (data.statusCode == 1) {
-                let endTime = calulatorEndTime(`${showTime}:00`, timeOfMoive);
-                let newEvent = {
-                    title: `${movie[0].TenPhim} | ${room[0].TenPhong}`,
-                    start: `${dateSchedule} ${showTime}`,
-                    end: `${dateSchedule} ${endTime}`,
-                    backgroundColor: '#3c8dbc',
-                    borderColor: '#3c8dbc',
-                };
-
-                calendar.addEvent(newEvent)
+    if(checkTimeInvalid(showTime) == true){
+        showLoading();
+        $.ajax({
+            method: 'POST',
+            url: '/lichchieu/xeplich',
+            data: {
+                idcinema: idCinema,
+                date: dateSchedule,
+                showtime: showTime,
+                idroom: idRoom,
+                idmovie: idMovie
+            },
+            success: function (data) {
+                hideLoading();
+    
+                if (data.statusCode == 1) {
+    
+                    let endTime = calulatorEndTime(`${showTime}:00`, timeOfMoive);
+                    let newEvent = {
+                        title: `${movie[0].TenPhim} | ${room[0].TenPhong}`,
+                        start: `${dateSchedule} ${showTime}`,
+                        end: `${dateSchedule} ${endTime}`,
+                        backgroundColor: '#3c8dbc',
+                        borderColor: '#3c8dbc',
+                    };
+    
+                    calendar.addEvent(newEvent)
+                }
+    
+                $('#modalTextMessage').text(data.message);
+                $('#notifyModal').modal('show');
+                
+            },
+            error: function (error) {
+    
             }
-        },
-        error: function (error) {
+        })
+    }else{
+        $('#modalTextMessage').text('Suất chiếu không hợp');
+                $('#notifyModal').modal('show');
+    }
 
-        }
-    })
+    
 }
 
 function clearEvent() {
@@ -328,6 +274,30 @@ function hideLoading() {
 
 function showLoading() {
     $('#exampleModalCenter').modal('show');
+}
+
+function validateDateSchedule(movieSelect){
+    let idMovie = movieSelect.value;
+
+    let movie = movies.filter(x => x.ID == idMovie);
+
+    let openDate = movie[0].NgayKhoiChieu;
+    let endDate = movie[0].NgayKetThuc;
+    let inputDateSchedule = $('input[name=txtNgayChieu]');
+    let date = new Date(openDate);
+
+    if(Date.now() >= date.getTime()){
+        let currentDate = new Date();
+        let year = currentDate.getFullYear();
+        let moth = currentDate.getMonth() + 1;
+        let date = currentDate.getDate();
+    
+        inputDateSchedule.prop('min', `${year}-${moth.toString().padStart('2','0')}-${date.toString().padStart('2','0')}`);
+    }else{
+        inputDateSchedule.prop('min', openDate);
+    }
+
+    inputDateSchedule.prop('max', endDate);
 }
 
 function getFristDayWeek(){
@@ -349,4 +319,39 @@ function getLastDayWeek(){
     let dateString = lastday.getUTCFullYear() + "-" + ("0" + (lastday.getUTCMonth() + 1)).slice(-2) + "-" + ("0" + lastday.getUTCDate()).slice(-2);
 
     return dateString;
+}
+
+function checkTimeInvalid(time){
+    let min = moment();
+    min.hour(8);
+
+    let max = moment();
+
+    max.hour(21)
+    max.minute(30);
+
+    let partialTime = time.split(':');
+    let timeSelected = moment();
+    timeSelected.hour(parseInt(partialTime[0]));
+    timeSelected.minute(parseInt(partialTime[1]));
+
+
+    if (timeSelected.isBefore(min) == true ) {
+        return false;
+    }
+
+    if(timeSelected.isAfter(max) == true){
+        return false;
+    }
+
+    return true;
+}
+
+function checkTime(inputTime){
+    let time = inputTime.value;
+    let regEx = new RegExp('^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$');
+
+    if(regEx.test(time) == false){
+        inputTime.value = ''
+    }
 }
