@@ -21,22 +21,7 @@ router.get("/danhsachnhacungcap", function(req, res){
 })
 
 router.get("/themnhacungcap", function(req, res){
-
-    let querySupplier = `SELECT * FROM nhacungcap`;
-
-    conn.query(querySupplier, function(errorSupplier, resultSupplier){
-        if(errorSupplier){
-            console.log(errorSupplier);
-
-            res.render("nhacungcap/themnhacungcap",{
-                supplier: []
-            });
-        } else{
-            res.render("nhacungcap/themnhacungcap",{
-                supplier: resultSupplier
-            });
-        }
-    })
+    res.render("nhacungcap/themnhacungcap");
 })
 
 router.post('/themnhacungcap', function(req,res){
