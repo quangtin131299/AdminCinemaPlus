@@ -9,7 +9,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get("/danhsachnhacungcap", function(req, res){
     
-	let query = `select * from nhacungcap`
+	let query = `select * from nhacungcap WHERE nhacungcap.isDelete = 0`
 	conn.query(query, function(err, result){
 	    if(err){
 			console.log(err);
@@ -22,7 +22,7 @@ router.get("/danhsachnhacungcap", function(req, res){
 
 router.get("/themnhacungcap", function(req, res){
 
-    let querySupplier = `select * from nhacungcap`;
+    let querySupplier = `SELECT * FROM nhacungcap`;
 
     conn.query(querySupplier, function(errorSupplier, resultSupplier){
         if(errorSupplier){
@@ -104,18 +104,36 @@ router.post("/suanhacungcap", function (req, res){
     })
 })
 
-router.get("/xoanhacungcap", function (req, res){
-    let idSupplier = req.query.idSupplier;
+router.post("/xoanhacungcap", function (req, res){
+    let idSupplier = req.body.idSupplier;
+    console.log(idSupplier);
     let query = `SELECT phim.ID, phim.TenPhim, phim.ID_NhaCungCap, nhacungcap.ID, nhacungcap.TenNhaCungCap
                  FROM nhacungcap JOIN phim ON phim.ID_NhaCungCap = nhacungcap.ID
                  WHERE nhacungcap.ID = ?`;
 
-    conn.query(query, [idSupplier], function (err, result){
-        if(err){
+    conn.query(query, [idSupplier], function (errContrainSupplier, resultContrainSupplier){
+        if(errContrainSupplier){
             console.log(err);
         } else {
-            res.render("nhacungcap/xoanhacungcap", {nhacungcap: result[0], messNotify: messageEdit});
-            console.log(result);
+            if(resultContrainSupplier.length == 0){
+                let queryUpdateStatus = `UPDATE nhacungcap
+                                         SET nhacungcap.isDelete = 1
+                                         Where nhacungcap.ID  = ?`;
+                
+                conn.query(queryUpdateStatus, [idSupplier], function(errorUpdate){
+                    if(errorUpdate){
+                        console.log(errorUpdate);
+
+                        return res.json({statusCode: 0, message: 'Xóa nhà cung cấp thất bại'});
+                    }
+
+                    res.json({statusCode: 1, message: 'Xóa nhà cung cấp thành công'});
+                })
+            }else{
+                res.json({statusCode: 0, message: 'Xóa nhà cung cấp thất bại'});
+            }
+            
+            // res.render("nhacungcap/xoanhacungcap", {nhacungcap: result[0], messNotify: messageEdit});
         }
     })
 })

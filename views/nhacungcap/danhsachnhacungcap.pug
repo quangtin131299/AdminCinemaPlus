@@ -56,8 +56,8 @@ include ../header.pug
             each nhacungcap in danhsachnhacungcap
               tr
                 th(scope='row')=nhacungcap.ID
-                td=nhacungcap.TenNhaCungCap
-                td=nhacungcap.DiaChi
+                td(width="200px")=nhacungcap.TenNhaCungCap
+                td(width="300px")=nhacungcap.DiaChi
                 td=nhacungcap.SĐT
                 td=nhacungcap.Email
                 td
@@ -65,9 +65,9 @@ include ../header.pug
                     a(href="suanhacungcap?idSupplier=" + nhacungcap.ID) Sửa
                   span |
                   span 
-                    a(href="xoanhacungcap?idSupplier=" + nhacungcap.ID, data-toggle="modal", data-target="#exampleModal") Xóa
+                    button#linkDelete.btn.btn-primary(onclick=`setIdSupplier(${nhacungcap.ID})`, data-toggle='modal', data-target="#modalInforDelete") Xóa
 
-      #exampleModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+      #modalInforDelete.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
         .modal-dialog(role='document')
           .modal-content
             .modal-header
@@ -78,7 +78,19 @@ include ../header.pug
               | Bạn có thật sự muốn xóa nhà cung cấp phim này không ?
             .modal-footer
               button.btn.btn-secondary(type='button' data-dismiss='modal') Hủy
-              button.btn.btn-primary(type='button', name='btnAccept', onclick="btnAccept()") Xác nhận
+              button.btn.btn-success(type='button', onclick="btnAccept()") Xác nhận
+
+      #notifyModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              h5#exampleModalLabel.modal-title Thông báo
+              button.close(type='button' data-dismiss='modal' aria-label='Close')
+                span(aria-hidden='true') &times;
+            .modal-body
+              span#modalTextMessage= messNotify
+            .modal-footer
+              button.btn.btn-primary(type='button' id='btnOK') Ok
     // /.content
   // /.content-wrapper
   include ../footer.pug
@@ -116,3 +128,4 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
+script(src="build/js/jsListSupplier.js") 

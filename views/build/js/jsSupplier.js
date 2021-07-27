@@ -1,7 +1,12 @@
 let danhsachnhacungcap = [];
-document.getElementById("btnhuy").onclick = function () {
-    window.location.replace("danhsachnhacungcap")
+
+let btnhuy = document.getElementById("btnhuy");
+if(btnhuy){
+    btnhuy.onclick = function () {
+        window.location.replace("danhsachnhacungcap")
+    }
 }
+
 
 
 $(document).ready(function () {
@@ -98,30 +103,7 @@ $('#btnsubmitEdit').click(function () {
 
 })
 
-$('#btnAccept').click(function () {
-    let idSupplier = document.getElementById('idSupplier');
-    console.log(idSupplier);
-    showLoading();
 
-    $.ajax({
-        method: 'GET',
-        url: '/nhacungcap/xoanhacungcap',
-        data: {
-            idSupplier: idSupplier
-        },
-        success: function (data) {
-            if ( data.length == 0 ) {
-                hideLoading();
-                $('#modalTextMessage').html(data.messNotify);
-                $('#notifyModal').modal('show')
-            }
-        },
-        error: function (error) {
-            console.log(error);
-        }
-    })
-
-})
 
 function hideLoading() {
     $("#exampleModalCenter").modal('hide');
