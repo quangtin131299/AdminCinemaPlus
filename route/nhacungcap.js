@@ -104,5 +104,21 @@ router.post("/suanhacungcap", function (req, res){
     })
 })
 
+router.get("/xoanhacungcap", function (req, res){
+    let idSupplier = req.query.idSupplier;
+    let query = `SELECT phim.ID, phim.TenPhim, phim.ID_NhaCungCap, nhacungcap.ID, nhacungcap.TenNhaCungCap
+                 FROM nhacungcap JOIN phim ON phim.ID_NhaCungCap = nhacungcap.ID
+                 WHERE nhacungcap.ID = ?`;
+
+    conn.query(query, [idSupplier], function (err, result){
+        if(err){
+            console.log(err);
+        } else {
+            res.render("nhacungcap/xoanhacungcap", {nhacungcap: result[0], messNotify: messageEdit});
+            console.log(result);
+        }
+    })
+})
+
 
 module.exports = router;

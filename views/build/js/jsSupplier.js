@@ -98,6 +98,31 @@ $('#btnsubmitEdit').click(function () {
 
 })
 
+$('#btnAccept').click(function () {
+    let idSupplier = document.getElementById('idSupplier');
+    console.log(idSupplier);
+    showLoading();
+
+    $.ajax({
+        method: 'GET',
+        url: '/nhacungcap/xoanhacungcap',
+        data: {
+            idSupplier: idSupplier
+        },
+        success: function (data) {
+            if ( data.length == 0 ) {
+                hideLoading();
+                $('#modalTextMessage').html(data.messNotify);
+                $('#notifyModal').modal('show')
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    })
+
+})
+
 function hideLoading() {
     $("#exampleModalCenter").modal('hide');
 }
@@ -122,7 +147,7 @@ function validateEmail() {
     if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test($('#txtEmail').val())) {
         return true;
     }
-   
+
     return false;
 }
 
@@ -153,21 +178,21 @@ var map = new goongjs.Map({
     container: 'map',
     style: 'https://tiles.goong.io/assets/goong_map_web.json', // stylesheet location
     center: [106.67783681139827, 10.738047815253331], // starting position [lng, lat]
-    zoom: 17// starting zoom
+    zoom: 17 // starting zoom
 });
 
 
-function onBlur(){
+function onBlur() {
     var api_key = '2a4d1678277d4f1689e79a1655298d59';
 
     var api_url = 'https://api.opencagedata.com/geocode/v1/json'
 
-    var request_url = api_url
-        + '?'
-        + 'key=' + api_key
-        + '&q=' + encodeURIComponent($('#txtAddress').val())
-        + '&pretty=1'
-        + '&no_annotations=1';
+    var request_url = api_url +
+        '?' +
+        'key=' + api_key +
+        '&q=' + encodeURIComponent($('#txtAddress').val()) +
+        '&pretty=1' +
+        '&no_annotations=1';
 
     $.ajax({
         method: 'GET',
@@ -176,7 +201,7 @@ function onBlur(){
             if (dataResult) {
                 $('#txtViDo').val(dataResult.results[0].geometry.lat);
                 $('#txtKinhDo').val(dataResult.results[0].geometry.lng)
-                
+
                 map.jumpTo({
                     center: [dataResult.results[0].geometry.lng, dataResult.results[0].geometry.lat],
                     zoom: 17
