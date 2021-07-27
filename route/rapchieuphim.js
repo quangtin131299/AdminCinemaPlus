@@ -170,7 +170,7 @@ router.get("/chitietrapchieu", function (req, res) {
                         , rapphim.ViDo
                         , phong.ID as 'ID_Phong'
                         , phong.TenPhong
-                 FROM rapphim JOIN phong ON rapphim.ID = phong.ID_Rap
+                 FROM rapphim LEFT JOIN phong ON rapphim.ID = phong.ID_Rap
                  WHERE rapphim.ID = ?`;
     conn.query(query, [idCinema], function (err, result) {
       if (err) {
@@ -182,10 +182,10 @@ router.get("/chitietrapchieu", function (req, res) {
           let nameCinema = '';
           let rooms =[];
           let countCinema = result.length;
-
+        
           for (let i = 0; i < countCinema; i++) {
               for (let j = i; j < countCinema; j++) {
-                  if (result[i].TenRap == result[j].TenRap) {
+                  if (result[i].TenRap == result[j].TenRap && result[j].ID_Phong != null) {              
                     rooms.push({
                         id: result[j].ID_Phong,
                         nameRoom: result[j].TenPhong
@@ -194,6 +194,7 @@ router.get("/chitietrapchieu", function (req, res) {
               }
 
               nameCinema = result[i].TenRap;
+
               resultCinema.push({
                 ID: result[i].ID,
                 TenRap: result[i].TenRap,
@@ -201,14 +202,144 @@ router.get("/chitietrapchieu", function (req, res) {
                 Hinh:  result[i].Hinh,
                 KinhDo:result[i].KinhDo,
                 ViDo: result[i].ViDo,
-                rooms :rooms
+                rooms : rooms
               })
               rooms = [];
               
           }
-
+        
         res.render("rapchieu/chitietrapchieu", { cinema: resultCinema[0] });
       }
     });
-  });
+});
+
+router.post("/themphong", function(req, res){
+    let nameRoom = req.body.nameRoom;
+    let idCinema = req.body.idCinema;
+
+    let queryNameRoom = `SELECT * FROM phong JOIN rapphim ON phong.ID_Rap = rapphim.ID WHERE phong.TenPhong = ? AND rapphim.ID = ?`;
+
+    conn.query(queryNameRoom, [nameRoom, idCinema] ,function(errorNameRoom, resultNameRoom ){
+        if(errorNameRoom){
+            return res.json({statusCode: 0, message: 'Không thể kiểm tên phòng'});
+        }else{
+            if(resultNameRoom.length == 0){
+                let queryLimtiRoom = `SELECT Count(*) as 'CountRoom' FROM phong JOIN rapphim ON phong.ID_Rap = rapphim.ID WHERE rapphim.ID = ?`;
+
+                conn.query(queryLimtiRoom, [idCinema], function(errorLimitRoom, resultLimtRoom){
+                    if(errorLimitRoom){
+                        console.log(errorLimitRoom);
+            
+                       return res.json({statusCode: 0, message: 'Không thể kiểm tra giới hạn phòng'});
+                    }else{
+                        if(resultLimtRoom[0].CountRoom >= 4){
+                            return res.json({statusCode: 0, message: 'Phòng đã đạt tới giới hạn'});
+                        }else{
+            
+                            let queryAddRoom = `INSERT INTO phong VALUES(NULL,?,?)`;
+            
+                            conn.query(queryAddRoom, [nameRoom, idCinema], function(error, resultAddRoom){
+                                if(error){
+                                    console.log(error);
+                        
+                                    return res.json({statusCode: 0, message: 'Thêm phòng thất bại'})
+                                }else{ 
+                                    if(resultAddRoom.insertId != 0){
+                                        let queryInsertRoom = `INSERT INTO ghe VALUES (NULL,'A1','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'A2','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'A3','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'A4','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'A5','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'A6','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'B1','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'B2','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'B3','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'B4','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'B5','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'B6','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'C1','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'C2','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'C3','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'C4','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'C5','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'C6','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'C7','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'C8','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'D1','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'D2','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'D3','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'D4','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'D5','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'D6','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'D7','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'D8','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'E1','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'E2','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'E3','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'E4','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'E5','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'E6','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'E7','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'E8','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'F1','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'F2','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'F3','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'F4','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'F5','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'F6','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'F7','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'F8','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'G1','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'G2','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'G3','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'G4','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'G5','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'G6','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'G7','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'G8','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'H1','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'H2','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'H3','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'H4','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'H5','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'H6','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'H7','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'H8','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'I1','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'I2','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'I3','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'I4','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'I5','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'I6','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'I7','${resultAddRoom.insertId}','Trống')
+                                                                                    ,(NULL,'I8','${resultAddRoom.insertId}','Trống')`;
+                        
+                                        conn.query(queryInsertRoom,  function(errorAddSeat){
+                                            if(errorAddSeat){
+                                                console.log(errorAddSeat);
+                        
+                                                return res.json({statusCode: 0, message: 'Thêm ghế thất bại', Id_Room: resultAddRoom.insertId})
+                                            }
+                        
+                                            res.json({statusCode: 1, message: 'Thêm phòng thành công', Id_Room: resultAddRoom.insertId});
+                                        })
+                                    }
+                                   
+                                }
+                            })
+                        
+                        }
+                    }
+                });
+            
+            }else{
+                res.json({statusCode: 0, message: 'Tên phòng bị trùng '});
+            }
+        }
+    })
+
+
+   
+})
+
 module.exports = router
