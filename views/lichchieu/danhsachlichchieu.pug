@@ -45,29 +45,22 @@ script(src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.js")
       // /.container-fluid
     // /.content-header
     // Main content
-    section.content
-      .card
-        .card-body
-          .filter-container
-            .input-group.mb-3.date-filter
-              .input-group-prepend
-                span#inputGroup-sizing-default.input-group-text Ngày
-              input.form-control(type='date', aria-label='Default', aria-describedby='inputGroup-sizing-default')
-            button.btn.btn-success.btn-filter(type='button') Lọc
-
-          table.table.table-bordered
-            thead
-              tr
-                th(scope='col') Tên rạp chiếu
-                th(scope='col') Lịch chiếu ngày
-                th(scope='col') 
-            tbody
-              each item in cinemas 
-                tr
-                  td= item.nameCinema
-                  td= item.date
-                  td
-                    a Xem chi tiết
+    section.content.container-intro-schedule
+      each item in cinemas
+        .card.card-schedule-cinema
+          .card-body
+            .row
+              .col-md-12 
+                .row
+                  .col-md-10
+                    h4= item.nameCinema
+                  .col-md-2
+                    a.btn.btn-primary(href="#") Xếp lịch
+                .row
+                  .col-md-12
+                    div(id=`calendar${item.idCinema}`, style="width: 800px")
+            br
+          
                     
     // /.content
   // /.content-wrapper

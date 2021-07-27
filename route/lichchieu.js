@@ -67,7 +67,7 @@ router.get("/danhsachlichchieu", function (req, res) {
                                                       JOIN phim on phim.ID = phim_lichchieu.ID_Phim
                                                       JOIN phim_phong_xuat on phim_phong_xuat.ID_Phim = phim.ID
                                                       JOIN phong on phong.ID = phim_phong_xuat.ID_Phong AND suatchieu.ID = phim_phong_xuat.ID_XuatChieu
-                                      WHERE lichchieu.Ngay = '2021-07-10'`;
+                                      WHERE lichchieu.Ngay = '2021-08-01'`;//2021-07-10
 
         conn.query(queryScheduleAllCinema, function (error, resultSchedultCinema){
           if(error){
@@ -106,6 +106,7 @@ router.get("/danhsachlichchieu", function (req, res) {
                           
                           movies.push({
                             nameMovie: resultSchedultCinema[j].TenPhim,
+                            duration: resultSchedultCinema[j].ThoiGian,
                             showTime: showTimeOfmovie
                           })
 
@@ -120,7 +121,7 @@ router.get("/danhsachlichchieu", function (req, res) {
                   }   
 
               }
-
+             
               res.render("lichchieu/danhsachlichchieu", {cinemas: resultCinemaRoom});
           }
 

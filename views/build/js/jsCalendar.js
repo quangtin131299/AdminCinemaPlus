@@ -46,6 +46,7 @@ let maxDate = year + '-' + month + '-' + day;
 $('input[name=txtNgayChieu]').attr('min', maxDate);
 
 var calendar = new FullCalendar.Calendar(calendarEl, {
+    schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
     initialView: 'timeGridDay',
     headerToolbar: {
         left: 'prev,next today',
