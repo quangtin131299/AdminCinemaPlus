@@ -11,7 +11,7 @@ router.get("/danhsachghe", function(req,res){
     let idRoom = req.query.idRoom;
     let idCinema = req.query.idCinema;
 
-    let querySeat = ` SELECT ghe.* 
+    let querySeat = ` SELECT ghe.ID, ghe.ID_Phong, ghe.TenGhe, ghe.TrangThai , rapphim.TenRap, phong.TenPhong
                        FROM ghe JOIN phong ON phong.ID = ghe.ID_Phong 
                                 JOIN rapphim ON rapphim.ID = phong.ID_Rap
                        WHERE rapphim.ID = ? and phong.ID = ?`;
