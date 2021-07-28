@@ -10,13 +10,6 @@ include ../header.pug
           i.fas.fa-bars
       li.nav-item.d-none.d-sm-inline-block
         a.nav-link(href='/home') Trang chủ
-    // SEARCH FORM
-    form.form-inline.ml-3
-      .input-group.input-group-sm
-        input.form-control.form-control-navbar(type='search', placeholder='Search', aria-label='Search')
-        .input-group-append
-          button.btn.btn-navbar(type='submit')
-            i.fas.fa-search
   // /.navbar
   // Main Sidebar Container
   include ../slidebar.pug
@@ -46,7 +39,7 @@ include ../header.pug
       table.table
         thead
           tr
-            th(scope='col') STT
+            th(scope='col') ID
             th(scope='col') Tên dịch vụ
             th(scope='col') Ảnh
             th(scope='col') Mô tả
@@ -63,10 +56,34 @@ include ../header.pug
                   td=bapnuoc.DonGia + " VND"
                   td
                     span 
-                      a(href="suadichvu?idService=" + bapnuoc.ID) Sửa
+                      a.btn.btn-primary(href="suadichvu?idService=" + bapnuoc.ID) Sửa
                     span  |
                     span 
-                      a(href="#") Xóa
+                      button#linkDelete.btn.btn-danger(onClick=`setIdService(${bapnuoc.ID}))`, data-toggle='modal', data-target="#modalInforDelete") Xóa 
+      #modalInforDelete.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              h5#exampleModalLabel.modal-title Thông báo
+              button.close(type='button' data-dismiss='modal' aria-label='Close')
+                span(aria-hidden='true') &times;
+            .modal-body
+              | Bạn có thật sự muốn xóa dịch vụ này không ?
+            .modal-footer
+              button.btn.btn-secondary(type='button' data-dismiss='modal') Hủy
+              button.btn.btn-success(type='button', onclick="btnAccept()") Xác nhận
+      
+      #notifyModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              h5#exampleModalLabel.modal-title Thông báo
+              button.close(type='button' data-dismiss='modal' aria-label='Close')
+                span(aria-hidden='true') &times;
+            .modal-body
+              span#modalTextMessage= messNotify
+            .modal-footer
+              button.btn.btn-primary(type='button' id='btnOK') Ok
     // /.content
   // /.content-wrapper
   include ../footer.pug

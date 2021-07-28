@@ -11,13 +11,6 @@ link(href='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.
           i.fas.fa-bars
       li.nav-item.d-none.d-sm-inline-block
         a.nav-link(href='index3.html') Trang chủ
-    // SEARCH FORM
-    form.form-inline.ml-3
-      .input-group.input-group-sm
-        input.form-control.form-control-navbar(type='search', placeholder='Search', aria-label='Search')
-        .input-group-append
-          button.btn.btn-navbar(type='submit')
-            i.fas.fa-search
   // /.navbar
   // Main Sidebar Container
   include ../slidebar.pug
@@ -45,9 +38,6 @@ link(href='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.
     // Main content
     section.content     
         nav
-            #nav-tab.nav.nav-tabs(role='tablist')
-                a#nav-home-tab.nav-item.nav-link.active(data-toggle='tab' href='#nav-home' role='tab' aria-controls='nav-home' aria-selected='true') Thêm một nhà cung cấp
-                a#nav-profile-tab.nav-item.nav-link(data-toggle='tab' href='#nav-profile' role='tab' aria-controls='nav-profile' aria-selected='false') Tải file nhà cung cấp
             #nav-tabContent.tab-content
                 #nav-home.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='nav-home-tab')
                   form(action='/nhacungcap/themnhacungcap', method="post", id='formAddSuppliers')
@@ -88,7 +78,7 @@ link(href='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.
                       .card-body
                         .row
                             .col.btn-action-container
-                                button.btn.btn-success(id="btnsubmit",style="width:200px;",type='button') Thêm nhà cung cấp
+                                button.btn.btn-success(id="btnSubmit",style="width:200px;",type='button') Thêm nhà cung cấp
                             .col.btn-action-container
                                 button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
 
@@ -111,27 +101,6 @@ link(href='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.
                       span#modalTextMessage= messNotify
                     .modal-footer
                       button.btn.btn-primary(type='button' id='btnOK') Ok   
-
-                #nav-profile.tab-pane.fade(role='tabpanel' aria-labelledby='nav-profile-tab')
-                    .card(style='width: 100%;')
-                        .card-body
-                            .row
-                                .col
-                                    .input-group.mb-3
-                                        .input-group-prepend
-                                            span.input-group-text(style = "color:red; font-weight:bold") File data nhà cung cấp
-                                        .custom-file
-                                            input.custom-file-input(id="inputGroupFile01", name="txthinh", type='file', multiple='')
-                                            label.custom-file-label(for='inputGroupFile01') Choose file
-                            .row
-                                .col.btn-action-container
-                                  button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
-                                .col.btn-action-container
-                                  button.btn.btn-success(id="btnsubmit",style="width:200px;",type='button', onclick="btnSubmit(true)") Thêm nhà cung cấp
-                                    
-
-                                    
-                            
               
     // /.content
   // /.content-wrapper

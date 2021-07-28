@@ -34,6 +34,11 @@ $('#btnOK').click(function () {
     $('#notifyModal').modal('hide')
 })
 
+$('#btnSubmit').click(function () {
+    showLoading();
+    $('#formAddSuppliers').submit();
+})
+
 function btnSubmit(isAdd) {
     let supplierName = $('#txtSupplierName').val();
     let address = $('#txtAddress').val();

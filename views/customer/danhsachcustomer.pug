@@ -10,13 +10,6 @@ include ../header.pug
           i.fas.fa-bars
       li.nav-item.d-none.d-sm-inline-block
         a.nav-link(href='/home') Trang chủ
-    // SEARCH FORM
-    form.form-inline.ml-3
-      .input-group.input-group-sm
-        input.form-control.form-control-navbar(type='search', placeholder='Search', aria-label='Search')
-        .input-group-append
-          button.btn.btn-navbar(type='submit')
-            i.fas.fa-search
     // Right navbar links
   // /.navbar
   // Main Sidebar Container
@@ -47,7 +40,7 @@ include ../header.pug
       table.table
         thead
           tr
-            th(scope='col') STT
+            th(scope='col') ID
             th(scope='col') Họ Tên
             th(scope='col') Email
             th(scope='col') Ngày sinh
