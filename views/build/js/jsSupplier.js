@@ -41,6 +41,7 @@ function btnSubmit(isAdd) {
     let email = $('#txtEmail').val();
 
     showLoading();
+    
     if (validateNumberPhone() == true && validateEmail() == true && supplierName != '' && address != '') {
         if (isAdd == true) {
 
