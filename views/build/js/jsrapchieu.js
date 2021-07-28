@@ -1,3 +1,15 @@
+let firebaseConfig = {
+    apiKey: "AIzaSyA1UFC_oKZFOqG5RYb49aGhqR_ZrRvYvrs",
+    authDomain: "cinemaplus-f6e86.firebaseapp.com",
+    projectId: "cinemaplus-f6e86",
+    storageBucket: "cinemaplus-f6e86.appspot.com",
+    messagingSenderId: "490414050145",
+    appId: "1:490414050145:web:d7b6db72a8c690a0b65320",
+    measurementId: "G-HHG6KKPKCL"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
 let danhsachrapchieu = [];
 
 $(document).ready(function () {
@@ -22,12 +34,6 @@ $('#btnOK').click(function () {
     window.location.replace('/rapchieu/danhsachrapchieu?page=1');
 })
 
-
-$('#btnsubmit').click(function () {
-    showLoading();
-    $('#formAddCinema').submit();
-})
-
 $('#btnOKAddMovie').click(function () {
     $('#notifyModal').modal('hide')
 })
@@ -49,6 +55,68 @@ function setFileImageCinema(elFileImageCinema) {
 
     if (file) {
         $("#imgCinemaPreview").attr("src", URL.createObjectURL(file));
+    }
+}
+
+function btnSubmit(isAdd){
+    let nameCinema = $('input[name=txtTheaterName]').val();
+    let address = $('input[name=txtCinemaAddress]').val();
+    let lng = $('input[name=txtKinhDo]').val();
+    let lat = $('input[name=txtViDo]').val();
+
+    showLoading();
+
+    if(isAdd){
+        $.ajax({
+            method: 'POST',
+            url: '/rapchieu/themrapchieu',
+            data:{
+                nameCinema: nameCinema,
+                address:address,
+                lng:lng,
+                lat:lat
+            },
+            success: async function(data){
+                if(data){
+                    hideLoading();
+
+                    await uploadfile(data.newIdCinema);
+
+                    $('#modalTextMessage').text(data.message);
+                    $('#notifyModal').modal('show');
+                }
+            },
+            error:function(error){
+
+            }
+        })
+    }else{
+        let idCinema= $('input[name=txtIdCinema]').val();
+
+        $.ajax({
+            method: 'POST',
+            url: '/rapchieu/suarapchieu',
+            data:{
+                idCinema: idCinema,
+                nameCinema: nameCinema,
+                address:address,
+                lng:lng,
+                lat:lat
+            },
+            success: async function(data){
+                if(data){
+                    hideLoading();
+
+                    await uploadfile(idCinema);
+
+                    $('#modalTextMessage').text(data.message);
+                    $('#notifyModal').modal('show');
+                }
+            },
+            error:function(error){
+
+            }
+        })
     }
 }
 
@@ -173,6 +241,53 @@ function searchLngLat() {
 
         }
     })
+}
+
+function uploadfile(newIdCinema) {
+    const storageRef = firebase.storage().ref()
+    let task = null;
+    let inputImage = $('input[name=imgCinema]').prop('files')[0];
+    
+    let final = storageRef.child(`cinemas/${newIdCinema}`)
+    task = final.put(inputImage);
+
+    task.on(
+        "state_changed",
+        // PROGRESS FUNCTION
+        function progress(progress) { },
+        function error(err) { },
+        function completed() {
+            final.getDownloadURL()
+
+                .then((url) => {
+                    
+                    updateImage(newIdCinema, url);
+                });
+        }
+    );
+}
+
+function updateImage(idCinema, url) {
+    $.ajax({
+        method: 'PUT',
+        url: '/rapchieu/updateImage',
+        data: {
+            idCinema: idCinema,
+            urlImage: url
+        },
+
+        success: function(data){
+            // if(data){
+            //     console.log(data);
+            // }
+            
+        },
+
+        error: function(error){
+
+        }
+    });
+   
 }
 
 

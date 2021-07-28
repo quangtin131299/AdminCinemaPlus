@@ -40,7 +40,7 @@ link(href='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.
         nav
             #nav-tabContent.tab-content
                 #nav-home.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='nav-home-tab')
-                  form(action='/nhacungcap/themnhacungcap', method="post", id='formAddSuppliers')
+                  form(method="post", id='formAddSuppliers')
                     .card(style='width: 100%;')
                         .card-body
                             .row
@@ -78,9 +78,10 @@ link(href='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.
                       .card-body
                         .row
                             .col.btn-action-container
-                                button.btn.btn-success(id="btnSubmit",style="width:200px;",type='button') Thêm nhà cung cấp
+                              button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
                             .col.btn-action-container
-                                button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
+                              button.btn.btn-success(id="btnSubmitAdd",style="width:200px;",type='button', onclick="btnSubmit(true)") Thêm nhà cung cấp
+                              
 
             #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
               .modal-dialog.modal-dialog-centered

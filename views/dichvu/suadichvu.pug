@@ -36,13 +36,18 @@ include ../header.pug
     // /.content-header
     // Main content
     section.content
-        form(action='/dichvu/suadichvu', method="post", enctype="multipart/form-data", id="formAddService")  
+        form(method="post", enctype="multipart/form-data", id="formAddService")  
           .card
             .card-body
               .row
                  h5(style="font-weight:bold;") Thông tin dịch vụ
               .row
-                input(value=bapnuoc.ID, type="hidden", name="maService")
+                .col
+                  .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold" ) Mã dịch vụ
+                    input.form-control(value= bapnuoc.ID,name= "txtIDPopcorn",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
+              .row
                 .col
                   .input-group.mb-3
                         .input-group-prepend
@@ -79,7 +84,7 @@ include ../header.pug
                 .col(style="display:flex; justify-content:center;")
                   button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
                 .col(style="display:flex; justify-content:center;")
-                  button.btn.btn-success(id="btnsubmit",style="width:200px;",type='buton') Cập nhật thông tin
+                  button.btn.btn-success(id="btnSubmitEdit",style="width:200px;",type='button', onclick="btnSubmit(false)") Cập nhật thông tin
                     
                     
         #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
@@ -140,4 +145,6 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
+script(src='https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js')  
+script(src='https://www.gstatic.com/firebasejs/8.7.1/firebase-storage.js')
 script(src='build/js/jsService.js')

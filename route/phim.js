@@ -175,7 +175,7 @@ router.get("/themphimmoi", function (req, res) {
 
           return res.render("phim/themphimmoi", { movieTypes: resultMovieTypes, cinemas: [], });
         } else {
-          let querySupplier = `SELECT nhacungcap.ID, nhacungcap.TenNhaCungCap FROM nhacungcap`;
+          let querySupplier = `SELECT nhacungcap.ID, nhacungcap.TenNhaCungCap FROM nhacungcap WHERE nhacungcap.isDelete = 0`;
 
           conn.query(querySupplier, function (errorSupplier, resultSuppliers) {
             if (errorSupplier) {

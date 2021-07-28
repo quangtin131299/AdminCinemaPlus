@@ -34,11 +34,6 @@ $('#btnOK').click(function () {
     $('#notifyModal').modal('hide')
 })
 
-$('#btnSubmit').click(function () {
-    showLoading();
-    $('#formAddSuppliers').submit();
-})
-
 function btnSubmit(isAdd) {
     let supplierName = $('#txtSupplierName').val();
     let address = $('#txtAddress').val();
@@ -62,7 +57,8 @@ function btnSubmit(isAdd) {
                 success: function (data) {
                     if (data) {
                         hideLoading();
-                        $('#modalTextMessage').html(data.messNotify);
+
+                        $('#modalTextMessage').html(data.message);
                         $('#notifyModal').modal('show')
                     }
                 },
@@ -102,8 +98,6 @@ function btnSubmit(isAdd) {
         $("#modalTextMessage").html('Thông tin không hợp lệ')
         $('#notifyModal').modal('show');
     }
-
-
 }
 
 
