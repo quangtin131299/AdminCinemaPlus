@@ -106,24 +106,18 @@ document.getElementById("btnhuy").onclick = function () {
 }
 // Ràng buộc ngày khởi chiếu
 let dtKhoiChieu = new Date();
-let monthKhoiChieu = dtKhoiChieu.getMonth() + 1;
-var dayKhoiChieu = dtKhoiChieu.getDate() + 7;
-var yearKhoiChieu = dtKhoiChieu.getFullYear();
-if (monthKhoiChieu < 10) {
-    monthKhoiChieu = '0' + monthKhoiChieu.toString();
-}
-if (dayKhoiChieu < 10) {
-    dayKhoiChieu = '0' + dayKhoiChieu.toString();
-}
-let maxDateKhoiChieu = yearKhoiChieu + '-' + monthKhoiChieu + '-' + dayKhoiChieu;
-$('#txtngaykhoichieu').attr('min', maxDateKhoiChieu);
+dtKhoiChieu.setDate(dtKhoiChieu.getDate() + 7);
+
+let maxDateKhoiChieu = `${dtKhoiChieu.getFullYear()}-${(dtKhoiChieu.getMonth()+1).toString().padStart(2, '0')}-${dtKhoiChieu.getDate().toString().padStart(2, '0')}`;
+$('#txtngaykhoichieu').prop('min', maxDateKhoiChieu);
+$('#txtNgayKetThuc').prop('min', maxDateKhoiChieu);
 
 //Ràng buộc ngày kết thúc
 function onChangeOpenDate(dataInput){
     let openData = dataInput.value;
     let endDate = new Date(openData);
 
-    endDate.setDate(endDate.getDate() + 7);
+    endDate.setDate(endDate.getDate() + 30);
 
     $('input[name=txtNgayKetThuc]').prop('min', `${endDate.getFullYear()}-${(endDate.getMonth()+1).toString().padStart('2','0')}-${endDate.getDate().toString().padStart('2','0')}`);
 }
