@@ -91,7 +91,7 @@ script(src='https://polyfill.io/v3/polyfill.min.js?features=default')
                 .col(style="display:flex; justify-content:center;")
                   button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
                 .col(style="display:flex; justify-content:center;")
-                  button.btn.btn-success(id="btnsubmit",style="width:200px;",type='button') Thêm rạp chiếu
+                  button.btn.btn-success(id="btnSubmitAdd",style="width:200px;",type='button', onclick="btnSubmit(true)") Thêm rạp chiếu
                     
         #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
             .modal-dialog.modal-dialog-centered
@@ -159,5 +159,7 @@ script(src='https://cdn.jsdelivr.net/npm/places.js@^1.17.0')
 script(src='https://cdn.jsdelivr.net/npm/instantsearch.js@4')
 script(src='https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyBawL8VbstJDdU5397SUX7pEt9DslAwWgQ')
 script(src='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.js')
+script(src='https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js')  
+script(src='https://www.gstatic.com/firebasejs/8.7.1/firebase-storage.js')
 script(src='build/js/jsrapchieu.js')
 

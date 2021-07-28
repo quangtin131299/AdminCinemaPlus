@@ -77,30 +77,24 @@ router.get("/themrapchieu", function(req, res){
 let uploadImage = uploadImageCinema.fields([{ name: 'imgCinema', maxCount: 1 }])
 
 router.post('/themrapchieu',uploadImage, function(req,res){
-    let theaterName = req.body.txtTheaterName;
-    let imgCinema = fileNameImageCinema && fileNameImageCinema != '' ? `${req.protocol}://${(req.hostname =='localhost' ? req.hostname + ':3000' : req.hostname )}/img/Cinema/${fileNameImageCinema}`: '' ;
-    let cinemaAddress = req.body.txtCinemaAddress;
-	let viDo = req.body.txtViDo;
-	let kinhDo = req.body.txtKinhDo;
+    let theaterName = req.body.nameCinema;
+    let cinemaAddress = req.body.address;
+	let viDo = req.body.lat;
+	let kinhDo = req.body.lng;
 
     let queryInsert = `INSERT INTO rapphim VALUES (NULL,?,?,?,?,?)`;
 
     conn.query(queryInsert, [theaterName
-                            ,imgCinema
+                            ,''
                             ,cinemaAddress
                             ,viDo
                             ,kinhDo], function(errorRapChieuPhim, resultRapChieuPhim){
         if(errorRapChieuPhim){
             console.log(errorRapChieuPhim);
 
-            res.render("rapchieu/themrapchieu", {
-                messNotify: 'Thêm thất bại'
-            });
+            res.json({statusCode: 0, message: 'Thêm rạp chiếu thất bại.', newIdCinema: 0});
         } else{
-            fileNameImageCinema = '';
-            res.render("rapchieu/themrapchieu", {
-                messNotify: 'Thêm thành công'
-            });
+            res.json({statusCode: 1, message: 'Thêm rạp chiếu thành công.', newIdCinema: resultRapChieuPhim.insertId});
         }
     })
 })
@@ -136,28 +130,47 @@ router.get("/suarapchieu", function(req, res){
 });
 
 router.post("/suarapchieu", uploadImage, function(req, res){
-    let maRap = req.body.maRap;
-    let cinemaName = req.body.txtTheaterName;
-    let imgCinema = fileNameImageCinema && fileNameImageCinema != '' ? `${req.protocol}://${(req.hostname =='localhost' ? req.hostname + ':3000' : req.hostname )}/img/Cinema/${fileNameImageCinema}`:  fileImageCinemaUrlOld;
-    let cinemaAddress = req.body.txtCinemaAddress;
-    let viDo = req.body.txtViDo;
-    let kinhDo = req.body.txtKinhDo;
+    let maRap = req.body.idCinema;
+    let cinemaName = req.body.nameCinema;
+    let cinemaAddress = req.body.address;
+    let viDo = req.body.lat;
+    let kinhDo = req.body.lng;
     let sqlquery = `UPDATE rapphim
-                        SET rapphim.TenRap = ?, rapphim.Hinh = ?, rapphim.DiaChi = ?
-                            , rapphim.ViDo = ?, rapphim.KinhDo = ?
-                        WHERE rapphim.ID = ?`;
+                    SET rapphim.TenRap = ?
+                        , rapphim.Hinh = ?
+                        , rapphim.DiaChi = ?
+                        , rapphim.ViDo = ?
+                        , rapphim.KinhDo = ?
+                    WHERE rapphim.ID = ?`;
     
-    conn.query(sqlquery,[cinemaName, imgCinema, cinemaAddress, viDo, kinhDo, maRap], function(err, result){
+    conn.query(sqlquery,[cinemaName, '', cinemaAddress, viDo, kinhDo, maRap], function(err){
         if(err){
             console.log(err);
 
-            res.redirect(`/rapchieu/suarapchieu?mess=0&idCinema=${maRap}`)
-        } else {
-            fileNameImageCinema = ''
-            res.redirect(`/rapchieu/suarapchieu?mess=1&idCinema=${maRap}`)
-        }
+            return res.json({statusCode: 0, message: 'Cập nhật rạp chiếu thất bại'});
+        } 
+            
+        res.json({statusCode: 1, message: 'Cập nhật rạp chiếu thành công'});
     })
 });
+
+
+router.put("/updateImage",function(req, res){
+    let idCinema = req.body.idCinema;
+    let urlImageCinema = req.body.urlImage;
+
+    let queryUpdateImage = `UPDATE rapphim
+                            SET rapphim.Hinh = ?
+                            WHERE rapphim.ID = ? `;
+
+    conn.query(queryUpdateImage, [urlImageCinema,idCinema],function(errorUpdate){
+        if(errorUpdate){
+            return res.json({statusCode: 0, message: 'Cập nhật hình ảnh thất bại'});
+        }
+
+        res.json({statusCode: 1, message: 'Cập nhật hình ảnh thành công'});
+    })                            
+})
 
 
 module.exports = router

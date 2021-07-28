@@ -36,13 +36,18 @@ include ../header.pug
     // /.content-header
     // Main content
     section.content
-        form(action='/rapchieu/suarapchieu', method="post", enctype="multipart/form-data", id="formAddCinema")  
+        form(method="post", enctype="multipart/form-data", id="formAddCinema")  
           .card
             .card-body
               .row
                  h5(style="font-weight:bold;") Thông tin rạp chiếu
               .row
-                input(value=rapphim.ID, type="hidden", name="maRap")
+                .col
+                  .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold" ) Mã rạp
+                    input.form-control(value=rapphim.ID,name= "txtIdCinema",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)                    
+              .row
                 .col
                   .input-group.mb-3
                         .input-group-prepend
@@ -86,7 +91,7 @@ include ../header.pug
                 .col(style="display:flex; justify-content:center;")
                   button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
                 .col(style="display:flex; justify-content:center;")
-                  button.btn.btn-success(id="btnsubmit",style="width:200px;",type='buton') Cập nhật thông tin
+                  button.btn.btn-success(id="btnSubmitEdit",style="width:200px;",type='button', onclick="btnSubmit(false)") Cập nhật thông tin
                     
                     
         #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
@@ -147,4 +152,6 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
+script(src='https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js')  
+script(src='https://www.gstatic.com/firebasejs/8.7.1/firebase-storage.js')
 script(src='build/js/jsrapchieu.js')

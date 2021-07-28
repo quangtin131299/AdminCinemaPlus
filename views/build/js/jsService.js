@@ -28,6 +28,10 @@ $('#exampleModalCenter').on('hidden.bs.modal', function (e) {
     $("#exampleModalCenter").modal('hide');
 })
 
+$('#notifyModal').on('shown.bs.modal', function (e) {
+    $("#exampleModalCenter").modal("hide");
+});
+
 $('#btnOK').click(function () {
     window.location.replace('/dichvu/danhsachdichvu');
 })
@@ -88,7 +92,32 @@ function btnSubmit(isAdd){
             }
         })
     }else{
+        let idPopcorn = $('input[name=txtIDPopcorn]').val();
 
+        $.ajax({
+            method: 'POST',
+            url: '/dichvu/suadichvu',
+            data:{
+                idPopcorn: idPopcorn,
+                namePopcorn:namePopcorn,
+                description:description,
+                unitPrice:unitPrice,
+            },
+            success: async function(data){
+                if(data){
+                    hideLoading();
+
+                    await uploadfile(idPopcorn);
+
+                    $('#modalTextMessage').text(data.messsage);
+                    $('#notifyModal').modal('show');
+
+                }
+            },
+            error:function(error){
+
+            }
+        })
     }
 
 }

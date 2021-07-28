@@ -98,28 +98,23 @@ router.get("/suadichvu", function(req, res){
                 FROM bapnuoc WHERE bapnuoc.ID = ?`;
 
 
-    if(req.query.mess &&  req.query.mess == 1){
-        messageEdit = "Sửa thành công";
-    }else if(req.query.mess &&  req.query.mess == 0){
-        messageEdit = "Sửa thất bại";
-    }
-
     conn.query(query,[idService] ,function (err, result){
         if(err) {
             console.log(err);
+
+            res.render("dichvu/suadichvu", {bapnuoc: null});
         } else {
-            fileImageServiceUrlOld = result[0].Hinh;
-            res.render("dichvu/suadichvu", {bapnuoc: result[0] , messNotify: messageEdit});
+           
+            res.render("dichvu/suadichvu", {bapnuoc: result[0]});
         }
     })
 });
 
 router.post("/suadichvu", uploadImage, function(req, res){
-    let maService = req.body.maService;
-    let serviceName = req.body.txtServiceName;
-    let imgService = fileNameImageService && fileNameImageService != '' ? `${req.protocol}://${(req.hostname =='localhost' ? req.hostname + ':3000' : req.hostname )}/img/ImageService/${fileNameImageService}`:  fileImageServiceUrlOld;
-    let describe = req.body.txtDescribe;
-    let unitPrice = req.body.txtUnitPrice;
+    let maService = req.body.idPopcorn;
+    let serviceName = req.body.namePopcorn;
+    let describe = req.body.description;
+    let unitPrice = req.body.unitPrice;
     let sqlquery = `UPDATE bapnuoc
                         SET bapnuoc.TenCombo = ?
                             , bapnuoc.DonGia = ?
@@ -127,14 +122,13 @@ router.post("/suadichvu", uploadImage, function(req, res){
                             , bapnuoc.Hinh = ?
                         WHERE bapnuoc.ID = ?`;
     
-    conn.query(sqlquery,[serviceName, unitPrice, describe, imgService, maService], function(err, result){
+    conn.query(sqlquery,[serviceName, unitPrice, describe, '', maService], function(err, result){
         if(err){
             console.log(err);
 
-            res.redirect(`/dichvu/suadichvu?mess=0&idService=${maService}`)
+            res.json({statusCode: 0, messsage: 'Cập nhật dịch vụ thất bại'});
         } else {
-            fileNameImageService = ''
-            res.redirect(`/dichvu/suadichvu?mess=1&idService=${maService}`)
+            res.json({statusCode: 1, messsage: 'Cập nhật dịch vụ thành công'});
         }
     })
 });
