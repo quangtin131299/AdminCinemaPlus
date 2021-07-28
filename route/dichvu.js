@@ -65,29 +65,24 @@ router.get("/themdichvu", function(req, res){
 let uploadImage = uploadImageService.fields([{ name: 'imgService', maxCount: 1 }])
 
 router.post('/themdichvu',uploadImage, function(req,res){
-    let serviceName = req.body.txtServiceName;
-    let imgService = fileNameImageService && fileNameImageService != '' ? `${req.protocol}://${(req.hostname =='localhost' ? req.hostname + ':3000' : req.hostname )}/img/ImageService/${fileNameImageService}`: '' ;
-    let describe = req.body.txtDescribe;
-	let unitPrice = req.body.txtUnitPrice;
+    let serviceName = req.body.namePopcorn;
+    // let imgService = fileNameImageService && fileNameImageService != '' ? `${req.protocol}://${(req.hostname =='localhost' ? req.hostname + ':3000' : req.hostname )}/img/ImageService/${fileNameImageService}`: '' ;
+    let describe = req.body.description;
+	let unitPrice = req.body.unitPrice;
 
     let queryInsert = `INSERT INTO bapnuoc VALUES (NULL,?,?,?,?)`;
 
     conn.query(queryInsert, [serviceName
                             ,unitPrice
                             ,describe
-                            ,imgService],
+                            ,''],
                             function(errorService, resultService){
         if(errorService){
             console.log(errorService);
 
-            res.render("dichvu/themdichvu", {
-                messNotify: 'Thêm thất bại'
-            });
+            res.json({statusCode: 0, messsage: 'Thêm dịch vụ thất bại', newIdPopcorn: 0})
         } else{
-            fileNameImageService = '';
-            res.render("dichvu/themdichvu", {
-                messNotify: 'Thêm thành công'
-            });
+            res.json({statusCode: 1, messsage: 'Thêm dịch vụ thành công', newIdPopcorn: resultService.insertId})
         }
     })
 })
@@ -143,5 +138,22 @@ router.post("/suadichvu", uploadImage, function(req, res){
         }
     })
 });
+
+router.put("/updateImage", function(req, res){
+    let idPopCorn = req.body.idPopcorn;
+    let urlImagePopcorn = req.body.urlImage;
+
+    let queryUpdate = `UPDATE bapnuoc
+                       SET bapnuoc.Hinh = ?
+                       WHERE bapnuoc.ID = ? `;
+
+    conn.query(queryUpdate, [urlImagePopcorn, idPopCorn] ,function(errorPopcorn){
+        if(errorPopcorn){
+            return res.json({statusCode: 0, message: 'Upload hình ảnh thất bại'});
+        }
+
+        return res.json({statusCode: 1, message: 'Upload hình ảnh thành công.'});
+    })
+})
 
 module.exports = router
