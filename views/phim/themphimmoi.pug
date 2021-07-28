@@ -10,13 +10,6 @@ include ../header.pug
           i.fas.fa-bars
       li.nav-item.d-none.d-sm-inline-block
         a.nav-link(href='/home') Trang chủ
-    // SEARCH FORM
-    form.form-inline.ml-3
-      .input-group.input-group-sm
-        input.form-control.form-control-navbar(type='search', placeholder='Search', aria-label='Search')
-        .input-group-append
-          button.btn.btn-navbar(type='submit')
-            i.fas.fa-search
   // /.navbar
   // Main Sidebar Container
   include ../slidebar.pug
@@ -60,7 +53,7 @@ include ../header.pug
                     .input-group.mb-3
                         .input-group-prepend
                             span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Ngày khởi chiếu
-                        input.form-control(id="txtngaykhoichieu",name= "txtngaykhoichieu",type='date', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                        input.form-control(onChange="onChangeOpenDate(this)",id="txtngaykhoichieu",name= "txtngaykhoichieu",type='date', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .col
                     .input-group.mb-3
                         .input-group-prepend
@@ -71,7 +64,7 @@ include ../header.pug
                         .input-group.mb-3
                             .input-group-prepend
                                 span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Thời lượng
-                            input.form-control(name="txtthoigian", placeholder="Nhập thời lượng phim (Phút)", type='number',min=1, aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                            input.form-control(name="txtthoigian", placeholder="Nhập thời lượng phim (Phút)", type='number',min=50, aria-label='Default', aria-describedby='inputGroup-sizing-default')
                     .col
                         .input-group.mb-3
                             .input-group-prepend
@@ -108,7 +101,7 @@ include ../header.pug
                     .col    
                         .input-group.mb-3
                             .input-group-prepend
-                              span.input-group-text(style = "font-weight:bold") Hình phim
+                              span.input-group-text(style = "font-weight:bold") Poster
                             .custom-file
                               input.custom-file-input(id="inputGroupFile01", name="imgMovie", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImageMovie(this)")
                               label.custom-file-label.file-name-image-movie(for='inputGroupFile01')
@@ -119,7 +112,7 @@ include ../header.pug
                     .col    
                         .input-group.mb-3
                             .input-group-prepend
-                              span.input-group-text(style = "font-weight:bold") Poster
+                              span.input-group-text(style = "font-weight:bold") Hình phim
                             .custom-file
                               input.custom-file-input(id="inputGroupFile01", name="imgPoster", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImagePoster(this)")
                               label.custom-file-label.file-name-image-poster(for='inputGroupFile01') 
@@ -135,24 +128,29 @@ include ../header.pug
                     each itemMovieType in movieTypes
                       .form-check.form-check-inline
                         input#inlineCheckbox1.form-check-input(type='checkbox',name= "chbloai", value=itemMovieType.ID)
-                        label.form-check-label(id=itemMovieType.ID,for='inlineCheckbox1')=itemMovieType.TenLoai
+                        label.form-check-label(id=itemMovieType.ID)=itemMovieType.TenLoai
 
         .card
             .card-body
               .row
-                h5(style="font-weight:bold;") Phim được chiếu ở rạp
+                .col-md-6
+                  h5(style="font-weight:bold;") Phim được chiếu ở rạp
+                .col-md-6.check-all-container
+                  .form-check.form-check-inline
+                    input#inlineCheckbox1.form-check-input(type='checkbox',name="checkAll", value="false")
+                    label.form-check-label Chọn tất cả rạp chiếu
               .row  
                 .col 
                     each itemCinema in cinemas
                       .form-check.form-check-inline
                         input#inlineCheckbox1.form-check-input(type='checkbox',name= "chbCinema", value=itemCinema.ID)
-                        label.form-check-label(id=itemCinema.ID,for='inlineCheckbox1')=itemCinema.TenRap
+                        label.form-check-label(id=itemCinema.ID)=itemCinema.TenRap
         .card
             .card-body
               .row
                 h5(style="font-weight:bold;") Mô tả phim 
               .row
-                textarea.width-texarea(id="txtmota", name="area2")
+                #editor
             
         .card
             .card-body
@@ -224,7 +222,7 @@ script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery
     , integrity='sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=='
     , crossorigin='anonymous'
     , referrerpolicy='no-referrer')
-script(src='https://cdnjs.cloudflare.com/ajax/libs/NicEdit/0.93/nicEdit.min.js', type='text/javascript')
+script(src='https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js')
 script(src='https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js')  
 script(src='https://www.gstatic.com/firebasejs/8.7.1/firebase-storage.js')
 script(src="build/js/jsMovie.js")
