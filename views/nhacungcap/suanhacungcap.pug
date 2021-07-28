@@ -1,5 +1,6 @@
 doctype html
 include ../header.pug
+link(href='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.css', rel='stylesheet')
 .wrapper
   // Navbar
   nav.main-header.navbar.navbar-expand.navbar-white.navbar-light
@@ -43,25 +44,30 @@ include ../header.pug
     // /.content-header
     // Main content
     section.content
-        form(action='/nhacungcap/suanhacungcap', method="post", id="formAddSupplier")  
+    
+        form(id="formAddSupplier")  
           .card
             .card-body
               .row
                  h5(style="font-weight:bold;") Thông tin nhà cung cấp
               .row
-                input(value = nhacungcap.ID, type="text", name="maSupplier", hidden)
+                .col
+                  .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold" ) Mã nhà cung cấp
+                    input.form-control(value = nhacungcap.ID,name= "idSupplier",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
+              .row  
                 .col
                   .input-group.mb-3
                         .input-group-prepend
                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold" ) Tên nhà cung cấp
                         input.form-control#txtSupplierName(value = nhacungcap.TenNhaCungCap,name= "txtSupplierName",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default' )                    
-
               .row
                 .col
                   .input-group.mb-3
-                        .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Địa chỉ
-                        input.form-control#txtAddress(value = nhacungcap.DiaChi,name= "txtAddress",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                    .input-group-prepend.width-input-address
+                        span#inputGroup-sizing-default-Address.input-group-text(style = "color:red; font-weight:bold", data-address=nhacungcap.DiaChi) Địa chỉ 
+                        input.form-control#txtAddress(name= "txtAddress", placeholder="Nhập địa chỉ",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default',required, onblur="onBlur()")
               
               .row
                 .col
@@ -76,14 +82,17 @@ include ../header.pug
                         .input-group-prepend
                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Email
                         input.form-control#txtEmail(value = nhacungcap.Email, name= "txtEmail",type='email', aria-label='Default', aria-describedby='inputGroup-sizing-default')
-              
+                        
+          .card(style='width: 100%;')
+            .card-body
+              #map(style="height:500px;")    
           .card
             .card-body
               .row
                 .col(style="display:flex; justify-content:center;")
                   button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
                 .col(style="display:flex; justify-content:center;")
-                  button.btn.btn-success(id="btnsubmitEdit",style="width:200px;",type='buton') Cập nhật thông tin
+                  button.btn.btn-success(id="btnsubmitEdit",style="width:200px;",type='button', onclick="btnSubmit(false)") Cập nhật thông tin
                     
                     
         #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
@@ -144,4 +153,10 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
+script(src='https://cdn.jsdelivr.net/npm/scriptjs@2.5.9/dist/script.min.js')
+script(src='https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js')
+script(src='https://cdn.jsdelivr.net/npm/places.js@^1.17.0')
+script(src='https://cdn.jsdelivr.net/npm/instantsearch.js@4')
+script(src='https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyBawL8VbstJDdU5397SUX7pEt9DslAwWgQ')
+script(src='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.js')
 script(src='build/js/jsSupplier.js')

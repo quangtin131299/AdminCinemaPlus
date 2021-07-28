@@ -59,10 +59,10 @@ include ../header.pug
                 td(width="200px")=nhacungcap.TenNhaCungCap
                 td(width="300px")=nhacungcap.DiaChi
                 td=nhacungcap.SĐT
-                td=nhacungcap.Email
+                td(width="300px")=nhacungcap.Email
                 td
                   span 
-                    a(href="suanhacungcap?idSupplier=" + nhacungcap.ID) Sửa
+                    a.btn.btn-primary(href="suanhacungcap?idSupplier=" + nhacungcap.ID) Sửa
                   span |
                   span 
                     button#linkDelete.btn.btn-primary(onclick=`setIdSupplier(${nhacungcap.ID})`, data-toggle='modal', data-target="#modalInforDelete") Xóa

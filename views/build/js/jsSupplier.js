@@ -7,14 +7,19 @@ if(btnhuy){
     }
 }
 
-
-
 $(document).ready(function () {
     let mess = $("#modalTextMessage").html();
 
     if (mess != '') {
         $('#notifyModal').modal('show');
     }
+
+    let inputAddress = $('#inputGroup-sizing-default-Address');
+
+    if(inputAddress){
+        $('input[name=txtAddress]').val(inputAddress.data('address'));
+    }
+    
 })
 
 $('#exampleModalCenter').on('hidden.bs.modal', function (e) {
@@ -29,80 +34,71 @@ $('#btnOK').click(function () {
     $('#notifyModal').modal('hide')
 })
 
-$('#btnsubmit').click(function () {
+function btnSubmit(isAdd) {
     let supplierName = $('#txtSupplierName').val();
     let address = $('#txtAddress').val();
     let phoneNumber = $('#txtPhoneNumber').val();
     let email = $('#txtEmail').val();
 
     showLoading();
-
     if (validateNumberPhone() == true && validateEmail() == true && supplierName != '' && address != '') {
-        $.ajax({
-            method: 'POST',
-            url: '/nhacungcap/themnhacungcap',
-            data: {
-                supplierName: supplierName,
-                address: address,
-                phoneNumber: phoneNumber,
-                email: email
-            },
-            success: function (data) {
-                if (data) {
-                    hideLoading();
-                    $('#modalTextMessage').html(data.messNotify);
-                    $('#notifyModal').modal('show')
+        if (isAdd == true) {
+
+            $.ajax({
+                method: 'POST',
+                url: '/nhacungcap/themnhacungcap',
+                data: {
+                    supplierName: supplierName,
+                    address: address,
+                    phoneNumber: phoneNumber,
+                    email: email
+                },
+                success: function (data) {
+                    if (data) {
+                        hideLoading();
+                        $('#modalTextMessage').html(data.messNotify);
+                        $('#notifyModal').modal('show')
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
                 }
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        })
+            })
+        } else {
+            let idSupplier = $('input[name=idSupplier]').val();
+
+            $.ajax({
+                method: 'PUT',
+                url: '/nhacungcap/suanhacungcap',
+                data: {
+                    maSupplier: idSupplier,
+                    supplierName: supplierName,
+                    address: address,
+                    phoneNumber: phoneNumber,
+                    email: email
+                },
+                success: function (data) {
+                    if (data) {
+                        hideLoading();
+
+                        $('#modalTextMessage').html(data.message);
+                        $('#notifyModal').modal('show');
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            })
+        }
     } else {
         hideLoading();
+
         $("#modalTextMessage").html('Thông tin không hợp lệ')
         $('#notifyModal').modal('show');
     }
 
-})
 
-$('#btnsubmitEdit').click(function () {
-    let supplierName = $('#txtSupplierName').val();
-    let address = $('#txtAddress').val();
-    let phoneNumber = $('#txtPhoneNumber').val();
-    let email = $('#txtEmail').val();
-
-    showLoading();
-
-    if (validateNumberPhone() == true && validateEmail() == true && supplierName != '' && address != '') {
-        $.ajax({
-            method: 'POST',
-            url: '/nhacungcap/suanhacungcap',
-            data: {
-                supplierName: supplierName,
-                address: address,
-                phoneNumber: phoneNumber,
-                email: email
-            },
-            success: function (data) {
-                if (data) {
-                    hideLoading();
-                    $('#modalTextMessage').html(data.messNotify);
-                    $('#notifyModal').modal('show')
-                }
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        })
-    } else {
-        hideLoading();
-        $("#modalTextMessage").html('Thông tin không hợp lệ')
-        $('#notifyModal').modal('show');
-    }
-
-})
-
+}
 
 
 function hideLoading() {
