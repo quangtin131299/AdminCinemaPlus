@@ -21,24 +21,42 @@ router.get("/danhsachnhacungcap", function(req, res){
 })
 
 router.get("/themnhacungcap", function(req, res){
-    res.render("nhacungcap/themnhacungcap");
+    let querySupplier = `select * from nhacungcap`;
+
+    conn.query(querySupplier, function(errorSupplier, resultSupplier){
+        if(errorSupplier){
+            console.log(errorSupplier);
+
+            res.render("nhacungcap/themnhacungcap",{
+                supplier: []
+            });
+        } else{
+            res.render("nhacungcap/themnhacungcap",{
+                supplier: resultSupplier
+            });
+        }
+    })
 })
 
 router.post('/themnhacungcap', function(req,res){
-    let supplierName = req.body.supplierName;
-    let address = req.body.address;
-    let phoneNumber = req.body.phoneNumber;
-    let email = req.body.email;
+    let supplierName = req.body.txtSupplierName;
+    let address = req.body.txtAddress;
+    let phoneNumber = req.body.txtPhoneNumber;
+    let email = req.body.txtEmail;
 
-    let queryInsert = `INSERT INTO nhacungcap VALUES (NULL,?,?,?,?)`;
+    let queryInsert = `INSERT INTO nhacungcap VALUES (NULL,?,?,?,?,'0')`;
 
     conn.query(queryInsert, [supplierName, address, phoneNumber, email], function(errorSupplier, resultSupplier){
         if(errorSupplier){
             console.log(errorSupplier);
 
-            res.json({message: 'False', statusCode: 0, messNotify: 'Thêm thất bại'})
+            res.render("nhacungcap/themnhacungcap", {
+                messNotify: 'Thêm thất bại'
+            });
         } else{
-            res.json({message: 'Success', statusCode: 1, messNotify: 'Thêm thành công'})
+            res.render("nhacungcap/themnhacungcap", {
+                messNotify: 'Thêm thành công'
+            });
         }
     })
 })

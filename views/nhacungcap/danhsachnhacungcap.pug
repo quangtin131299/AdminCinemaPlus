@@ -10,13 +10,6 @@ include ../header.pug
           i.fas.fa-bars
       li.nav-item.d-none.d-sm-inline-block
         a.nav-link(href='/home') Trang chủ
-    // SEARCH FORM
-    form.form-inline.ml-3
-      .input-group.input-group-sm
-        input.form-control.form-control-navbar(type='search', placeholder='Search', aria-label='Search')
-        .input-group-append
-          button.btn.btn-navbar(type='submit')
-            i.fas.fa-search
   // /.navbar
   // Main Sidebar Container
   include ../slidebar.pug
@@ -46,7 +39,7 @@ include ../header.pug
       table.table
         thead
           tr
-            th(scope='col') STT
+            th(scope='col') ID
             th(scope='col') Tên nhà cung cấp
             th(scope='col') Địa chỉ 
             th(scope='col') SĐT
@@ -63,9 +56,9 @@ include ../header.pug
                 td
                   span 
                     a.btn.btn-primary(href="suanhacungcap?idSupplier=" + nhacungcap.ID) Sửa
-                  span |
+                  span  |
                   span 
-                    button#linkDelete.btn.btn-primary(onclick=`setIdSupplier(${nhacungcap.ID})`, data-toggle='modal', data-target="#modalInforDelete") Xóa
+                    button#linkDelete.btn.btn-danger(onclick=`setIdSupplier(${nhacungcap.ID})`, data-toggle='modal', data-target="#modalInforDelete") Xóa
 
       #modalInforDelete.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
         .modal-dialog(role='document')
