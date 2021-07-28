@@ -39,10 +39,10 @@ router.get("/themnhacungcap", function(req, res){
 })
 
 router.post('/themnhacungcap', function(req,res){
-    let supplierName = req.body.txtSupplierName;
-    let address = req.body.txtAddress;
-    let phoneNumber = req.body.txtPhoneNumber;
-    let email = req.body.txtEmail;
+    let supplierName = req.body.supplierName;
+    let address = req.body.address;
+    let phoneNumber = req.body.phoneNumber;
+    let email = req.body.email;
 
     let queryInsert = `INSERT INTO nhacungcap VALUES (NULL,?,?,?,?,'0')`;
 
@@ -50,13 +50,9 @@ router.post('/themnhacungcap', function(req,res){
         if(errorSupplier){
             console.log(errorSupplier);
 
-            res.render("nhacungcap/themnhacungcap", {
-                messNotify: 'Thêm thất bại'
-            });
+            res.json({statusCode: 0, message: 'Thêm thông tin thất bại'});
         } else{
-            res.render("nhacungcap/themnhacungcap", {
-                messNotify: 'Thêm thành công'
-            });
+            res.json({statusCode: 1, message: 'Thêm thông tin thành công'});
         }
     })
 })
@@ -105,7 +101,7 @@ router.put("/suanhacungcap", function (req, res){
 
 router.post("/xoanhacungcap", function (req, res){
     let idSupplier = req.body.idSupplier;
-    console.log(idSupplier);
+   
     let query = `SELECT phim.ID, phim.TenPhim, phim.ID_NhaCungCap, nhacungcap.ID, nhacungcap.TenNhaCungCap
                  FROM nhacungcap JOIN phim ON phim.ID_NhaCungCap = nhacungcap.ID
                  WHERE nhacungcap.ID = ?`;
