@@ -1,0 +1,162 @@
+doctype html
+include ../header.pug
+link(href='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.css', rel='stylesheet')
+.wrapper
+  // Navbar
+  nav.main-header.navbar.navbar-expand.navbar-white.navbar-light
+    // Left navbar links
+    ul.navbar-nav
+      li.nav-item
+        a.nav-link(data-widget='pushmenu', href='#', role='button')
+          i.fas.fa-bars
+      li.nav-item.d-none.d-sm-inline-block
+        a.nav-link(href='/home') Trang chủ
+    // SEARCH FORM
+    form.form-inline.ml-3
+      .input-group.input-group-sm
+        input.form-control.form-control-navbar(type='search', placeholder='Search', aria-label='Search')
+        .input-group-append
+          button.btn.btn-navbar(type='submit')
+            i.fas.fa-search
+  // /.navbar
+  // Main Sidebar Container
+  include ../slidebar.pug
+  // Content Wrapper. Contains page content
+  .content-wrapper
+    // Content Header (Page header)
+    .content-header
+      .container-fluid
+        .row.mb-2
+          .col-sm-6
+            h1.m-0.text-dark Điều chỉnh thông tin nhà cung cấp
+          // /.col
+          .col-sm-6
+            ol.breadcrumb.float-sm-right
+              li.breadcrumb-item
+                a(href='/home') Trang chủ
+              li.breadcrumb-item
+                a(href='#') Quản lý nhà cung cấp
+              li.breadcrumb-item.active 
+                a(href='#') Điều chỉnh thông tin nhà cung cấp
+          // /.col
+        // /.row
+      // /.container-fluid
+    // /.content-header
+    // Main content
+    section.content
+    
+        form(id="formAddSupplier")  
+          .card
+            .card-body
+              .row
+                 h5(style="font-weight:bold;") Thông tin nhà cung cấp
+              .row
+                .col
+                  .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold" ) Mã nhà cung cấp
+                    input.form-control(value = nhacungcap.ID,name= "idSupplier",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
+              .row  
+                .col
+                  .input-group.mb-3
+                        .input-group-prepend
+                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold" ) Tên nhà cung cấp
+                        input.form-control#txtSupplierName(value = nhacungcap.TenNhaCungCap,name= "txtSupplierName",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default' )                    
+              .row
+                .col
+                  .input-group.mb-3
+                    .input-group-prepend.width-input-address
+                        span#inputGroup-sizing-default-Address.input-group-text(style = "color:red; font-weight:bold", data-address=nhacungcap.DiaChi) Địa chỉ 
+                        input.form-control#txtAddress(name= "txtAddress", placeholder="Nhập địa chỉ",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default',required, onblur="onBlur()")
+              
+              .row
+                .col
+                  .input-group.mb-3
+                        .input-group-prepend
+                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Số điện thoại
+                        input.form-control#txtPhoneNumber(value = nhacungcap.SĐT, name= "txtPhoneNumber",type='tel', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+
+              .row
+                .col
+                  .input-group.mb-3
+                        .input-group-prepend
+                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Email
+                        input.form-control#txtEmail(value = nhacungcap.Email, name= "txtEmail",type='email', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                        
+          .card(style='width: 100%;')
+            .card-body
+              #map(style="height:500px;")    
+          .card
+            .card-body
+              .row
+                .col(style="display:flex; justify-content:center;")
+                  button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
+                .col(style="display:flex; justify-content:center;")
+                  button.btn.btn-success(id="btnsubmitEdit",style="width:200px;",type='button', onclick="btnSubmit(false)") Cập nhật thông tin
+                    
+                    
+        #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
+            .modal-dialog.modal-dialog-centered
+              .modal-content.dialog-loading
+                .modal-body
+                  .d-flex.justify-content-center.align-item-center
+                    .spinner-border(role='status')
+                      span.sr-only Loading...
+
+        #notifyModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+            .modal-dialog(role='document')
+              .modal-content
+                .modal-header
+                  h5#exampleModalLabel.modal-title Thông báo
+                  button.close(type='button' data-dismiss='modal' aria-label='Close')
+                    span(aria-hidden='true') &times;
+                .modal-body
+                  span#modalTextMessage= messNotify
+                .modal-footer
+                  button.btn.btn-primary(type='button' id='btnOK') Ok  
+
+
+    // /.content
+  // /.content-wrapper
+  include ../footer.pug
+// ./wrapper
+// jQuery
+script(src='plugins/jquery/jquery.min.js')
+// jQuery UI 1.11.4
+script(src='plugins/jquery-ui/jquery-ui.min.js')
+// Resolve conflict in jQuery UI tooltip with Bootstrap tooltip
+script.
+  $.widget.bridge('uibutton', $.ui.button)
+// Bootstrap 4
+script(src='plugins/bootstrap/js/bootstrap.bundle.min.js')
+// ChartJS
+script(src='plugins/chart.js/Chart.min.js')
+// Sparkline
+script(src='plugins/sparklines/sparkline.js')
+// JQVMap
+script(src='plugins/jqvmap/jquery.vmap.min.js')
+script(src='plugins/jqvmap/maps/jquery.vmap.usa.js')
+// jQuery Knob Chart
+script(src='plugins/jquery-knob/jquery.knob.min.js')
+// daterangepicker
+script(src='plugins/moment/moment.min.js')
+script(src='plugins/daterangepicker/daterangepicker.js')
+// Tempusdominus Bootstrap 4
+script(src='plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')
+// Summernote
+script(src='plugins/summernote/summernote-bs4.min.js')
+// overlayScrollbars
+script(src='plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')
+// AdminLTE App
+script(src='dist/js/adminlte.js')
+// AdminLTE dashboard demo (This is only for demo purposes)
+script(src='dist/js/pages/dashboard.js')
+// AdminLTE for demo purposes
+script(src='dist/js/demo.js')
+script(src='https://cdn.jsdelivr.net/npm/scriptjs@2.5.9/dist/script.min.js')
+script(src='https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js')
+script(src='https://cdn.jsdelivr.net/npm/places.js@^1.17.0')
+script(src='https://cdn.jsdelivr.net/npm/instantsearch.js@4')
+script(src='https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyBawL8VbstJDdU5397SUX7pEt9DslAwWgQ')
+script(src='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.js')
+script(src='build/js/jsSupplier.js')
