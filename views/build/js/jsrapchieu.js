@@ -29,6 +29,10 @@ $('#exampleModalCenter').on('hidden.bs.modal', function (e) {
     $("#exampleModalCenter").modal('hide');
 })
 
+$('#notifyModal').on('shown.bs.modal', function (e) {
+    $("#exampleModalCenter").modal("hide");
+});
+
 
 $('#btnOK').click(function () {
     window.location.replace('/rapchieu/danhsachrapchieu?page=1');
@@ -247,24 +251,26 @@ function uploadfile(newIdCinema) {
     const storageRef = firebase.storage().ref()
     let task = null;
     let inputImage = $('input[name=imgCinema]').prop('files')[0];
+
+    if(inputImage != null){
+        let final = storageRef.child(`cinemas/${newIdCinema}`)
+        task = final.put(inputImage);
     
-    let final = storageRef.child(`cinemas/${newIdCinema}`)
-    task = final.put(inputImage);
-
-    task.on(
-        "state_changed",
-        // PROGRESS FUNCTION
-        function progress(progress) { },
-        function error(err) { },
-        function completed() {
-            final.getDownloadURL()
-
-                .then((url) => {
-                    
-                    updateImage(newIdCinema, url);
-                });
-        }
-    );
+        task.on(
+            "state_changed",
+            // PROGRESS FUNCTION
+            function progress(progress) { },
+            function error(err) { },
+            function completed() {
+                final.getDownloadURL()
+    
+                    .then((url) => {
+                        
+                        updateImage(newIdCinema, url);
+                    });
+            }
+        );
+    }  
 }
 
 function updateImage(idCinema, url) {

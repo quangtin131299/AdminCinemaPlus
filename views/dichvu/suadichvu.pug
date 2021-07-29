@@ -36,7 +36,7 @@ include ../header.pug
     // /.content-header
     // Main content
     section.content
-        form(method="post", enctype="multipart/form-data", id="formAddService")  
+        form(method="post", enctype="multipart/form-data", id="formService")  
           .card
             .card-body
               .row
@@ -63,13 +63,10 @@ include ../header.pug
                             label.custom-file-label.file-name-image-service(for='inputGroupFile01') Choose file
                   img(src=(bapnuoc.Hinh && bapnuoc.Hinh != "" ? bapnuoc.Hinh : 'https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg'),  id="imgServicePreview", width="150",height="150")
               <br>
-
-              .row
-                .col
-                  .input-group.mb-3
-                        .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Mô tả
-                        input.form-control#txtDescribe(value = bapnuoc.MoTa,name= "txtDescribe",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                  //- .input-group.mb-3
+                  //-       .input-group-prepend
+                  //-           span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Mô tả
+                  //-       input.form-control#txtDescribe(value = bapnuoc.MoTa,name= "txtDescribe",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
               
               .row
                 .col
@@ -77,6 +74,14 @@ include ../header.pug
                         .input-group-prepend
                             span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Đơn giá
                         input.form-control#txtUnitPrice(value = bapnuoc.DonGia,name= "txtUnitPrice",type='number',min=1000, aria-label='Default', aria-describedby='inputGroup-sizing-default')
+              .row
+                .col
+                  .row
+                    .col
+                      h4 Mô tả dịch vụ
+                  .row
+                    .col
+                       #txtDescribe(data-description=bapnuoc.MoTa)
               
           .card
             .card-body
@@ -147,4 +152,9 @@ script(src='dist/js/pages/dashboard.js')
 script(src='dist/js/demo.js')
 script(src='https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js')  
 script(src='https://www.gstatic.com/firebasejs/8.7.1/firebase-storage.js')
+script(src='https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js'
+    , integrity='sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=='
+    , crossorigin='anonymous'
+    , referrerpolicy='no-referrer')
 script(src='build/js/jsService.js')

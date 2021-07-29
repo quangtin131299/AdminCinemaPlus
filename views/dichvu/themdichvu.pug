@@ -38,7 +38,7 @@ script(src='https://polyfill.io/v3/polyfill.min.js?features=default')
     // /.content-header
     // Main content
     section.content
-        form(method="post", enctype="multipart/form-data", id="formAddService")  
+        form(method="post", enctype="multipart/form-data", id="formService")  
           .card
             .card-body
               .row
@@ -62,15 +62,24 @@ script(src='https://polyfill.io/v3/polyfill.min.js?features=default')
               .row
                 .col
                   .input-group.mb-3
-                        .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Mô tả
-                        input.form-control#txtDescribe(name= "txtDescribe", placeholder="Nhập thông tin mô tả",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Đơn giá
+                    input.form-control#txtUnitPrice(name= "txtUnitPrice", placeholder="Nhập đơn giá (VND)",type='number',min=1000, aria-label='Default', aria-describedby='inputGroup-sizing-default')
+              br
               .row
                 .col
-                  .input-group.mb-3
-                        .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Đơn giá
-                        input.form-control#txtUnitPrice(name= "txtUnitPrice", placeholder="Nhập đơn giá (VND)",type='number',min=1000, aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                  .row
+                    .col
+                      h4 Mô tả dịch vụ
+                  .row
+                    .col
+                      #txtDescribe
+                  //- .input-group.mb-3
+                  //-       .input-group-prepend
+                  //-           span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Mô tả
+                  //-       input.form-control#txtDescribe(name= "txtDescribe", placeholder="Nhập thông tin mô tả",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+              
+              
               
           .card
             .card-body
@@ -148,4 +157,9 @@ script(src='https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyBawL8Vbst
 script(src='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.js')
 script(src='https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js')  
 script(src='https://www.gstatic.com/firebasejs/8.7.1/firebase-storage.js')
+script(src='https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js'
+    , integrity='sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=='
+    , crossorigin='anonymous'
+    , referrerpolicy='no-referrer')
 script(src='build/js/jsService.js')

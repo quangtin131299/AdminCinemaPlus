@@ -112,13 +112,6 @@ router.get("/suarapchieu", function(req, res){
                         , rapphim.KinhDo
                 FROM rapphim WHERE rapphim.ID = ?`;
 
-
-    if(req.query.mess &&  req.query.mess == 1){
-        messageEdit = "Sửa thành công";
-    }else if(req.query.mess &&  req.query.mess == 0){
-        messageEdit = "Sửa thất bại";
-    }
-
     conn.query(query,[idCinema] ,function (err, result){
         if(err) {
             console.log(err);
@@ -137,13 +130,12 @@ router.post("/suarapchieu", uploadImage, function(req, res){
     let kinhDo = req.body.lng;
     let sqlquery = `UPDATE rapphim
                     SET rapphim.TenRap = ?
-                        , rapphim.Hinh = ?
                         , rapphim.DiaChi = ?
                         , rapphim.ViDo = ?
                         , rapphim.KinhDo = ?
                     WHERE rapphim.ID = ?`;
     
-    conn.query(sqlquery,[cinemaName, '', cinemaAddress, viDo, kinhDo, maRap], function(err){
+    conn.query(sqlquery,[cinemaName, cinemaAddress, viDo, kinhDo, maRap], function(err){
         if(err){
             console.log(err);
 
