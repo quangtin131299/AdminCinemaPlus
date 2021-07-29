@@ -59,7 +59,7 @@ include ../header.pug
                       a.btn.btn-primary(href="suadichvu?idService=" + bapnuoc.ID) Sửa
                     span  |
                     span 
-                      button#linkDelete.btn.btn-danger(onClick=`setIdService(${bapnuoc.ID}))`, data-toggle='modal', data-target="#modalInforDelete") Xóa 
+                      button#linkDelete.btn.btn-danger(onClick=`setIdService(${bapnuoc.ID})`, data-toggle='modal', data-target="#modalInforDelete") Xóa 
       #modalInforDelete.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
         .modal-dialog(role='document')
           .modal-content
@@ -121,3 +121,4 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
+script(src="build/js/jsListService.js") 

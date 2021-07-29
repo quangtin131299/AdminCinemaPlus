@@ -45,11 +45,11 @@ router.get("/danhsachphim", function (req, res) {
   let vitribatdaulay = (page - 1) * 5;
   let soluongtrang = 0;
   let query =
-    "SELECT phim.ID, DATE_FORMAT(phim.NgayKhoiChieu, '%d/%m/%Y') as 'NgayKhoiChieu', phim.TenPhim, phim.Hinh, phim.TrangThai, phim.ThoiGian FROM phim";
+    "SELECT phim.ID, DATE_FORMAT(phim.NgayKhoiChieu, '%d/%m/%Y') as 'NgayKhoiChieu', phim.TenPhim, phim.Hinh, phim.TrangThai, phim.ThoiGian FROM phim where phim.isDelete = '0'";
   conn.query(query, function (err, result) {
     soluongtrang = result.length / 5;
     let query = `SELECT phim.ID, DATE_FORMAT(phim.NgayKhoiChieu, '%d/%m/%Y') as 'NgayKhoiChieu', phim.TenPhim, phim.Hinh, phim.TrangThai, phim.ThoiGian
-                 FROM phim limit ${vitribatdaulay}, 5`;
+                 FROM phim where phim.isDelete = '0' limit ${vitribatdaulay}, 5`;
     conn.query(query, function (err, result) {
       if (err) {
         res.send(err);
@@ -575,6 +575,37 @@ function notifyAppClient(tokenClient) {
     console.log("Loi roi: ", error.response.status);
   })
 }
+
+router.post("/xoaphim", function (req, res){
+  let idMovie = req.body.idMovie;
+  console.log(idMovie);
+  let query =`SELECT phim.ID, phim.TenPhim, phim.TrangThai, vedat.ID ,vedat.TrangThai
+              FROM phim JOIN vedat ON phim.ID = vedat.ID_Phim
+              WHERE phim.ID = ? and vedat.TrangThai ='Đã đặt'`
+  
+  conn.query(query, [idMovie], function (errContrainMovie, resultContrainMovie){
+    if(errContrainMovie){
+      console.log(errContrainMovie);
+    } else {
+        if(resultContrainMovie.length == 0){
+          let queryUpdateStatus = `UPDATE phim
+                                   SET phim.isDelete = 1
+                                   Where phim.ID  = ?`;
+          
+          conn.query(queryUpdateStatus, [idMovie], function(errorUpdate){
+            if(errorUpdate){
+              console.log(errorUpdate);
+                
+              return res.json({statusCode: 0, message: 'Xóa phim thất bại'});
+           }    
+              res.json({statusCode: 1, message: 'Xóa phim thành công'});
+          })
+        } else {
+          res.json({statusCode: 0, message: 'Xóa phim thất bại! Phim đang có suất chiếu'});
+        }
+    }
+  })
+})
 
 
 module.exports = router;

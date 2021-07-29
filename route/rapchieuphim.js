@@ -82,19 +82,32 @@ router.post('/themrapchieu',uploadImage, function(req,res){
 	let viDo = req.body.lat;
 	let kinhDo = req.body.lng;
 
-    let queryInsert = `INSERT INTO rapphim VALUES (NULL,?,?,?,?,?)`;
+    let queryDuplicateNameCinema = `SELECT * FROM rapphim where rapphim.TenRap = ? `;
+    
+    conn.query(queryDuplicateNameCinema, [theaterName], function(errorDuplicateNameCinema, resultNameCinema){
+        if(errorDuplicateNameCinema) {
+            console.log(errorDuplicateNameCinema);
+            return res.json({statusCode: 0, message: 'Không thể kiểm tra trùng tên rạp chiếu'})
+        } else {
+            if(resultNameCinema.length == 0){
+                let queryInsert = `INSERT INTO rapphim VALUES (NULL,?,?,?,?,?)`;
 
-    conn.query(queryInsert, [theaterName
+                conn.query(queryInsert, [theaterName
                             ,''
                             ,cinemaAddress
                             ,viDo
                             ,kinhDo], function(errorRapChieuPhim, resultRapChieuPhim){
-        if(errorRapChieuPhim){
-            console.log(errorRapChieuPhim);
+                    if(errorRapChieuPhim){
+                        console.log(errorRapChieuPhim);
 
-            res.json({statusCode: 0, message: 'Thêm rạp chiếu thất bại.', newIdCinema: 0});
-        } else{
-            res.json({statusCode: 1, message: 'Thêm rạp chiếu thành công.', newIdCinema: resultRapChieuPhim.insertId});
+                        res.json({statusCode: 0, message: 'Thêm rạp chiếu thất bại.', newIdCinema: 0});
+                    } else{
+                        res.json({statusCode: 1, message: 'Thêm rạp chiếu thành công.', newIdCinema: resultRapChieuPhim.insertId});
+                    }
+                })
+            } else {
+                return res.json({statusCode: 0, message: 'Tên rạp chiếu đã tồn tại'})
+            }
         }
     })
 })
