@@ -194,7 +194,7 @@ function onSubmitEditMovie() {
     let endDate = $('input[name=txtNgayKetThuc]').val();
     let time = $('input[name=txtthoigian]').val();
     let status = $('select[name=cboxtrangthai]').val();
-    let description = editorDescriptionMovie.getData();
+    let description = $(editorDescriptionMovie.getData()).text();
     let idTrailer = $('input[name=txtIDtrailer]').val();
     let idCinemas = $('input[name=chbCinema]:checked').map(function () {
         return $(this).val();

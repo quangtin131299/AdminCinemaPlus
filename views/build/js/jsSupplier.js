@@ -7,6 +7,42 @@ if(btnhuy){
     }
 }
 
+$('#formSupplier').validate({
+    rules: {
+        txtSupplierName:{
+            required: true
+        },
+        txtAddress: {
+            required: true
+        },
+        txtPhoneNumber: {
+            required: true
+        },
+        txtEmail: {
+            required: true
+        }
+    },
+    messages: {
+        txtSupplierName:{
+            required: 'Tên nhà cùng cấp không được bỏ trống'
+        },
+        txtAddress: {
+            required: 'Địa chỉ nhà cung cấp không được bỏ trống'
+        },
+        txtPhoneNumber: {
+            required: 'Số điện thoại nhà cung cấp không được bỏ trống'
+        },
+        txtEmail: {
+            required: 'Email nhà cung cấp không được bỏ trống'
+        }
+    },
+    errorPlacement: function (label, element) {
+        label.insertAfter(element.parent("div"));
+
+    },
+    wrapper: 'span'
+})
+
 $(document).ready(function () {
     let mess = $("#modalTextMessage").html();
 
@@ -35,69 +71,75 @@ $('#btnOK').click(function () {
 })
 
 function btnSubmit(isAdd) {
+    let form = $('#formSupplier');
     let supplierName = $('#txtSupplierName').val();
     let address = $('#txtAddress').val();
     let phoneNumber = $('#txtPhoneNumber').val();
     let email = $('#txtEmail').val();
 
-    showLoading();
+
+    if(form.valid() == true){
+        showLoading();
+        if (validateNumberPhone() == true && validateEmail() == true && supplierName != '' && address != '') {
+            if (isAdd == true) {
     
-    if (validateNumberPhone() == true && validateEmail() == true && supplierName != '' && address != '') {
-        if (isAdd == true) {
-
-            $.ajax({
-                method: 'POST',
-                url: '/nhacungcap/themnhacungcap',
-                data: {
-                    supplierName: supplierName,
-                    address: address,
-                    phoneNumber: phoneNumber,
-                    email: email
-                },
-                success: function (data) {
-                    if (data) {
-                        hideLoading();
-
-                        $('#modalTextMessage').html(data.message);
-                        $('#notifyModal').modal('show')
+                $.ajax({
+                    method: 'POST',
+                    url: '/nhacungcap/themnhacungcap',
+                    data: {
+                        supplierName: supplierName,
+                        address: address,
+                        phoneNumber: phoneNumber,
+                        email: email
+                    },
+                    success: function (data) {
+                        if (data) {
+                            hideLoading();
+    
+                            $('#modalTextMessage').html(data.message);
+                            $('#notifyModal').modal('show')
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
                     }
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            })
+                })
+            } else {
+                let idSupplier = $('input[name=idSupplier]').val();
+    
+                $.ajax({
+                    method: 'PUT',
+                    url: '/nhacungcap/suanhacungcap',
+                    data: {
+                        maSupplier: idSupplier,
+                        supplierName: supplierName,
+                        address: address,
+                        phoneNumber: phoneNumber,
+                        email: email
+                    },
+                    success: function (data) {
+                        if (data) {
+                            hideLoading();
+    
+                            $('#modalTextMessage').html(data.message);
+                            $('#notifyModal').modal('show');
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                })
+            }
         } else {
-            let idSupplier = $('input[name=idSupplier]').val();
-
-            $.ajax({
-                method: 'PUT',
-                url: '/nhacungcap/suanhacungcap',
-                data: {
-                    maSupplier: idSupplier,
-                    supplierName: supplierName,
-                    address: address,
-                    phoneNumber: phoneNumber,
-                    email: email
-                },
-                success: function (data) {
-                    if (data) {
-                        hideLoading();
-
-                        $('#modalTextMessage').html(data.message);
-                        $('#notifyModal').modal('show');
-                    }
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            })
+            hideLoading();
+    
+            $("#modalTextMessage").html('Thông tin không hợp lệ')
+            $('#notifyModal').modal('show');
         }
-    } else {
+    }else{
         hideLoading();
-
-        $("#modalTextMessage").html('Thông tin không hợp lệ')
-        $('#notifyModal').modal('show');
     }
+ 
 }
 
 

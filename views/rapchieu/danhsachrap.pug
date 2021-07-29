@@ -40,9 +40,9 @@ include ../header.pug
         thead
           tr
             th(scope='col') ID
-            th(scope='col') Tên rạp
-            th(scope='col') Ảnh
-            th(scope='col') Địa chỉ
+            th(scope='col', width="200") Tên rạp
+            th(scope='col',width="510") Ảnh
+            th(scope='col', width="400") Địa chỉ
             th(scope='col') Thao tác 
         tbody
           each rap in danhsachrapchieu
@@ -50,17 +50,17 @@ include ../header.pug
               th(scope='row')=rap.ID
               td=rap.TenRap
               td
-                img(src=rap.Hinh, alt="photo", width=100, height=100)
+                img(src=rap.Hinh, alt="photo", width=500, height=300)
               td=rap.DiaChi
               td
                 span 
-                  a(href="/rapchieu/chitietrapchieu?idCinema=" + rap.ID) Chi Tiết 
-                span |
+                  a.btn.btn-info(href="/rapchieu/chitietrapchieu?idCinema=" + rap.ID) Chi Tiết 
+                span &nbsp; | &nbsp;
                 span 
-                  a(href="suarapchieu?idCinema=" + rap.ID) Sửa
-                span |
+                  a.btn.btn-primary(href="suarapchieu?idCinema=" + rap.ID) Sửa
+                span &nbsp; | &nbsp;
                 span 
-                  a(href="#") Xóa
+                  a.btn.btn-danger(href="#") Xóa
       nav(style="display:flex; justify-content:center",aria-label='Page navigation example')
         ul.pagination
           li.page-item

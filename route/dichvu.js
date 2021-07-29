@@ -119,10 +119,9 @@ router.post("/suadichvu", uploadImage, function(req, res){
                         SET bapnuoc.TenCombo = ?
                             , bapnuoc.DonGia = ?
                             , bapnuoc.MoTa = ?
-                            , bapnuoc.Hinh = ?
                         WHERE bapnuoc.ID = ?`;
     
-    conn.query(sqlquery,[serviceName, unitPrice, describe, '', maService], function(err, result){
+    conn.query(sqlquery,[serviceName, unitPrice, describe, maService], function(err, result){
         if(err){
             console.log(err);
 
