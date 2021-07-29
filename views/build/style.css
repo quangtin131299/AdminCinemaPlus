@@ -1,179 +1,210 @@
-.submit-container{
-    display: flex;
-    justify-content: flex-end;
+.submit-container {
+  display: flex;
+  justify-content: flex-end;
 }
 
-.back-to-container{
-    display: flex;
-    justify-content: center;
+.back-to-container {
+  display: flex;
+  justify-content: center;
 }
 
-.add-schedule-container{
-    display: flex;
-    justify-content: center;
+.add-schedule-container {
+  display: flex;
+  justify-content: center;
 }
 
-.btn-action-container{
-    display: flex;
-    justify-content: center;
+.btn-action-container {
+  display: flex;
+  justify-content: center;
 }
 
-.card-container-max-width{
-    width: 100%;
+.card-container-max-width {
+  width: 100%;
 }
 
-.paging-center{
-    display:flex; 
-    justify-content:center;
+.paging-center {
+  display: flex;
+  justify-content: center;
 }
 
-.width-btn{
-    width:200px
+.width-btn {
+  width: 200px;
 }
 
-.width-texarea{
+.width-texarea {
+  width: 100%;
     width: 100%; 
-    height: 150px;
+  width: 100%;
+  height: 150px;
 }
 
-.dialog-loading{
+.dialog-loading {
+  position: relative;
     position: relative; 
+  position: relative;
+  top: 50%;
     top: 50%; 
+  top: 50%;
+  width: fit-content;
     width: fit-content; 
-    display: flex;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
     justify-content: center; 
-    margin: 0 auto;
+  justify-content: center;
+  margin: 0 auto;
 }
 
-.dialog-loading-for-login{
-    width: fit-content !important;
-    margin: auto !important;
+.dialog-loading-for-login {
+  width: fit-content !important;
+  margin: auto !important;
 }
 
-.width-input-address{
-    width: 100%;
+.width-input-address {
+  width: 100%;
 }
 
-.card-schedule-intro{
+.card-schedule-intro {
+  padding-top: 50px;
     padding-top: 50px; 
+  padding-top: 50px;
+  padding-right: 50px;
     padding-right: 50px; 
-    padding-left: 50px;
+  padding-right: 50px;
+  padding-left: 50px;
 }
 
-.filter-container{
-    display: flex;
+.filter-container {
+  display: flex;
 }
 
-.date-filter{
-    width: 300px;
+.date-filter {
+  width: 300px;
 }
 
-.btn-filter{
-    margin-left: 10px;
-    height: fit-content;
+.btn-filter {
+  margin-left: 10px;
+  height: fit-content;
 }
 
-.error{
-    color: #F74242;
-    font-weight: bold;
+.error {
+  color: #f74242;
+  font-weight: bold;
 }
 
-.video-container{
-    display: flex;
-    justify-content: center;
+.video-container {
+  display: flex;
+  justify-content: center;
 }
 
-.secion-video{
+.secion-video {
+  height: 500px;
     height: 500px; 
+  height: 500px;
+  display: flex;
      display: flex; 
-     align-items: center 
+  display: flex;
+  align-items: center;
 }
 
-.card-video{
-    height: fit-content;
+.card-video {
+  height: fit-content;
 }
 
-.video-qr{
-    margin: 1.5rem;
+.video-qr {
+  margin: 1.5rem;
 }
 
-.content-qr-container{
-    display: flex;
-    align-items: center;
-    padding-left: 1.5rem;
-    padding-bottom: 15px;
+.content-qr-container {
+  display: flex;
+  align-items: center;
+  padding-left: 1.5rem;
+  padding-bottom: 15px;
 }
 
-.label-bill{
-    padding-top: 10px;
-    width: 9rem;
+.label-bill {
+  padding-top: 10px;
+  width: 9rem;
 }
 
-.input-content-scan{
-    width: 70%;
+.input-content-scan {
+  width: 70%;
 }
 
-.title-scan{
-    margin-top: 0.5rem;
+.title-scan {
+  margin-top: 0.5rem;
 }
 
-.container-scan-qr{
-    width: fit-content;
-    margin-bottom: 20px;
+.container-scan-qr {
+  width: fit-content;
+  margin-bottom: 20px;
 }
 
-.map-cinema{
-    height: 520px;
+.map-cinema {
+  height: 520px;
 }
 
-.card-map{
-    width: 100%;
-    margin-bottom: 1rem !important;
+.card-map {
+  width: 100%;
+  margin-bottom: 1rem !important;
 }
 
-.collapse-room{
-    margin-top: 15px;
+.collapse-room {
+  margin-top: 15px;
 }
 
-.container-btn-show-seat{
-    display: flex;
-    justify-content: flex-end;
+.container-btn-show-seat {
+  display: flex;
+  justify-content: flex-end;
 }
 
-.check-all-container{
-    display: flex;
-    justify-content: flex-end;
+.check-all-container {
+  display: flex;
+  justify-content: flex-end;
 }
 
-.container-infor-room{
-    display: flex;
-    align-items:center;
+.container-infor-room {
+  display: flex;
+  align-items: center;
 }
 
-.btn-add-seat-container{
-    display: flex;
-    justify-content: flex-end;
+.btn-add-seat-container {
+  display: flex;
+  justify-content: flex-end;
 }
 
-.btn-add-back-to{
-    margin-right: 15px;
+.btn-add-back-to {
+  margin-right: 15px;
 }
 
-.container-intro-schedule{
-    display:flex; 
-    flex-wrap:wrap; 
-    justify-content: center
+.container-intro-schedule {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.card-schedule-cinema{
+.card-schedule-cinema {
+  width: fit-content;
     width: fit-content; 
-    margin-right: 55px
+  width: fit-content;
+  margin-right: 55px;
 }
 
 .ck.ck-editor {
-    width: 100% !important;
+  width: 100% !important;
 }
 
-.ck-rounded-corners{
-    height: 200px;
+.ck-rounded-corners {
+  height: 200px;
+}
+
+.imgContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.imgMovie{
+    border-radius: 10px;
+    border: 1px solid lightgray;
+    padding: 5px;
 }
