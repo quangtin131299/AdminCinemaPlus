@@ -70,7 +70,7 @@ router.post('/themdichvu',uploadImage, function(req,res){
     let describe = req.body.description;
 	let unitPrice = req.body.unitPrice;
 
-    let queryInsert = `INSERT INTO bapnuoc VALUES (NULL,?,?,?,?)`;
+    let queryInsert = `INSERT INTO bapnuoc VALUES (NULL,?,?,?,?,'0')`;
 
     conn.query(queryInsert, [serviceName
                             ,unitPrice
