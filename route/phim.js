@@ -578,7 +578,7 @@ function notifyAppClient(tokenClient) {
 
 router.post("/xoaphim", function (req, res){
   let idMovie = req.body.idMovie;
-  console.log(idMovie);
+  
   let query =`SELECT phim.ID, phim.TenPhim, phim.TrangThai, vedat.ID ,vedat.TrangThai
               FROM phim JOIN vedat ON phim.ID = vedat.ID_Phim
               WHERE phim.ID = ? and vedat.TrangThai ='Đã đặt'`
