@@ -278,7 +278,7 @@ router.post("/xeplich", function (req, res) {
             }
           } else {
             return res.json({
-              message: 'Suất chiếu không hợp lệ',
+              message: 'Suất chiếu bị trùng',
               statusCode: 0
             });
           }
