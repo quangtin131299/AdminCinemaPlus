@@ -55,7 +55,7 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
     },
     locale: 'vi',
 
-    height: "auto",
+    height: '900px',
     editable: true,
     droppable: true,
 });
@@ -355,3 +355,111 @@ function checkTime(inputTime){
         inputTime.value = ''
     }
 }
+
+
+$(document).ready(function(){
+    let idCinema = $('select[name=dropdownCinema]').val();
+
+    if(idCinema && idCinema != ''){
+        let fristDate = getFristDayWeek();
+        let lastDate = getLastDayWeek();
+    
+        $.ajax({
+            method: 'GET',
+            url: '/lichchieu/chitietlichchieu',
+            data: {
+                idrap: idCinema,
+                fristDate: fristDate,
+                lastDate: lastDate
+            },
+            success: function (dataSchedule) {
+                clearEvent();
+               
+                if (dataSchedule) {
+                    
+                    let countMovie = dataSchedule.length;
+    
+                    for (let i = 0; i < countMovie; i++) {
+    
+                        let countShoWTime = dataSchedule[i].phims.length;
+    
+                        for (let j = 0; j < countShoWTime; j++) {
+                            
+    
+                            for (let k = 0; k < dataSchedule[i].phims[j].suatchieus.length; k++) {
+                                
+                                let title = `${dataSchedule[i].phims[j].tenPhim}  |  ${dataSchedule[i].phims[j].suatchieus[k].tenphong}`;
+                                let endTime = calulatorEndTime(dataSchedule[i].phims[j].suatchieus[k].gio, dataSchedule[i].ThoiGian);
+    
+                                calendar.addEvent({
+                                    title: title,
+                                    start: `${dataSchedule[i].Ngay} ${dataSchedule[i].phims[j].suatchieus[k].gio}`,
+                                    end: `${dataSchedule[i].Ngay} ${endTime}`,
+                                    backgroundColor: '#3c8dbc',
+                                    borderColor: '#3c8dbc',
+                                })
+                            }
+                        }
+                    }
+                }
+            },
+            error: function (erroSchedule) {
+    
+            }
+        })
+  
+        $.ajax({
+            method: 'GET',
+            url: '/lichchieu/getMovieOfCinema',
+            data: {
+                id: idCinema
+            },
+            success: function (data) {
+
+                $("select[name=dropdownMovie]").html(`<option value=''>Chọn phim</option>`)
+
+                if (data) {
+                    
+                    movies = data;
+                    let countMovie = data.length;
+
+                    for (let i = 0; i < countMovie; i++) {
+                        $("select[name=dropdownMovie]").html(
+                            $("select[name=dropdownMovie]").html() + `<option value="${data[i].ID}">
+                                                                            ${data[i].TenPhim}
+                                                                    </option>`
+                        )
+                    }
+
+                    $.ajax({
+                        method: "GET",
+                        url: '/lichchieu/getRoomOfCinema',
+                        data: {
+                            id: idCinema
+                        },
+                        success: function (data) {
+                            $("select[name=dropdownRoom]").html('');
+
+                            if (data) {
+                                rooms = data;
+                                let countRoom = data.length;
+
+                                for (let i = 0; i < countRoom; i++) {
+                                    $("select[name=dropdownRoom]").html(
+                                        $("select[name=dropdownRoom]").html() + `<option value="${data[i].ID}">${data[i].TenPhong}</option>`
+                                    )
+                                }
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    })
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+})

@@ -50,9 +50,9 @@ script(src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.8.0/main.min.j
                             // the events
                             #external-events
                                 select#inputGroupSelect02.custom-select(name="dropdownCinema", onchange="loadMovieOfCinema(this)")
-                                    option(value='' .selected) Chọn rạp chiếu
+                                    //- option(value='') Chọn rạp chiếu
                                     each itemCinema in danhsachrap
-                                      option(value=itemCinema.ID)= itemCinema.TenRap
+                                      option(value=itemCinema.ID, selected)= itemCinema.TenRap
                                 
                         // /.card-body
                     // /.card

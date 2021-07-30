@@ -37,7 +37,8 @@ router.get("/danhsachlichchieu", function (req, res) {
               if(resultCinema[i].TenRap ==  resultCinema[j].TenRap){
                 arrayRoom.push({
                   id: resultCinema[j].ID_Phong,
-                  nameRoom: resultCinema[j].TenPhong
+                  nameRoom: resultCinema[j].TenPhong,
+                  movies:[]
                 })
               }
             }
@@ -67,61 +68,65 @@ router.get("/danhsachlichchieu", function (req, res) {
                                                       JOIN phim on phim.ID = phim_lichchieu.ID_Phim
                                                       JOIN phim_phong_xuat on phim_phong_xuat.ID_Phim = phim.ID
                                                       JOIN phong on phong.ID = phim_phong_xuat.ID_Phong AND suatchieu.ID = phim_phong_xuat.ID_XuatChieu
-                                      WHERE lichchieu.Ngay = '2021-08-01'`;//2021-07-10
+                                      WHERE lichchieu.Ngay = ?`;//2021-07-10
 
-        conn.query(queryScheduleAllCinema, function (error, resultSchedultCinema){
+        conn.query(queryScheduleAllCinema, [getCurrentDate()],function (error, resultSchedultCinema){
           if(error){
             console.log(error);
 
             res.render("lichchieu/danhsachlichchieu", {cinemas: []});
           }else{
+
               let movies = [];
               let showTimeOfmovie = [];
               let countCinemaResult = resultCinemaRoom.length;
-              let nameMovieApproved =  '';
+              let countSchedultCinema = resultSchedultCinema.length;
+            if (countSchedultCinema != 0 && countCinemaResult != 0) {
+              let nameMovieApproved = '';
               //Rap
-              for(let k = 0; k < countCinemaResult; k++){                  
+              for (let k = 0; k < countCinemaResult; k++) {
 
-                  resultCinemaRoom[k].date = resultSchedultCinema[0].Ngay;
-                  let countRoom = resultCinemaRoom[k].rooms.length;
-                  //Phong
-                  for(let i = 0; i < countRoom; i++){
-                    resultCinemaRoom[k].rooms[i].movies = [];
-                    //phim
-                    for(let j = 0; j < resultSchedultCinema.length; j++){
-                       
-                        if(resultSchedultCinema[j].TenPhim != nameMovieApproved 
-                                                           && resultSchedultCinema[j].ID_Phong == resultCinemaRoom[k].rooms[i].id 
-                                                           && resultSchedultCinema[j].TenRap == resultCinemaRoom[k].nameCinema){
+                resultCinemaRoom[k].date = resultSchedultCinema[0].Ngay;
+                let countRoom = resultCinemaRoom[k].rooms.length;
+                //Phong
+                for (let i = 0; i < countRoom; i++) {
+                  // resultCinemaRoom[k].rooms[i].movies = [];
+                  //phim
+                  for (let j = 0; j < countSchedultCinema; j++) {
 
-                          for(let z = j; z < resultSchedultCinema.length; z++){
-                            if(resultSchedultCinema[j].TenPhim == resultSchedultCinema[z].TenPhim 
-                                        && resultSchedultCinema[z].ID_Phong == resultCinemaRoom[k].rooms[i].id 
-                                        && resultSchedultCinema[z].TenRap == resultCinemaRoom[k].nameCinema){
-                                showTimeOfmovie.push({
-                                    showtime: resultSchedultCinema[z].gio
-                                })
-                            }
-                          }  
-                          
-                          movies.push({
-                            nameMovie: resultSchedultCinema[j].TenPhim,
-                            duration: resultSchedultCinema[j].ThoiGian,
-                            showTime: showTimeOfmovie
+                    if (resultSchedultCinema[j].TenPhim != nameMovieApproved
+                      && resultSchedultCinema[j].ID_Phong == resultCinemaRoom[k].rooms[i].id
+                      && resultSchedultCinema[j].TenRap == resultCinemaRoom[k].nameCinema) {
+
+                      for (let z = j; z < countSchedultCinema; z++) {
+                        if (resultSchedultCinema[j].TenPhim == resultSchedultCinema[z].TenPhim
+                          && resultSchedultCinema[z].ID_Phong == resultCinemaRoom[k].rooms[i].id
+                          && resultSchedultCinema[z].TenRap == resultCinemaRoom[k].nameCinema) {
+                          showTimeOfmovie.push({
+                            showtime: resultSchedultCinema[z].gio
                           })
-
-                          nameMovieApproved = resultSchedultCinema[j].TenPhim;
-                          showTimeOfmovie = [];
                         }
-                      
+                      }
+
+                      movies.push({
+                        nameMovie: resultSchedultCinema[j].TenPhim,
+                        duration: resultSchedultCinema[j].ThoiGian,
+                        showTime: showTimeOfmovie
+                      })
+
+                      nameMovieApproved = resultSchedultCinema[j].TenPhim;
+                      showTimeOfmovie = [];
                     }
-                    resultCinemaRoom[k].rooms[i].movies = movies;
-                    movies = [];
-               
-                  }   
+
+                  }
+                  resultCinemaRoom[k].rooms[i].movies = movies;
+                  movies = [];
+
+                }
 
               }
-             
+            }
+                  
               res.render("lichchieu/danhsachlichchieu", {cinemas: resultCinemaRoom});
           }
 
@@ -398,8 +403,16 @@ router.get("/loadphongtheorap", function (req, res) {
 });
 
 router.get("/xeplichV2", function (req, res) {
-  let queryrap = "select* from rapphim";
-  conn.query(queryrap, function (err, resultrap) {
+  let idCinema = req.query.idCinema;
+  let queryCinema;
+
+  if(idCinema){
+    queryCinema =`SELECT * FROM rapphim WHERE rapphim.ID = ${idCinema}`;
+  }else{
+    queryCinema =`SELECT * FROM rapphim`;
+  }
+
+  conn.query(queryCinema, function (err, resultrap) {
     if (err) {
       console.log(err);
     } else {
@@ -446,5 +459,15 @@ router.get("/getRoomOfCinema", function (req, res) {
     }
   })
 })
+
+function getCurrentDate(){
+    let currentDate = new Date();
+
+    let day = currentDate.getDate().toString().padStart(2,'0');
+    let moth = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    let year = currentDate.getFullYear();
+
+    return `${year}-${moth}-${day}`;
+}
 
 module.exports = router;
