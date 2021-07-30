@@ -51,10 +51,8 @@ function initCalendarTimeLine(cinemas){
                                                     schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
                                                     headerToolbar: {
                                                         right: 'timeGridDay,listMonth',
-                                                        left: 'prev,next today',
-                                                        center: 'title',                                                        
                                                     },
-                                                    initialView: 'timeGridDay',
+                                                    initialView: 'listMonth',
                                                     height: '500px',
                                                     width:'500px',
                                                     events: showTimeOfMovie
