@@ -215,7 +215,7 @@ function onSubmit() {
 
     
 
-    if(checkTimeInvalid(showTime) == true){
+    if(checkTimeInvalid(showTime,dateSchedule) == true){
         showLoading();
         $.ajax({
             method: 'POST',
@@ -289,10 +289,13 @@ function validateDateSchedule(movieSelect){
     if(Date.now() >= date.getTime()){
         let currentDate = new Date();
         let year = currentDate.getFullYear();
-        let moth = currentDate.getMonth() + 1;
+        currentDate.setDate(currentDate.getDate() + 1);
+
         let date = currentDate.getDate();
-    
-        inputDateSchedule.prop('min', `${year}-${moth.toString().padStart('2','0')}-${date.toString().padStart('2','0')}`);
+        
+        let moth = currentDate.getMonth() + 1;
+        
+        inputDateSchedule.prop('min', `${year}-${moth.toString().padStart(2,'0')}-${date.toString().padStart(2,'0')}`);
     }else{
         inputDateSchedule.prop('min', openDate);
     }
@@ -321,11 +324,14 @@ function getLastDayWeek(){
     return dateString;
 }
 
-function checkTimeInvalid(time){
+function checkTimeInvalid(time, date){
     let min = moment();
     min.hour(8);
 
     let max = moment();
+
+    let dateInput = new Date(date);
+
 
     max.hour(21)
     max.minute(30);
@@ -335,14 +341,15 @@ function checkTimeInvalid(time){
     timeSelected.hour(parseInt(partialTime[0]));
     timeSelected.minute(parseInt(partialTime[1]));
 
-
     if (timeSelected.isBefore(min) == true ) {
+
         return false;
     }
 
     if(timeSelected.isAfter(max) == true){
         return false;
     }
+
 
     return true;
 }
