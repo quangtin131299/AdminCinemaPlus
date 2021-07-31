@@ -2,7 +2,7 @@ $('#exampleModalCenter').on('shown.bs.modal', function (e) {
     $("#exampleModalCenter").modal('hide');
 })
 
-function searchMovie(){
+function searchMovie(page){
     let keyWord = $('input[name=txtKeyWord]').val();
     let idType = $('select[name=dropdownTheLoaiPhim]').val();
     let idCountry = $('select[name=dropdownQuocGia]').val();
@@ -17,7 +17,8 @@ function searchMovie(){
             keyWord: keyWord,
             idType: idType,
             idCountry: idCountry,
-            idCinema: idCinema
+            idCinema: idCinema,
+            pageSelect: page
         },
         success: function(data){
             let tblMovie =  $(`#tblMovie`);
@@ -56,11 +57,11 @@ function searchMovie(){
                     for(let i = 1; i <= data.totalNumber; i++){
                         if(i == data.currentPage){
                             listPage.html(listPage.html() + `<li class='page-item active'>
-                                                                <a class='page-link' href="danhsachphim?page=${i}">${i}</a>
+                                                                <a class='page-link' onclick="searchMovie(${i})">${i}</a>
                                                             </li> `); 
                         }else{
                             listPage.html(listPage.html() + `<li class='page-item'>
-                                                                <a class='page-link' href="danhsachphim?page=${i}">${i}</a>
+                                                                <a class='page-link' onclick="searchMovie(${i})">${i}</a>
                                                             </li> `); 
                         }             
                     }
