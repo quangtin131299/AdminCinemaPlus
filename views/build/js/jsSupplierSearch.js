@@ -37,9 +37,9 @@ function searchSupplier(page){
                                                             <td>${data.resultSupplier[i].SĐT}</td>
                                                             <td>${data.resultSupplier[i].Email}</td>
                                                             <td>
-                                                                <span><a href="/nhacungcap/suanhacungcap?idSupplier=${data.resultSupplier[i].ID}"> Sửa </a> </span>
+                                                                <span><a class="btn btn-primary" href="/nhacungcap/suanhacungcap?idSupplier=${data.resultSupplier[i].ID}"> Sửa </a> </span>
                                                                 <span>|</span>
-                                                                <span><a href="/nhacungcap/xoanhacungcap?idSupplier=${data.resultSupplier[i].ID}"> Xóa</span>                                                                     
+                                                                <span><button class="btn btn-danger" onclick="setIdSupplier(${data.resultSupplier[i].ID})", data-toggle='modal', data-target="#modalInforDelete"> Xóa</button></span>                                                                     
                                                             </td>
                                                         </tr>`)
                     }

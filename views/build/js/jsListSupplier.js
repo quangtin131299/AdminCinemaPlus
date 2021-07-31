@@ -29,6 +29,8 @@ function btnAccept(){
 
                 $('#modalTextMessage').html(data.message);
                 $('#notifyModal').modal('show')
+
+                window.location.replace('/nhacungcap/danhsachnhacungcap?page=1')
             }
         },
         error: function (error) {

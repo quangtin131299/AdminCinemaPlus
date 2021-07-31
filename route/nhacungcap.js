@@ -147,7 +147,7 @@ router.get("/searchSupplier", function (req, res){
 
     let querySearch =`SELECT nhacungcap.*
                       FROM nhacungcap 
-                      WHERE (match(nhacungcap.TenNhaCungCap) against(?) or nhacungcap.TenNhaCungCap LIKE ?)`;
+                      WHERE (match(nhacungcap.TenNhaCungCap) against(?) or nhacungcap.TenNhaCungCap LIKE ?) AND nhacungcap.isDelete = 0`;
 
     conn.query( querySearch, [keyWord, `${keyWord}%`], function (err, resultSearchSupplier){
         if(err){
@@ -159,7 +159,7 @@ router.get("/searchSupplier", function (req, res){
 
             let querySupplierPagging = `SELECT nhacungcap.*
                                         FROM nhacungcap 
-                                        WHERE (match(nhacungcap.TenNhaCungCap) against(?) or nhacungcap.TenNhaCungCap LIKE ?) LIMIT ?, 5`;
+                                        WHERE (match(nhacungcap.TenNhaCungCap) against(?) or nhacungcap.TenNhaCungCap LIKE ?) AND nhacungcap.isDelete = 0  LIMIT ?, 5`;
             
             conn.query(querySupplierPagging, [ keyWord, `${keyWord}%`, position], function(errorSupplierPagging, resultSupplierPagging){
                 if(errorSupplierPagging){
