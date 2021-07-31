@@ -1,0 +1,185 @@
+doctype html
+include ../header.pug
+.wrapper
+  // Navbar
+  nav.main-header.navbar.navbar-expand.navbar-white.navbar-light
+    // Left navbar links
+    ul.navbar-nav
+      li.nav-item
+        a.nav-link(data-widget='pushmenu', href='#', role='button')
+          i.fas.fa-bars
+      li.nav-item.d-none.d-sm-inline-block
+        a.nav-link(href='/home') Trang chủ
+  // /.navbar
+  // Main Sidebar Container
+  include ../slidebar.pug
+  // Content Wrapper. Contains page content
+  .content-wrapper
+    // Content Header (Page header)
+    .content-header
+      .container-fluid
+        .row.mb-2
+          .col-sm-6
+            h1.m-0.text-dark Chi tiết hóa đơn
+          // /.col
+          .col-sm-6
+            ol.breadcrumb.float-sm-right
+              li.breadcrumb-item
+                a(href='/home') Trang chủ
+              li.breadcrumb-item
+                a(href='#') Quản lý hóa đơn
+              li.breadcrumb-item
+                a(href='#') Danh sách hóa đơn
+              li.breadcrumb-item.active 
+                a(href='#') Chi tiết hóa đơn
+          // /.col
+        // /.row
+      // /.container-fluid
+    // /.content-header
+    // Main content
+    section.content
+        .row
+          .col-md-5(style="display: flex;  align-items: center;justify-content: center;")
+            img(src='https://png.pngtree.com/png-clipart/20190630/original/pngtree-vector-invoice-vector-icon-png-image_4165478.jpg', alt="photo",width="300",height="450", style="text-align: center;")
+          .col-lg-7
+           .card
+            .card-body
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Mã hóa đơn:
+                    input.form-control(value=hoadon.ID, disabled ,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tên khách hàng:
+                    input.form-control(value=hoadon.HoTen, disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tên phim:
+                    input.form-control(value=hoadon.TenPhim,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Rạp chiếu:
+                    input.form-control(value=hoadon.TenRap,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tên phòng:
+                    input.form-control(value=hoadon.TenPhong,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Thời lượng:
+                    input.form-control(value=hoadon.ThoiGian + " phút",disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Ngày lập:
+                    input.form-control(value=hoadon.Ngay,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Ngày chiếu:
+                    input.form-control(value=hoadon.Ngay,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Suất chiếu:
+                    input.form-control(value=hoadon.Gio,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tổng tiền vé:
+                    input.form-control(value= hoadon.ThanhTienVe + ' VND',disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tổng tiền bắp nước:
+                    input.form-control(value= hoadon.totalAmoutPopcorn + ' VND',disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tổng tiền hóa đơn:
+                    input.form-control(value=`${hoadon.totalAmoutPopcorn + hoadon.ThanhTienVe} VND`,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+
+              
+        .row
+          .col-md-6
+            .row
+              .col-md-12
+                 h2 Danh sách ghế
+            .row
+              .col-md-12 
+                each itemSeat in hoadon.seats
+                  .card.card-detail-bill(style='width: 100%;')
+                    .card-body
+                      .row
+                        .col-md-3
+                          img.img-detail-bill(src='https://media.istockphoto.com/vectors/red-cinema-armchair-vector-id1146296886?k=6&m=1146296886&s=612x612&w=0&h=j1rhoY3ggrx5sLhKmxGJpSckyNl8OuGiWH3wxSv3YYw=')
+                        .col-md-9
+                          .row
+                            .col-md-12 
+                              h5= `Mã ghế: ${itemSeat.idSeat}`
+                          .row
+                            .col-md-12 
+                              h5= `Tên ghế: ${itemSeat.seatName}`
+                     
+          .col-md-6
+            .row
+              .col-md-12
+                 h2 Danh sách bắp nước
+            .row 
+              .col-md-12
+                each itemPopcorn in hoadon.combos
+                  .card.card-detail-bill(style='width: 100%;')
+                    .card-body
+                      .row
+                        .col-md-3
+                          img.img-detail-bill(src=itemPopcorn.img)
+                        .col-md-9
+                          .row
+                            .col-md-12 
+                              h5= `Tên Combo: ${itemPopcorn.popCornName}`
+                          .row
+                            .col-md-12 
+                               h5= `Số lượng: ${itemPopcorn.count}`
+                          .row
+                            .col-md-12
+                               h5= `Thành tiền bắp nước: ${itemPopcorn.amount} VNĐ`
+
+          
+
+                    
+  
+        
+    // /.content
+  // /.content-wrapper
+  include ../footer.pug
+// ./wrapper
+// jQuery
+script(src='plugins/jquery/jquery.min.js')
+// jQuery UI 1.11.4
+script(src='plugins/jquery-ui/jquery-ui.min.js')
+// Resolve conflict in jQuery UI tooltip with Bootstrap tooltip
+script.
+  $.widget.bridge('uibutton', $.ui.button)
+// Bootstrap 4
+script(src='plugins/bootstrap/js/bootstrap.bundle.min.js')
+// ChartJS
+script(src='plugins/chart.js/Chart.min.js')
+// Sparkline
+script(src='plugins/sparklines/sparkline.js')
+// JQVMap
+script(src='plugins/jqvmap/jquery.vmap.min.js')
+script(src='plugins/jqvmap/maps/jquery.vmap.usa.js')
+// jQuery Knob Chart
+script(src='plugins/jquery-knob/jquery.knob.min.js')
+// daterangepicker
+script(src='plugins/moment/moment.min.js')
+script(src='plugins/daterangepicker/daterangepicker.js')
+// Tempusdominus Bootstrap 4
+script(src='plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')
+// Summernote
+script(src='plugins/summernote/summernote-bs4.min.js')
+// overlayScrollbars
+script(src='plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')
+// AdminLTE App
+script(src='dist/js/adminlte.js')
+// AdminLTE dashboard demo (This is only for demo purposes)
+script(src='dist/js/pages/dashboard.js')
+// AdminLTE for demo purposes
+script(src='dist/js/demo.js')

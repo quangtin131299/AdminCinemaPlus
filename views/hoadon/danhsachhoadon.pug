@@ -43,7 +43,6 @@ include ../header.pug
             th(scope='col') Ngày lập
             th(scope='col') Tên khách hàng
             th(scope='col') Số lượng vé
-            th(scope='col') Thành tiền
             th(scope='col') Thao tác 
         tbody
           each hoadon in danhsachhoadon
@@ -52,26 +51,11 @@ include ../header.pug
               td=hoadon.Ngay
               td=hoadon.HoTen
               td=hoadon.SoLuongVe
-              td=hoadon.ThanhTienVe
               td
                 span 
-                  a(href="#") Chi Tiết 
+                  a(href="/hoadon/chitiethoadon?idhoadon=" + hoadon.ID) Chi Tiết 
                 span 
-      //- nav(style="display:flex; justify-content:center",aria-label='Page navigation example')
-      //-   ul.pagination
-      //-     li.page-item
-      //-       a.page-link(href='#') Trang trước
-      //-     - for (var i = 1; i <= soluongtrang ; i++) {
-      //-           if i == pagerespon
-      //-             li.page-item.active
-      //-              a.page-link(href="danhsachhoadon?page=" + i)= i 
-      //-           else
-      //-             li.page-item
-      //-              a.page-link(href="danhsachhoadon?page=" + i)= i
-      //-     - }
-            
-      //-     li.page-item
-      //-       a.page-link(href='#') Trang kế
+      
     // /.content
   // /.content-wrapper
   include ../footer.pug

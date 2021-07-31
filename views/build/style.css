@@ -216,3 +216,18 @@
 .btn-search{
   width: 100%;
 }
+.dialog-loading-for-login{
+    width: fit-content !important;
+    margin: auto !important;
+}
+
+.img-detail-bill{
+    border: 1px solid red;
+    border-radius: 15px;
+    height: 150px;
+    width: 150px;
+}
+
+.card-detail-bill{
+    border-radius: 20px;
+}
