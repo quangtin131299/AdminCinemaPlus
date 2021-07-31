@@ -50,7 +50,6 @@ include ../header.pug
             th(scope='col') Ngày lập
             th(scope='col') Tên khách hàng
             th(scope='col') Số lượng vé
-            th(scope='col') Thành tiền
             th(scope='col') Thao tác 
         tbody
           each hoadon in danhsachhoadon
@@ -59,7 +58,6 @@ include ../header.pug
               td=hoadon.Ngay
               td=hoadon.HoTen
               td=hoadon.SoLuongVe
-              td=hoadon.ThanhTienVe
               td
                 span 
                   a(href="/hoadon/chitiethoadon?idhoadon=" + hoadon.ID) Chi Tiết 
