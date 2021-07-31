@@ -30,14 +30,21 @@ var storageImageService = multer.diskStorage({
 const uploadImageService = multer({ storage: storageImageService });
 
 router.get("/danhsachdichvu", function(req, res){
-	let queryslrap = `SELECT * FROM bapnuoc`
+    let page = req.query.page;
+    let vitribatdaulay = (page - 1)	* 5;
+    let soluongtrang = 0;
+	let query = `SELECT * FROM bapnuoc`
 	
-	conn.query(queryslrap, function(err, resul){
-		if(err){
-			console.log(err);
-		}else{
-			res.render("dichvu/danhsachdichvu", {danhsachdichvu: resul})
-		}
+	conn.query(query, function(err, resul){
+        soluongtrang = resul.length / 5;
+        let query = `SELECT * FROM bapnuoc WHERE bapnuoc.isDelete = 0 limit ${vitribatdaulay}, 5`;
+        conn.query(query, function(err, resul){
+            if(err){
+                console.log(err);
+            }else{
+                res.render("dichvu/danhsachdichvu", {pagerespon: page, danhsachdichvu: resul ,soluongtrang: Math.ceil(soluongtrang),});
+            }
+        })
 	})
 })
 
@@ -147,6 +154,38 @@ router.put("/updateImage", function(req, res){
 
         return res.json({statusCode: 1, message: 'Upload hình ảnh thành công.'});
     })
+})
+
+router.get("/searchService", function (req, res){
+    let page = req.query.pageSelect ? req.query.pageSelect : 1;
+    let keyWord = req.query.keyWord;
+
+    let querySearch =`SELECT bapnuoc.*
+                      FROM bapnuoc 
+                      WHERE (match(bapnuoc.TenCombo) against(?) or bapnuoc.TenCombo LIKE ?)`;
+
+    conn.query( querySearch, [keyWord, `${keyWord}%`], function (err, resultSearchService){
+        if(err){
+            console.log(err);
+            res.json({ statusCode: 0, message: 'Tìm kiếm thất bại'});
+        } else {
+            let numberPage = resultSearchService.length / 5;
+            let position = (page - 1) * 5;
+
+            let queryServicePagging = `SELECT bapnuoc.*
+                                        FROM bapnuoc 
+                                        WHERE (match(bapnuoc.TenCombo) against(?) or bapnuoc.TenCombo LIKE ?) LIMIT ?, 5`;
+            
+            conn.query(queryServicePagging, [ keyWord, `${keyWord}%`, position], function(errorServicePagging, resultServicePagging){
+                if(errorServicePagging){
+                    console.log(errorServicePagging);
+                    res.json({statusCode: 0, message: 'Không lấy được trang phim trong tìm kiếm'})
+                } else {
+                    res.json({ statusCode: 1, message: 'Tìm kiếm thành công', resultService: resultServicePagging, totalNumber: Math.ceil(numberPage), currentPage:page})
+                }
+            })
+        }
+    });
 })
 
 module.exports = router

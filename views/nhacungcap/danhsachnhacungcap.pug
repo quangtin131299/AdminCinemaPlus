@@ -36,6 +36,16 @@ include ../header.pug
     // /.content-header
     // Main content
     section.content
+      .row
+        .col 
+          .card.card-search
+            .card-body
+              .row
+                .col-md-8
+                  input.form-control(type='text', name="txtKeyWord", placeholder="Nhập từ khóa tìm kiếm")
+                .col-md-4
+                  button.btn.btn-success.btn-search(onclick="searchSupplier(1)") Tìm kiếm
+
       table.table
         thead
           tr
@@ -45,7 +55,7 @@ include ../header.pug
             th(scope='col') SĐT
             th(scope='col') Email
             th(scope='col') Thao tác
-        tbody
+        tbody(id="tblSupplier")
             each nhacungcap in danhsachnhacungcap
               tr
                 th(scope='row')=nhacungcap.ID
@@ -59,6 +69,29 @@ include ../header.pug
                   span  |
                   span 
                     button#linkDelete.btn.btn-danger(onclick=`setIdSupplier(${nhacungcap.ID})`, data-toggle='modal', data-target="#modalInforDelete") Xóa
+
+      nav.paging-center(aria-label='Page navigation example')
+        ul.pagination#listPage
+          li.page-item
+            a.page-link(href='#') Trang trước
+          - for (var i = 1; i <= soluongtrang ; i++) {
+                if i == pagerespon
+                  li.page-item.active
+                    a.page-link(href="danhsachnhacungcap?page=" + i)= i 
+                else
+                  li.page-item
+                    a.page-link(href="danhsachnhacungcap?page=" + i)= i
+          - } 
+          li.page-item
+            a.page-link(href='#') Trang kế
+
+      #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
+        .modal-dialog.modal-dialog-centered
+          .modal-content.dialog-loading
+            .modal-body
+              .d-flex.justify-content-center.align-item-center
+                .spinner-border(role='status')
+                  span.sr-only Loading...
 
       #modalInforDelete.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
         .modal-dialog(role='document')
@@ -121,4 +154,5 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
-script(src="build/js/jsListSupplier.js") 
+script(src="build/js/jsListSupplier.js")
+script(src="build/js/jsSupplierSearch.js")
