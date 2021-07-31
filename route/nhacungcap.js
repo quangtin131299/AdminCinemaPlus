@@ -8,14 +8,22 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get("/danhsachnhacungcap", function(req, res){
-    
+    let page = req.query.page;
+    let vitribatdaulay = (page - 1)	* 5;
+    let soluongtrang = 0;
 	let query = `select * from nhacungcap WHERE nhacungcap.isDelete = 0`
+
 	conn.query(query, function(err, result){
-	    if(err){
-			console.log(err);
-		}else{
-			res.render("nhacungcap/danhsachnhacungcap", {danhsachnhacungcap: result})
-		}
+        soluongtrang = result.length / 5;
+        let query = `select * from nhacungcap WHERE nhacungcap.isDelete = 0 Limit ${vitribatdaulay}, 5`;
+	    conn.query(query, function (err,result){
+            if(err){
+                console.log(err);
+            }else{
+    
+                res.render("nhacungcap/danhsachnhacungcap", {pagerespon: page, danhsachnhacungcap: result,soluongtrang: Math.ceil(soluongtrang),})
+            }
+        })
 	})
 		
 })
@@ -131,6 +139,38 @@ router.post("/xoanhacungcap", function (req, res){
             // res.render("nhacungcap/xoanhacungcap", {nhacungcap: result[0], messNotify: messageEdit});
         }
     })
+})
+
+router.get("/searchSupplier", function (req, res){
+    let page = req.query.pageSelect ? req.query.pageSelect : 1;
+    let keyWord = req.query.keyWord;
+
+    let querySearch =`SELECT nhacungcap.*
+                      FROM nhacungcap 
+                      WHERE (match(nhacungcap.TenNhaCungCap) against(?) or nhacungcap.TenNhaCungCap LIKE ?)`;
+
+    conn.query( querySearch, [keyWord, `${keyWord}%`], function (err, resultSearchSupplier){
+        if(err){
+            console.log(err);
+            res.json({ statusCode: 0, message: 'Tìm kiếm thất bại'});
+        } else {
+            let numberPage = resultSearchSupplier.length / 5;
+            let position = (page - 1) * 5;
+
+            let querySupplierPagging = `SELECT nhacungcap.*
+                                        FROM nhacungcap 
+                                        WHERE (match(nhacungcap.TenNhaCungCap) against(?) or nhacungcap.TenNhaCungCap LIKE ?) LIMIT ?, 5`;
+            
+            conn.query(querySupplierPagging, [ keyWord, `${keyWord}%`, position], function(errorSupplierPagging, resultSupplierPagging){
+                if(errorSupplierPagging){
+                    console.log(errorSupplierPagging);
+                    res.json({statusCode: 0, message: 'Không lấy được trang phim trong tìm kiếm'})
+                } else {
+                    res.json({ statusCode: 1, message: 'Tìm kiếm thành công', resultSupplier: resultSupplierPagging, totalNumber: Math.ceil(numberPage), currentPage:page})
+                }
+            })
+        }
+    });
 })
 
 
