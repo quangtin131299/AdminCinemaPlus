@@ -556,6 +556,57 @@ router.put("/updateLinkPost", function(req, res){
     })               
 })
 
+router.get("/searchmovie", function(req, res){
+  let page = req.query.pageSelect ? req.query.pageSelect : 1;
+  let keyWord = req.query.keyWord;
+  let type = req.query.idType;
+  let country = req.query.idCountry;
+  let cinema = req.query.idCinema;
+
+  let querySearch = `SELECT DISTINCT phim.*
+                     FROM phim JOIN phim_loaiphim on phim.ID = phim_loaiphim.ID_Phim 
+                                JOIN loaiphim on loaiphim.ID = phim_loaiphim.ID_Loai
+                                JOIN quocgia on quocgia.ID = phim.ID_QuocGia
+                                JOIN phim_rapphim on phim_rapphim.ID_Phim = phim.ID
+                                JOIN rapphim on rapphim.ID = phim_rapphim.ID_Rap
+                      WHERE (match(phim.TenPhim) against(?) or phim.TenPhim LIKE ?) 
+                              AND (rapphim.TenRap like ? 
+                              AND loaiphim.TenLoai like ? 
+                              AND quocgia.TenQuocGia like ?)`;
+
+  conn.query(querySearch, [keyWord, `${keyWord}%`, `${cinema}%`, `${type}%`, `${country}%`], function(error, resultSearchMovie){
+      if(error){
+        console.log(error);
+
+        res.json({statusCode: 0, message: 'Tìm kiếm thất bại'});
+      }else{
+        let numberPage = resultSearchMovie.length / 5;
+        let position = (page - 1) * 5;
+
+        let queryMoviePagging = `SELECT DISTINCT phim.*
+                                  FROM phim JOIN phim_loaiphim on phim.ID = phim_loaiphim.ID_Phim 
+                                            JOIN loaiphim on loaiphim.ID = phim_loaiphim.ID_Loai
+                                            JOIN quocgia on quocgia.ID = phim.ID_QuocGia
+                                            JOIN phim_rapphim on phim_rapphim.ID_Phim = phim.ID
+                                            JOIN rapphim on rapphim.ID = phim_rapphim.ID_Rap
+                                  WHERE (match(phim.TenPhim) against(?) or phim.TenPhim LIKE ?) 
+                                          AND (rapphim.TenRap like ? 
+                                          AND loaiphim.TenLoai like ? 
+                                          AND quocgia.TenQuocGia like ?) LIMIT ?, 5`;
+          conn.query(queryMoviePagging,[keyWord, `${keyWord}%`, `${cinema}%`, `${type}%`, `${country}%`, position], function(errorMoviePagging, resultMoviePagging){
+              if(errorMoviePagging){
+                console.log(errorMoviePagging);
+
+                res.json({statusCode: 0, message: 'Không lấy được phim trong trang hiện tại'});
+              }else{
+
+                res.json({statusCode: 1, message: 'Tìm kiếm thành công', resultMovie: resultMoviePagging, totalNumber: Math.ceil(numberPage), currentPage:page});
+              }
+          })
+      }
+  });                         
+})
+
 function notifyAppClient(tokenClient) {
   axios.post(urlSendNotify, {
     data: {
@@ -575,6 +626,8 @@ function notifyAppClient(tokenClient) {
     console.log("Loi roi: ", error.response.status);
   })
 }
+
+
 
 
 module.exports = router;

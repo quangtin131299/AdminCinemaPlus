@@ -208,3 +208,11 @@
     border: 1px solid lightgray;
     padding: 5px;
 }
+
+.card-search{
+  width: fit-content;
+}
+
+.btn-search{
+  width: 100%;
+}

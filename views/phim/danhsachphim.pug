@@ -37,31 +37,32 @@ include ../header.pug
     // Main content
     section.content
       .row
-        .col
-          .card(style='width: 100%;')
+        .col 
+          .card.card-search
             .card-body
-              .input-group.mb-3
+              .row
                 .col-md-9
-                  input.form-control(name='txtSearch' ,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', placeholder="Search")
-                .col-md-3
-                  .btn-add-seat-container
-                    button.btn.btn-success Tìm kiếm
-              .input-group.mb-3
-                .col-md-3
-                    select#inputGroupSelect02.custom-select(name="dropdownTheLoaiPhim", onchange="sendIdTheLoaiPhim(this)")
-                        option(selected='') Chọn thể loại phim
+                  input.form-control(type='text', name="txtKeyWord", placeholder="Nhập từ khóa để tìm kiếm")
+                .col-md-2 
+                  button.btn.btn-success.btn-search(onclick="searchMovie()") Tìm kiếm
+              br        
+              .row
+                .input-group.mb-3
+                  .col-md-3
+                    select#inputGroupSelect02.custom-select(name="dropdownTheLoaiPhim")
+                        option(selected='', value='') Chọn thể loại phim
                         each itemTheLoaiPhim in datatheloai
-                                      option(value=itemTheLoaiPhim.ID)= itemTheLoaiPhim.TenLoai
-                .col-md-3
-                    select#inputGroupSelect02.custom-select(name="dropdownQuocGia", onchange="sendIdQuocGia(this)")
-                        option(selected='') Chọn quốc gia
+                                      option(value=itemTheLoaiPhim.TenLoai)= itemTheLoaiPhim.TenLoai
+                  .col-md-3
+                    select#inputGroupSelect02.custom-select(name="dropdownQuocGia")
+                        option(selected='',value='') Chọn quốc gia
                         each itemQuocGia in dataQuocGia
-                                      option(value=itemQuocGia.ID)= itemQuocGia.TenQuocGia
-                .col-md-3
-                    select#inputGroupSelect02.custom-select(name="dropdownCinema", onchange="sendIdCinema(this)")
-                        option(selected='') Chọn rạp chiếu
+                                      option(value=itemQuocGia.TenQuocGia)= itemQuocGia.TenQuocGia
+                  .col-md-3
+                    select#inputGroupSelect02.custom-select(name="dropdownCinema")
+                        option(selected='',value='') Chọn rạp chiếu
                         each itemCinema in dataCinema
-                                      option(value=itemCinema.ID)= itemCinema.TenRap
+                                      option(value=itemCinema.TenRapID)= itemCinema.TenRap
       table.table
         thead
           tr
@@ -72,7 +73,7 @@ include ../header.pug
             th(scope='col') Thời gian 
             th(scope='col') Ngày công chiếu
             th(scope='col') Thao tác
-        tbody
+        tbody(id="tblMovie")
           each phim in dataphimchieu
             tr
               th(scope='row')=phim.ID
@@ -90,19 +91,39 @@ include ../header.pug
                   a(href="suaphim?idphim=" + phim.ID) Sửa
           br
       nav.paging-center(aria-label='Page navigation example')
-        ul.pagination
+        ul.pagination#listPage
           li.page-item
             a.page-link(href='#') Trang trước
           - for (var i = 1; i <= soluongtrang ; i++) {
                 if i == pagerespon
                   li.page-item.active
-                  a.page-link(href="danhsachphim?page=" + i)= i 
+                    a.page-link(href="danhsachphim?page=" + i)= i 
                 else
                   li.page-item
-                  a.page-link(href="danhsachphim?page=" + i)= i
+                    a.page-link(href="danhsachphim?page=" + i)= i
           - } 
           li.page-item
-            a.page-link(href='#') Trang kế   
+            a.page-link(href='#') Trang kế
+
+      #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
+        .modal-dialog.modal-dialog-centered
+          .modal-content.dialog-loading
+            .modal-body
+              .d-flex.justify-content-center.align-item-center
+                .spinner-border(role='status')
+                  span.sr-only Loading...
+
+      #notifyModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              h5#exampleModalLabel.modal-title Thông báo
+              button.close(type='button' data-dismiss='modal' aria-label='Close')
+                span(aria-hidden='true') &times;
+            .modal-body
+              span#modalTextMessage= messNotify
+            .modal-footer
+              button.btn.btn-primary(type='button' id='btnOK') Ok
   
     // /.content
   // /.content-wrapper
@@ -141,3 +162,4 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
+script(src="build/js/jsMovieSearch.js")
