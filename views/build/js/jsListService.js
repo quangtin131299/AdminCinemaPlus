@@ -29,6 +29,7 @@ function btnAccept(){
 
                 $('#modalTextMessage').html(data.message);
                 $('#notifyModal').modal('show')
+                window.location.replace('/dichvu/danhsachdichvu?page=1')
             }
         },
         error: function (error) {
