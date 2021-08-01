@@ -29,6 +29,7 @@ function btnAccept(){
 
                 $('#modalTextMessage').html(data.message);
                 $('#notifyModal').modal('show')
+                window.location.replace('/phim/danhsachphim?page=1')
             }
         },
         error: function (error) {
