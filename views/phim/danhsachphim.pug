@@ -85,10 +85,13 @@ include ../header.pug
               td=phim.NgayKhoiChieu
               td
                 span 
-                  a(href="/phim/chitietphim?idphim=" + phim.ID) Chi Tiết 
-                span |
+                  a.btn.btn-info(href="/phim/chitietphim?idphim=" + phim.ID) Chi Tiết 
+                span  |
                 span 
-                  a(href="suaphim?idphim=" + phim.ID) Sửa
+                  a.btn.btn-primary(href="suaphim?idphim=" + phim.ID) Sửa
+                span  |
+                span 
+                  button#linkDelete.btn.btn-danger(onclick=`setIdMovie(${phim.ID})`, data-toggle='modal', data-target="#modalInforDelete") Xóa
           br
       nav.paging-center(aria-label='Page navigation example')
         ul.pagination#listPage
@@ -112,6 +115,20 @@ include ../header.pug
               .d-flex.justify-content-center.align-item-center
                 .spinner-border(role='status')
                   span.sr-only Loading...
+            a.page-link(href='#') Trang kế   
+
+      #modalInforDelete.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              h5#exampleModalLabel.modal-title Thông báo
+              button.close(type='button' data-dismiss='modal' aria-label='Close')
+                span(aria-hidden='true') &times;
+            .modal-body
+              | Bạn có thật sự muốn xóa phim này không ?
+            .modal-footer
+              button.btn.btn-secondary(type='button' data-dismiss='modal') Hủy
+              button.btn.btn-success(type='button', onclick="btnAccept()") Xác nhận
 
       #notifyModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
         .modal-dialog(role='document')
@@ -163,3 +180,4 @@ script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
 script(src="build/js/jsMovieSearch.js")
+script(src="build/js/jsListMovie.js") 

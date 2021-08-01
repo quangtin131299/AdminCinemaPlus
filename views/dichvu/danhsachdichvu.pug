@@ -69,6 +69,7 @@ include ../header.pug
                       a.btn.btn-primary(href="suadichvu?idService=" + bapnuoc.ID) Sửa
                     span  |
                     span 
+<<<<<<< HEAD
                       button#linkDelete.btn.btn-danger(onClick=`setIdService(${bapnuoc.ID}))`, data-toggle='modal', data-target="#modalInforDelete") Xóa 
       
       nav.paging-center(aria-label='Page navigation example')
@@ -94,6 +95,9 @@ include ../header.pug
                 .spinner-border(role='status')
                   span.sr-only Loading...
 
+=======
+                      button#linkDelete.btn.btn-danger(onClick=`setIdService(${bapnuoc.ID})`, data-toggle='modal', data-target="#modalInforDelete") Xóa 
+>>>>>>> feature/delete-function
       #modalInforDelete.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
         .modal-dialog(role='document')
           .modal-content
@@ -156,3 +160,4 @@ script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
 script(src="build/js/jsServiceSearch.js")
+script(src="build/js/jsListService.js") 

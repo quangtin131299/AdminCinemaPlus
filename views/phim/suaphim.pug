@@ -45,35 +45,35 @@ include ../header.pug
                 .col
                   .input-group.mb-3
                     .input-group-prepend
-                        span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Mã phim
+                        span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Mã phim
                     input.form-control(value=phim.ID,name= "maphim", placeholder="Nhập tên phim",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
               .row
                 .col
                   .input-group.mb-3
                         .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Tên phim
+                            span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Tên phim
                         input.form-control(value=phim.TenPhim,name= "txttenphim", placeholder="Nhập tên phim",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .col
                     .input-group.mb-3
                         .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Ngày khởi chiếu
+                            span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Ngày khởi chiếu
                         input.form-control(id="txtngaykhoichieu",value=phim.NgayKhoiChieu,name= "txtngaykhoichieu",type='date', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                 .col
                     .input-group.mb-3
                         .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Ngày kết thúc
+                            span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Ngày kết thúc
                         input.form-control(id="txtNgayKetThuc",value=phim.NgayKetThuc,name= "txtNgayKetThuc",type='date', aria-label='Default', aria-describedby='inputGroup-sizing-default')
               .row
                     .col
                         .input-group.mb-3
                             .input-group-prepend
-                                span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Thời lượng
+                                span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Thời lượng
                             input.form-control(value=phim.ThoiGian,name="txtthoigian", type='number',min=1, aria-label='Default', aria-describedby='inputGroup-sizing-default')
                     .col
                         if phim.TrangThai == "Đang chiếu"
                           .input-group.mb-3
                               .input-group-prepend
-                                  label.input-group-text(style = "color:red; font-weight:bold",for='inputGroupSelect01') Trạng thái của phim
+                                  label.input-group-text(style = "font-weight:bold",for='inputGroupSelect01') Trạng thái của phim
                               select#inputGroupSelect01.custom-select(name="cboxtrangthai")
                                   option() Choose...
                                   option(selected,value='Đang chiếu') Đang chiếu
@@ -82,7 +82,7 @@ include ../header.pug
                         else if phim.TrangThai == "Sắp chiếu"
                           .input-group.mb-3
                               .input-group-prepend
-                                  label.input-group-text(style = "color:red; font-weight:bold",for='inputGroupSelect01') Trạng thái của phim
+                                  label.input-group-text(style = "font-weight:bold",for='inputGroupSelect01') Trạng thái của phim
                               select#inputGroupSelect01.custom-select(name="cboxtrangthai")
                                   option() Choose...
                                   option(value='Đang chiếu') Đang chiếu
@@ -91,7 +91,7 @@ include ../header.pug
                         else
                           .input-group.mb-3
                               .input-group-prepend
-                                  label.input-group-text(style = "color:red; font-weight:bold",for='inputGroupSelect01') Trạng thái của phim
+                                  label.input-group-text(style = "font-weight:bold",for='inputGroupSelect01') Trạng thái của phim
                               select#inputGroupSelect01.custom-select(name="cboxtrangthai")
                                   option(selected) Choose...
                                   option(value='Đang chiếu') Đang chiếu
@@ -101,13 +101,13 @@ include ../header.pug
                     .col
                         .input-group.mb-3
                             .input-group-prepend
-                                span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") ID Trailer
+                                span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") ID Trailer
                             input.form-control(value= phim.Trailer,name="txtIDtrailer",placeholder ="Nhập Id video trailer từ youtube", type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')        
               .row    
                     .col    
                         .input-group.mb-3
                             .input-group-prepend
-                              span.input-group-text(style = "color:red; font-weight:bold") Poster
+                              span.input-group-text(style = "font-weight:bold") Poster
                             .custom-file
                               input.custom-file-input(id="inputGroupFile01", name="imgPoster", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImagePoster(this)")
                               label.custom-file-label.file-name-image-poster(for='inputGroupFile01') 
@@ -117,7 +117,7 @@ include ../header.pug
                     .col    
                         .input-group.mb-3
                             .input-group-prepend
-                              span.input-group-text(style = "color:red; font-weight:bold") Hình phim
+                              span.input-group-text(style = "font-weight:bold") Hình phim
                             .custom-file
                               input.custom-file-input(id="inputGroupFile01", name="imgMovie", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImageMovie(this)")
                               label.custom-file-label.file-name-image-movie(for='inputGroupFile01')

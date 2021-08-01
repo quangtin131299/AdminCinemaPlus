@@ -10,6 +10,13 @@ let firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+let btnhuy = document.getElementById("btnhuy");
+if(btnhuy){
+    btnhuy.onclick = function () {
+        window.location.replace("danhsachdichvu")
+    }
+}
+
 let editorDescriptionService;
 ClassicEditor
     .create(document.querySelector('#txtDescribe'))
