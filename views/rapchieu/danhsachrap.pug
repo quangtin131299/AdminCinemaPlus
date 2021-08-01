@@ -41,7 +41,7 @@ include ../header.pug
           tr
             th(scope='col') ID
             th(scope='col', width="200") Tên rạp
-            th(scope='col',width="510") Ảnh
+            th(scope='col', width="400") Ảnh
             th(scope='col', width="400") Địa chỉ
             th(scope='col') Thao tác 
         tbody
@@ -50,7 +50,7 @@ include ../header.pug
               th(scope='row')=rap.ID
               td=rap.TenRap
               td
-                img(src=rap.Hinh, alt="photo", width=500, height=300)
+                img(src=rap.Hinh, alt="photo", width=400, height=280)
               td=rap.DiaChi
               td
                 span 

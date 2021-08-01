@@ -47,13 +47,13 @@ script(src='https://polyfill.io/v3/polyfill.min.js?features=default')
                 .col
                   .input-group.mb-3
                         .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold" ) Tên Rạp
-                        input.form-control#txtTheaterName(name= "txtTheaterName", placeholder="Nhập tên rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default' )                    
+                            span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold" ) Tên Rạp
+                        input.form-control(name= "txtTheaterName", placeholder="Nhập tên rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default' )                    
               .row    
                 .col    
                   .input-group.mb-3
                         .input-group-prepend
-                            span.input-group-text(style = "color:red; font-weight:bold") Ảnh rạp
+                            span.input-group-text(style = "font-weight:bold") Ảnh rạp
                         .custom-file
                             input.custom-file-input(id="inputGroupFile01", name="imgCinema", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImageCinema(this)")
                             label.custom-file-label.file-name-image-cinema(for='inputGroupFile01') Choose file
@@ -63,22 +63,22 @@ script(src='https://polyfill.io/v3/polyfill.min.js?features=default')
                 .col
                   .input-group.mb-3
                     .input-group-prepend.width-input-address
-                        span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Địa chỉ
-                        input.form-control#txtCinemaAddress(name= "txtCinemaAddress", placeholder="Nhập địa chỉ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                        span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Địa chỉ
+                        input.form-control(name= "txtCinemaAddress", placeholder="Nhập địa chỉ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                         button.btn.btn-success(style="width:200px;",type='button', onclick="getLatLng()") Lấy kinh độ vĩ độ
               .row
                 .col
                   .input-group.mb-3
                         .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Vĩ độ
-                        input.form-control#txtViDo(name= "txtViDo", placeholder="Nhập vĩ độ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
+                            span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Vĩ độ
+                        input.form-control(name= "txtViDo", placeholder="Nhập vĩ độ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
 
               .row
                 .col
                   .input-group.mb-3
                         .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "color:red; font-weight:bold") Kinh độ
-                        input.form-control#txtKinhDo(name= "txtKinhDo", placeholder="Nhập kinh độ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
+                            span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Kinh độ
+                        input.form-control(name= "txtKinhDo", placeholder="Nhập kinh độ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
           .card
             .card-body
               .row
@@ -113,7 +113,7 @@ script(src='https://polyfill.io/v3/polyfill.min.js?features=default')
                 .modal-footer
                   button.btn.btn-primary(type='button' id='btnOKAddMovie') Ok  
 
-        #map
+        
 
         
     // /.content
@@ -161,5 +161,8 @@ script(src='https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyBawL8Vbst
 script(src='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.js')
 script(src='https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js')  
 script(src='https://www.gstatic.com/firebasejs/8.7.1/firebase-storage.js')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js'
+    , integrity='sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=='
+    , crossorigin='anonymous'
+    , referrerpolicy='no-referrer')
 script(src='build/js/jsrapchieu.js')
-

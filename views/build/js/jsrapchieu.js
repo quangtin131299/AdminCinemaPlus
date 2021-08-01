@@ -10,6 +10,43 @@ let firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+$('#formAddCinema').validate({
+    rules: {
+        txtTheaterName: {
+            required: true
+        },
+        txtCinemaAddress: {
+            required: true
+        },
+        txtViDo:{
+            required: true
+        },
+        txtKinhDo:{
+            required: true
+        }
+    },
+    messages: {
+        txtTheaterName: {
+            required: 'Tên rạp chiếu không được bỏ trống.'
+        },
+        txtCinemaAddress: {
+            required: 'Địa chỉ rạp chiếu không được bỏ trống'
+        },
+        txtViDo:{
+            required: 'Vĩ độ không được bỏ trống'
+        }
+        ,
+        txtKinhDo:{
+            required: 'Kinh độ không được bỏ trống'
+        }
+    },
+    errorPlacement: function (label, element) {
+        label.insertAfter(element.parent("div"));
+    },
+    wrapper: 'span'
+})
+
+
 let danhsachrapchieu = [];
 
 $(document).ready(function () {
@@ -67,61 +104,66 @@ function btnSubmit(isAdd){
     let address = $('input[name=txtCinemaAddress]').val();
     let lng = $('input[name=txtKinhDo]').val();
     let lat = $('input[name=txtViDo]').val();
+    let formAddCinema = $('#formAddCinema');
 
     showLoading();
-
-    if(isAdd){
-        $.ajax({
-            method: 'POST',
-            url: '/rapchieu/themrapchieu',
-            data:{
-                nameCinema: nameCinema,
-                address:address,
-                lng:lng,
-                lat:lat
-            },
-            success: async function(data){
-                if(data){
-                    hideLoading();
-
-                    await uploadfile(data.newIdCinema);
-
-                    $('#modalTextMessage').text(data.message);
-                    $('#notifyModal').modal('show');
+    if(formAddCinema.valid() == true){
+        if(isAdd){
+            $.ajax({
+                method: 'POST',
+                url: '/rapchieu/themrapchieu',
+                data:{
+                    nameCinema: nameCinema,
+                    address:address,
+                    lng:lng,
+                    lat:lat
+                },
+                success: async function(data){
+                    if(data){
+                        hideLoading();
+    
+                        await uploadfile(data.newIdCinema);
+    
+                        $('#modalTextMessage').text(data.message);
+                        $('#notifyModal').modal('show');
+                    }
+                },
+                error:function(error){
+    
                 }
-            },
-            error:function(error){
-
-            }
-        })
-    }else{
-        let idCinema= $('input[name=txtIdCinema]').val();
-
-        $.ajax({
-            method: 'POST',
-            url: '/rapchieu/suarapchieu',
-            data:{
-                idCinema: idCinema,
-                nameCinema: nameCinema,
-                address:address,
-                lng:lng,
-                lat:lat
-            },
-            success: async function(data){
-                if(data){
-                    hideLoading();
-
-                    await uploadfile(idCinema);
-
-                    $('#modalTextMessage').text(data.message);
-                    $('#notifyModal').modal('show');
+            })
+        }else{
+            let idCinema= $('input[name=txtIdCinema]').val();
+    
+            $.ajax({
+                method: 'POST',
+                url: '/rapchieu/suarapchieu',
+                data:{
+                    idCinema: idCinema,
+                    nameCinema: nameCinema,
+                    address:address,
+                    lng:lng,
+                    lat:lat
+                },
+                success: async function(data){
+                    if(data){
+                        hideLoading();
+    
+                        await uploadfile(idCinema);
+    
+                        $('#modalTextMessage').text(data.message);
+                        $('#notifyModal').modal('show');
+                    }
+                },
+                error:function(error){
+    
                 }
-            },
-            error:function(error){
-
-            }
-        })
+            })
+        }
+    } else {
+        hideLoading();
     }
+    
 }
 
 
@@ -295,5 +337,4 @@ function updateImage(idCinema, url) {
     });
    
 }
-
 

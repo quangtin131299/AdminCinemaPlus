@@ -37,7 +37,7 @@ router.get("/danhsachdichvu", function(req, res){
     let page = req.query.page;
     let vitribatdaulay = (page - 1)	* 5;
     let soluongtrang = 0;
-	let query = `SELECT * FROM bapnuoc`
+	let query = `SELECT * FROM bapnuoc WHERE bapnuoc.isDelete = 0`
 	
 	conn.query(query, function(err, resul){
         soluongtrang = resul.length / 5;
@@ -234,7 +234,6 @@ router.get("/searchService", function (req, res){
 
 router.post("/xoadichvu", function (req, res) {
     let idService = req.body.idService;
-    console.log(idService);
 
     let query = `SELECT bapnuoc.ID, bapnuoc.TenCombo, bapnuoc.isDelete, vedat.ID, vedat.TrangThai, hoadon_bapnuoc.ID_HoaDon
                  FROM bapnuoc JOIN hoadon_bapnuoc ON hoadon_bapnuoc.ID_BapNuoc = bapnuoc.ID

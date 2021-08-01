@@ -429,7 +429,7 @@ router.get("/getMovieOfCinema", function (req, res) {
   let queryMovie = `SELECT phim.ID, phim.TenPhim, phim.ThoiGian, DATE_FORMAT(phim.NgayKhoiChieu, '%Y-%m-%d') as 'NgayKhoiChieu',  DATE_FORMAT(phim.NgayKetThuc, '%Y-%m-%d') as 'NgayKetThuc'
                     FROM phim JOIN phim_rapphim ON phim_rapphim.ID_Phim = phim.ID 
                               JOIN rapphim on phim_rapphim.ID_Rap = rapphim.ID
-                    WHERE rapphim.ID = ? AND (phim.TrangThai = 'Đang chiếu' OR phim.TrangThai = 'Sắp chiếu')`
+                    WHERE rapphim.ID = ? AND (phim.TrangThai = 'Đang chiếu' OR phim.TrangThai = 'Sắp chiếu') AND phim.isDelete = '0'`
 
   conn.query(queryMovie, [idCinema], function (errMovie, resultMovie) {
     if (errMovie) {

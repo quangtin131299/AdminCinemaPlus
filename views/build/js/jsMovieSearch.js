@@ -47,9 +47,11 @@ function searchMovie(page){
                                                             <td>${data.resultMovie[i].ThoiGian + " phút"}</td>
                                                             <td>${data.resultMovie[i].NgayKhoiChieu}</td>
                                                             <td>
-                                                                <span><a href="/phim/chitietphim?idphim=${data.resultMovie[i].ID}"> Chi Tiết </a> </span>
+                                                                <span><a class="btn btn-info" href="/phim/chitietphim?idphim=${data.resultMovie[i].ID}"> Chi Tiết </a> </span>
                                                                 <span>|</span>
-                                                                <span><a href="suaphim?idphim=${data.resultMovie[i].ID}"> Sửa</span>                                                                     
+                                                                <span><a class="btn btn-primary" href="suaphim?idphim=${data.resultMovie[i].ID}"> Sửa </a> </span>
+                                                                <span>|</span>
+                                                                <span><button class="btn btn-danger" onclick="setIdMovie(${data.resultMovie[i].ID})", data-toggle='modal', data-target="#modalInforDelete"> Xóa</button></span>                                                     
                                                             </td>
                                                         </tr>`)
                     }

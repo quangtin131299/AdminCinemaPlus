@@ -40,7 +40,7 @@ include ../header.pug
         .col-md-6
           .card(style='width: 100%;')
             .card-body
-              h4 Thêm ghế mới
+              h4 Thêm ghế
               form#formAddSeat(action="/ghe/themghe", method="post") 
                 .input-group.mb-3
                     .input-group-prepend
@@ -69,10 +69,10 @@ include ../header.pug
                 input.form-control(name='txtKeyWord' ,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', placeholder="Search") 
               .input-group.mb-3
                 select#exampleFormControlSelect1.form-control
-                  option(value='') Lọc trạng thái
+                  option(value='Tất cả') Tất cả
                   option(value='Trống') Trống
                   option(value='Đã đặt') Đã đặt
-                  option Bị hư
+                  option(value='Bị hư') Bị hư
               .btn-add-seat-container
                  button.btn.btn-success(onclick='search()') Tìm kiếm
 

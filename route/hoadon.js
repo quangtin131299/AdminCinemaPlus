@@ -59,7 +59,6 @@ router.get("/chitiethoadon", function(req, res){
 					idSeat: result[i].ID_Ghe,
 					seatName: result[i].TenGhe, 
 				})
-
 				
 			}
 
@@ -83,7 +82,6 @@ router.get("/chitiethoadon", function(req, res){
 			}
 
 			
-
 			billResult.push({
 				ID: result[0].ID,
 				Ngay: result[0].Ngay,
@@ -99,7 +97,6 @@ router.get("/chitiethoadon", function(req, res){
 				totalAmoutPopcorn: totalAmountPopCorn
 			})
 
-			console.log(billResult[0]);
 			res.render("hoadon/chitiethoadon", { hoadon: billResult[0]});
 		}
 	})

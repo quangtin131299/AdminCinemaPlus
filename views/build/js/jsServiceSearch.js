@@ -40,9 +40,9 @@ function searchService(page){
                                                             <td>${data.resultService[i].MoTa}</td>
                                                             <td>${data.resultService[i].DonGia + " VND"}</td>
                                                             <td>
-                                                                <span><a href="/dichvu/suadichvu?idService=${data.resultService[i].ID}"> Sửa </a> </span>
+                                                                <span><a class="btn btn-primary" href="/dichvu/suadichvu?idService=${data.resultService[i].ID}"> Sửa </a> </span>
                                                                 <span>|</span>
-                                                                <span><a href="xoadichvu?idService=${data.resultService[i].ID}"> Xóa</span>                                                                     
+                                                                <span><button class="btn btn-danger" onclick="setIdService(${data.resultService[i].ID})", data-toggle='modal', data-target="#modalInforDelete"> Xóa</button></span>                                                                     
                                                             </td>
                                                         </tr>`)
                     }

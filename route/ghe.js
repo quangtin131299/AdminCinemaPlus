@@ -75,7 +75,8 @@ router.post('/themghe',function(req, res){
 router.get('/timkiem', function(req, res){
     let idRoom = req.query.idRoom;
     let keyWord = req.query.keyWord;
-
+    let stateSeat = req.query.stateSeat;
+    
     let querySearchSeat = `SELECT * FROM ghe WHERE ghe.TenGhe LIKE ? AND ghe.ID_Phong = ?`;
 
     conn.query(querySearchSeat, [`${keyWord}%`,idRoom],function(error, resultSearch){
