@@ -85,10 +85,13 @@ include ../header.pug
               td=phim.NgayKhoiChieu
               td
                 span 
-                  a(href="/phim/chitietphim?idphim=" + phim.ID) Chi Tiết 
-                span |
+                  a.btn.btn-info(href="/phim/chitietphim?idphim=" + phim.ID) Chi Tiết 
+                span  |
                 span 
-                  a(href="suaphim?idphim=" + phim.ID) Sửa
+                  a.btn.btn-primary(href="suaphim?idphim=" + phim.ID) Sửa
+                span  |
+                span 
+                  button#linkDelete.btn.btn-danger(onclick=`setIdMovie(${phim.ID})`, data-toggle='modal', data-target="#modalInforDelete") Xóa
           br
       nav.paging-center(aria-label='Page navigation example')
         ul.pagination#listPage
@@ -124,7 +127,6 @@ include ../header.pug
               span#modalTextMessage= messNotify
             .modal-footer
               button.btn.btn-primary(type='button' id='btnOK') Ok
-  
     // /.content
   // /.content-wrapper
   include ../footer.pug
@@ -163,3 +165,4 @@ script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
 script(src="build/js/jsMovieSearch.js")
+script(src="build/js/jsListMovie.js") 
