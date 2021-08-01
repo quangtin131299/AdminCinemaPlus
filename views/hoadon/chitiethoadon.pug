@@ -102,15 +102,15 @@ include ../header.pug
             .row
               .col-md-12
                  h2 Danh sách ghế
-            .row
-              .col-md-12 
+            .row 
+              .col-md-12.seat-detail-bill-container
                 each itemSeat in hoadon.seats
-                  .card.card-detail-bill(style='width: 100%;')
+                  .card.card-detail-bill
                     .card-body
                       .row
                         .col-md-3
                           img.img-detail-bill(src='https://media.istockphoto.com/vectors/red-cinema-armchair-vector-id1146296886?k=6&m=1146296886&s=612x612&w=0&h=j1rhoY3ggrx5sLhKmxGJpSckyNl8OuGiWH3wxSv3YYw=')
-                        .col-md-9
+                        .col-md-9.infor-container
                           .row
                             .col-md-12 
                               h5= `Mã ghế: ${itemSeat.idSeat}`
@@ -123,23 +123,26 @@ include ../header.pug
               .col-md-12
                  h2 Danh sách bắp nước
             .row 
-              .col-md-12
-                each itemPopcorn in hoadon.combos
-                  .card.card-detail-bill(style='width: 100%;')
-                    .card-body
-                      .row
-                        .col-md-3
-                          img.img-detail-bill(src=itemPopcorn.img)
-                        .col-md-9
-                          .row
-                            .col-md-12 
-                              h5= `Tên Combo: ${itemPopcorn.popCornName}`
-                          .row
-                            .col-md-12 
-                               h5= `Số lượng: ${itemPopcorn.count}`
-                          .row
-                            .col-md-12
-                               h5= `Thành tiền bắp nước: ${itemPopcorn.amount} VNĐ`
+              .col-md-12.popcorn-detail-bill-container
+                if hoadon.combos.length == 0
+                  h5 Không sử dụng bắp nước
+                else 
+                  each itemPopcorn in hoadon.combos
+                    .card.card-detail-bill
+                      .card-body
+                        .row
+                          .col-md-3
+                            img.img-detail-bill(src=itemPopcorn.img)
+                          .col-md-9.infor-container
+                            .row
+                              .col-md-12 
+                                h5= `Tên Combo: ${itemPopcorn.popCornName}`
+                            .row
+                              .col-md-12 
+                                h5= `Số lượng: ${itemPopcorn.count}`
+                            .row
+                              .col-md-12
+                                h5= `Thành tiền bắp nước: ${itemPopcorn.amount} VNĐ`
 
           
 

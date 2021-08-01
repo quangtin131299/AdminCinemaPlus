@@ -74,51 +74,6 @@ function search() {
     });
 }
 
-function onSubmit() {
-    let form = $('#formAddSeat');
-    let tblSeat = $('#tblBodySeat');
-    let nameSeat = $('input[name=txtNameSeat]').val();
-    let idRoom = $('input[name=txtIdRoom]').val();
-
-    if (form.valid()) {
-        showLoading();
-
-        $.ajax({
-            method: 'POST',
-            url: '/ghe/themghe',
-            data: {
-                nameSeat: nameSeat,
-                idRoom: idRoom,
-            },
-            success: function (data) {
-                if (data) {
-                    hideLoading();
-
-                    tblSeat.html(tblSeat.html() + `<tr>
-                                                        <td>${data.newIdSeat}</td>
-                                                        <td>${nameSeat}</td>
-                                                        <td>
-                                                            <select class="form-control">
-                                                                <option value='Trống' selected>Trống</option>
-                                                                <option value='Đã đặt'>Đã đặt</option>
-                                                                <option value='Bị hư'>Bị hư</option>
-                                                            </select>
-                                                        </td>
-                                                        <td>
-                                                            <button class="btn btn-success">Cập nhật</button>          
-                                                        </td>
-                                                   </tr>`);
-
-                    $('#modalTextMessage').text(data.messgae);
-                    $('#notifyModal').modal('show');
-                }
-            },
-            error: function (error) {
-
-            }
-        })
-    }
-}
 
 function updateStatusSeat(idSeat, idRoom) {
     let status = $(`#seat${idSeat}`).val();

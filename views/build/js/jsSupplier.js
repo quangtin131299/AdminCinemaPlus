@@ -37,8 +37,12 @@ $('#formSupplier').validate({
         }
     },
     errorPlacement: function (label, element) {
-        label.insertAfter(element.parent("div"));
-
+        if(element[0].name == 'txtAddress'){
+            label.insertAfter(element.parent("span").parent("div"));
+        }else{
+            label.insertAfter(element.parent("div"));
+        }
+        
     },
     wrapper: 'span'
 })

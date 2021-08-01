@@ -40,7 +40,7 @@ include ../header.pug
         .col-md-6
           .card(style='width: 100%;')
             .card-body
-              h4 Thêm ghế
+              h4 Thông tin chung phòng và rạp
               form#formAddSeat(action="/ghe/themghe", method="post") 
                 .input-group.mb-3
                     .input-group-prepend
@@ -53,13 +53,8 @@ include ../header.pug
                 .input-group.mb-3
                     .input-group-prepend
                     input.form-control(name='txtIdRoom' ,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', value=idRoom, readonly, hidden)
-                .input-group.mb-3
-                    .input-group-prepend
-                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold") Tên ghế
-                    input.form-control(name='txtNameSeat' ,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default') 
                 .btn-add-seat-container
-                  button.btn.btn-dark.btn-add-back-to Hủy bỏ
-                  button.btn.btn-success(type="button",onclick="onSubmit()") Thêm ghế
+                  button.btn.btn-dark.btn-add-back-to Quay lại
         .col-md-6
           .card(style='width: 100%;')
             .card-body

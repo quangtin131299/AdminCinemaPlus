@@ -66,7 +66,7 @@ router.get("/chitiethoadon", function(req, res){
 			let totalAmountPopCorn = 0;
 
 			for(let i = 0; i < countBill; i++){
-				if(nameComboApproved != result[i].TenCombo){
+				if(result[i].TenCombo != null && nameComboApproved != result[i].TenCombo ){
 					combos.push({
 						popCornName: result[i].TenCombo,
 						count: result[i].SoLuong,

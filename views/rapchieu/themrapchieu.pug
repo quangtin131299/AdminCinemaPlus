@@ -48,7 +48,7 @@ script(src='https://polyfill.io/v3/polyfill.min.js?features=default')
                   .input-group.mb-3
                         .input-group-prepend
                             span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold" ) Tên Rạp
-                        input.form-control(name= "txtTheaterName", placeholder="Nhập tên rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default' )                    
+                        input.form-control#txtTheaterName(name="txtTheaterName", placeholder="Nhập tên rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default' )                    
               .row    
                 .col    
                   .input-group.mb-3
@@ -64,21 +64,21 @@ script(src='https://polyfill.io/v3/polyfill.min.js?features=default')
                   .input-group.mb-3
                     .input-group-prepend.width-input-address
                         span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Địa chỉ
-                        input.form-control(name= "txtCinemaAddress", placeholder="Nhập địa chỉ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                        input.form-control#txtCinemaAddress(name="txtCinemaAddress", placeholder="Nhập địa chỉ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
                         button.btn.btn-success(style="width:200px;",type='button', onclick="getLatLng()") Lấy kinh độ vĩ độ
               .row
                 .col
                   .input-group.mb-3
                         .input-group-prepend
                             span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Vĩ độ
-                        input.form-control(name= "txtViDo", placeholder="Nhập vĩ độ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
+                        input.form-control#txtViDo(name= "txtViDo", placeholder="Nhập vĩ độ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
 
               .row
                 .col
                   .input-group.mb-3
                         .input-group-prepend
                             span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Kinh độ
-                        input.form-control(name= "txtKinhDo", placeholder="Nhập kinh độ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
+                        input.form-control#txtKinhDo(name= "txtKinhDo", placeholder="Nhập kinh độ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
           .card
             .card-body
               .row

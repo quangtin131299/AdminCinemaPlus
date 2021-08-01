@@ -222,7 +222,6 @@
 }
 
 .img-detail-bill{
-    border: 1px solid red;
     border-radius: 15px;
     height: 150px;
     width: 150px;
@@ -230,4 +229,16 @@
 
 .card-detail-bill{
     border-radius: 20px;
+    width: 600px;
+}
+
+.infor-container{
+  padding-left: 20px;
+}
+.seat-detail-bill-container{
+  padding-left: 30px;
+}
+
+.popcorn-detail-bill-container{
+  padding-left: 30px;
 }
