@@ -10,7 +10,8 @@ let firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-$('#formAddCinema').validate({
+
+$('#formCinema').validate({
     rules: {
         txtTheaterName: {
             required: true
@@ -41,10 +42,16 @@ $('#formAddCinema').validate({
         }
     },
     errorPlacement: function (label, element) {
-        label.insertAfter(element.parent("div"));
+        if(element[0].name === 'txtCinemaAddress'){
+            label.insertAfter(element.parent('span').parent('div'));
+        }else{
+            label.insertAfter(element.parent("div"));
+        }
+        
     },
     wrapper: 'span'
 })
+
 
 
 let danhsachrapchieu = [];
@@ -55,6 +62,8 @@ $(document).ready(function () {
     if (mess != '') {
         $('#notifyModal').modal('show');
     }
+
+    
 })
 
 document.getElementById("btnhuy").onclick = function () {
@@ -104,10 +113,11 @@ function btnSubmit(isAdd){
     let address = $('input[name=txtCinemaAddress]').val();
     let lng = $('input[name=txtKinhDo]').val();
     let lat = $('input[name=txtViDo]').val();
-    let formAddCinema = $('#formAddCinema');
+    let formAddCinema = $('#formCinema');
 
-    showLoading();
+    
     if(formAddCinema.valid() == true){
+        showLoading();
         if(isAdd){
             $.ajax({
                 method: 'POST',
@@ -160,10 +170,7 @@ function btnSubmit(isAdd){
                 }
             })
         }
-    } else {
-        hideLoading();
-    }
-    
+    } 
 }
 
 
@@ -190,7 +197,7 @@ const index = searchClient.initIndex("airports");
 
 search.addWidgets([
     instantsearch.widgets.places({
-        container: '#txtCinemaAddress',
+        container: 'input[name=txtCinemaAddress]',
         placesReference: window.places,
     }),
 ]);
