@@ -264,7 +264,7 @@ function searchLngLat() {
     var request_url = api_url
         + '?'
         + 'key=' + api_key
-        + '&q=' + encodeURIComponent($('#txtCinemaAddress').val())
+        + '&q=' + encodeURIComponent($('input[name=txtCinemaAddress]').val())
         + '&pretty=1'
         + '&no_annotations=1';
 
@@ -273,8 +273,8 @@ function searchLngLat() {
         url: request_url,
         success: function (dataResult) {
             if (dataResult) {
-                $('#txtViDo').val(dataResult.results[0].geometry.lat);
-                $('#txtKinhDo').val(dataResult.results[0].geometry.lng)
+                $('input[name=txtViDo]').val(dataResult.results[0].geometry.lat);
+                $('input[name=txtKinhDo]').val(dataResult.results[0].geometry.lng)
 
                 // map.setCenter([dataResult.results[0].geometry.lng, dataResult.results[0].geometry.lat])
                 
