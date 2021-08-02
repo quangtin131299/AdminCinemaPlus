@@ -73,7 +73,6 @@ $('#color-chooser > li > a').click(function (e) {
         'border-color': currColor
     })
 })
-
 let movies = [];
 let rooms = [];
 function loadMovieOfCinema(element) {

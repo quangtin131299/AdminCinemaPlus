@@ -20,7 +20,7 @@ include header.pug
       .container-fluid
         .row.mb-2
           .col-sm-6
-            h1.m-0.text-dark Trang chủ
+            h1.m-0.text-dark Bảng thống kê
           // /.col
           .col-sm-6
             ol.breadcrumb.float-sm-right
@@ -34,89 +34,24 @@ include header.pug
     // Main content
     section.content
       .row
-        .col-md-6
-          .card(style='width: 100%;')
-            .card-body
-              .row
-                .col-md-12(style="display: flex; justify-content: center")
-                   img(src="https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png", alt="", width=100, height=100)
-              .row
-                .col-md-12(style="display: flex; justify-content: center")
-                   h2 Thông tin Admin
-              .row
-                .col-md-12
-                  .input-group.mb-3
-                    .input-group-prepend
-                      span#inputGroup-sizing-default.input-group-text Họ tên Admin
-                    input.form-control(type='text' aria-label='Default' aria-describedby='inputGroup-sizing-default', readonly, value="Trịnh Phước Tín")    
-              .row
-                .col-md-12
-                  .input-group.mb-3
-                    .input-group-prepend
-                      span#inputGroup-sizing-default.input-group-text Số điện thoại
-                    input.form-control(type='text' aria-label='Default' aria-describedby='inputGroup-sizing-default', readonly, value="0767816651")
-              .row
-                .col-md-12
-                  .input-group.mb-3
-                    .input-group-prepend
-                      span#inputGroup-sizing-default.input-group-text Email
-                    input.form-control(type='text' aria-label='Default' aria-describedby='inputGroup-sizing-default', readonly, value="trinhphuoctin@gmail.com")
-
-        .col-md-6
+        .col
           .card(style='width: 100%; display:flex; flex-directory: column')
             .card-body
-              h3.text-center Thông số thống kê
+              h3.text-center Doanh Thu Rạp Chiếu
               br
               .row
-                .col-md-12 
-                  .container-fluid
-                    // Small boxes (Stat box)
-                    .row
-                      .col-lg-12.col-6
-                        // small box
-                        .small-box.bg-info
-                          .inner
-                            h3 13
-                            p Thống kê phim
-                          .icon
-                            i.nav-icon.fas.fa-film
-                    .row
-                      .col-lg-12.col-6
-                        // small box
-                        .small-box.bg-success
-                          .inner
-                            h3 53
-                            p Thống kê vé
-                          .icon
-                            i.nav-icon.fas.fa-ticket-alt
-
-                    .row
-                      .col-lg-12.col-6
-                        // small box
-                        .small-box.bg-warning
-                          .inner
-                            h3 44
-                            p Thống kê khách hàng
-                          .icon
-                            i.nav-icon.fas.fa-users
-                          
-                    .row
-                      .col-lg-12.col-6
-                        // small box
-                        .small-box.bg-danger
-                          .inner
-                            h3 65
-                            p Số lượng khách truy cập
-                          .icon
-                            i.ion.ion-pie-graph
-                        
-                
+                canvas#myChart(width='400px' height='172px')
+      .row
+        .col
+          .card(style='width: 100%; display:flex; flex-directory: column')
+            .card-body
+              h3.text-center Doanh Thu Phim
+              br
+              .row
+                canvas#myChart1(width='400px' height='188px')
+                                 
           // ./col
         // /.row
-        // Main row
-
-                
-              a.btn.btn-primary(href='#') Go somewhere    
     // /.content
   // /.content-wrapper
   include footer.pug
@@ -154,3 +89,6 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
+// Chart JS
+script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.1/Chart.min.js')
+script(src='build/js/jsStatistical.js')
