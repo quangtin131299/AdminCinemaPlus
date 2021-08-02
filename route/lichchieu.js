@@ -268,9 +268,10 @@ router.post("/xeplich", function (req, res) {
 
           if (newShowTime.isAfter(endTimeOfRoom) == true) {
             let duration = moment.duration(newShowTime.diff(endTimeOfRoom))
+            let hours = duration.hours();
             let minute = duration.minutes();
 
-            if (minute < 30) {
+            if (hours == 0 && minute < 30) {
               return res.json({
                 message: 'Thời gian cách thời gian kết thúc là 30 phút',
                 statusCode: 0
