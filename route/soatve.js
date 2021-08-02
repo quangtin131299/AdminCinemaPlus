@@ -14,26 +14,19 @@ router.get("/hienthisoatve", function (req, res) {
 })
 
 router.post("/updateStatus", function (req, res) {
-  // var a = moment({hour: 21, minute: 41})
-  // var b = moment({hour: 22, minute: 0})
-  // b.date(24);
-  // b.month(7);
-  // b.year(2021);
-  // console.log(parseInt(moment.duration(b.diff(a)).hours()));
-  // console.log(moment.duration(b.diff(a)).minutes());
   let id = req.body.id;
 
   let queryBill = `SELECT DATE_FORMAT(NgayDat, '%Y-%m-%d') as 'NgayDat' , Gio 
                    FROM hoadon JOIN vedat ON hoadon.ID = vedat.ID_HoaDon
                                JOIN suatchieu ON vedat.Id_Suat = suatchieu.ID
-                   WHERE hoadon.ID = 9`;
+                   WHERE hoadon.ID = ?`;
 
-  conn.query(queryBill, function (error, resultBill) {
-    if(error){
+  conn.query(queryBill, [id], function (error, resultBill) {
+    if (error) {
       console.log(error);
 
       return res.json({ message: 'Lỗi kết nối !', statusCode: 0 });
-    }else{
+    } else {
       let partialDateBooking = resultBill[0].NgayDat.split('-');
       let showTime = resultBill[0].Gio.split(':');
       let currentDate = new Date();
@@ -43,14 +36,17 @@ router.post("/updateStatus", function (req, res) {
       dateBooking.setMonth(parseInt(partialDateBooking[1]) - 1);
       dateBooking.setFullYear(partialDateBooking[0]);
 
-      if(currentDate.getTime() === dateBooking.getTime()){
-        let dateBookingMoment= moment({hour:showTime[0] , minute: showTime[1]})
-        let currentDateMoment= moment({hour: currentDate.getHours(), minute: currentDate.getMinutes()})
+      if (currentDate.getTime() === dateBooking.getTime()) {
+        let dateBookingMoment = moment({ hour: showTime[0], minute: showTime[1] })
+        let currentDateMoment = moment({ hour: currentDate.getHours(), minute: currentDate.getMinutes() })
         let hour = Math.abs(parseInt(moment.duration(dateBookingMoment.diff(currentDateMoment)).hours()));
         let minute = Math.abs(parseInt(moment.duration(dateBookingMoment.diff(currentDateMoment)).minutes()));
-      
-        if(hour <= 1){
-          if(minute <= 15){
+
+        console.log(hour);
+        console.log(minute);
+
+        if (currentDateMoment.isBefore(dateBookingMoment) == true) {
+          if (hour == 0 && minute <= 15) {
             let sqlquery = `UPDATE vedat JOIN hoadon on vedat.ID_HoaDon = hoadon.ID
                     SET vedat.TrangThai = 'Đã nhận vé'
                     WHERE hoadon.ID = ?`;
@@ -65,15 +61,39 @@ router.post("/updateStatus", function (req, res) {
                 }
               }
             );
+            return res.json({ message: 'Soát vé thành công', statusCode: 1 });
+          } else {
+            return res.json({ message: 'Phim chưa mở soát vé', statusCode: 0 });
           }
+        } else if (currentDateMoment.isAfter(dateBookingMoment) == true) {
+          if (hour == 0 && minute <= 30) {
+            let sqlquery = `UPDATE vedat JOIN hoadon on vedat.ID_HoaDon = hoadon.ID
+                    SET vedat.TrangThai = 'Đã nhận vé'
+                    WHERE hoadon.ID = ?`;
+            conn.query(
+              sqlquery, [id], function (err, result) {
+                if (err) {
+                  console.log(err);
+
+                  return res.json({ message: 'Soát vé thất bại', statusCode: 0 });
+                } else {
+                  return res.json({ message: 'Soát vé thành công', statusCode: 1 });
+                }
+              }
+            );
+          } else {
+            return res.json({ message: 'Trễ giờ chiếu', statusCode: 0 });
+          }
+        } else {
+          return res.json({ message: 'Trễ giờ chiếu', statusCode: 0 });
         }
-        
-        res.json({ message: 'Trễ giờ chiếu', statusCode: 0 });
-        
-      }else{
+
+        return res.json({ message: 'Phim chưa mở soát vé', statusCode: 0 });
+
+      } else {
         res.json({ message: 'Phim chưa mở soát vé', statusCode: 0 });
       }
-    }    
+    }
   })
 })
 
