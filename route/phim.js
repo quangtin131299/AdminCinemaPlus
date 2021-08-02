@@ -312,25 +312,31 @@ router.post(
                       })
                     }
                   }
-        
+                  
+                  setTimeout(function(){
+                    let queryToken = `SELECT * FROM tokenclient;`;
+      
+                    conn.query(queryToken, function(error, resultTokens){
+                      if(error){
+                          console.log(error);
+                      }else{
+                        let count = resultTokens.length;
+                
+                        for (let i = 0; i < count; i++) {
+                          notifyAppClient(resultTokens[i].Token);
+                        }
+                      }
+                    })
+                  },1000);
+
                   // res.redirect('/phim/themphimmoi?mess=1')
                   res.json({statusCode: 1, message: 'Thêm phim thành công!', newIdMovie: resultNewMovie.insertId})
                 }
             });
+
+            
         
-            let queryToken = `SELECT * FROM tokenclient;`;
-      
-            conn.query(queryToken, function(error, resultTokens){
-              if(error){
-                  console.log(error);
-              }else{
-                let count = resultTokens.length;
-        
-                for (let i = 0; i < count; i++) {
-                  notifyAppClient(resultTokens[i].Token);
-                }
-              }
-            })
+            
           }else{
             return res.json({statusCode: 0, message: 'Tên phim bị trùng lặp'})
           }
