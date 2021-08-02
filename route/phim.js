@@ -49,7 +49,7 @@ router.get("/danhsachphim", function (req, res) {
   conn.query(query, function (err, result) {
     soluongtrang = result.length / 5;
     let query = `SELECT phim.ID, DATE_FORMAT(phim.NgayKhoiChieu, '%d/%m/%Y') as 'NgayKhoiChieu', phim.TenPhim, phim.Hinh, phim.TrangThai, phim.ThoiGian
-                 FROM phim where phim.isDelete = '0' limit ${vitribatdaulay}, 5`;
+                 FROM phim where phim.isDelete = '0' ORDER BY phim.NgayKhoiChieu DESC  limit ${vitribatdaulay}, 5`;
     conn.query(query, function (err, result) {
       if (err) {
         res.send(err);

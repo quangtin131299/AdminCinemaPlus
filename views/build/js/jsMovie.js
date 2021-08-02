@@ -290,17 +290,17 @@ function onSubmitAddMovie() {
                 area2: description,
                 dropdownCountry: idCountry,
             },
-            success: function (data) {
+            success: async function (data) {
                 if (data) {
+                
+                   await uploadfile(data.newIdMovie, true);
+
+                   await  uploadfile(data.newIdMovie, false);
+                    
                     hideLoading();
-
-                    uploadfile(data.newIdMovie, true);
-
-                    uploadfile(data.newIdMovie, false);
 
                     $('#modalTextMessage').html(data.message);
                     $('#notifyModal').modal('show');
-
                 }
             },
             error: function (error) {
@@ -311,7 +311,7 @@ function onSubmitAddMovie() {
     // $('#formAddMovie').submit();
 }
 
-function uploadfile(newIdMovie, isImage) {
+async function uploadfile(newIdMovie, isImage) {
     const storageRef = firebase.storage().ref()
     let task = null;
 
@@ -331,9 +331,9 @@ function uploadfile(newIdMovie, isImage) {
                 function completed() {
                     final.getDownloadURL()
 
-                        .then((url) => {
+                        .then(async (url) => {
 
-                            updateImage(newIdMovie, url, true);
+                            await updateImage(newIdMovie, url, true);
                         });
                 }
             );
@@ -354,9 +354,9 @@ function uploadfile(newIdMovie, isImage) {
                 function completed() {
                     final.getDownloadURL()
 
-                        .then((url) => {
+                        .then(async (url) => {
 
-                            updateImage(newIdMovie, url, false);
+                            await updateImage(newIdMovie, url, false);
                         });
                 }
             );
@@ -365,7 +365,7 @@ function uploadfile(newIdMovie, isImage) {
     }
 }
 
-function updateImage(idMovie, url, isImage) {
+async function updateImage(idMovie, url, isImage) {
     if (isImage == true) {
         $.ajax({
             method: 'PUT',
@@ -396,7 +396,6 @@ function updateImage(idMovie, url, isImage) {
             },
             success: function (data) {
                 // if(data){
-
                 // }
             },
 
