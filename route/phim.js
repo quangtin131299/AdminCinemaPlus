@@ -240,7 +240,7 @@ router.post(
           return res.json({statusCode: 0, message: 'Không thể kiểm tra trùng tên phim'})
         }else{
           if(resultNameMovie.length == 0){
-            let sqlquery = `INSERT INTO phim VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?)`;
+            let sqlquery = `INSERT INTO phim VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?, '0')`;
 
             conn.query(sqlquery, [movieName
                                 , ''
