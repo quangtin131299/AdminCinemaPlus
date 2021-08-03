@@ -253,18 +253,24 @@
   max-height: 190px;
 }
 
-
 .cinema-container-list{
-  width: fit-content;
+  width: 95%;
   display: flex;
   flex-wrap: wrap;
   height: fit-content;
 }
 
 .container-cinema{
-  padding-left: 100px;
-  padding-right: 100px;
+  display: flex;
+  justify-content: center;
 }
+
+@media only screen and (max-width: 1613px) {
+  .cinema-container-list{
+    width: 100%;
+  }
+}
+
 
 .card-footer-item{
   margin-bottom: 10px;
@@ -287,4 +293,6 @@
 .card-footer-item > .btn-secondary{
   margin-right: 15px;
 }
+
+
 

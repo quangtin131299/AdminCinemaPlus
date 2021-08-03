@@ -33,14 +33,14 @@ const uploadImageCinema = multer({ storage: storageImageCinema });
 router.get("/danhsachrapchieu", function(req, res){
 	let queryslrap = `SELECT * FROM rapphim`
 	let page = req.query.page;
-	let vitribatdaulay = (page - 1)	* 5;
+	let vitribatdaulay = (page - 1)	* 6;
 	
 	conn.query(queryslrap, function(err, resul){
 		if(err){
 			console.log(err);
 		}else{
-			let ntrang = resul.length / 5
-			let query = `select * from rapphim limit ${vitribatdaulay}, 5`
+			let ntrang = resul.length / 6
+			let query = `select * from rapphim limit ${vitribatdaulay}, 6`
 			conn.query(query, function(err, result){
 				if(err){
 					console.log(err);
