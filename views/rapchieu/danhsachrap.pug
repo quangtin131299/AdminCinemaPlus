@@ -35,47 +35,36 @@ include ../header.pug
       // /.container-fluid
     // /.content-header
     // Main content
-    section.content
-      table.table
-        thead
-          tr
-            th(scope='col') ID
-            th(scope='col', width="200") Tên rạp
-            th(scope='col', width="400") Ảnh
-            th(scope='col', width="400") Địa chỉ
-            th(scope='col') Thao tác 
-        tbody
+    section.content.content-cinema
+      .container-cinema
+        .cinema-container-list
           each rap in danhsachrapchieu
-            tr
-              th(scope='row')=rap.ID
-              td=rap.TenRap
-              td
-                img(src=rap.Hinh, alt="photo", width=400, height=280)
-              td=rap.DiaChi
-              td
-                span 
-                  a.btn.btn-info(href="/rapchieu/chitietrapchieu?idCinema=" + rap.ID) Chi Tiết 
-                span &nbsp; | &nbsp;
-                span 
-                  a.btn.btn-primary(href="suarapchieu?idCinema=" + rap.ID) Sửa
-                span &nbsp; | &nbsp;
-                span 
-                  a.btn.btn-danger(href="#") Xóa
-      nav(style="display:flex; justify-content:center",aria-label='Page navigation example')
-        ul.pagination
-          li.page-item
-            a.page-link(href='#') Trang trước
-          - for (var i = 1; i <= soluongtrang ; i++) {
-                if i == pagerespon
-                  li.page-item.active
-                   a.page-link(href="danhsachrapchieu?page=" + i)= i 
-                else
-                  li.page-item
-                   a.page-link(href="danhsachrapchieu?page=" + i)= i
-          - }
-            
-          li.page-item
-            a.page-link(href='#') Trang kế
+            .card.card-item-cinema
+              img.img-cinema(src=rap.Hinh)
+              .card-body
+                h5= rap.TenRap 
+                p.card-text= rap.DiaChi
+              .card-footer-item
+                a.btn.btn-info(href="/rapchieu/chitietrapchieu?idCinema=" + rap.ID) Chi Tiết 
+                a.btn.btn-primary(href="suarapchieu?idCinema=" + rap.ID) Sửa
+                a.btn.btn-danger(href="#") Xóa
+                a.btn.btn-secondary(href="#") Doanh thu
+
+        nav(style="display:flex; justify-content:center",aria-label='Page navigation example')
+          ul.pagination
+            li.page-item
+              a.page-link(href='#') Trang trước
+            - for (var i = 1; i <= soluongtrang ; i++) {
+                  if i == pagerespon
+                    li.page-item.active
+                      a.page-link(href="danhsachrapchieu?page=" + i)= i 
+                  else
+                    li.page-item
+                      a.page-link(href="danhsachrapchieu?page=" + i)= i
+            - }
+              
+            li.page-item
+              a.page-link(href='#') Trang kế
     // /.content
   // /.content-wrapper
   include ../footer.pug

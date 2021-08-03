@@ -239,3 +239,52 @@
 .popcorn-detail-bill-container{
   padding-left: 30px;
 }
+
+.card-item-cinema{
+  border-radius: 10px;
+  width: 400px;
+  height: 350px;
+  margin-left: 10px;
+}
+
+.img-cinema{
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  max-height: 190px;
+}
+
+
+.cinema-container-list{
+  width: fit-content;
+  display: flex;
+  flex-wrap: wrap;
+  height: fit-content;
+}
+
+.container-cinema{
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.card-footer-item{
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.card-footer-item > .btn.btn-info{
+  margin-right: 15px;
+}
+
+.card-footer-item > .btn.btn-primary{
+  margin-right: 15px;
+}
+
+.card-footer-item > .btn-danger{
+  margin-right: 15px;
+}
+
+.card-footer-item > .btn-secondary{
+  margin-right: 15px;
+}
+
