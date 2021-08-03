@@ -180,14 +180,11 @@
 .container-intro-schedule {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
 }
 
 .card-schedule-cinema {
   width: fit-content;
-    width: fit-content; 
-  width: fit-content;
-  margin-right: 55px;
+  margin-right: 1rem;
 }
 
 .ck.ck-editor {

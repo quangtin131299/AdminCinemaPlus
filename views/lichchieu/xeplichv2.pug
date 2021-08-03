@@ -53,41 +53,41 @@ script(src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.8.0/main.min.j
                                     //- option(value='') Chọn rạp chiếu
                                     each itemCinema in danhsachrap
                                       option(value=itemCinema.ID, selected)= itemCinema.TenRap
-                                
-                        // /.card-body
-                    // /.card
-                    .card
-                        .card-header
-                            h3.card-title Thêm lịch chiếu
-                        .card-body
-                            select#inputGroupSelect02.custom-select(name="dropdownMovie", onchange="validateDateSchedule(this)")
-                                option(selected='') Chọn phim
-                                
-                        .card-body
-                            select#inputGroupSelect02.custom-select(name="dropdownRoom")
-                                option(selected='') Chọn phòng
-                        .card-body 
-                            //- input.form-control(name= "txtSuatChieu",type='time', aria-label='Default', aria-describedby='inputGroup-sizing-default')
-                            .input-group.clockpicker(data-align='top' data-autoclose='true')
-                              input.form-control(placeholder="Chọn suất chiếu" ,name= "txtSuatChieu", type='text', onblur="checkTime(this)")
-                              span.input-group-addon
-                                span.glyphicon.glyphicon-time
-                        .card-body
-                            input.form-control(id="txtNgayChieu",name= "txtNgayChieu",type='date', aria-label='Default', aria-describedby='inputGroup-sizing-default')
-                        .card-body
-                            button.btn.btn-success(style="width:200px;",type='button', onclick="onSubmit()") Thêm lịch chiếu
-                          
-                // /.col
+                    form#formSchedule             
+                      .card
+                          .card-header
+                              h3.card-title Thêm lịch chiếu
+                          .card-body
+                              select#inputGroupSelect02.custom-select(name="dropdownMovie", onchange="validateDateSchedule(this)")
+                                  option(selected='', value='') Chọn phim
+                                  
+                          .card-body
+                              select#inputGroupSelect02.custom-select(name="dropdownRoom")
+                                  option(selected='', value='') Chọn phòng
+                          .card-body 
+                              //- input.form-control(name= "txtSuatChieu",type='time', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                              .input-group.clockpicker(data-align='top' data-autoclose='true')
+                                input.form-control(placeholder="Chọn suất chiếu" ,name= "txtSuatChieu", type='text', onblur="checkTime(this)")
+                                span.input-group-addon
+                                  span.glyphicon.glyphicon-time
+                          .card-body
+                            .row
+                              .col-md-12
+                                span Từ ngày 
+                                input.form-control(id="txtNgayChieu",name= "txtNgayChieu",type='date', aria-label='Default', aria-describedby='inputGroup-sizing-default', onchange="setMinEndDate(this)")
+                            br
+                            .row
+                              .col-md-12
+                                span Đến ngày 
+                                input.form-control(id="txtEndDateSchedult",name= "txtEndDateSchedult",type='date', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                          .card-body
+                              button.btn.btn-success(style="width:200px;",type='button', onclick="onSubmit()") Thêm lịch chiếu               
+
                 .col-md-9
-                    .card.card-primary
-                        .card-body.p-0
-                            // THE CALENDAR
-                            #calendar
-                        // /.card-body
-                    // /.card
-                // /.col
-            // /.row
-        // /.container-fluid
+                  .card.card-primary
+                    .card-body.p-0        
+                      #calendar
+      
 
         #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
           .modal-dialog.modal-dialog-centered
@@ -124,6 +124,10 @@ script(src='dist/js/adminlte.min.js')
 script(src='dist/js/demo.js')
 // fullCalendar 2.2.5
 script(src='plugins/moment/moment.min.js')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js'
+    , integrity='sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg=='
+    , crossorigin='anonymous'
+    , referrerpolicy='no-referrer')
 script(src='https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/jquery-clockpicker.min.js' 
        integrity='sha512-x0qixPCOQbS3xAQw8BL9qjhAh185N7JSw39hzE/ff71BXg7P1fkynTqcLYMlNmwRDtgdoYgURIvos+NJ6g0rNg==' 
        crossorigin='anonymous' 

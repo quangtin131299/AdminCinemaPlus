@@ -1,3 +1,47 @@
+$('#formSchedule').validate({
+    rules: {
+        dropdownMovie: {
+            required: true
+        },
+        dropdownRoom:{
+            required: true
+        },
+        txtSuatChieu:{
+            required: true
+        },
+        txtNgayChieu: {
+            required: true
+        },
+        txtEndDateSchedult:{
+            required: true
+        }
+        
+    },
+    messages: {
+        dropdownMovie: {
+            required: 'Phim không được bỏ trống'
+        },
+        dropdownRoom:{
+            required: 'Phòng không được bỏ trống'
+        },
+        txtSuatChieu:{
+            required: 'Suất chiếu không được bỏ trống'
+        },
+        txtNgayChieu: {
+            required: 'Ngày không được bỏ trống'
+        },
+        txtEndDateSchedult:{
+            required: 'Ngày kết thúc không được để trống'
+        }
+        
+    },
+    errorPlacement: function (label, element) {
+        label.insertAfter(element.parent("div"));
+
+    },
+    wrapper: 'span'
+})
+
 $('#exampleModalCenter').on('hidden.bs.modal', function (e) {
     $("#exampleModalCenter").modal('hide');
 })
@@ -23,27 +67,26 @@ function ini_events(ele) {
 }
 ini_events($('#external-events div.external-event'))
 
-var date = new Date()
-var d = date.getDate(),
-    m = date.getMonth(),
-    y = date.getFullYear()
+var dateCalendar= new Date()
+var d = dateCalendar.getDate(),
+    m = dateCalendar.getMonth(),
+    y = dateCalendar.getFullYear()
 var Calendar = FullCalendar.Calendar;
 
 var containerEl = document.getElementById('external-events');
 var calendarEl = document.getElementById('calendar');
 
 let dtToday = new Date();
-let month = dtToday.getMonth() + 1;
-var day = dtToday.getDate();
-var year = dtToday.getFullYear();
-if (month < 10) {
-    month = '0' + month.toString();
-}
-if (day < 10) {
-    day = '0' + day.toString();
-}
-let maxDate = year + '-' + month + '-' + day;
-$('input[name=txtNgayChieu]').attr('min', maxDate);
+let moth = dtToday.getMonth() + 1;
+
+dtToday.setDate(dtToday.getDate() + 1);
+
+let day = dtToday.getDate();
+let year = dtToday.getFullYear();
+
+let minDate = `${year}-${moth.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+$('input[name=txtNgayChieu]').prop('min', minDate);
+$('input[name=txtEndDateSchedult]').prop('min', minDate);
 
 var calendar = new FullCalendar.Calendar(calendarEl, {
     schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
@@ -208,55 +251,66 @@ function onSubmit() {
     let showTime = $('input[name=txtSuatChieu]').val();
     let idRoom = $('select[name=dropdownRoom]').val();
     let dateSchedule = $('input[name=txtNgayChieu]').val();
+    let endDateSchedule = $('input[name=txtEndDateSchedult]').val();
     let room = rooms.filter(room => room.ID == idRoom);
     let movie = movies.filter(movie => movie.ID == idMovie);
     let timeOfMoive = movie && movie.length != 0?  movie[0].ThoiGian: 0;
+    let form = $('#formSchedule');
 
+    if(form.valid() == true){
+        if(checkTimeInvalid(showTime,dateSchedule) == true){
+            showLoading();
+            $.ajax({
+                method: 'POST',
+                url: '/lichchieu/xeplich',
+                data: {
+                    idcinema: idCinema,
+                    date: dateSchedule,
+                    showtime: showTime,
+                    idroom: idRoom,
+                    idmovie: idMovie,
+                    endDateSchedule: endDateSchedule
+                },
+                success: function (data) {
+                    hideLoading();
+                    
     
-
-    if(checkTimeInvalid(showTime,dateSchedule) == true){
-        showLoading();
-        $.ajax({
-            method: 'POST',
-            url: '/lichchieu/xeplich',
-            data: {
-                idcinema: idCinema,
-                date: dateSchedule,
-                showtime: showTime,
-                idroom: idRoom,
-                idmovie: idMovie
-            },
-            success: function (data) {
-                hideLoading();
+                    if (data.statusCode == 1) {
+                        let endDate = new Date(endDateSchedule);
     
-                if (data.statusCode == 1) {
+                        for(let date = new Date(dateSchedule); date.getTime() <= endDate.getTime(); date.setDate(date.getDate() + 1)){
+                            
+                            let yearIndex = date.getFullYear();
+                            let monthIndex = date.getMonth() + 1;
+                            let dateIndex = date.getDate() ;
+                            let resultDateIndex = `${yearIndex.toString()}-${monthIndex.toString().padStart(2, '0')}-${dateIndex.toString().padStart(2, '0')}`;
     
-                    let endTime = calulatorEndTime(`${showTime}:00`, timeOfMoive);
-                    let newEvent = {
-                        title: `${movie[0].TenPhim} | ${room[0].TenPhong}`,
-                        start: `${dateSchedule} ${showTime}`,
-                        end: `${dateSchedule} ${endTime}`,
-                        backgroundColor: '#3c8dbc',
-                        borderColor: '#3c8dbc',
-                    };
+                            let endTime = calulatorEndTime(`${showTime}:00`, timeOfMoive);
+                            let newEvent = {
+                                title: `${movie[0].TenPhim} | ${room[0].TenPhong}`,
+                                start: `${resultDateIndex} ${showTime}`,
+                                end: `${resultDateIndex} ${endTime}`,
+                                backgroundColor: '#3c8dbc',
+                                borderColor: '#3c8dbc',
+                            };
     
-                    calendar.addEvent(newEvent)
+                            calendar.addEvent(newEvent)
+                        }     
+                    }
+        
+                    $('#modalTextMessage').text(data.message);
+                    $('#notifyModal').modal('show');
+                    
+                },
+                error: function (error) {
+        
                 }
-    
-                $('#modalTextMessage').text(data.message);
-                $('#notifyModal').modal('show');
-                
-            },
-            error: function (error) {
-    
-            }
-        })
-    }else{
-        $('#modalTextMessage').text('Suất chiếu không hợp');
-                $('#notifyModal').modal('show');
+            })
+        }else{
+            $('#modalTextMessage').text('Suất chiếu không hợp');
+                    $('#notifyModal').modal('show');
+        }
     }
-
-    
 }
 
 function clearEvent() {
@@ -283,6 +337,7 @@ function validateDateSchedule(movieSelect){
     let openDate = movie[0].NgayKhoiChieu;
     let endDate = movie[0].NgayKetThuc;
     let inputDateSchedule = $('input[name=txtNgayChieu]');
+    let inputEndDateSchedule = $('input[name=txtEndDateSchedult]')
     let date = new Date(openDate);
 
     if(Date.now() >= date.getTime()){
@@ -295,11 +350,14 @@ function validateDateSchedule(movieSelect){
         let moth = currentDate.getMonth() + 1;
         
         inputDateSchedule.prop('min', `${year}-${moth.toString().padStart(2,'0')}-${date.toString().padStart(2,'0')}`);
+        inputEndDateSchedule.prop('min', `${year}-${moth.toString().padStart(2,'0')}-${date.toString().padStart(2,'0')}`);
     }else{
         inputDateSchedule.prop('min', openDate);
+        inputEndDateSchedule.prop('min', openDate);
     }
 
     inputDateSchedule.prop('max', endDate);
+    inputEndDateSchedule.prop('max', endDate);
 }
 
 function getFristDayWeek(){
@@ -469,3 +527,14 @@ $(document).ready(function(){
         })
     }
 })
+
+
+function setMinEndDate(inputDate){
+    let dateSchedule = new Date(inputDate.value);
+
+    let date = dateSchedule.getDate();
+    let month = dateSchedule.getMonth() + 1;
+    let year = dateSchedule.FullCalendar();
+
+    $('input[name=txtEndDateSchedult]').prop('min', `${year.toString()}-${month.toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`);
+}

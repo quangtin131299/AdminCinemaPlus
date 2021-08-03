@@ -239,15 +239,15 @@ router.post("/xeplich", function (req, res) {
   let gio = req.body.showtime;
   let idphong = req.body.idroom;
   let idphim = req.body.idmovie;
-  let endTime = req.body.endTimeMovie;
+  let endDateSchedule = req.body.endDateSchedule;
 
   let queryTime = `SELECT DATE_FORMAT(phim_phong_xuat.Ngay, '%Y-%m-%d') as 'Ngay', phim.ThoiGian, suatchieu.Gio 
                    FROM phim_phong_xuat JOIN suatchieu ON phim_phong_xuat.ID_XuatChieu = suatchieu.ID 
                                         JOIN phim ON phim_phong_xuat.ID_Phim = phim.ID
                    WHERE phim_phong_xuat.ID_Phong = ? 
-                         AND phim_phong_xuat.Ngay = ?`;
+                         AND phim_phong_xuat.Ngay BETWEEN ? and  ?`;
 
-  conn.query(queryTime, [idphong, ngay], function (error, result) {
+  conn.query(queryTime, [idphong, ngay, endDateSchedule], function (error, result) {
     if (error) {
       console.log(error);
     } else {
@@ -286,19 +286,71 @@ router.post("/xeplich", function (req, res) {
         }
       }
 
-      let sqlquerytemplichcchieu = `SELECT * FROM lichchieu WHERE lichchieu.Ngay = ? AND lichchieu.ID_Rap = ?`;
+      new Promise(function(resolve, reject){
+        let endDate = new Date(endDateSchedule);
 
-      conn.query(sqlquerytemplichcchieu, [ngay, idrapphim], function (err, result) {
-        if (err) {
-          console.log(err);
-        } else {
-          if (result.length == 0) {
-            let querylichchieu = `INSERT INTO lichchieu VALUES (NULL, ?, ?)`;
+        for (let date = new Date(ngay); date.getTime() <= endDate.getTime(); date.setDate(date.getDate() + 1)) {
+          let yearIndex = date.getFullYear();
+          let monthIndex = date.getMonth() + 1;
+          let dateIndex = date.getDate();
 
-            conn.query(querylichchieu, [ngay, idrapphim], function (err, resultlichchieu) {
-              if (err) {
-                console.log(err);
+          let resultDateIndex = `${yearIndex.toString()}-${monthIndex.toString().padStart(2, '0')}-${dateIndex.toString().padStart(2, '0')}`;
+
+          let sqlquerytemplichcchieu = `SELECT * FROM lichchieu WHERE lichchieu.Ngay = ? AND lichchieu.ID_Rap = ?`;
+
+          conn.query(sqlquerytemplichcchieu, [resultDateIndex, idrapphim], function (err, result) {
+            if (err) {
+              console.log(err);
+            } else {
+              if (result.length == 0) {
+                let querylichchieu = `INSERT INTO lichchieu VALUES (NULL, ?, ?)`;
+
+                conn.query(querylichchieu, [resultDateIndex, idrapphim], function (err, resultlichchieu) {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    let querysuatchieu = `INSERT INTO suatchieu VALUES (NULL, ?)`;
+
+                    conn.query(querysuatchieu, [gio], function (err, reultsuatchieu) {
+                      if (err) {
+                        console.log(err);
+                      } else {
+                        let queryphimphongsuat = `INSERT INTO phim_phong_xuat VALUES(?,?,?,?)`;
+
+                        conn.query(
+                          queryphimphongsuat,
+                          [idphim, idphong, reultsuatchieu.insertId, resultDateIndex],
+                          function (err) {
+                            if (err) {
+                              console.log(err);
+                            }
+                          }
+                        );
+
+                        let queryphonglichchieu = `INSERT INTO phim_lichchieu VALUES(?,?,?)`;
+
+                        conn.query(
+                          queryphonglichchieu,
+                          [idphim, resultlichchieu.insertId, reultsuatchieu.insertId],
+                          function (err) {
+                            if (err) {
+                              console.log(err);
+                            } else {
+
+                              // res.json({
+                              //   message: 'Thêm lịch chiếu thành công.',
+                              //   statusCode: 1
+                              // })
+                              resolve(true);
+                            }
+                          }
+                        );
+                      }
+                    });
+                  }
+                });
               } else {
+
                 let querysuatchieu = `INSERT INTO suatchieu VALUES (NULL, ?)`;
 
                 conn.query(querysuatchieu, [gio], function (err, reultsuatchieu) {
@@ -309,7 +361,7 @@ router.post("/xeplich", function (req, res) {
 
                     conn.query(
                       queryphimphongsuat,
-                      [idphim, idphong, reultsuatchieu.insertId, ngay],
+                      [idphim, idphong, reultsuatchieu.insertId, resultDateIndex],
                       function (err) {
                         if (err) {
                           console.log(err);
@@ -321,68 +373,46 @@ router.post("/xeplich", function (req, res) {
 
                     conn.query(
                       queryphonglichchieu,
-                      [idphim, resultlichchieu.insertId, reultsuatchieu.insertId],
+                      [idphim, result[0].ID, reultsuatchieu.insertId],
                       function (err) {
                         if (err) {
                           console.log(err);
                         } else {
+                          console.log('thành công');
+                          // res.redirect("/lichchieu/danhsachlichchieu?page=1");
 
-                          res.json({
-                            message: 'Thêm lịch chiếu thành công.',
-                            statusCode: 1
-                          })
+                          // res.json({
+                          //   message: 'Thêm lịch chiếu thành công.',
+                          //   statusCode: 1
+                          // })
+
+                          resolve(true);
+
                         }
                       }
                     );
                   }
                 });
+
               }
-            });
-          } else {
+            }
+          });
 
-            let querysuatchieu = `INSERT INTO suatchieu VALUES (NULL, ?)`;
-
-            conn.query(querysuatchieu, [gio], function (err, reultsuatchieu) {
-              if (err) {
-                console.log(err);
-              } else {
-                let queryphimphongsuat = `INSERT INTO phim_phong_xuat VALUES(?,?,?,?)`;
-
-                conn.query(
-                  queryphimphongsuat,
-                  [idphim, idphong, reultsuatchieu.insertId, ngay],
-                  function (err) {
-                    if (err) {
-                      console.log(err);
-                    }
-                  }
-                );
-
-                let queryphonglichchieu = `INSERT INTO phim_lichchieu VALUES(?,?,?)`;
-
-                conn.query(
-                  queryphonglichchieu,
-                  [idphim, result[0].ID, reultsuatchieu.insertId],
-                  function (err) {
-                    if (err) {
-                      console.log(err);
-                    } else {
-                      console.log('thành công');
-                      // res.redirect("/lichchieu/danhsachlichchieu?page=1");
-
-                      res.json({
-                        message: 'Thêm lịch chiếu thành công.',
-                        statusCode: 1
-                      })
-                    }
-                  }
-                );
-              }
-            });
-
-          }
         }
-      });
+
+      }).then(function(result){
+
+        res.json({
+          message: 'Thêm lịch chiếu thành công',
+          statusCode: 1
+        })
+        
+      }).catch(function(){
+        res.json({
+          message: 'Thêm lịch chiếu thất bại',
+          statusCode: 0
+        })
+      })
     }
   });
 });
