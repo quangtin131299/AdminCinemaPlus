@@ -21,9 +21,9 @@ function searchMovie(page){
             pageSelect: page
         },
         success: function(data){
-            let tblMovie =  $(`#tblMovie`);
+            let tblMovie =  $(`#listMovie`);
             let listPage = $('#listPage');
-            console.log(data);
+            
             listPage.html(`<li class='page-item'>
                                  <a class='page-link' href='#'>Trang trước</a> 
                            </li>`)
@@ -37,23 +37,49 @@ function searchMovie(page){
                     tblMovie.html('');
 
                     for(let i = 0 ; i < countMovie; i++){
-                        tblMovie.html(tblMovie.html() + `<tr>
-                                                            <td>${data.resultMovie[i].ID}
-                                                            <td>${data.resultMovie[i].TenPhim}</td>
-                                                            <td>
-                                                                <img src=${data.resultMovie[i].Hinh} alt="photo", width=125, height=125 />
-                                                            </td>
-                                                            <td>${data.resultMovie[i].TrangThai}</td>
-                                                            <td>${data.resultMovie[i].ThoiGian + " phút"}</td>
-                                                            <td>${data.resultMovie[i].NgayKhoiChieu}</td>
-                                                            <td>
-                                                                <span><a class="btn btn-info" href="/phim/chitietphim?idphim=${data.resultMovie[i].ID}"> Chi Tiết </a> </span>
-                                                                <span>|</span>
-                                                                <span><a class="btn btn-primary" href="suaphim?idphim=${data.resultMovie[i].ID}"> Sửa </a> </span>
-                                                                <span>|</span>
-                                                                <span><button class="btn btn-danger" onclick="setIdMovie(${data.resultMovie[i].ID})", data-toggle='modal', data-target="#modalInforDelete"> Xóa</button></span>                                                     
-                                                            </td>
-                                                        </tr>`)
+                        tblMovie.html(tblMovie.html() + `
+                                                        <div class="card card-movie">
+                                                            <div class="row">
+                                                                <div class="col-md-3 img-movie-container">
+                                                                    <img class="card-img-movie" src="${data.resultMovie[i].Hinh}" />
+                                                                </div>
+                                                                <div class="col-md-9 content-movie-container">
+                                                                    <div>
+                                                                        <h2>${data.resultMovie[i].TenPhim}</h2>
+                                                                    </div>
+                                                                    <div>
+                                                                        <label>Ngày khởi chiếu: &nbsp&nbsp</label>
+                                                                        <span class="text-content-movie">${data.resultMovie[i].NgayKhoiChieu}</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <label>Ngày kết thúc: &nbsp&nbsp</label>
+                                                                        <span class="text-content-movie">${data.resultMovie[i].NgayKetThuc}</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <label>Thời gian: &nbsp&nbsp</label>
+                                                                        <span class="text-content-movie">${data.resultMovie[i].ThoiGian} phút</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <label>Trạng thái: &nbsp&nbsp</label>
+                                                                        <span class="text-content-movie">${data.resultMovie[i].TrangThai}</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <label>Quốc gia: &nbsp&nbsp</label>
+                                                                        <span class="text-content-movie">${data.resultMovie[i].TenQuocGia}</span>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12 action-container">
+                                                                            <a class="btn btn-info btn-action" href="/phim/chitietphim?idphim=${data.resultMovie[i].ID}">Xem chi tiết</a>
+                                                                            <a class="btn btn-info btn-action" href="suaphim?idphim=${data.resultMovie[i].ID}">Sửa</a>
+                                                                            <button id="linkDelete" class="btn btn-danger btn-action" onclick="setIdMovie(${data.resultMovie[i].ID})", data-toggle='modal', data-target="#modalInforDelete">Xóa</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div>
+                                            
+                                                        `)
                     }
 
                     for(let i = 1; i <= data.totalNumber; i++){

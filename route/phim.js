@@ -48,8 +48,16 @@ router.get("/danhsachphim", function (req, res) {
     "SELECT phim.ID, DATE_FORMAT(phim.NgayKhoiChieu, '%d/%m/%Y') as 'NgayKhoiChieu', phim.TenPhim, phim.Hinh, phim.TrangThai, phim.ThoiGian FROM phim where phim.isDelete = '0'";
   conn.query(query, function (err, result) {
     soluongtrang = result.length / 5;
-    let query = `SELECT phim.ID, DATE_FORMAT(phim.NgayKhoiChieu, '%d/%m/%Y') as 'NgayKhoiChieu', phim.TenPhim, phim.Hinh, phim.TrangThai, phim.ThoiGian
-                 FROM phim where phim.isDelete = '0' ORDER BY phim.NgayKhoiChieu DESC  limit ${vitribatdaulay}, 5`;
+    let query = `SELECT phim.ID
+                      , DATE_FORMAT(phim.NgayKhoiChieu, '%d/%m/%Y') as 'NgayKhoiChieu'
+                      , DATE_FORMAT(phim.NgayKetThuc, '%d/%m/%Y') as 'NgayKetThuc'
+                      , phim.TenPhim
+                      , phim.Hinh
+                      , phim.TrangThai
+                      , phim.ThoiGian
+                      , quocgia.TenQuocGia
+                 FROM phim JOIN quocgia ON phim.ID_QuocGia = quocgia.ID 
+                 WHERE phim.isDelete = '0' ORDER BY phim.NgayKhoiChieu DESC LIMIT ${vitribatdaulay}, 5`;
     conn.query(query, function (err, result) {
       if (err) {
         res.send(err);
@@ -569,8 +577,13 @@ router.get("/searchmovie", function(req, res){
   let country = req.query.idCountry;
   let cinema = req.query.idCinema;
 
-  let querySearch = `SELECT DISTINCT phim.ID, phim.TenPhim, phim.TrangThai, phim.Hinh,DATE_FORMAT(phim.NgayKhoiChieu, '%d/%m/%Y') as 'NgayKhoiChieu', phim.ThoiGian
-                     FROM phim JOIN phim_loaiphim on phim.ID = phim_loaiphim.ID_Phim 
+  let querySearch = `SELECT DISTINCT phim.ID
+                                  , phim.TenPhim
+                                  , phim.TrangThai
+                                  , phim.Hinh
+                                  , DATE_FORMAT(phim.NgayKhoiChieu, '%d/%m/%Y') as 'NgayKhoiChieu'
+                                  , phim.ThoiGian
+                      FROM phim JOIN phim_loaiphim on phim.ID = phim_loaiphim.ID_Phim 
                                 JOIN loaiphim on loaiphim.ID = phim_loaiphim.ID_Loai
                                 JOIN quocgia on quocgia.ID = phim.ID_QuocGia
                                 JOIN phim_rapphim on phim_rapphim.ID_Phim = phim.ID
@@ -578,7 +591,8 @@ router.get("/searchmovie", function(req, res){
                       WHERE (match(phim.TenPhim) against(?) or phim.TenPhim LIKE ?) 
                               AND (rapphim.TenRap like ? 
                               AND loaiphim.TenLoai like ? 
-                              AND quocgia.TenQuocGia like ?)`;
+                              AND quocgia.TenQuocGia like ?)
+                      ORDER BY phim.TenPhim`;
 
   conn.query(querySearch, [keyWord, `${keyWord}%`, `${cinema}%`, `${type}%`, `${country}%`], function(error, resultSearchMovie){
       if(error){
@@ -589,7 +603,14 @@ router.get("/searchmovie", function(req, res){
         let numberPage = resultSearchMovie.length / 5;
         let position = (page - 1) * 5;
 
-        let queryMoviePagging = `SELECT DISTINCT phim.ID, phim.TenPhim, phim.TrangThai, phim.Hinh,DATE_FORMAT(phim.NgayKhoiChieu, '%d/%m/%Y') as 'NgayKhoiChieu', phim.ThoiGian
+        let queryMoviePagging = `SELECT DISTINCT phim.ID
+                                               , phim.TenPhim
+                                               , phim.TrangThai
+                                               , phim.Hinh,DATE_FORMAT(phim.NgayKhoiChieu, '%d/%m/%Y') as 'NgayKhoiChieu'
+                                               , phim.ThoiGian
+                                               , DATE_FORMAT(phim.NgayKetThuc, '%d/%m/%Y') as 'NgayKetThuc'
+                                               , phim.ThoiGian
+                                               , quocgia.TenQuocGia
                                   FROM phim JOIN phim_loaiphim on phim.ID = phim_loaiphim.ID_Phim 
                                             JOIN loaiphim on loaiphim.ID = phim_loaiphim.ID_Loai
                                             JOIN quocgia on quocgia.ID = phim.ID_QuocGia

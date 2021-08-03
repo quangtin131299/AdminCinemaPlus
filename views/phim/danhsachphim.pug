@@ -63,36 +63,40 @@ include ../header.pug
                         option(selected='',value='') Chọn rạp chiếu
                         each itemCinema in dataCinema
                                       option(value=itemCinema.TenRapID)= itemCinema.TenRap
-      table.table
-        thead
-          tr
-            th(scope='col') ID
-            th(scope='col') Tên Phim
-            th(scope='col') Poster
-            th(scope='col') Trạng thái 
-            th(scope='col') Thời gian 
-            th(scope='col') Ngày công chiếu
-            th(scope='col') Thao tác
-        tbody(id="tblMovie")
-          each phim in dataphimchieu
-            tr
-              th(scope='row')=phim.ID
-              td=phim.TenPhim
-              td
-                img(src=phim.Hinh, alt="photo", width=125, height=125)
-              td=phim.TrangThai
-              td=phim.ThoiGian + " phút"
-              td=phim.NgayKhoiChieu
-              td
-                span 
-                  a.btn.btn-info(href="/phim/chitietphim?idphim=" + phim.ID) Chi Tiết 
-                span  |
-                span 
-                  a.btn.btn-primary(href="suaphim?idphim=" + phim.ID) Sửa
-                span  |
-                span 
-                  button#linkDelete.btn.btn-danger(onclick=`setIdMovie(${phim.ID})`, data-toggle='modal', data-target="#modalInforDelete") Xóa
-          br
+      .row
+        .col-md-12
+          .list-movie-container#listMovie
+            each phim in dataphimchieu
+              .card.card-movie
+                .row
+                  .col-md-3.img-movie-container 
+                    img.card-img-movie(src=phim.Hinh, alt='Card image cap')
+                  .col-md-9.content-movie-container
+                    div
+                      h2= phim.TenPhim
+                    div
+                      label Ngày khởi chiếu: &nbsp&nbsp
+                      span.text-content-movie= phim.NgayKhoiChieu
+                    div
+                      label Ngày kết thúc: &nbsp&nbsp
+                      span.text-content-movie= phim.NgayKetThuc
+                    div
+                      label Thời gian: &nbsp&nbsp
+                      span.text-content-movie= `${phim.ThoiGian} phút`
+                    div
+                      label Trạng thái: &nbsp&nbsp
+                      span.text-content-movie= phim.TrangThai
+                    div
+                      label Quốc gia: &nbsp&nbsp
+                      span.text-content-movie= phim.TenQuocGia                    
+                    .row 
+                      .col-md-12.action-container     
+                        a.btn.btn-info.btn-action(href="/phim/chitietphim?idphim=" + phim.ID) Xem chi tiết
+                        a.btn.btn-primary.btn-action(href="suaphim?idphim=" + phim.ID) Sửa
+                        button#linkDelete.btn.btn-danger.btn-action(onclick=`setIdMovie(${phim.ID})`, data-toggle='modal', data-target="#modalInforDelete") Xóa
+
+
+      
       nav.paging-center(aria-label='Page navigation example')
         ul.pagination#listPage
           li.page-item

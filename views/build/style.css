@@ -294,5 +294,37 @@
   margin-right: 15px;
 }
 
+.card-img-movie{
+  margin: 15px;
+  border-radius: 15px;
+  max-width: 200px;
+}
 
+.img-movie-container {
+  display: flex;
+  justify-content: center;
+}
 
+.card-movie{
+  width: 100%;
+  border-radius: 15px;
+}
+
+.content-movie-container{
+  margin-top: 15px;
+}
+
+.text-content-movie{
+   font-size: 25px;
+}
+
+.action-container{
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 15px;
+  padding-right: 15px;
+}
+
+.btn-action{
+  margin-right: 15px;
+}
