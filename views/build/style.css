@@ -204,6 +204,9 @@
     border-radius: 10px;
     border: 1px solid lightgray;
     padding: 5px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .card-search{
@@ -314,8 +317,17 @@
   margin-top: 15px;
 }
 
+.text-content-name-movie{
+  font-weight: bold;
+}
+
 .text-content-movie{
-   font-size: 25px;
+  font-size: 18px;
+}
+
+.text-content-label-movie{
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .action-container{

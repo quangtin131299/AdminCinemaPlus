@@ -45,26 +45,27 @@ function searchMovie(page){
                                                                 </div>
                                                                 <div class="col-md-9 content-movie-container">
                                                                     <div>
-                                                                        <h2>${data.resultMovie[i].TenPhim}</h2>
+                                                                        <h2 class="text-content-name-movie">${data.resultMovie[i].TenPhim}</h2>
                                                                     </div>
+                                                                    <br>
                                                                     <div>
-                                                                        <label>Ngày khởi chiếu: &nbsp&nbsp</label>
+                                                                        <label class="text-content-label-movie">Ngày khởi chiếu: &nbsp&nbsp</label>
                                                                         <span class="text-content-movie">${data.resultMovie[i].NgayKhoiChieu}</span>
                                                                     </div>
                                                                     <div>
-                                                                        <label>Ngày kết thúc: &nbsp&nbsp</label>
+                                                                        <label class="text-content-label-movie">Ngày kết thúc: &nbsp&nbsp</label>
                                                                         <span class="text-content-movie">${data.resultMovie[i].NgayKetThuc}</span>
                                                                     </div>
                                                                     <div>
-                                                                        <label>Thời gian: &nbsp&nbsp</label>
+                                                                        <label class="text-content-label-movie">Thời gian: &nbsp&nbsp</label>
                                                                         <span class="text-content-movie">${data.resultMovie[i].ThoiGian} phút</span>
                                                                     </div>
                                                                     <div>
-                                                                        <label>Trạng thái: &nbsp&nbsp</label>
+                                                                        <label class="text-content-label-movie">Trạng thái: &nbsp&nbsp</label>
                                                                         <span class="text-content-movie">${data.resultMovie[i].TrangThai}</span>
                                                                     </div>
                                                                     <div>
-                                                                        <label>Quốc gia: &nbsp&nbsp</label>
+                                                                        <label class="text-content-label-movie">Quốc gia: &nbsp&nbsp</label>
                                                                         <span class="text-content-movie">${data.resultMovie[i].TenQuocGia}</span>
                                                                     </div>
                                                                     <div class="row">

@@ -73,21 +73,22 @@ include ../header.pug
                     img.card-img-movie(src=phim.Hinh, alt='Card image cap')
                   .col-md-9.content-movie-container
                     div
-                      h2= phim.TenPhim
+                      h2.text-content-name-movie= phim.TenPhim
+                      <br>
                     div
-                      label Ngày khởi chiếu: &nbsp&nbsp
+                      label.text-content-label-movie Ngày khởi chiếu: &nbsp&nbsp
                       span.text-content-movie= phim.NgayKhoiChieu
                     div
-                      label Ngày kết thúc: &nbsp&nbsp
+                      label.text-content-label-movie Ngày kết thúc: &nbsp&nbsp
                       span.text-content-movie= phim.NgayKetThuc
                     div
-                      label Thời gian: &nbsp&nbsp
+                      label.text-content-label-movie Thời gian: &nbsp&nbsp
                       span.text-content-movie= `${phim.ThoiGian} phút`
                     div
-                      label Trạng thái: &nbsp&nbsp
+                      label.text-content-label-movie Trạng thái: &nbsp&nbsp
                       span.text-content-movie= phim.TrangThai
                     div
-                      label Quốc gia: &nbsp&nbsp
+                      label.text-content-label-movie Quốc gia: &nbsp&nbsp
                       span.text-content-movie= phim.TenQuocGia                    
                     .row 
                       .col-md-12.action-container     
