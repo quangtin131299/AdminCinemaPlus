@@ -4,7 +4,7 @@ const conn = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
-    database: "datvephim",  
+    database: "cinemaplus",  
     port: 3306,
 });
 //Content Wrapper. Contains page content
