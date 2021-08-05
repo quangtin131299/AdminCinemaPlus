@@ -292,15 +292,20 @@ function onSubmitAddMovie() {
             },
             success: async function (data) {
                 if (data) {
-                
-                   await uploadfile(data.newIdMovie, true);
-
-                   await  uploadfile(data.newIdMovie, false);
                     
-                    hideLoading();
+                    if(data.statusCode != 0){
+             
+                        await uploadfile(data.newIdMovie, true);
+                                   
+                        await uploadfile(data.newIdMovie, false);
+                    }else{
+                        hideLoading();
 
-                    $('#modalTextMessage').html(data.message);
-                    $('#notifyModal').modal('show');
+                        $('#modalTextMessage').html(data.message);
+                        $('#notifyModal').modal('show');
+                    }
+                 
+                
                 }
             },
             error: function (error) {
@@ -328,15 +333,17 @@ async function uploadfile(newIdMovie, isImage) {
                 // PROGRESS FUNCTION
                 function progress(progress) {},
                 function error(err) {},
-                function completed() {
-                    final.getDownloadURL()
+                async function completed() {
+                    let url = await final.getDownloadURL();
 
-                        .then(async (url) => {
-
-                            await updateImage(newIdMovie, url, true);
-                        });
+                    await updateImage(newIdMovie, url, true);                        
                 }
             );
+        }else{
+            hideLoading();
+
+            $('#modalTextMessage').html('Them phim thành công');
+            $('#notifyModal').modal('show');
         }
 
     } else {
@@ -360,6 +367,11 @@ async function uploadfile(newIdMovie, isImage) {
                         });
                 }
             );
+        }else{
+            hideLoading();
+
+            $('#modalTextMessage').html('Them phim thành công');
+            $('#notifyModal').modal('show');
         }
 
     }
@@ -376,10 +388,11 @@ async function updateImage(idMovie, url, isImage) {
             },
 
             success: function (data) {
-                // if(data){
-                //     console.log(data);
-                // }
+                hideLoading();
 
+                $('#modalTextMessage').html('Thêm phim thành công');
+                $('#notifyModal').modal('show');
+                
             },
 
             error: function (error) {
@@ -397,6 +410,10 @@ async function updateImage(idMovie, url, isImage) {
             success: function (data) {
                 // if(data){
                 // }
+                hideLoading();
+
+                $('#modalTextMessage').html('Thêm phim thành công');
+                $('#notifyModal').modal('show');
             },
 
             error: function (error) {

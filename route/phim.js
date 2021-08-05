@@ -322,6 +322,7 @@ router.post(
                   }
                   
                   setTimeout(function(){
+                    
                     let queryToken = `SELECT * FROM tokenclient;`;
       
                     conn.query(queryToken, function(error, resultTokens){
@@ -329,9 +330,9 @@ router.post(
                           console.log(error);
                       }else{
                         let count = resultTokens.length;
-                
+                        
                         for (let i = 0; i < count; i++) {
-                          notifyAppClient(resultTokens[i].Token);
+                          notifyAppClient(resultTokens[i].Token);      
                         }
                       }
                     })
@@ -341,10 +342,7 @@ router.post(
                   res.json({statusCode: 1, message: 'Thêm phim thành công!', newIdMovie: resultNewMovie.insertId})
                 }
             });
-
-            
-        
-            
+         
           }else{
             return res.json({statusCode: 0, message: 'Tên phim bị trùng lặp'})
           }
@@ -420,7 +418,7 @@ router.get("/suaphim", function (req, res) {
               cinemasOfMovie = [];
             }
           }
-          res.render("phim/suaphim", { phim: resultMovie[0], messNotify: mess, cinemas: resultCinemas  });
+          res.render("phim/suaphim", { phim: resultMovie[0], messNotify: mess, cinemas: resultCinemas });
         }
       })
     }
