@@ -251,6 +251,7 @@ router.post("/xeplich", function (req, res) {
     if (error) {
       console.log(error);
     } else {
+     
       let partialNewShowTime = gio.split(':');
       let newShowTime = moment();
       newShowTime.hour(parseInt(partialNewShowTime[0]));
@@ -261,8 +262,11 @@ router.post("/xeplich", function (req, res) {
 
         for (let i = 0; i < countDetailRoom; i++) {
           let parialTimeOfRoom = result[i].Gio.split(':');
+          let startTimeOfRoom = moment();
           let endTimeOfRoom = moment();
-
+          
+          startTimeOfRoom.hour(parseInt(parialTimeOfRoom[0]));
+          startTimeOfRoom.minute(parseInt(parialTimeOfRoom[1]));
           endTimeOfRoom.hour(parseInt(parialTimeOfRoom[0]));
           endTimeOfRoom.minute(parseInt(parialTimeOfRoom[1]) + result[i].ThoiGian);
 
@@ -271,13 +275,18 @@ router.post("/xeplich", function (req, res) {
             let hours = duration.hours();
             let minute = duration.minutes();
 
-            if (hours == 0 && minute < 30) {
+            if (hours == 0 && minute <= 30) {
               return res.json({
                 message: 'Thời gian cách thời gian kết thúc là 30 phút',
                 statusCode: 0
               });
             }
-          } else {
+          } else if(newShowTime.isBefore(startTimeOfRoom) == false) {
+            return res.json({
+              message: 'Suất chiếu bị trùng',
+              statusCode: 0
+            });
+          }else{
             return res.json({
               message: 'Suất chiếu bị trùng',
               statusCode: 0
@@ -378,7 +387,6 @@ router.post("/xeplich", function (req, res) {
                         if (err) {
                           console.log(err);
                         } else {
-                          console.log('thành công');
                           // res.redirect("/lichchieu/danhsachlichchieu?page=1");
 
                           // res.json({
