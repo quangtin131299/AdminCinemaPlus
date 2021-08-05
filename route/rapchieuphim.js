@@ -336,11 +336,10 @@ router.post("/themphong", function(req, res){
                 res.json({statusCode: 0, message: 'Tên phòng bị trùng '});
             }
         }
-    })
-
-
-   
+    })   
 })
+
+
 
 router.put("/updateImage",function(req, res){
     let idCinema = req.body.idCinema;
@@ -358,6 +357,46 @@ router.put("/updateImage",function(req, res){
         res.json({statusCode: 1, message: 'Cập nhật hình ảnh thành công'});
     })                            
 })
+
+
+router.get("/thongkerap", function(req, res){
+    let idCinema = req.query.id;
+
+    let query = `SELECT * FROM rapphim WHERE rapphim.ID = ?`;
+
+    conn.query(query, [idCinema], function(error, result){
+        if(error){
+            console.log(error);
+
+            res.render('rapchieu/statistical', {cinema: null});
+        }else{
+            res.render('rapchieu/statistical', {cinema: result[0]});
+        }
+    })
+})
+
+router.get("/tinhtoanthongke", function(req, res){
+    let idCinema = req.query.idCinema;
+
+    let query = `SELECT  Month(hoadon.Ngay) as 'Thang'
+                        , COALESCE(SUM(hoadon.ThanhTienVe + COALESCE(hoadon_bapnuoc.ThanhTien, 0)), 0) as 'DoanhThu' 
+                FROM rapphim JOIN vedat on vedat.ID_Rap = rapphim.ID
+                             JOIN hoadon ON vedat.ID_HoaDon = hoadon.ID
+                             LEFT JOIN hoadon_bapnuoc on hoadon.ID = hoadon_bapnuoc.ID_BapNuoc
+                WHERE rapphim.ID = ? AND Month(hoadon.Ngay) between 1 and 12 GROUP BY Month(hoadon.Ngay) ORDER BY hoadon.Ngay`;
+
+    conn.query(query, [idCinema],function(error, result){
+        if(error){
+            console.log(error);
+
+            res.json({statusCode: 0, message: 'lấy dữ liệu thất bại', turnover: null});
+        }else{
+
+            res.json({statusCode: 1, message: 'lấy dữ liệu thành công', turnover: result});
+        }
+    });
+
+}) 
 
 
 module.exports = router

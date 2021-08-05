@@ -20,7 +20,7 @@ include ../header.pug
       .container-fluid
         .row.mb-2
           .col-sm-6
-            h1.m-0.text-dark Danh sách rạp chiếu
+            h1.m-0.text-dark Thống kê rạp
           // /.col
           .col-sm-6
             ol.breadcrumb.float-sm-right
@@ -29,42 +29,45 @@ include ../header.pug
               li.breadcrumb-item
                 a(href='#') Quản lý rạp chiếu
               li.breadcrumb-item.active 
-                a(href='#') Danh sách rạp chiếu
+                a(href='#') Thống kê rạp
           // /.col
         // /.row
       // /.container-fluid
     // /.content-header
     // Main content
-    section.content.content-cinema
-      .container-cinema
-        .cinema-container-list
-          each rap in danhsachrapchieu
-            .card.card-item-cinema
-              img.img-cinema(src=rap.Hinh)
-              .card-body
-                h5= rap.TenRap 
-                p.card-text= rap.DiaChi
-              .card-footer-item
-                a.btn.btn-info(href="/rapchieu/chitietrapchieu?idCinema=" + rap.ID) Chi Tiết 
-                a.btn.btn-primary(href="suarapchieu?idCinema=" + rap.ID) Sửa
-                a.btn.btn-danger(href="#") Xóa
-                a.btn.btn-secondary(href="/rapchieu/thongkerap?id=" + rap.ID) Doanh thu
-      br
-      nav(style="display:flex; justify-content:center",aria-label='Page navigation example')
-        ul.pagination
-          li.page-item
-            a.page-link(href='#') Trang trước
-          - for (var i = 1; i <= soluongtrang ; i++) {
-                if i == pagerespon
-                  li.page-item.active
-                    a.page-link(href="danhsachrapchieu?page=" + i)= i 
-                else
-                  li.page-item
-                    a.page-link(href="danhsachrapchieu?page=" + i)= i
-          - }
-            
-          li.page-item
-            a.page-link(href='#') Trang kế
+    section.content
+        .row
+          .col-md-12
+            .card.card-infor-cinema-statistical
+              .row 
+                .col-md-12.title-cinema-container
+                  h5 Thông tin rạp
+              br
+              .row
+                .col-md-4.img-cinema-statistical-container
+                  img.img-cinema-statistical(src=cinema.Hinh)
+                .col-md-8
+                  .row
+                    .col-md-12
+                      .input-group.mb-3.input-id-cinema-statistical
+                        .input-group-prepend
+                          span#inputGroup-sizing-default.input-group-text Mã rạp
+                        input.form-control(type='text', name='txtIdCinema',aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly, value=cinema.ID)
+                  .row
+                    .col-md-12
+                      .input-group.mb-3.input-id-cinema-statistical
+                        .input-group-prepend
+                          span#inputGroup-sizing-default.input-group-text Tên rạp
+                        input.form-control(type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly, value=cinema.TenRap)
+        .row
+          .col-md-12
+            .card.card-chart-cinema
+              .row
+                .col-md-12.chart-cinema-container
+                  canvas#chart
+                
+              
+        
     // /.content
   // /.content-wrapper
   include ../footer.pug
@@ -100,5 +103,7 @@ script(src='plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')
 script(src='dist/js/adminlte.js')
 // AdminLTE dashboard demo (This is only for demo purposes)
 script(src='dist/js/pages/dashboard.js')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.1/Chart.min.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
+script(src='build/js/jsStatisticalCinema.js')

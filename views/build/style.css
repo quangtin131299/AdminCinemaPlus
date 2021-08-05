@@ -253,7 +253,8 @@
 .img-cinema{
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
-  max-height: 190px;
+  max-height: 169px;
+  
 }
 
 .cinema-container-list{
@@ -339,4 +340,40 @@
 
 .btn-action{
   margin-right: 15px;
+}
+
+.card-infor-cinema-statistical{
+  width: 50%;
+}
+
+.title-cinema-container{
+  padding-top: 15px;
+  padding-left: 20px;
+}
+
+.title-cinema-container > * {
+  font-weight: bold;
+}
+
+.img-cinema-statistical{
+  max-width: 140px;
+  max-height: 100px;
+  border-radius: 10px;
+}
+
+.img-cinema-statistical-container{
+  display: flex;
+  justify-content: center;
+}
+
+.input-id-cinema-statistical{
+  width: 80%;
+}
+
+.card-chart-cinema{
+  width: 100%;
+}
+
+.chart-cinema-container{
+  padding: 100px;
 }
