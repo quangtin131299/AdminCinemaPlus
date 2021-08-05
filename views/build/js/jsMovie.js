@@ -216,7 +216,7 @@ function onSubmitEditMovie() {
         },
         success: async function (data) {
             if (data) {
-                hideLoading();
+                
 
                 let imgPoster = $('#imgMoviePoster');
                 let imgMovie = $('#imgMoviePreview');
@@ -233,6 +233,8 @@ function onSubmitEditMovie() {
                     await uploadfile(MovieId, false);
                 }
 
+                hideLoading();
+                
                 $('#modalTextMessage').html(data.message);
                 $('#notifyModal').modal('show');
             }
@@ -294,10 +296,17 @@ function onSubmitAddMovie() {
                 if (data) {
                     
                     if(data.statusCode != 0){
-             
+
                         await uploadfile(data.newIdMovie, true);
-                                   
+                                        
                         await uploadfile(data.newIdMovie, false);
+  
+                        
+                        hideLoading();
+
+                        $('#modalTextMessage').html(data.message);
+                        $('#notifyModal').modal('show');
+                                              
                     }else{
                         hideLoading();
 
@@ -320,106 +329,113 @@ async function uploadfile(newIdMovie, isImage) {
     const storageRef = firebase.storage().ref()
     let task = null;
 
-    if (isImage == true) {
-        let inputImage = $('input[name=imgMovie]').prop('files')[0];
+    return new Promise(function (resolve, reject) {
+        if (isImage == true) {
+            let inputImage = $('input[name=imgMovie]').prop('files')[0];
 
-        if (inputImage) {
-            let final = storageRef.child(`movies/Image/${newIdMovie}`);
+            if (inputImage) {
+            
+                let final = storageRef.child(`movies/Image/${newIdMovie}`);
 
-            task = final.put(inputImage);
+                task = final.put(inputImage);
 
-            task.on(
-                "state_changed",
-                // PROGRESS FUNCTION
-                function progress(progress) {},
-                function error(err) {},
-                async function completed() {
-                    let url = await final.getDownloadURL();
+                task.on(
+                    "state_changed",
+                    // PROGRESS FUNCTION
+                    function progress(progress) { },
+                    function error(err) { },
+                    async function completed() {
+                        let url = await final.getDownloadURL();
 
-                    await updateImage(newIdMovie, url, true);                        
-                }
-            );
-        }else{
-            hideLoading();
+                        await updateImage(newIdMovie, url, true);
 
-            $('#modalTextMessage').html('Them phim thành công');
-            $('#notifyModal').modal('show');
+                        resolve(true);
+                    }
+                );
+                
+            }else{
+                resolve(true)
+            }
+        } else {
+            let inputPoster = $('input[name=imgPoster]').prop('files')[0];
+
+            if (inputPoster) {
+
+
+                let final = storageRef.child(`movies/posters/${newIdMovie}`)
+                task = final.put(inputPoster);
+
+                task.on(
+                    "state_changed",
+                    // PROGRESS FUNCTION
+                    function progress(progress) { },
+                    function error(err) { },
+                    function completed() {
+                        final.getDownloadURL()
+
+                            .then(async (url) => {
+
+                                await updateImage(newIdMovie, url, false);
+
+                                resolve(true);
+                            });
+                    }
+                );
+
+
+            }else{
+                resolve(true);
+            }
+
         }
-
-    } else {
-        let inputPoster = $('input[name=imgPoster]').prop('files')[0];
-
-        if (inputPoster) {
-            let final = storageRef.child(`movies/posters/${newIdMovie}`)
-            task = final.put(inputPoster);
-
-            task.on(
-                "state_changed",
-                // PROGRESS FUNCTION
-                function progress(progress) {},
-                function error(err) {},
-                function completed() {
-                    final.getDownloadURL()
-
-                        .then(async (url) => {
-
-                            await updateImage(newIdMovie, url, false);
-                        });
-                }
-            );
-        }else{
-            hideLoading();
-
-            $('#modalTextMessage').html('Them phim thành công');
-            $('#notifyModal').modal('show');
-        }
-
-    }
+    })
 }
 
 async function updateImage(idMovie, url, isImage) {
     if (isImage == true) {
-        $.ajax({
-            method: 'PUT',
-            url: '/phim/updateLinkImage',
-            data: {
-                idMovie: idMovie,
-                urlImage: url
-            },
 
-            success: function (data) {
-                hideLoading();
-
-                $('#modalTextMessage').html('Thêm phim thành công');
-                $('#notifyModal').modal('show');
-                
-            },
-
-            error: function (error) {
-
-            }
+        return new Promise(function(resolve, reject){
+            $.ajax({
+                method: 'PUT',
+                url: '/phim/updateLinkImage',
+                data: {
+                    idMovie: idMovie,
+                    urlImage: url
+                },
+    
+                success: function (data) {
+                    resolve(true)
+                    
+                },
+    
+                error: function (error) {
+    
+                }
+            });
         });
+        
     } else {
-        $.ajax({
-            method: 'PUT',
-            url: '/phim/updateLinkPost',
-            data: {
-                idMovie: idMovie,
-                urlPoster: url
-            },
-            success: function (data) {
-                // if(data){
-                // }
-                hideLoading();
 
-                $('#modalTextMessage').html('Thêm phim thành công');
-                $('#notifyModal').modal('show');
-            },
-
-            error: function (error) {
-                console.log(error);
-            }
-        });
+        return new Promise(function(resovle, reject){
+            $.ajax({
+                method: 'PUT',
+                url: '/phim/updateLinkPost',
+                data: {
+                    idMovie: idMovie,
+                    urlPoster: url
+                },
+                success: function (data) {
+                    // if(data){
+                    // }
+                    resovle(true);
+                },
+    
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        })
+        
     }
 }
 
