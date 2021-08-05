@@ -36,43 +36,48 @@ include ../header.pug
       // /.container-fluid
     // /.content-header
     // Main content
-    section.content
-      table.table
-        thead
-          tr
-            th(scope='col') ID
-            th(scope='col') Họ Tên
-            th(scope='col') Email
-            th(scope='col') Ngày sinh
-            th(scope='col') SĐT 
-            th(scope='col') Account
-            th(scope='col') Mật khẩu
-        tbody
-          each user in danhsachdatauser
-            tr
-              th(scope='row')=user.ID
-              td=user.HoTen
-              td=user.Email
-              td=user.NgaySinh
-              td=user.SDT
-              td=user.TaiKhoan
-              td=user.MatKhau
-      nav(style="display:flex; justify-content:center",aria-label='Page navigation example')
-        ul.pagination
-          li.page-item
-            a.page-link(href='#') Trang trước
-          - for (var i = 1; i <= soluongtrang ; i++) {
-                if i == pagerespon
-                  li.page-item.active
-                   a.page-link(href="danhsachuser?page=" + i)= i 
-                else
-                  li.page-item
-                   a.page-link(href="danhsachuser?page=" + i)= i
-          - }
-            
-          
-          li.page-item
-            a.page-link(href='#') Trang kế
+    section.content.content-list-customer
+      .card.card-list-customer
+        .card-body
+          span.title-count-customer Số lượng người sử dụng hệ thống: 
+          span.count-customer #{countCustomerUse}
+          br
+          br
+          table.table.table-bordered
+            thead
+              tr
+                th(scope='col') ID
+                th(scope='col') Họ Tên
+                th(scope='col') Email
+                th(scope='col') Ngày sinh
+                th(scope='col') SĐT 
+                th(scope='col') Account
+            tbody
+              each user in danhsachdatauser
+                tr
+                  th(scope='row')=user.ID
+                  td=user.HoTen
+                  td=user.Email
+                  td= (user.NgaySinh && user.NgaySinh != '' ?  user.NgaySinh : '(Chưa có cập nhật ngày sinh)')
+                  td=user.SDT
+                  td=user.TaiKhoan
+          br       
+          nav(style="display:flex; justify-content:center",aria-label='Page navigation example')
+            ul.pagination
+              li.page-item
+                a.page-link(href='#') Trang trước
+              - for (var i = 1; i <= soluongtrang ; i++) {
+                    if i == pagerespon
+                      li.page-item.active
+                        a.page-link(href="danhsachuser?page=" + i)= i 
+                    else
+                      li.page-item
+                        a.page-link(href="danhsachuser?page=" + i)= i
+              - }
+                
+              
+              li.page-item
+                a.page-link(href='#') Trang kế
     // /.content
   // /.content-wrapper
   include ../footer.pug

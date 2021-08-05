@@ -377,3 +377,22 @@
 .chart-cinema-container{
   padding: 100px;
 }
+
+.content-list-customer{
+  display: flex;
+  justify-content: center;
+}
+
+.card-list-customer{
+   width: 85%;
+   height: fit-content;
+}
+
+.title-count-customer{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.count-customer{
+  font-size: 20px;
+}
