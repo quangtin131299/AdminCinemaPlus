@@ -321,22 +321,22 @@ router.post(
                     }
                   }
                   
-                  // setTimeout(function(){
+                  setTimeout(function(){
                     
-                  //   let queryToken = `SELECT * FROM tokenclient;`;
+                    let queryToken = `SELECT * FROM tokenclient;`;
       
-                  //   conn.query(queryToken, function(error, resultTokens){
-                  //     if(error){
-                  //         console.log(error);
-                  //     }else{
-                  //       let count = resultTokens.length;
+                    conn.query(queryToken, function(error, resultTokens){
+                      if(error){
+                          console.log(error);
+                      }else{
+                        let count = resultTokens.length;
                         
-                  //       for (let i = 0; i < count; i++) {
-                  //         notifyAppClient(resultTokens[i].Token);      
-                  //       }
-                  //     }
-                  //   })
-                  // },1000);
+                        for (let i = 0; i < count; i++) {
+                          notifyAppClient(resultTokens[i].Token);      
+                        }
+                      }
+                    })
+                  },1000);
 
                   // res.redirect('/phim/themphimmoi?mess=1')
                   res.json({statusCode: 1, message: 'Thêm phim thành công!', newIdMovie: resultNewMovie.insertId})
