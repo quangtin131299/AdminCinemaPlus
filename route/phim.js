@@ -326,23 +326,26 @@ router.post(
                       })
                     }
                   }
-                  
+
                   setTimeout(function(){
-                    
-                    let queryToken = `SELECT * FROM tokenclient;`;
-      
-                    conn.query(queryToken, function(error, resultTokens){
-                      if(error){
-                          console.log(error);
-                      }else{
-                        let count = resultTokens.length;
-                        
-                        for (let i = 0; i < count; i++) {
-                          notifyAppClient(resultTokens[i].Token);      
-                        }
-                      }
+                    const message = {
+                      data: {
+                        body : `Cinemaplus vừa ra phim ${movieName}`,
+                        title : "Thông báo",
+                      },
+                      topic: 'NewMovie'
+                    };
+              
+                    admin.messaging().send(message)
+                    .then((response) => {
+                      console.log('Successfully sent message:', response);
                     })
-                  },1000);
+                    .catch((error) => {
+                      console.log('Error sending message:', error);
+                    });
+              
+                   },1000);
+                  
 
                   // res.redirect('/phim/themphimmoi?mess=1')
                   res.json({statusCode: 1, message: 'Thêm phim thành công!', newIdMovie: resultNewMovie.insertId})
@@ -637,26 +640,6 @@ router.get("/searchmovie", function(req, res){
       }
   });                         
 })
-
-function notifyAppClient(tokenClient) {
-  axios.post(urlSendNotify, {
-    data: {
-      title: 'Cinema Plus',
-      body: 'Hi, Thanh cong roi vui qua',
-    },
-    to: tokenClient,
-  }, {
-    headers: {
-      "Authorization": apiKey,
-
-      "Content-Type": 'application/json'
-    }
-  }).then(function (data) {
-   
-  }).catch(function (error) {
-    console.log("Loi roi: ", error.response.status);
-  })
-}
 
 router.post("/xoaphim", function (req, res){
   let idMovie = req.body.idMovie;
