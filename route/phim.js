@@ -4,9 +4,15 @@ const multer = require("multer");
 const axios = require('axios');
 const conn = require("../db/connect");
 const bodyParser = require("body-parser");
+const admin = require("firebase-admin");
+const serviceAccount = require('../cinemaplus-f6e86-firebase-adminsdk-k5rs6-9127c0f4f5.json');
 
 const urlSendNotify = 'https://fcm.googleapis.com/fcm/send';
 const apiKey = 'key=AAAAci70i2E:APA91bHWdz71FyDIR_Ru-a-CAV7M7mSe2RwbCL8tZ7GlOceg3FYcrDZShkae6P88RNL0BXMSQDtj-EyTgQv2ypSU9KRdiGWSbigYpHBerEE4aIVVEhMHBiBeAXGFtSj6ZCQ0_g77O-LJ';
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 
 let fileNameImageMovie = '';
 let fileNamePosterMovie = '';
