@@ -34,21 +34,29 @@ include header.pug
     // Main content
     section.content
       .row
-        .col
-          .card(style='width: 100%; display:flex; flex-directory: column')
+        .col-md-6
+          .card.card-home-statistical
             .card-body
               h3.text-center Doanh Thu Rạp Chiếu
               br
               .row
-                canvas#myChart(width='400px' height='172px')
+                canvas#myChart(height='172px')
+        .col-md-6
+          .card.card-home-statistical
+              .card-body
+                h3.text-center Doanh Thu Bắp nước
+                br
+                .row
+                  canvas#myChartPopcorn(height='172px')
+
       .row
-        .col
-          .card(style='width: 100%; display:flex; flex-directory: column')
+        .col-md-6
+          .card.card-home-statistical
             .card-body
               h3.text-center Doanh Thu Phim
               br
               .row
-                canvas#myChart1(width='400px' height='188px')
+                canvas#myChart1(height='172px')
                                  
           // ./col
         // /.row
