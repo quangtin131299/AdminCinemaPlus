@@ -40,7 +40,8 @@ include header.pug
               h3.text-center Doanh Thu Rạp Chiếu
               br
               .row
-                canvas#myChart(height='172px')
+                .col-md-12
+                  canvas#myChart(height='172px')
         .col-md-6
           .card.card-home-statistical
               .card-body
@@ -57,6 +58,15 @@ include header.pug
               br
               .row
                 canvas#myChart1(height='172px')
+
+
+      #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
+        .modal-dialog.modal-dialog-centered
+          .modal-content.dialog-loading
+            .modal-body
+              .d-flex.justify-content-center.align-item-center
+                .spinner-border(role='status')
+                  span.sr-only Loading...
                                  
           // ./col
         // /.row

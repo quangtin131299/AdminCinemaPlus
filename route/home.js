@@ -36,15 +36,13 @@ router.get("/thongkephim", function (req, res){
 });
 
 router.get("/statisticalCinema", function(req, res){
-    let currentMonth = req.query.currentMonth;
-
     let queryCinema = `SELECT * FROM rapphim`;
 
-    conn.query(queryCinema, function(errorCinema, resultStatistical){
+    conn.query(queryCinema, function(errorCinema, resultStatisticalCinema){
         if(errorCinema){
             console.log(errorCinema);
 
-            res.json({statusCode: 0, message: 'Fail', resultStatistical: null});
+            res.json({statusCode: 0, message: 'Fail', resultCinema: null});
         } else {
             let queryStatistical = `SELECT rapphim.ID
                                             , rapphim.TenRap 
@@ -52,20 +50,39 @@ router.get("/statisticalCinema", function(req, res){
                                     FROM rapphim left join vedat on rapphim.ID = vedat.ID_Rap
                                                         LEFT JOIN hoadon on hoadon.ID = vedat.ID_HoaDon
                                                         LEFT JOIN hoadon_bapnuoc on hoadon_bapnuoc.ID_HoaDon = hoadon.ID
-                                    WHERE Month(hoadon.Ngay) = ? GROUP BY rapphim.TenRap`;
+                                   GROUP BY rapphim.TenRap`;
 
-            conn.query(queryStatistical, [currentMonth],function (error, result) {
+            conn.query(queryStatistical, function (error, result) {
                 if (error) {
                     console.log(error);
 
-                    res.json({ statusCode: 0, message: 'Fail', resultCinema: resultStatistical, resultStatistical: null });
+                    res.json({ statusCode: 0, message: 'Fail', resultCinema: resultStatisticalCinema, resultStatistical: null });
                 } else {
-
-                    res.json({ statusCode: 0, message: 'Fail', resultStatistical: result, resultCinema: resultStatistical});
+                    
+                    res.json({ statusCode: 0, message: 'Success', resultStatistical: result, resultCinema: resultStatisticalCinema});
                 }
             })
         }
     }) 
+})
+
+router.get("/statisticalPopcorn", function(req, res){
+    let queryStatisticalPopcorn = `SELECT  bapnuoc.TenCombo 
+                                    ,COALESCE(sum(hoadon_bapnuoc.ThanhTien), 0) as 'DoanhThu' 
+                            FROM bapnuoc left join hoadon_bapnuoc on hoadon_bapnuoc.ID_BapNuoc = bapnuoc.ID
+                            GROUP BY bapnuoc.TenCombo`;
+
+    conn.query(queryStatisticalPopcorn, function(error, result){
+        if(error){
+            console.log(error);
+
+            res.json({ statusCode: 0, message: 'Fail', resultStatisticalPopcorn: null }); 
+        }else{
+            console.log(result);
+            res.json({ statusCode: 1, message: 'Success', resultStatisticalPopcorn: result }); 
+        }
+    });
+
 })
 
 
