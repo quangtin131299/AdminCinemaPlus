@@ -44,13 +44,12 @@ router.get("/statisticalCinema", function(req, res){
 
             res.json({statusCode: 0, message: 'Fail', resultCinema: null});
         } else {
-            let queryStatistical = `SELECT rapphim.ID
-                                            , rapphim.TenRap 
+            let queryStatistical = `SELECT  rapphim.TenRap 
                                             , COALESCE(SUM(hoadon.ThanhTienVe + COALESCE(hoadon_bapnuoc.ThanhTien, 0)), 0) as 'DoanhThu' 
                                     FROM rapphim left join vedat on rapphim.ID = vedat.ID_Rap
                                                         LEFT JOIN hoadon on hoadon.ID = vedat.ID_HoaDon
                                                         LEFT JOIN hoadon_bapnuoc on hoadon_bapnuoc.ID_HoaDon = hoadon.ID
-                                   GROUP BY rapphim.TenRap`;
+                                    GROUP BY rapphim.TenRap`;
 
             conn.query(queryStatistical, function (error, result) {
                 if (error) {
@@ -78,7 +77,7 @@ router.get("/statisticalPopcorn", function(req, res){
 
             res.json({ statusCode: 0, message: 'Fail', resultStatisticalPopcorn: null }); 
         }else{
-            console.log(result);
+            
             res.json({ statusCode: 1, message: 'Success', resultStatisticalPopcorn: result }); 
         }
     });
