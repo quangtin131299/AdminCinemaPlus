@@ -34,7 +34,7 @@ async function loadStatisticalPopcorn(){
             method: 'GET',
             success: function(data){
                 if(data){
-                    console.log(data);
+                    
                     staticalPopCorn.data.datasets[0] = {
                         label: '',
                         data: [],
@@ -46,19 +46,33 @@ async function loadStatisticalPopcorn(){
                     let color = '';
 
                     let countPopcorn = data.resultStatisticalPopcorn.length;
+                    let currentMonth = new Date().getMonth();
+
+                    for(let i = 0 ; i <= currentMonth; i++){
+                        staticalPopCorn.data.labels.push(`Tháng ${i+1}`);
+
+                        staticalPopCorn.data.datasets[0].data.push(0);
+                    }
 
                     for(let i = 0 ; i < countPopcorn; i ++){
-                        color = randColor();
 
-                        staticalPopCorn.data.labels.push(data.resultStatisticalPopcorn[i].TenCombo);
-
-                        staticalPopCorn.data.datasets[0].label = data.resultStatisticalPopcorn[i].TenCombo;
-
-                        staticalPopCorn.data.datasets[0].data.push(data.resultStatisticalPopcorn[i].DoanhThu);     
+                        for(let j = 0 ; j <= currentMonth; j++){
+                            color = randColor();                       
                         
-                        staticalPopCorn.data.datasets[0].backgroundColor.push(color);
+                            staticalPopCorn.data.datasets[0].backgroundColor.push(color);
+    
+                            staticalPopCorn.data.datasets[0].borderColor.push(color);
 
-                        staticalPopCorn.data.datasets[0].borderColor.push(color);
+                            if((j+1) == data.resultStatisticalPopcorn[i].Thang) {
+                                staticalPopCorn.data.datasets[0].data[j] = data.resultStatisticalPopcorn[i].DoanhThu;                                   
+
+                                break;
+                            }   
+
+                           
+
+                        }
+                       
                     } 
                     
                 }
@@ -88,7 +102,6 @@ async function loadStatisticalCinema(){
             },
             success: function(dataCinema){
                 if(dataCinema){
-                    let countCinema = dataCinema.resultCinema.length;
                     let countStatistical = dataCinema.resultStatistical.length;
 
                     staticalCinema.data.datasets[0] = {
@@ -97,25 +110,38 @@ async function loadStatisticalCinema(){
                         backgroundColor:[],
 
                         borderColor:[],
+                        
                     }
 
                     let color = '';
+                    let currentMonth = new Date().getMonth();
 
-                    for(let i = 0; i < countCinema; i++){
-                        staticalCinema.data.labels.push(dataCinema.resultCinema[i].TenRap);
+                    for(let i = 0; i <= currentMonth  ; i++){
+                        staticalCinema.data.datasets[0].data.push(0);
+
+                        staticalCinema.data.labels.push(`Tháng ${i+1}`);
                     }
 
                     for(let i = 0; i < countStatistical; i++){
-                        color = randColor();
 
-                        staticalCinema.data.datasets[0].label = dataCinema.resultStatistical[i].TenRap;
+                        for(let j = 0; j <= currentMonth; j++){
 
-                        staticalCinema.data.datasets[0].data.push(dataCinema.resultStatistical[i].DoanhThu);
+                            color = randColor();
 
-                        staticalCinema.data.datasets[0].backgroundColor.push(color);
+                            staticalCinema.data.datasets[0].backgroundColor.push(color);
 
-                        staticalCinema.data.datasets[0].borderColor.push(color);
-                    }
+                            staticalCinema.data.datasets[0].borderColor.push(color);
+                            
+                            if((j+1) == dataCinema.resultStatistical[i].Thang){
+                                staticalCinema.data.datasets[0].data[j] = dataCinema.resultStatistical[i].DoanhThuThang;
+
+                                break;
+                            }
+
+                            
+                        }
+                        
+                    }          
                     
                     staticalCinema.update();          
                 }

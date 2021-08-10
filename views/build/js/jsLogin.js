@@ -1,23 +1,48 @@
-$(document).ready(function(){
-    
-    let mess = $('#modalTextMessage').html();
-
-    if(mess != ''){
-        $('#notifyModal').modal('show');
-    }
-})
 
 $('#exampleModalCenter').on('hidden.bs.modal', function (e) {
     $("#exampleModalCenter").modal('hide');
 })
 
-function onSubmitLogin(){
-    // let account = $('input[name=txtAcount]').val();
-    // let password = $('input[name=txtPassword]').val();
+$('#notifyModal').on('shown.bs.modal', function(e){
+    $("#exampleModalCenter").modal('hide');
+})
+
+async function onSubmitLogin(){
+    let account = $('input[name=txtAcount]').val();
+    let password = $('input[name=txtPassword]').val();
+
     showLoading();
-    $('#formLogin').submit();
+
+    $.ajax({
+        url: '/login',
+        method: 'POST',
+        data:{
+            account: account,
+            password: password
+        },
+        success: function(data){
+            hideLoading();
+
+            if(data){
+
+                if(data.statusCode == 1){
+                    window.location.replace('/home');
+                }else{
+                    $('#modalTextMessage').text(data.message);
+
+                    $('#notifyModal').modal('show');
+                }
+            }
+        },
+        error: function(){
+            hideLoading();
+        }
+    });
 }
 
+function onClickBtnOk(){
+    $('#notifyModal').modal('hide');
+}
 
 function hideLoading() {
     $("#exampleModalCenter").modal('hide');

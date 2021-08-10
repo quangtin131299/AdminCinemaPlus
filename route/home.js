@@ -44,12 +44,12 @@ router.get("/statisticalCinema", function(req, res){
 
             res.json({statusCode: 0, message: 'Fail', resultCinema: null});
         } else {
-            let queryStatistical = `SELECT  rapphim.TenRap 
-                                            , COALESCE(SUM(hoadon.ThanhTienVe + COALESCE(hoadon_bapnuoc.ThanhTien, 0)), 0) as 'DoanhThu' 
+            let queryStatistical = `Select COALESCE(SUM(DoanhThuRap.DoanhThu), 0) as 'DoanhThuThang', Thang 
+                                    FROM (select COALESCE(SUM(hoadon.ThanhTienVe + COALESCE(hoadon_bapnuoc.ThanhTien, 0)), 0)as 'DoanhThu', MONTH(hoadon.Ngay) as 'Thang' ,rapphim.TenRap
                                     FROM rapphim left join vedat on rapphim.ID = vedat.ID_Rap
-                                                        LEFT JOIN hoadon on hoadon.ID = vedat.ID_HoaDon
-                                                        LEFT JOIN hoadon_bapnuoc on hoadon_bapnuoc.ID_HoaDon = hoadon.ID
-                                    GROUP BY rapphim.TenRap`;
+                                                        left join hoadon on hoadon.ID = vedat.ID_HoaDon
+                                                        left join hoadon_bapnuoc on hoadon_bapnuoc.ID_HoaDon = hoadon.ID
+                                    Group by  MONTH(hoadon.Ngay), rapphim.TenRap) as \`DoanhThuRap\` WHERE thang between 1 and 12 group by thang ORDER BY Thang`;
 
             conn.query(queryStatistical, function (error, result) {
                 if (error) {
@@ -66,10 +66,13 @@ router.get("/statisticalCinema", function(req, res){
 })
 
 router.get("/statisticalPopcorn", function(req, res){
-    let queryStatisticalPopcorn = `SELECT  bapnuoc.TenCombo 
-                                    ,COALESCE(sum(hoadon_bapnuoc.ThanhTien), 0) as 'DoanhThu' 
-                            FROM bapnuoc left join hoadon_bapnuoc on hoadon_bapnuoc.ID_BapNuoc = bapnuoc.ID
-                            GROUP BY bapnuoc.TenCombo`;
+    let queryStatisticalPopcorn = `SELECT * FROM
+                                   (SELECT  bapnuoc.TenCombo 
+                                            , COALESCE(sum(hoadon_bapnuoc.ThanhTien), 0) as 'DoanhThu' 
+                                            , 	Month(hoadon.Ngay) as 'Thang'
+                                    FROM bapnuoc left join hoadon_bapnuoc on hoadon_bapnuoc.ID_BapNuoc = bapnuoc.ID left join hoadon on hoadon.ID = hoadon_bapnuoc.ID_HoaDon
+                                    GROUP BY bapnuoc.TenCombo, Month(hoadon.Ngay))as \`DoanhThuBapNuoc\`
+                                    WHERE Thang BETWEEN 1 and 12 group by thang, TenCombo`;
 
     conn.query(queryStatisticalPopcorn, function(error, result){
         if(error){
@@ -77,6 +80,7 @@ router.get("/statisticalPopcorn", function(req, res){
 
             res.json({ statusCode: 0, message: 'Fail', resultStatisticalPopcorn: null }); 
         }else{
+            console.log(result);
             
             res.json({ statusCode: 1, message: 'Success', resultStatisticalPopcorn: result }); 
         }

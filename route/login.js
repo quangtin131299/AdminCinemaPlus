@@ -14,8 +14,8 @@ router.get("/", function(req, res){
 })
 
 router.post("/", function(req, res){
-    let account = req.body.txtAcount;
-    let password =md5(req.body.txtPassword);
+    let account = req.body.account;
+    let password =md5(req.body.password);
 
     let queryLogin = `SELECT * FROM admin WHERE admin.TaiKhoan = ? AND admin.MatKhau = ?`;
 
@@ -23,12 +23,13 @@ router.post("/", function(req, res){
         if(errorLogin){
             console.log(errorLogin);
 
-            res.render('login/login', {isLogin: 0});
+           res.json({statusCode: 0, message: 'Đăng nhập thất bại'});
         }else{
             if(resultLogin.length != 0){
-                res.redirect(`/home?idAdmin=${resultLogin[0].ID}`)
+                res.json({statusCode: 1, message: 'Đăng nhập thành công'});
             }else{
-                res.render("login/login", {isLogin: 'Đăng nhập thất bại'})  
+
+                res.json({statusCode: 0, message: 'Đăng nhập thất bại'});
             }
         }
     })   

@@ -39,9 +39,9 @@ section.ftco-section
           h5#exampleModalLabel.modal-title Thông báo
           button.close(type='button' data-dismiss='modal' aria-label='Close')
         .modal-body
-          span#modalTextMessage= isLogin
+          span#modalTextMessage
         .modal-footer
-          button.btn.btn-primary(type='button' id='btnOK') Ok
+          button.btn.btn-primary(type='button' id='btnOK', onclick="onClickBtnOk()") Ok
 
 script(src='plugins/jquery/jquery.min.js')
 script(src='plugins/bootstrap/js/bootstrap.bundle.min.js')
