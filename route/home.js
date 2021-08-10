@@ -84,6 +84,4 @@ router.get("/statisticalPopcorn", function(req, res){
 
 })
 
-
-
 module.exports = router;

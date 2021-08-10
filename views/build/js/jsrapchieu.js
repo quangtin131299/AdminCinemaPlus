@@ -115,7 +115,6 @@ function btnSubmit(isAdd){
     let lat = $('input[name=txtViDo]').val();
     let formAddCinema = $('#formCinema');
 
-    
     if(formAddCinema.valid() == true){
         showLoading();
         if(isAdd){
@@ -130,9 +129,10 @@ function btnSubmit(isAdd){
                 },
                 success: async function(data){
                     if(data){
-                        hideLoading();
-    
+                        
                         await uploadfile(data.newIdCinema);
+
+                        hideLoading();
     
                         $('#modalTextMessage').text(data.message);
                         $('#notifyModal').modal('show');
@@ -157,15 +157,16 @@ function btnSubmit(isAdd){
                 },
                 success: async function(data){
                     if(data){
-                        hideLoading();
-    
+                    
                         await uploadfile(idCinema);
+
+                        hideLoading();
     
                         $('#modalTextMessage').text(data.message);
                         $('#notifyModal').modal('show');
                     }
                 },
-                error:function(error){
+                error: function(error){
     
                 }
             })
@@ -296,52 +297,60 @@ function searchLngLat() {
     })
 }
 
-function uploadfile(newIdCinema) {
-    const storageRef = firebase.storage().ref()
-    let task = null;
-    let inputImage = $('input[name=imgCinema]').prop('files')[0];
+async function uploadfile(newIdCinema) {
+    return new Promise(function(resolve, reject){
+        const storageRef = firebase.storage().ref()
+        let task = null;
+        let inputImage = $('input[name=imgCinema]').prop('files')[0];
 
-    if(inputImage != null){
-        let final = storageRef.child(`cinemas/${newIdCinema}`)
-        task = final.put(inputImage);
+        if(inputImage != null){
+            let final = storageRef.child(`cinemas/${newIdCinema}`)
+            task = final.put(inputImage);
+        
+            task.on(
+                "state_changed",
+                // PROGRESS FUNCTION
+                function progress(progress) { },
+                function error(err) { 
+                    reject(false);
+                },
+                async function completed() {
+                   let url = await final.getDownloadURL();
+                
+                   await updateImage(newIdCinema, url);
+
+                   resolve(true);        
+                }
+            );
+        }else{
+            resolve(true);
+        } 
+    })
     
-        task.on(
-            "state_changed",
-            // PROGRESS FUNCTION
-            function progress(progress) { },
-            function error(err) { },
-            function completed() {
-                final.getDownloadURL()
-    
-                    .then((url) => {
-                        
-                        updateImage(newIdCinema, url);
-                    });
-            }
-        );
-    }  
 }
 
-function updateImage(idCinema, url) {
-    $.ajax({
-        method: 'PUT',
-        url: '/rapchieu/updateImage',
-        data: {
-            idCinema: idCinema,
-            urlImage: url
-        },
-
-        success: function(data){
-            // if(data){
-            //     console.log(data);
-            // }
-            
-        },
-
-        error: function(error){
-
-        }
-    });
-   
+async function updateImage(idCinema, url) {
+    return new Promise(function(resolve, reject){
+        $.ajax({
+            method: 'PUT',
+            url: '/rapchieu/updateImage',
+            data: {
+                idCinema: idCinema,
+                urlImage: url
+            },
+    
+            success: function(data){
+                // if(data){
+                //     console.log(data);
+                // }
+                resolve(true);
+                
+            },
+    
+            error: function(error){
+                reject(false);
+            }
+        });
+    })   
 }
 

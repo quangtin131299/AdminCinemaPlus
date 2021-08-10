@@ -42,57 +42,60 @@ script(src='https://polyfill.io/v3/polyfill.min.js?features=default')
           .card
             .card-body
               .row
-                 h5(style="font-weight:bold;") Thông tin rạp chiếu
+                .col-md-12
+                  h5(style="font-weight:bold;") Thông tin rạp chiếu
               .row
-                .col
-                  .input-group.mb-3
-                        .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold" ) Tên Rạp
-                        input.form-control#txtTheaterName(name="txtTheaterName", placeholder="Nhập tên rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default' )                    
-              .row    
-                .col    
-                  .input-group.mb-3
-                        .input-group-prepend
-                            span.input-group-text(style = "font-weight:bold") Ảnh rạp
-                        .custom-file
-                            input.custom-file-input(id="inputGroupFile01", name="imgCinema", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImageCinema(this)")
-                            label.custom-file-label.file-name-image-cinema(for='inputGroupFile01') Choose file
-                  img(src="https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg",  id="imgCinemaPreview", width="150",height="150")
-              br
-              .row
-                .col
-                  .input-group.mb-3
-                    .input-group-prepend.width-input-address
-                        span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Địa chỉ
-                        input.form-control#txtCinemaAddress(name="txtCinemaAddress", placeholder="Nhập địa chỉ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
-                        button.btn.btn-success(style="width:200px;",type='button', onclick="getLatLng()") Lấy kinh độ vĩ độ
-              .row
-                .col
-                  .input-group.mb-3
-                        .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Vĩ độ
-                        input.form-control#txtViDo(name= "txtViDo", placeholder="Nhập vĩ độ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
-
-              .row
-                .col
-                  .input-group.mb-3
-                        .input-group-prepend
-                            span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Kinh độ
-                        input.form-control#txtKinhDo(name= "txtKinhDo", placeholder="Nhập kinh độ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
+                .col-md-6
+                  .row
+                    .col
+                      .input-group.mb-3
+                            .input-group-prepend
+                                span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold" ) Tên Rạp
+                            input.form-control#txtTheaterName(name="txtTheaterName", placeholder="Nhập tên rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default' )                    
+                  .row    
+                    .col    
+                      .input-group.mb-3
+                            .input-group-prepend
+                                span.input-group-text(style = "font-weight:bold") Ảnh rạp
+                            .custom-file
+                                input.custom-file-input(id="inputGroupFile01", name="imgCinema", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImageCinema(this)")
+                                label.custom-file-label.file-name-image-cinema(for='inputGroupFile01') Choose file
+                      .img-add-cinema-container
+                        img.img-add-cinema(src="https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg",  id="imgCinemaPreview", width="150",height="150")
+             
+                .col-md-6
+                  .row
+                    .col
+                      .input-group.mb-3
+                        .input-group-prepend.width-input-address
+                          span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Địa chỉ
+                          input.form-control#txtCinemaAddress(name="txtCinemaAddress", placeholder="Nhập địa chỉ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                                  
+                  .row
+                    .col-md-10
+                      .input-group.mb-3
+                            .input-group-prepend
+                                span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Vĩ độ
+                            input.form-control#txtViDo(name= "txtViDo", placeholder="Nhập vĩ độ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
+                      .input-group.mb-3
+                            .input-group-prepend
+                                span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") Kinh độ
+                            input.form-control#txtKinhDo(name= "txtKinhDo", placeholder="Nhập kinh độ rạp",type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', readonly)
+                    .col-md-2
+                      button.btn.btn-success.btn-get-lng-lat( type='button', onclick="getLatLng()") Lấy kinh độ vĩ độ
+                      
+                  br
+                  .row
+                    .col(style="display:flex; justify-content:center;")
+                      button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
+                    .col(style="display:flex; justify-content:center;")
+                      button.btn.btn-success(id="btnSubmitAdd",style="width:200px;",type='button', onclick="btnSubmit(true)") Thêm rạp chiếu
           .card
             .card-body
               .row
                 .col-md-12
                   #map(style="height:500px;")
-              
-          .card
-            .card-body
-              .row
-                .col(style="display:flex; justify-content:center;")
-                  button.btn.btn-dark(style="width:200px;",type='button', id="btnhuy") Hủy bỏ
-                .col(style="display:flex; justify-content:center;")
-                  button.btn.btn-success(id="btnSubmitAdd",style="width:200px;",type='button', onclick="btnSubmit(true)") Thêm rạp chiếu
-                    
+                              
         #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
             .modal-dialog.modal-dialog-centered
               .modal-content.dialog-loading

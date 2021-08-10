@@ -400,3 +400,23 @@
 .card-home-statistical{
   width: 100%;
 }
+
+.img-add-cinema{
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  width: 500px;
+  height: 300px; 
+  padding: 10px;
+}
+
+.img-add-cinema-container{
+  display: flex;
+  justify-content: center;
+}
+
+.btn-get-lng-lat{
+  height: 80%;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  
+}

@@ -11,7 +11,7 @@ let firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 let btnhuy = document.getElementById("btnhuy");
-if(btnhuy){
+if (btnhuy) {
     btnhuy.onclick = function () {
         window.location.replace("danhsachdichvu")
     }
@@ -40,7 +40,7 @@ $('#formService').validate({
         txtDescribe: {
             required: true
         },
-        txtUnitPrice:{
+        txtUnitPrice: {
             required: true
         }
     },
@@ -51,7 +51,7 @@ $('#formService').validate({
         txtDescribe: {
             required: 'Mô tả dịch vụ không được bỏ trống'
         },
-        txtUnitPrice:{
+        txtUnitPrice: {
             required: 'Đơn giá không được bỏ trống'
         }
     },
@@ -111,68 +111,68 @@ function setFileImageService(elFileImageService) {
     }
 }
 
-function btnSubmit(isAdd){
+function btnSubmit(isAdd) {
     let form = $('#formService');
     let namePopcorn = $('input[name=txtServiceName]').val();
     let description = $(editorDescriptionService.getData()).text();
     let unitPrice = $('input[name=txtUnitPrice]').val();
 
-    if(form.valid() == true){
+    if (form.valid() == true) {
         showLoading();
 
-        if(isAdd == true){
+        if (isAdd == true) {
             $.ajax({
                 method: 'POST',
                 url: '/dichvu/themdichvu',
-                data:{
-                    namePopcorn:namePopcorn,
-                    description:description,
-                    unitPrice:unitPrice,
+                data: {
+                    namePopcorn: namePopcorn,
+                    description: description,
+                    unitPrice: unitPrice,
                 },
-                success: async function(data){
-                    if(data){
-                        hideLoading();
-    
+                success: async function (data) {
+                    if (data) {
                         await uploadfile(data.newIdPopcorn);
-    
+
+                        hideLoading();
+
                         $('#modalTextMessage').text(data.messsage);
                         $('#notifyModal').modal('show');
-    
+
                     }
                 },
-                error:function(error){
-    
+                error: function (error) {
+
                 }
             })
-        }else{
+        } else {
             let idPopcorn = $('input[name=txtIDPopcorn]').val();
-    
+
             $.ajax({
                 method: 'POST',
                 url: '/dichvu/suadichvu',
-                data:{
+                data: {
                     idPopcorn: idPopcorn,
-                    namePopcorn:namePopcorn,
-                    description:description,
-                    unitPrice:unitPrice,
+                    namePopcorn: namePopcorn,
+                    description: description,
+                    unitPrice: unitPrice,
                 },
-                success: async function(data){
-                    if(data){
-                        hideLoading();
-    
+                success: async function (data) {
+                    if (data) {
                         await uploadfile(idPopcorn);
-    
+
+                        hideLoading();
+
                         $('#modalTextMessage').text(data.messsage);
                         $('#notifyModal').modal('show');
-    
+
                     }
                 },
-                error:function(error){
-    
+                error: function (error) {
+
                 }
             })
         }
-    
+
     }
 }
 
@@ -185,53 +185,52 @@ function showLoading() {
     $('#exampleModalCenter').modal('show');
 }
 
-function uploadfile(newIdPopcorn) {
-    const storageRef = firebase.storage().ref()
-    let task = null;
-    let inputImage = $('input[name=imgService]').prop('files')[0];
+async function uploadfile(newIdPopcorn) {
+    return new Promise(function (resolve, reject) {
+        const storageRef = firebase.storage().ref()
+        let task = null;
+        let inputImage = $('input[name=imgService]').prop('files')[0];
 
-    if(inputImage != null){
-        let final = storageRef.child(`popcorns/${newIdPopcorn}`)
-        task = final.put(inputImage);
-    
-        task.on(
-            "state_changed",
-            // PROGRESS FUNCTION
-            function progress(progress) { },
-            function error(err) { },
-            function completed() {
-                final.getDownloadURL()
-    
-                    .then((url) => {
-                        
-                        updateImage(newIdPopcorn, url);
-                    });
-            }
-        );
-    }
-    
-   
-}
+        if (inputImage != null) {
+            let final = storageRef.child(`popcorns/${newIdPopcorn}`)
+            task = final.put(inputImage);
 
-function updateImage(idPopCorn, url) {
-    $.ajax({
-        method: 'PUT',
-        url: '/dichvu/updateImage',
-        data: {
-            idPopcorn: idPopCorn,
-            urlImage: url
-        },
+            task.on(
+                "state_changed",
+                // PROGRESS FUNCTION
+                function progress(progress) { },
+                function error(err) { reject(false) },
+                async function completed() {
+                    let url = await final.getDownloadURL()
 
-        success: function(data){
-            // if(data){
-            //     console.log(data);
-            // }
-            
-        },
+                    await updateImage(newIdPopcorn, url);
 
-        error: function(error){
-
+                    resolve(true);
+                }
+            );
+        }else{
+            resolve(true);
         }
     });
-   
+}
+
+async function updateImage(idPopCorn, url) {
+    return new Promise(function(resolve, reject){
+        $.ajax({
+            method: 'PUT',
+            url: '/dichvu/updateImage',
+            data: {
+                idPopcorn: idPopCorn,
+                urlImage: url
+            },
+    
+            success: function (data) {
+                resolve(true);
+            },
+    
+            error: function (error) {
+                reject(false);
+            }
+        });
+    });
 }
