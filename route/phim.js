@@ -332,6 +332,7 @@ router.post(
                       data: {
                         body : `Cinemaplus vừa ra phim ${movieName}`,
                         title : "Thông báo",
+                        idMovie: resultNewMovie.insertId.toString()
                       },
                       topic: 'NewMovie'
                     };
