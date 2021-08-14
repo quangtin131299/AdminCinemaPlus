@@ -417,6 +417,37 @@
 .btn-get-lng-lat{
   height: 80%;
   margin-top: 3px;
-  margin-bottom: 3px;
-  
+  margin-bottom: 3px; 
+}
+
+.card-list-ticker{
+  width:70rem;
+  margin: 10px auto;
+  height: fit-content;
+}
+
+.filter-container{
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.card-search-container{
+  width:70rem;
+  margin: 0px auto
+}
+
+.title-filter-container{
+  padding-top: 5px;
+}
+
+.filter-movie-container{
+  display: flex;
+}
+
+.select-filter-movie-ticker{
+  margin-left: 20px;
+}
+
+.label-filter-movie-ticker{
+  width: 80px
 }

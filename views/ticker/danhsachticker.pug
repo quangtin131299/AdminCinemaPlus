@@ -36,25 +36,79 @@ include ../header.pug
     // /.content-header
     // Main content
     section.content
-      table.table
-        thead
-          tr
-            th(scope='col') ID
-            th(scope='col') Ngày đặt
-            th(scope='col') Họ tên
-            th(scope='col') Trạng thái
-            th(scope='col') Thao tác 
-        tbody
-          each ticker in danhsachticker
-            tr
-              th(scope='row')=ticker.ID
-              td=ticker.NgayDat
-              td=ticker.HoTen
-              td=ticker.TrangThai
-              td
-                span 
-                  a.btn.btn-info(href="#") Chi Tiết 
-                span
+      .card.card-search-container
+        .card-body
+           .row
+            .col-md-12
+              .row
+                .col-md-10
+                  input.form-control(type='text', placeholder='Nhập tên khách hàng')
+                .col-md-2
+                  button.btn.btn-success(type='button') Tìm kiếm
+              
+              .row.filter-container
+                .col-md-6
+                  .form-group.row
+                    .col-md-2.title-filter-container
+                      label Từ ngày:
+                    .col-md-10
+                      input.form-control(type='date')
+                .col-md-6
+                  .form-group.row
+                    .col-md-2.title-filter-container
+                      label Đến ngày:
+                    .col-md-10
+                      input.form-control(type='date')
+
+              .row.filter-container
+                .col-md-12.filter-movie-container
+                  label.label-filter-movie-ticker Tên phim:   
+                  select#inlineFormCustomSelectPref.custom-select.select-filter-movie-ticker
+                    option(selected='') Choose...
+                    option(value='1') One
+                    option(value='2') Two
+                    option(value='3') Three
+                      
+      br
+      .card.card-list-ticker
+        .card-body     
+          .row
+            .col-md-12
+              table.table.table-bordered
+                thead
+                  tr
+                    th(scope='col') ID
+                    th(scope='col') Ngày đặt
+                    th(scope='col') Họ tên
+                    th(scope='col') Trạng thái
+                    th(scope='col') Thao tác 
+                tbody
+                  each ticker in danhsachticker
+                    tr
+                      th(scope='row')=ticker.ID
+                      td=ticker.NgayDat
+                      td=ticker.HoTen
+                      td=ticker.TrangThai
+                      td
+                        span 
+                          a.btn.btn-info(href="#") Chi Tiết 
+                        span
+
+            nav.paging-center(aria-label='...')
+              ul.pagination
+                li.page-item
+                  a.page-link(href=`/ticker/danhsachve?page=${parseInt(pageCurrent)-1}`) Previous
+                - for(let i = 1; i <= numberPage; i++){
+                    if i == pageCurrent
+                      li.page-item.active
+                        a.page-link(href=`/ticker/danhsachve?page=${i}`)= i
+                    else
+                      li.page-item
+                        a.page-link(href=`/ticker/danhsachve?page=${i}`)= i 
+                -}
+                li.page-item
+                  a.page-link(href=`/ticker/danhsachve?page=${parseInt(pageCurrent) + 1}`) Next
+
     // /.content
   // /.content-wrapper
   include ../footer.pug
