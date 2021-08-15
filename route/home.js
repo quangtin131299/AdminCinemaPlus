@@ -80,8 +80,6 @@ router.get("/statisticalPopcorn", function(req, res){
 
             res.json({ statusCode: 0, message: 'Fail', resultStatisticalPopcorn: null }); 
         }else{
-            console.log(result);
-            
             res.json({ statusCode: 1, message: 'Success', resultStatisticalPopcorn: result }); 
         }
     });
