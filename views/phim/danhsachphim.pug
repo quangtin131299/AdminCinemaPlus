@@ -97,21 +97,21 @@ include ../header.pug
                         button#linkDelete.btn.btn-danger.btn-action(onclick=`setIdMovie(${phim.ID})`, data-toggle='modal', data-target="#modalInforDelete") Xóa
 
 
-      
-      nav.paging-center(aria-label='Page navigation example')
-        ul.pagination#listPage
-          li.page-item
-            a.page-link(href='#') Trang trước
-          - for (var i = 1; i <= soluongtrang ; i++) {
-                if i == pagerespon
-                  li.page-item.active
-                    a.page-link(href="danhsachphim?page=" + i)= i 
-                else
+            .paging-center
+              nav(aria-label='Page navigation example')
+                ul.pagination#listPage
                   li.page-item
-                    a.page-link(href="danhsachphim?page=" + i)= i
-          - } 
-          li.page-item
-            a.page-link(href='#') Trang kế
+                    a.page-link(href='#') Trang trước
+                  - for (var i = 1; i <= soluongtrang ; i++) {
+                        if i == pagerespon
+                          li.page-item.active
+                            a.page-link(href="danhsachphim?page=" + i)= i 
+                        else
+                          li.page-item
+                            a.page-link(href="danhsachphim?page=" + i)= i
+                  - } 
+                  li.page-item
+                    a.page-link(href='#') Trang kế
 
       #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
         .modal-dialog.modal-dialog-centered

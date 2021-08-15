@@ -1,0 +1,118 @@
+doctype html
+include ../header.pug
+.wrapper
+  // Navbar
+  nav.main-header.navbar.navbar-expand.navbar-white.navbar-light
+    // Left navbar links
+    ul.navbar-nav
+      li.nav-item
+        a.nav-link(data-widget='pushmenu', href='#', role='button')
+          i.fas.fa-bars
+      li.nav-item.d-none.d-sm-inline-block
+        a.nav-link(href='/home') Trang chủ
+  // /.navbar
+  // Main Sidebar Container
+  include ../slidebar.pug
+  // Content Wrapper. Contains page content
+  .content-wrapper
+    // Content Header (Page header)
+    .content-header
+      .container-fluid
+        .row.mb-2
+          .col-sm-6
+            h1.m-0.text-dark Chi tiết vé
+          // /.col
+          .col-sm-6
+            ol.breadcrumb.float-sm-right
+              li.breadcrumb-item
+                a(href='/home') Trang chủ
+              li.breadcrumb-item
+                a(href='#') Quản lý phim chiếu
+              li.breadcrumb-item
+                a(href='#') Danh sách phim chiếu
+              li.breadcrumb-item.active 
+                a(href='#') Chi tiết phim
+          // /.col
+        // /.row
+      // /.container-fluid
+    // /.content-header
+    // Main content
+    section.content
+        .row
+          .col-md-5(style="display: flex;  align-items: center;justify-content: center;")
+            img(src='build/img/ticker.svg',width="350", height="350")
+          .col-lg-7
+           .card
+            .card-body
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") ID:
+                    input.form-control(value= ticker.ID , disabled ,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Ngày đặt:
+                    input.form-control(value=ticker.NgayDat, disabled, type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Trạng thái:
+                    input.form-control(value=ticker.TrangThai,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tên phim:
+                    input.form-control(value=ticker.TenPhim,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tên ghế:
+                    input.form-control(value=ticker.TenGhe,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Họ tên khách hàng:
+                    input.form-control(value=ticker.HoTen,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tên rạp:
+                    input.form-control(value=ticker.TenRap,disabled,type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+
+                .input-group.mb-3
+                    .input-group-prepend
+                        span#inputGroup-sizing-default.input-group-text(style="font-weight: bold; color:red;") Tên phòng:
+                    input.form-control(value=ticker.TenPhong, disabled, type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+        br
+        br
+    // /.content
+  // /.content-wrapper
+  include ../footer.pug
+// ./wrapper
+// jQuery
+script(src='plugins/jquery/jquery.min.js')
+// jQuery UI 1.11.4
+script(src='plugins/jquery-ui/jquery-ui.min.js')
+// Resolve conflict in jQuery UI tooltip with Bootstrap tooltip
+script.
+  $.widget.bridge('uibutton', $.ui.button)
+// Bootstrap 4
+script(src='plugins/bootstrap/js/bootstrap.bundle.min.js')
+// ChartJS
+script(src='plugins/chart.js/Chart.min.js')
+// Sparkline
+script(src='plugins/sparklines/sparkline.js')
+// JQVMap
+script(src='plugins/jqvmap/jquery.vmap.min.js')
+script(src='plugins/jqvmap/maps/jquery.vmap.usa.js')
+// jQuery Knob Chart
+script(src='plugins/jquery-knob/jquery.knob.min.js')
+// daterangepicker
+script(src='plugins/moment/moment.min.js')
+script(src='plugins/daterangepicker/daterangepicker.js')
+// Tempusdominus Bootstrap 4
+script(src='plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')
+// Summernote
+script(src='plugins/summernote/summernote-bs4.min.js')
+// overlayScrollbars
+script(src='plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')
+// AdminLTE App
+script(src='dist/js/adminlte.js')
+// AdminLTE dashboard demo (This is only for demo purposes)
+script(src='dist/js/pages/dashboard.js')
+// AdminLTE for demo purposes
+script(src='dist/js/demo.js')

@@ -33,24 +33,24 @@
 
 .width-texarea {
   width: 100%;
-    width: 100%; 
+  width: 100%;
   width: 100%;
   height: 150px;
 }
 
 .dialog-loading {
   position: relative;
-    position: relative; 
+  position: relative;
   position: relative;
   top: 50%;
-    top: 50%; 
+  top: 50%;
   top: 50%;
   width: fit-content;
-    width: fit-content; 
+  width: fit-content;
   width: fit-content;
   display: flex;
   justify-content: center;
-    justify-content: center; 
+  justify-content: center;
   justify-content: center;
   margin: 0 auto;
 }
@@ -66,10 +66,10 @@
 
 .card-schedule-intro {
   padding-top: 50px;
-    padding-top: 50px; 
+  padding-top: 50px;
   padding-top: 50px;
   padding-right: 50px;
-    padding-right: 50px; 
+  padding-right: 50px;
   padding-right: 50px;
   padding-left: 50px;
 }
@@ -99,10 +99,10 @@
 
 .secion-video {
   height: 500px;
-    height: 500px; 
+  height: 500px;
   height: 500px;
   display: flex;
-     display: flex; 
+  display: flex;
   display: flex;
   align-items: center;
 }
@@ -195,110 +195,108 @@
   height: 200px;
 }
 
-.imgContainer{
-    display: flex;
-    justify-content: center;
+.imgContainer {
+  display: flex;
+  justify-content: center;
 }
 
-.imgMovie{
-    border-radius: 10px;
-    border: 1px solid lightgray;
-    padding: 5px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+.imgMovie {
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  padding: 5px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.card-search{
+.card-search {
   width: fit-content;
 }
 
-.btn-search{
+.btn-search {
   width: 100%;
 }
-.dialog-loading-for-login{
-    width: fit-content !important;
-    margin: auto !important;
+.dialog-loading-for-login {
+  width: fit-content !important;
+  margin: auto !important;
 }
 
-.img-detail-bill{
-    border-radius: 15px;
-    height: 150px;
-    width: 150px;
+.img-detail-bill {
+  border-radius: 15px;
+  height: 150px;
+  width: 150px;
 }
 
-.card-detail-bill{
-    border-radius: 20px;
-    width: 600px;
+.card-detail-bill {
+  border-radius: 20px;
+  width: 600px;
 }
 
-.infor-container{
+.infor-container {
   padding-left: 20px;
 }
-.seat-detail-bill-container{
+.seat-detail-bill-container {
   padding-left: 30px;
 }
 
-.popcorn-detail-bill-container{
+.popcorn-detail-bill-container {
   padding-left: 30px;
 }
 
-.card-item-cinema{
+.card-item-cinema {
   border-radius: 10px;
   width: 400px;
   height: 350px;
   margin-left: 10px;
 }
 
-.img-cinema{
+.img-cinema {
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   max-height: 169px;
-  
 }
 
-.cinema-container-list{
+.cinema-container-list {
   width: 95%;
   display: flex;
   flex-wrap: wrap;
   height: fit-content;
 }
 
-.container-cinema{
+.container-cinema {
   display: flex;
   justify-content: center;
 }
 
 @media only screen and (max-width: 1613px) {
-  .cinema-container-list{
+  .cinema-container-list {
     width: 100%;
   }
 }
 
-
-.card-footer-item{
+.card-footer-item {
   margin-bottom: 10px;
   display: flex;
   justify-content: flex-end;
 }
 
-.card-footer-item > .btn.btn-info{
+.card-footer-item > .btn.btn-info {
   margin-right: 15px;
 }
 
-.card-footer-item > .btn.btn-primary{
+.card-footer-item > .btn.btn-primary {
   margin-right: 15px;
 }
 
-.card-footer-item > .btn-danger{
+.card-footer-item > .btn-danger {
   margin-right: 15px;
 }
 
-.card-footer-item > .btn-secondary{
+.card-footer-item > .btn-secondary {
   margin-right: 15px;
 }
 
-.card-img-movie{
+.card-img-movie {
   margin: 15px;
   border-radius: 15px;
   max-width: 200px;
@@ -309,44 +307,44 @@
   justify-content: center;
 }
 
-.card-movie{
+.card-movie {
   width: 100%;
   border-radius: 15px;
 }
 
-.content-movie-container{
+.content-movie-container {
   margin-top: 15px;
 }
 
-.text-content-name-movie{
+.text-content-name-movie {
   font-weight: bold;
 }
 
-.text-content-movie{
+.text-content-movie {
   font-size: 18px;
 }
 
-.text-content-label-movie{
+.text-content-label-movie {
   font-size: 18px;
   font-weight: bold;
 }
 
-.action-container{
+.action-container {
   display: flex;
   justify-content: flex-end;
   padding-bottom: 15px;
   padding-right: 15px;
 }
 
-.btn-action{
+.btn-action {
   margin-right: 15px;
 }
 
-.card-infor-cinema-statistical{
+.card-infor-cinema-statistical {
   width: 50%;
 }
 
-.title-cinema-container{
+.title-cinema-container {
   padding-top: 15px;
   padding-left: 20px;
 }
@@ -355,99 +353,103 @@
   font-weight: bold;
 }
 
-.img-cinema-statistical{
+.img-cinema-statistical {
   max-width: 140px;
   max-height: 100px;
   border-radius: 10px;
 }
 
-.img-cinema-statistical-container{
+.img-cinema-statistical-container {
   display: flex;
   justify-content: center;
 }
 
-.input-id-cinema-statistical{
+.input-id-cinema-statistical {
   width: 80%;
 }
 
-.card-chart-cinema{
+.card-chart-cinema {
   width: 100%;
 }
 
-.chart-cinema-container{
+.chart-cinema-container {
   padding: 100px;
 }
 
-.content-list-customer{
+.content-list-customer {
   display: flex;
   justify-content: center;
 }
 
-.card-list-customer{
-   width: 85%;
-   height: fit-content;
+.card-list-customer {
+  width: 85%;
+  height: fit-content;
 }
 
-.title-count-customer{
-    font-size: 20px;
-    font-weight: bold;
+.title-count-customer {
+  font-size: 20px;
+  font-weight: bold;
 }
 
-.count-customer{
+.count-customer {
   font-size: 20px;
 }
 
-.card-home-statistical{
+.card-home-statistical {
   width: 100%;
 }
 
-.img-add-cinema{
+.img-add-cinema {
   border-radius: 10px;
   border: 1px solid lightgray;
   width: 500px;
-  height: 300px; 
+  height: 300px;
   padding: 10px;
 }
 
-.img-add-cinema-container{
+.img-add-cinema-container {
   display: flex;
   justify-content: center;
 }
 
-.btn-get-lng-lat{
+.btn-get-lng-lat {
   height: 80%;
   margin-top: 3px;
-  margin-bottom: 3px; 
+  margin-bottom: 3px;
 }
 
-.card-list-ticker{
-  width:70rem;
+.card-list-ticker {
+  width: 70rem;
   margin: 10px auto;
   height: fit-content;
 }
 
-.filter-container{
+.filter-container {
   margin-top: 12px;
   margin-bottom: 12px;
 }
 
-.card-search-container{
-  width:70rem;
-  margin: 0px auto
+.card-search-container {
+  width: 70rem;
+  margin: 0px auto;
 }
 
-.title-filter-container{
+.title-filter-container {
   padding-top: 5px;
 }
 
-.filter-movie-container{
+.filter-movie-container {
   display: flex;
 }
 
-.select-filter-movie-ticker{
+.select-filter-movie-ticker {
   margin-left: 20px;
 }
 
-.label-filter-movie-ticker{
-  width: 80px
+.label-filter-movie-ticker {
+  width: 80px;
+}
+
+.color-text-achor{
+  color: #ffffff !important;
 }

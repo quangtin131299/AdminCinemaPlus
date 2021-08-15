@@ -42,9 +42,9 @@ include ../header.pug
             .col-md-12
               .row
                 .col-md-10
-                  input.form-control(type='text', placeholder='Nhập tên khách hàng')
+                  input.form-control(type='text', placeholder='Nhập tên khách hàng', name='txtNameCustomer')
                 .col-md-2
-                  button.btn.btn-success(type='button') Tìm kiếm
+                  button.btn.btn-success(type='button', onclick="searchTicker()") Tìm kiếm
               
               .row.filter-container
                 .col-md-6
@@ -52,18 +52,18 @@ include ../header.pug
                     .col-md-2.title-filter-container
                       label Từ ngày:
                     .col-md-10
-                      input.form-control(type='date')
+                      input.form-control(type='date', name='txtFromDate')
                 .col-md-6
                   .form-group.row
                     .col-md-2.title-filter-container
                       label Đến ngày:
                     .col-md-10
-                      input.form-control(type='date')
+                      input.form-control(type='date', name='txtToDate')
 
               .row.filter-container
                 .col-md-12.filter-movie-container
                   label.label-filter-movie-ticker Tên phim:   
-                  select#inlineFormCustomSelectPref.custom-select.select-filter-movie-ticker
+                  select#inlineFormCustomSelectPref.custom-select.select-filter-movie-ticker(name='selectNameMovie')
                     option(selected='') Choose...
                     option(value='1') One
                     option(value='2') Two
@@ -82,7 +82,7 @@ include ../header.pug
                     th(scope='col') Họ tên
                     th(scope='col') Trạng thái
                     th(scope='col') Thao tác 
-                tbody
+                tbody(id='tblTicker')
                   each ticker in danhsachticker
                     tr
                       th(scope='row')=ticker.ID
@@ -91,11 +91,11 @@ include ../header.pug
                       td=ticker.TrangThai
                       td
                         span 
-                          a.btn.btn-info(href="#") Chi Tiết 
+                          a.btn.btn-info.color-text-achor(onclick=`redirectDetailTicker(${ticker.ID})`) Chi Tiết 
                         span
-
-            nav.paging-center(aria-label='...')
-              ul.pagination
+          .row.paging-center
+            nav(aria-label='...')
+              ul.pagination#listPage
                 li.page-item
                   a.page-link(href=`/ticker/danhsachve?page=${parseInt(pageCurrent)-1}`) Previous
                 - for(let i = 1; i <= numberPage; i++){
@@ -108,6 +108,14 @@ include ../header.pug
                 -}
                 li.page-item
                   a.page-link(href=`/ticker/danhsachve?page=${parseInt(pageCurrent) + 1}`) Next
+
+    #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
+      .modal-dialog.modal-dialog-centered
+        .modal-content.dialog-loading
+          .modal-body
+            .d-flex.justify-content-center.align-item-center
+              .spinner-border(role='status')
+                span.sr-only Loading...
 
     // /.content
   // /.content-wrapper
@@ -146,3 +154,4 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
+script(src="build/js/jsTicker.js") 
