@@ -69,8 +69,6 @@ async function loadStatisticalPopcorn(){
                                 break;
                             }   
 
-                           
-
                         }
                        
                     } 
@@ -220,5 +218,7 @@ function hideLoading() {
 }
 
 function showLoading() {
+    $('#exampleModalCenter').modal({backdrop: 'static', keyboard: false})
+    
     $('#exampleModalCenter').modal('show');
 }

@@ -46,3 +46,8 @@ function hideLoading() {
 function showLoading() {
     $('#exampleModalCenter').modal('show');
 }
+
+function redirectDetailMovie(idMovie){
+    window.location.replace(`/phim/chitietphim?idphim=${idMovie}`);
+}
+

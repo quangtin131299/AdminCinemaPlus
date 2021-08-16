@@ -300,6 +300,7 @@
   margin: 15px;
   border-radius: 15px;
   max-width: 200px;
+  height: max-content;
 }
 
 .img-movie-container {
@@ -307,8 +308,9 @@
   justify-content: center;
 }
 
-.card-movie {
-  width: 100%;
+.card-movie{
+  margin-left: 5px;
+  width: fit-content;
   border-radius: 15px;
 }
 
@@ -332,8 +334,10 @@
 .action-container {
   display: flex;
   justify-content: flex-end;
-  padding-bottom: 15px;
-  padding-right: 15px;
+  align-items: center;
+  margin-top: 30px;
+  margin-right: 10px;
+  margin-bottom: 30px;
 }
 
 .btn-action {
@@ -452,4 +456,18 @@
 
 .color-text-achor{
   color: #ffffff !important;
+}
+
+.infor-movie-container{
+  display: flex;
+  height: 100%;
+}
+
+.infor-movie{
+  width: 380px;
+}
+
+.list-movie-container{
+  display: flex;
+  flex-wrap: wrap;
 }

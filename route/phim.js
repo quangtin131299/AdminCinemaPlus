@@ -585,7 +585,7 @@ router.get("/searchmovie", function(req, res){
   let country = req.query.idCountry;
   let cinema = req.query.idCinema;
 
-  let querySearch = `SELECT DISTINCT phim.ID
+  let querySearch = ` SELECT DISTINCT phim.ID
                                   , phim.TenPhim
                                   , phim.TrangThai
                                   , phim.Hinh
@@ -596,13 +596,13 @@ router.get("/searchmovie", function(req, res){
                                 JOIN quocgia on quocgia.ID = phim.ID_QuocGia
                                 JOIN phim_rapphim on phim_rapphim.ID_Phim = phim.ID
                                 JOIN rapphim on rapphim.ID = phim_rapphim.ID_Rap
-                      WHERE (match(phim.TenPhim) against(?) or phim.TenPhim LIKE ?) 
+                      WHERE  phim.TenPhim LIKE ?
                               AND (rapphim.TenRap like ? 
                               AND loaiphim.TenLoai like ? 
                               AND quocgia.TenQuocGia like ?)
                       ORDER BY phim.TenPhim`;
 
-  conn.query(querySearch, [keyWord, `${keyWord}%`, `${cinema}%`, `${type}%`, `${country}%`], function(error, resultSearchMovie){
+  conn.query(querySearch, [`%${keyWord}%`, `${cinema}%`, `${type}%`, `${country}%`], function(error, resultSearchMovie){
       if(error){
         console.log(error);
 

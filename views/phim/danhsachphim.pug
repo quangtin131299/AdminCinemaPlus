@@ -68,52 +68,52 @@ include ../header.pug
           .list-movie-container#listMovie
             each phim in dataphimchieu
               .card.card-movie
-                .row
-                  .col-md-3.img-movie-container 
-                    img.card-img-movie(src=phim.Hinh, alt='Card image cap')
-                  .col-md-9.content-movie-container
+                  .infor-movie-container
                     div
-                      h2.text-content-name-movie= phim.TenPhim
-                      <br>
-                    div
-                      label.text-content-label-movie Ngày khởi chiếu: &nbsp&nbsp
-                      span.text-content-movie= phim.NgayKhoiChieu
-                    div
-                      label.text-content-label-movie Ngày kết thúc: &nbsp&nbsp
-                      span.text-content-movie= phim.NgayKetThuc
-                    div
-                      label.text-content-label-movie Thời gian: &nbsp&nbsp
-                      span.text-content-movie= `${phim.ThoiGian} phút`
-                    div
-                      label.text-content-label-movie Trạng thái: &nbsp&nbsp
-                      span.text-content-movie= phim.TrangThai
-                    div
-                      label.text-content-label-movie Quốc gia: &nbsp&nbsp
-                      span.text-content-movie= phim.TenQuocGia                    
-                    .row 
-                      .col-md-12.action-container     
-                        a.btn.btn-info.btn-action(href="/phim/chitietphim?idphim=" + phim.ID) Xem chi tiết
+                      img.card-img-movie(src=phim.Hinh, alt='Card image cap')
+                    div.infor-movie
+                      div
+                        h2.text-content-name-movie= phim.TenPhim
+                        <br>
+                      div
+                        label.text-content-label-movie Ngày khởi chiếu: &nbsp&nbsp
+                        span.text-content-movie= phim.NgayKhoiChieu
+                      div
+                        label.text-content-label-movie Ngày kết thúc: &nbsp&nbsp
+                        span.text-content-movie= phim.NgayKetThuc
+                      div
+                        label.text-content-label-movie Thời gian: &nbsp&nbsp
+                        span.text-content-movie= `${phim.ThoiGian} phút`
+                      div
+                        label.text-content-label-movie Trạng thái: &nbsp&nbsp
+                        span.text-content-movie= phim.TrangThai
+                      div
+                        label.text-content-label-movie Quốc gia: &nbsp&nbsp
+                        span.text-content-movie= phim.TenQuocGia  
+
+                      .action-container     
+                        a.btn.btn-info.btn-action.color-text-achor(onclick=`redirectDetailMovie(${phim.ID})`) Xem chi tiết
                         a.btn.btn-primary.btn-action(href="suaphim?idphim=" + phim.ID) Sửa
                         button#linkDelete.btn.btn-danger.btn-action(onclick=`setIdMovie(${phim.ID})`, data-toggle='modal', data-target="#modalInforDelete") Xóa
 
 
-            .paging-center
-              nav(aria-label='Page navigation example')
-                ul.pagination#listPage
-                  li.page-item
-                    a.page-link(href='#') Trang trước
-                  - for (var i = 1; i <= soluongtrang ; i++) {
-                        if i == pagerespon
-                          li.page-item.active
-                            a.page-link(href="danhsachphim?page=" + i)= i 
-                        else
-                          li.page-item
-                            a.page-link(href="danhsachphim?page=" + i)= i
-                  - } 
-                  li.page-item
-                    a.page-link(href='#') Trang kế
+      .paging-center
+        nav(aria-label='Page navigation example')
+          ul.pagination#listPage
+            li.page-item
+              a.page-link(href='#') Trang trước
+            - for (var i = 1; i <= soluongtrang ; i++) {
+                  if i == pagerespon
+                    li.page-item.active
+                      a.page-link(href="danhsachphim?page=" + i)= i 
+                  else
+                    li.page-item
+                      a.page-link(href="danhsachphim?page=" + i)= i
+            - } 
+            li.page-item
+              a.page-link(href='#') Trang kế
 
-      #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
+      #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true', data-keyboard="false", data-backdrop="static")
         .modal-dialog.modal-dialog-centered
           .modal-content.dialog-loading
             .modal-body

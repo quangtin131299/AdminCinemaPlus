@@ -251,6 +251,8 @@ function hideLoading() {
 }
 
 function showLoading() {
+    $('#exampleModalCenter').modal({backdrop: 'static', keyboard: false})
+
     $('#exampleModalCenter').modal('show');
 }
 
@@ -275,7 +277,7 @@ function onSubmitAddMovie() {
         }).get();
         let description = editorDescriptionMovie.getData().replace(/(<([^>]+)>)/ig, '');
         let idCountry = $('select[name=dropdownCountry]').val();
-
+    
         $.ajax({
             method: 'POST',
             url: '/phim/themphim',
@@ -370,15 +372,14 @@ async function uploadfile(newIdMovie, isImage) {
                     // PROGRESS FUNCTION
                     function progress(progress) { },
                     function error(err) { },
-                    function completed() {
-                        final.getDownloadURL()
+                    async function completed() {
+                        let url = final.getDownloadURL();
 
-                            .then(async (url) => {
+                            
+                        await updateImage(newIdMovie, url, false);
 
-                                await updateImage(newIdMovie, url, false);
-
-                                resolve(true);
-                            });
+                        resolve(true);
+                        
                     }
                 );
 
@@ -452,6 +453,8 @@ $('input[name=checkAll]').change(function () {
         });
     }
 })
+
+
 
 
 
