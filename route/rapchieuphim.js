@@ -40,7 +40,7 @@ router.get("/danhsachrapchieu", function(req, res){
 			console.log(err);
 		}else{
 			let ntrang = resul.length / 6
-			let query = `select * from rapphim limit ${vitribatdaulay}, 6`
+			let query = `SELECT * FROM rapphim LIMIT ${vitribatdaulay}, 6`
 			conn.query(query, function(err, result){
 				if(err){
 					console.log(err);
@@ -397,6 +397,22 @@ router.get("/tinhtoanthongke", function(req, res){
     });
 
 }) 
+
+
+router.get('/searchcinema', function(req, res){
+    let keyWord = req.query.keyWord;
+    let querySearchCinema = `SELECT * FROM rapphim WHERE rapphim.TenRap like ? OR rapphim.DiaChi like ?`;
+
+    conn.query(querySearchCinema, [`%${keyWord}%`, `%${keyWord}%`], function(error, resultCinema){
+        if(error){
+            console.log(error);
+
+            res.json({statusCode: 0, message: 'Fail', resultCinema: []})
+        }else{
+            res.json({statusCode: 1, message: 'Success', resultCinema: resultCinema})
+        }
+    })
+})
 
 
 module.exports = router

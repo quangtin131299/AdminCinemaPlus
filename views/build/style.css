@@ -471,3 +471,24 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+.card-search-movie{
+  width: 800px;
+}
+
+.container-info-search{
+  display: flex;
+}
+
+.container-info-search > button {
+  margin-left: 15px;
+}
+
+.btn-search-cinema{
+  width: 150px;
+}
+
+.search-cinema-container{
+  width: fit-content;
+  margin: 0px auto;
+}

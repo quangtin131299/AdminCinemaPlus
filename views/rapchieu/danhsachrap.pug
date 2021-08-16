@@ -36,6 +36,12 @@ include ../header.pug
     // /.content-header
     // Main content
     section.content.content-cinema
+      .search-cinema-container
+        .card.card-search-movie
+          .card-body
+            .container-info-search
+              input.form-control(name='txtKeyWord',type='text', placeholder='Nhập tên hoặc địa chỉ rạp')
+              button.btn.btn-success.btn-search-cinema(onclick='searchCinema()') Tìm kiếm
       .container-cinema
         .cinema-container-list
           each rap in danhsachrapchieu
@@ -65,6 +71,15 @@ include ../header.pug
             
           li.page-item
             a.page-link(href='#') Trang kế
+    
+    #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true')
+      .modal-dialog.modal-dialog-centered
+        .modal-content.dialog-loading
+          .modal-body
+            .d-flex.justify-content-center.align-item-center
+              .spinner-border(role='status')
+                span.sr-only Loading...
+
     // /.content
   // /.content-wrapper
   include ../footer.pug
@@ -102,3 +117,4 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
+script(src="build/js/jsSearchCinema.js") 
