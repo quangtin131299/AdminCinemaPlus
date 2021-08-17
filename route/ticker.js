@@ -109,6 +109,8 @@ router.get("/searchticker",function(req, res){
 				conn.query(querySearchDatePage, [fromDate, toDate, `%${keyWordNameCustomer}%`, `${nameMovie}%`,startPosition], function(errorPage, resultPageTicker){
 					if(errorPage){
 						console.log(errorPage);
+
+						res.json({statusCode: 0, message: 'Fail',resultTicker: [] , numberPage: 0, currentPage: 0});
 					}else{
 						res.json({statusCode: 1, message: 'Success',resultTicker: resultPageTicker , numberPage: Math.ceil(numberPage), currentPage: page});
 					}
@@ -119,7 +121,7 @@ router.get("/searchticker",function(req, res){
 		});
 
 	}else{
-		let querySearchMonth = `SELECT vedat.ID
+		let querySearchMonthCount = `SELECT vedat.ID
 									, DATE_FORMAT(vedat.NgayDat, '%d/%m/%Y') as 'NgayDat'
 									, DATE_FORMAT(suatchieu.Gio, '%H:%i') as 'Gio'
 									, ghe.TenGhe
@@ -136,17 +138,41 @@ router.get("/searchticker",function(req, res){
 								WHERE MONTH(vedat.NgayDat) = ? AND khachhang.HoTen like ?
 															AND phim.TenPhim like ?
 								ORDER BY vedat.NgayDat DESC`;
+		
+		conn.query(querySearchMonthCount,[currentDate.getMonth() , `%${keyWordNameCustomer}%`, `${nameMovie}%`], function(error, resultCount){
+			let numberPage = resultCount.length / 10;
+
+			let querySearchMonth = `SELECT vedat.ID
+									, DATE_FORMAT(vedat.NgayDat, '%d/%m/%Y') as 'NgayDat'
+									, DATE_FORMAT(suatchieu.Gio, '%H:%i') as 'Gio'
+									, ghe.TenGhe
+									, phim.TenPhim
+									, khachhang.HoTen
+									, rapphim.TenRap
+									, phong.TenPhong
+									, vedat.TrangThai
+								FROM vedat JOIN suatchieu ON vedat.ID_Suat = suatchieu.ID JOIN ghe ON ghe.ID = vedat.ID_Ghe
+										JOIN phim ON phim.ID = vedat.ID_Phim 
+										JOIN khachhang ON khachhang.ID = vedat.ID_KhachHang
+										JOIN rapphim ON rapphim.ID = vedat.ID_Rap 
+										JOIN phong ON phong.ID = vedat.ID_Phong
+								WHERE MONTH(vedat.NgayDat) = ? AND khachhang.HoTen like ?
+															AND phim.TenPhim like ?
+								ORDER BY vedat.NgayDat DESC LIMIT ? , 10`
 
 		
-		conn.query(querySearchMonth, [currentDate.getMonth() , `%${keyWordNameCustomer}%`, `${nameMovie}%`], function(error, resultTicker){
-			if(error){
-				console.log(error);
+			conn.query(querySearchMonth, [currentDate.getMonth() , `%${keyWordNameCustomer}%`, `${nameMovie}%`, startPosition], function(error, resultTicker){
+				if(error){
+					console.log(error);
 
-				res.json({statusCode: 0, message: 'Fail',resultTicker: []});
-			}else{
-				res.json({statusCode: 1, message: 'Success',resultTicker: resultTicker});
-			}
-		});
+					res.json({statusCode: 0, message: 'Fail',resultTicker: [] , numberPage: 0, currentPage: 0});
+				}else{
+					res.json({statusCode: 1, message: 'Success',resultTicker: resultTicker , numberPage: Math.ceil(numberPage), currentPage: page});
+				}
+			});
+		})
+		
+		
 
 	}
 
