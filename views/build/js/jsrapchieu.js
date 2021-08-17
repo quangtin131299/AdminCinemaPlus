@@ -52,8 +52,6 @@ $('#formCinema').validate({
     wrapper: 'span'
 })
 
-
-
 let danhsachrapchieu = [];
 
 $(document).ready(function () {

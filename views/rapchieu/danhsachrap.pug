@@ -43,7 +43,7 @@ include ../header.pug
               input.form-control(name='txtKeyWord',type='text', placeholder='Nhập tên hoặc địa chỉ rạp')
               button.btn.btn-success.btn-search-cinema(onclick='searchCinema()') Tìm kiếm
       .container-cinema
-        .cinema-container-list
+        .cinema-container-list#listCinema
           each rap in danhsachrapchieu
             .card.card-item-cinema
               img.img-cinema(src=rap.Hinh)
@@ -57,7 +57,7 @@ include ../header.pug
                 a.btn.btn-secondary(href="/rapchieu/thongkerap?id=" + rap.ID) Doanh thu
       br
       nav(style="display:flex; justify-content:center",aria-label='Page navigation example')
-        ul.pagination
+        ul.pagination#listpage
           li.page-item
             a.page-link(href='#') Trang trước
           - for (var i = 1; i <= soluongtrang ; i++) {

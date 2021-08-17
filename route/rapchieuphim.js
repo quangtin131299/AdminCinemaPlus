@@ -399,19 +399,32 @@ router.get("/tinhtoanthongke", function(req, res){
 }) 
 
 
-router.get('/searchcinema', function(req, res){
+router.get('/searchcinema', function (req, res) {
+    let page = req.query.page ? req.query.page : 1;
+    let startPosition = (page - 1) * 6;
     let keyWord = req.query.keyWord;
-    let querySearchCinema = `SELECT * FROM rapphim WHERE rapphim.TenRap like ? OR rapphim.DiaChi like ?`;
+    let querySearchCinemaCount = `SELECT * FROM rapphim WHERE rapphim.TenRap like ? OR rapphim.DiaChi like ?`;
 
-    conn.query(querySearchCinema, [`%${keyWord}%`, `%${keyWord}%`], function(error, resultCinema){
-        if(error){
+    conn.query(querySearchCinemaCount, [`%${keyWord}%`, `%${keyWord}%`],function (error, resultCountCinema) {
+        if (error) {
             console.log(error);
+        } else {
+            let numberPage = resultCountCinema.length / 6;
+            let querySearchCinema = `SELECT * FROM rapphim WHERE rapphim.TenRap LIKE ? OR rapphim.DiaChi LIKE ? LIMIT ?,6`;
 
-            res.json({statusCode: 0, message: 'Fail', resultCinema: []})
-        }else{
-            res.json({statusCode: 1, message: 'Success', resultCinema: resultCinema})
+            conn.query(querySearchCinema, [`%${keyWord}%`, `%${keyWord}%`, startPosition], function (error, resultCinema) {
+                if (error) {
+                    console.log(error);
+
+                    res.json({ statusCode: 0, message: 'Fail', resultCinema: [], currentPage: 0,  numberPage: 0 })
+                } else {
+                    res.json({ statusCode: 1, message: 'Success', resultCinema: resultCinema, currentPage: page,  numberPage: Math.ceil(numberPage)});
+                }
+            })
+
         }
-    })
+    });
+
 })
 
 
