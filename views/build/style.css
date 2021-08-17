@@ -492,3 +492,28 @@
   width: fit-content;
   margin: 0px auto;
 }
+
+.card-search-service{
+  width: 800px;
+  margin: 0px auto;
+}
+
+.action-container-service{
+  float: right;
+}
+
+.action-container-service > a, button{
+  margin-right: 15px;
+}
+
+.description-popcorn{
+  height: 90px;
+}
+
+.card-service{
+  margin-left: 5px;
+  width: fit-content;
+  border-radius: 15px;
+  height: 250px;
+}
+

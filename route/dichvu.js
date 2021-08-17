@@ -206,9 +206,9 @@ router.get("/searchService", function (req, res){
 
     let querySearch =`SELECT bapnuoc.*
                       FROM bapnuoc 
-                      WHERE (match(bapnuoc.TenCombo) against(?) or bapnuoc.TenCombo LIKE ?)`;
+                      WHERE  bapnuoc.TenCombo LIKE ?`;
 
-    conn.query( querySearch, [keyWord, `${keyWord}%`], function (err, resultSearchService){
+    conn.query( querySearch, [`%${keyWord}%`], function (err, resultSearchService){
         if(err){
             console.log(err);
             res.json({ statusCode: 0, message: 'Tìm kiếm thất bại'});

@@ -13,7 +13,7 @@ firebase.initializeApp(firebaseConfig);
 let btnhuy = document.getElementById("btnhuy");
 if (btnhuy) {
     btnhuy.onclick = function () {
-        window.location.replace("danhsachdichvu")
+        window.location.replace("danhsachdichvu?page=1")
     }
 }
 

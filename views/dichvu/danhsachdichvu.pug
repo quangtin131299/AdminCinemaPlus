@@ -37,39 +37,62 @@ include ../header.pug
     // Main content
     section.content
       .row
-        .col 
-          .card.card-search
+        .col-md-12
+          .card.card-search-service
             .card-body
               .row
                 .col-md-8
                   input.form-control(type='text', name="txtKeyWord", placeholder="Nhập từ khóa tìm kiếm")
                 .col-md-4
                   button.btn.btn-success.btn-search(onclick="searchService(1)") Tìm kiếm
-
-      table.table
-        thead
-          tr
-            th(scope='col') ID
-            th(scope='col') Tên dịch vụ
-            th(scope='col') Ảnh
-            th(scope='col') Mô tả
-            th(scope='col') Đơn giá 
-            th(scope='col') Thao tác 
-        tbody(id="tblService")
-          each bapnuoc in danhsachdichvu
-            tr
-              th(scope='row')=bapnuoc.ID
-                  td=bapnuoc.TenCombo
-                  td
-                    img(src=bapnuoc.Hinh, alt="photo", width=100, height=100)
-                  td=bapnuoc.MoTa
-                  td=bapnuoc.DonGia + " VND"
-                  td
-                    span 
-                      a.btn.btn-primary(href="suadichvu?idService=" + bapnuoc.ID) Sửa
-                    span  |
-                    span
+      br
+      .row
+        .col-md-12
+          .list-movie-container#listService
+            each bapnuoc in danhsachdichvu
+              .card.card-service
+                .infor-movie-container
+                  div
+                    img.card-img-movie(src=bapnuoc.Hinh, alt='Card image cap')
+                  div.infor-movie
+                    div
+                      h2.text-content-name-movie= bapnuoc.TenCombo
+                      br
+                    div
+                      label.text-content-label-movie Đơn giá: &nbsp&nbsp
+                      span.text-content-movie= bapnuoc.DonGia
+                    div.description-popcorn
+                      label.text-content-label-movie Mô tả: &nbsp&nbsp
+                      span.text-content-movie= bapnuoc.MoTa
+                    
+                    .action-container-service
+                      a.btn.btn-primary(href=`suadichvu?idService=${bapnuoc.ID}`) Sửa
                       button#linkDelete.btn.btn-danger(onClick=`setIdService(${bapnuoc.ID})`, data-toggle='modal', data-target="#modalInforDelete") Xóa  
+      
+      //- table.table
+      //-   thead
+      //-     tr
+      //-       th(scope='col') ID
+      //-       th(scope='col') Tên dịch vụ
+      //-       th(scope='col') Ảnh
+      //-       th(scope='col') Mô tả
+      //-       th(scope='col') Đơn giá 
+      //-       th(scope='col') Thao tác 
+      //-   tbody(id="tblService")
+      //-     each bapnuoc in danhsachdichvu
+      //-       tr
+      //-         th(scope='row')=bapnuoc.ID
+      //-             td=bapnuoc.TenCombo
+      //-             td
+      //-               img(src=bapnuoc.Hinh, alt="photo", width=100, height=100)
+      //-             td=bapnuoc.MoTa
+      //-             td=bapnuoc.DonGia + " VND"
+      //-             td
+      //-               span 
+      //-                 a.btn.btn-primary(href="suadichvu?idService=" + bapnuoc.ID) Sửa
+      //-               span  |
+      //-               span
+      //-                 button#linkDelete.btn.btn-danger(onClick=`setIdService(${bapnuoc.ID})`, data-toggle='modal', data-target="#modalInforDelete") Xóa  
       
       nav.paging-center(aria-label='Page navigation example')
         ul.pagination#listPage
