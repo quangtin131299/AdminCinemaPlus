@@ -90,7 +90,7 @@ include ../header.pug
                 nav(aria-label='...')
                   ul.pagination#listPage
                     li.page-item
-                      a.page-link(href=`/hoadon/danhsachhoadon?page=${parseInt(currentPage)-1}`, tabindex='-1') Previous
+                      a.page-link(href=`/hoadon/danhsachhoadon?page=${parseInt(currentPage)-1}`, tabindex='-1') Trang trước
                     - for(let i = 1; i <= numberPage; i++){
                         if i == currentPage    
                           li.page-item.active
@@ -102,7 +102,15 @@ include ../header.pug
                      
               
                     li.page-item
-                      a.page-link(href=`/hoadon/danhsachhoadon?page=${parseInt(currentPage)+1}`) Next 
+                      a.page-link(href=`/hoadon/danhsachhoadon?page=${parseInt(currentPage)+1}`) Trang kế
+
+      #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='true', data-keyboard="false", data-backdrop="static")
+        .modal-dialog.modal-dialog-centered
+          .modal-content.dialog-loading
+            .modal-body
+              .d-flex.justify-content-center.align-item-center
+                .spinner-border(role='status')
+                  span.sr-only Loading...
       
     // /.content
   // /.content-wrapper

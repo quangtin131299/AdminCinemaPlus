@@ -1,4 +1,6 @@
 function searchBill(page){
+    showLoading();
+
     let fromDate = $('input[name=txtFromDate]').val();
     let toDate = $('input[name=txtToDate]').val();
     let keyWord = $('input[name=txtNameCustomer]').val();
@@ -13,7 +15,6 @@ function searchBill(page){
             page: page
         },
         success: function(data){
-            console.log(data);
             if(data){
                 let tblBill = $('#tblBill');
                 let countBill = data.resultBill.length;
@@ -53,10 +54,24 @@ function searchBill(page){
                 listPage.html(listPage.html() + `<li class='page-item'>
                                                     <a class='page-link' onclick='searchBill(${parseInt(data.currentPage) + 1})'>Trang kế</a>
                                                  </li>`);
+                
+                hideLoading();
             }
         },
         error: function(){
 
         }
     })
+}
+
+function hideLoading() {
+    $("#exampleModalCenter").on('shown.bs.modal', function(){
+        $("#exampleModalCenter").modal('hide');
+    });
+}
+
+function showLoading() {
+    $('#exampleModalCenter').modal({backdrop: 'static', keyboard: false})
+
+    $('#exampleModalCenter').modal('show');
 }
