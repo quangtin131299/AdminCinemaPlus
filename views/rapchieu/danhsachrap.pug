@@ -46,7 +46,7 @@ include ../header.pug
         .cinema-container-list#listCinema
           each rap in danhsachrapchieu
             .card.card-item-cinema
-              img.img-cinema(src=rap.Hinh)
+              img.img-cinema(src= (rap.Hinh && rap.Hinh != '' ? rap.Hinh : 'build/img/no-image-available-icon-vector.jpg')) 
               .card-body
                 h5= rap.TenRap 
                 p.card-text= rap.DiaChi

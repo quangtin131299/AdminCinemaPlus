@@ -61,7 +61,14 @@ $(document).ready(function () {
         $('#notifyModal').modal('show');
     }
 
-    
+    let addressCinemaContainer = $('#dataAddress');
+
+    if(addressCinemaContainer){
+        let addressCinema = addressCinemaContainer.data('addresscinema');
+
+        $('#txtCinemaAddress').val(addressCinema);
+    }
+
 })
 
 document.getElementById("btnhuy").onclick = function () {
