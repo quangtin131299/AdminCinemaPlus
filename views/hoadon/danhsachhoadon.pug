@@ -36,24 +36,73 @@ include ../header.pug
     // /.content-header
     // Main content
     section.content
-      table.table
-        thead
-          tr
-            th(scope='col') ID
-            th(scope='col') Ngày lập
-            th(scope='col') Tên khách hàng
-            th(scope='col') Số lượng vé
-            th(scope='col') Thao tác 
-        tbody
-          each hoadon in danhsachhoadon
-            tr
-              th(scope='row')=hoadon.ID
-              td=hoadon.Ngay
-              td=hoadon.HoTen
-              td=hoadon.SoLuongVe
-              td
-                span 
-                  a.btn.btn-info(href="/hoadon/chitiethoadon?idhoadon=" + hoadon.ID) Chi Tiết 
+      .row
+        .col-md-12
+          .card.card-search-bill-container
+            .card-body
+              .row
+                .col-md-12
+                  .row
+                    .col-md-10
+                      input.form-control(type='text', placeholder='Nhập tên khách hàng', name='txtNameCustomer')
+                    .col-md-2
+                      button.btn.btn-success(type='button', onclick='searchBill()') Tìm kiếm
+                  
+                  .row.filter-container
+                    .col-md-6
+                      .form-group.row
+                        .col-md-3.title-filter-container
+                          label Từ ngày:
+                        .col-md-9
+                          input.form-control(type='date', name='txtFromDate')
+                    .col-md-6
+                      .form-group.row
+                        .col-md-3.title-filter-container
+                          label Đến ngày:
+                        .col-md-9
+                          input.form-control(type='date', name='txtToDate')
+      br             
+      .row
+        .col-md-12
+          .card.card-bill
+            .card-body
+              table.table.table-bordered
+                thead
+                  tr
+                    th(scope='col') ID
+                    th(scope='col') Ngày lập
+                    th(scope='col') Tên khách hàng
+                    th(scope='col') Số lượng vé
+                    th(scope='col') Thao tác 
+                tbody#tblBill
+                  each hoadon in danhsachhoadon
+                    tr
+                      th(scope='row')=hoadon.ID
+                      td=hoadon.Ngay
+                      td=hoadon.HoTen
+                      td=hoadon.SoLuongVe
+                      td
+                        span 
+                          a.btn.btn-info(href="/hoadon/chitiethoadon?idhoadon=" + hoadon.ID) Chi Tiết
+
+              br
+              .paging-center
+                nav(aria-label='...')
+                  ul.pagination#listPage
+                    li.page-item
+                      a.page-link(href=`/hoadon/danhsachhoadon?page=${parseInt(currentPage)-1}`, tabindex='-1') Previous
+                    - for(let i = 1; i <= numberPage; i++){
+                        if i == currentPage    
+                          li.page-item.active
+                            a.page-link(href=`/hoadon/danhsachhoadon?page=${i}`)= i
+                        else
+                          li.page-item
+                            a.page-link(href=`/hoadon/danhsachhoadon?page=${i}`)= i  
+                    -}
+                     
+              
+                    li.page-item
+                      a.page-link(href=`/hoadon/danhsachhoadon?page=${parseInt(currentPage)+1}`) Next 
       
     // /.content
   // /.content-wrapper
@@ -92,3 +141,4 @@ script(src='dist/js/adminlte.js')
 script(src='dist/js/pages/dashboard.js')
 // AdminLTE for demo purposes
 script(src='dist/js/demo.js')
+script(src='build/js/jsSearchBill.js')
