@@ -206,7 +206,7 @@ router.get("/searchService", function (req, res){
 
     let querySearch =`SELECT bapnuoc.*
                       FROM bapnuoc 
-                      WHERE  bapnuoc.TenCombo LIKE ?`;
+                      WHERE  bapnuoc.TenCombo LIKE ? AND bapnuoc.isDelete = 0`;
 
     conn.query( querySearch, [`%${keyWord}%`], function (err, resultSearchService){
         if(err){
