@@ -38,7 +38,7 @@ function loadStatistical(idCinema){
                 currentDate.setMonth(currentDate.getMonth() + 1);
 
                 let currentMonth = currentDate.getMonth();
-              
+            
                 for(let i = 0; i < currentMonth; i++){
                     staticalCinema.data.labels.push(`Tháng ${i+1}`);
 
@@ -52,10 +52,7 @@ function loadStatistical(idCinema){
                 for(let i = 0 ; i < countTurnOver  ; i++){
                     for(let j = i ; j <= currentMonth; j++){
                         if(j == data.turnover[i].Thang){
-                            // arrayMonth[data.turnover[i].Thang-1] = data.turnover[i].DoanhThu;
                             staticalCinema.data.datasets[0].data[data.turnover[i].Thang-1] = data.turnover[i].DoanhThu;
-
-                            
                         }  
                     }
                 }
