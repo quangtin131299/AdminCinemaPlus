@@ -1,25 +1,15 @@
 let staticalCinema  = new Chart($('#chart'), {
-    type: 'line',
+    type: 'bar',
     data: {
-        labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7','Tháng 8','Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12' ],
+        labels: [],
         datasets: [{
             label: 'Cinema Hùng Vương',
             data: [],
             backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
+                
             ],
             borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
+                
             ],
             borderWidth: 1
         }]
@@ -43,21 +33,34 @@ function loadStatistical(idCinema){
         },
         success: function(data){
             if(data){
-                let countMonth = data.turnover.length;
-                let arrayMonth = [];
+                let currentDate = new Date();
 
-                for(let i = 0; i <= 11; i++){
-                    arrayMonth.push(0);
+                currentDate.setMonth(currentDate.getMonth() + 1);
+
+                let currentMonth = currentDate.getMonth();
+              
+                for(let i = 0; i < currentMonth; i++){
+                    staticalCinema.data.labels.push(`Tháng ${i+1}`);
+
+                    staticalCinema.data.datasets[0].data.push(0);
+
+                    staticalCinema.data.datasets[0].backgroundColor.push(randColor());
                 }
 
-                for(let i = 0 ; i < countMonth; i++){
-                    for(let j = i ; j <= 12; j++){
-                        if(j == data.turnover[i].Thang)
-                        arrayMonth[data.turnover[i].Thang-1] = data.turnover[i].DoanhThu;
+                let countTurnOver = data.turnover.length;
+
+                for(let i = 0 ; i < countTurnOver  ; i++){
+                    for(let j = i ; j <= currentMonth; j++){
+                        if(j == data.turnover[i].Thang){
+                            // arrayMonth[data.turnover[i].Thang-1] = data.turnover[i].DoanhThu;
+                            staticalCinema.data.datasets[0].data[data.turnover[i].Thang-1] = data.turnover[i].DoanhThu;
+
+                            
+                        }  
                     }
                 }
                
-                staticalCinema.data.datasets[0].data = arrayMonth;
+              
                 staticalCinema.update();
             }
         },
@@ -72,3 +75,14 @@ $(document).ready(function(){
 
     loadStatistical(idCinema);
 })
+
+function randColor(){
+    let dynamicColors = function() {
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        return "rgb(" + r + "," + g + "," + b + ")";
+    };
+
+    return dynamicColors();
+}
