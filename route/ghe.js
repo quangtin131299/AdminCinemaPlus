@@ -33,9 +33,10 @@ router.get('/timkiem', function(req, res){
     let keyWord = req.query.keyWord;
     let stateSeat = req.query.stateSeat;
     
-    let querySearchSeat = `SELECT * FROM ghe WHERE ghe.TenGhe LIKE ? AND ghe.ID_Phong = ?`;
+    let querySearchSeat = `SELECT * FROM ghe 
+                           WHERE ghe.TenGhe LIKE ? AND ghe.ID_Phong = ? AND ghe.TrangThai LIKE ?`;
 
-    conn.query(querySearchSeat, [`${keyWord}%`,idRoom],function(error, resultSearch){
+    conn.query(querySearchSeat, [`%${keyWord}%`,idRoom, `${stateSeat}%`],function(error, resultSearch){
         if(error){
             console.log(error);
 

@@ -1,13 +1,15 @@
-$('#exampleModalCenter').on('hidden.bs.modal', function (e) {
-    $("#exampleModalCenter").modal('hide');
-})
+
 
 $('#notifyModal').on('shown.bs.modal', function (e) {
     $("#exampleModalCenter").modal("hide");
 });
 
 function hideLoading() {
-    $("#exampleModalCenter").modal('hide');
+    
+    $('#exampleModalCenter').on('shown.bs.modal', function (e) {
+        $("#exampleModalCenter").modal('hide');
+    })
+    // $("#exampleModalCenter").modal('hide');
 }
 
 function showLoading() {
@@ -36,13 +38,17 @@ function search() {
     let tblSeat = $('#tblBodySeat');
     let keyWord = $('input[name=txtKeyWord]').val();
     let idRoom = $('input[name=txtIdRoom]').val();
+    let filterStatus = $('#selectFilterStautus').val();
+
+    showLoading();
 
     $.ajax({
         method: 'GET',
         url: '/ghe/timkiem',
         data: {
             idRoom: idRoom,
-            keyWord: keyWord
+            keyWord: keyWord,
+            stateSeat: filterStatus,
         },
         success: function (data) {
             if (data) {
@@ -55,21 +61,23 @@ function search() {
                                                         <td>${data.resultSeats[i].ID}</td>
                                                         <td>${data.resultSeats[i].TenGhe}</td>
                                                         <td>
-                                                            <select class="form-control">
-                                                                <option value='Trống' selected>Trống</option>
-                                                                <option value='Đã đặt'>Đã đặt</option>
-                                                                <option value='Bị hư'>Bị hư</option>
+                                                            <select id='seat${data.resultSeats[i].ID}' class="form-control">
+                                                                <option value='Trống' ${data.resultSeats[i].TrangThai == 'Trống' ? 'selected': ''}>Trống</option>
+                                                                <option value='Đã đặt' ${data.resultSeats[i].TrangThai == 'Đã đặt' ? 'selected': ''} >Đã đặt</option>
+                                                                <option value='Bị hư' ${data.resultSeats[i].TrangThai == 'Bị hư' ? 'selected': ''}>Bị hư</option>
                                                             </select>
                                                         </td>
                                                         <td>
-                                                            <button class="btn btn-success">Cập nhật</button>          
+                                                            <button class="btn btn-success" onclick='updateStatusSeat(${data.resultSeats[i].ID},${idRoom})'>Cập nhật</button>          
                                                         </td>
                                                     </tr>`);
                 }
+
+                hideLoading();
             }
         },
         error: function () {
-
+            hideLoading();
         }
     });
 }
@@ -105,4 +113,4 @@ function updateStatusSeat(idSeat, idRoom) {
         $('#modalTextMessage').text('Không thể cập nhật trạng thái ghế đã đặt');
         $('#notifyModal').modal('show');
     }
-}
+}   
