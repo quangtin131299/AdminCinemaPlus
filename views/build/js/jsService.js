@@ -84,7 +84,7 @@ $('#notifyModal').on('shown.bs.modal', function (e) {
 });
 
 $('#btnOK').click(function () {
-    window.location.replace('/dichvu/danhsachdichvu');
+    window.location.replace('/dichvu/danhsachdichvu?page=1');
 })
 
 $('#btnOKAddService').click(function () {

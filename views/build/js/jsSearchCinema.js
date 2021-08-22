@@ -1,3 +1,5 @@
+
+
 function searchCinema(page){
     let keyWord = $('input[name=txtKeyWord]').val();
 
@@ -70,13 +72,15 @@ function searchCinema(page){
 }
 
 function hideLoading() {
-    // $("#exampleModalCenter").on('shown.bs.modal',function(e){
-        $("#exampleModalCenter").modal('hide'); 
-    // })
+    $("#exampleModalCenter").on('shown.bs.modal',function(e){ 
+        $("#exampleModalCenter").modal('hide')
+    });
+
+    $("#exampleModalCenter").modal('hide')
 }
 
 function showLoading() {
-    $('#exampleModalCenter').modal({backdrop: 'static', keyboard: false})
+    // $('#exampleModalCenter').modal({backdrop: 'static', keyboard: false})
 
     $('#exampleModalCenter').modal('show');
 }

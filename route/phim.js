@@ -127,7 +127,7 @@ router.get("/chitietphim", function (req, res) {
                       , phim.MoTa
                       , DATE_FORMAT(phim.NgayKetThuc, '%d/%m/%Y') as 'NgayKetThuc'
                       , DATE_FORMAT(phim.NgayKhoiChieu, '%d/%m/%Y') as 'NgayKhoiChieu'
-                      , loaiphim.ID 
+                      , loaiphim.ID as 'ID_Loai'
                       , loaiphim.TenLoai
                       , nhacungcap.TenNhaCungCap
                FROM phim JOIN phim_loaiphim ON phim.ID = phim_loaiphim.ID_Phim 
@@ -301,6 +301,8 @@ router.post(
                       })
                     }
                   }
+
+                  console.log(idCinemas);
                     
                   let queryCinema = `INSERT INTO phim_rapphim VALUES(?,?)`;
         
@@ -375,6 +377,7 @@ router.get("/suaphim", function (req, res) {
                       , phim.MoTa
                       , DATE_FORMAT(phim.NgayKhoiChieu, '%Y-%m-%d') as 'NgayKhoiChieu'
                       , DATE_FORMAT(phim.NgayKetThuc, '%Y-%m-%d') as 'NgayKetThuc'
+                      , rapphim.ID as 'ID_RapChieu'
                       , rapphim.TenRap
                FROM phim JOIN phim_rapphim on phim.ID = phim_rapphim.ID_Phim 
                          JOIN rapphim on phim_rapphim.ID_Rap = rapphim.ID
@@ -384,7 +387,6 @@ router.get("/suaphim", function (req, res) {
     if (err) {
       console.log(err);
     } else {
-    
       fileImageMovieUrlOld = result[0].Hinh;
       fileImagePosterUrlOld = result[0].AnhBia;
 
@@ -416,7 +418,7 @@ router.get("/suaphim", function (req, res) {
               for (let j = i; j < countMovie; j++) {
                 if (result[i].TenPhim == result[j].TenPhim) {
                   cinemasOfMovie.push({
-                    id: result[j].ID,
+                    id: result[j].ID_RapChieu,
                     tenRap: result[j].TenRap
                   })
                 }
@@ -428,6 +430,7 @@ router.get("/suaphim", function (req, res) {
               cinemasOfMovie = [];
             }
           }
+          
           res.render("phim/suaphim", { phim: resultMovie[0], messNotify: mess, cinemas: resultCinemas });
         }
       })

@@ -383,7 +383,7 @@ router.get("/tinhtoanthongke", function(req, res){
                 FROM rapphim JOIN vedat on vedat.ID_Rap = rapphim.ID
                              JOIN hoadon ON vedat.ID_HoaDon = hoadon.ID
                              LEFT JOIN hoadon_bapnuoc on hoadon.ID = hoadon_bapnuoc.ID_BapNuoc
-                WHERE rapphim.ID = ? AND Month(hoadon.Ngay) between 1 and 12 GROUP BY Month(hoadon.Ngay) ORDER BY hoadon.Ngay`;
+                WHERE rapphim.ID = ? AND Month(hoadon.Ngay) between 1 and 12 GROUP BY Month(hoadon.Ngay)`;
 
     conn.query(query, [idCinema],function(error, result){
         if(error){

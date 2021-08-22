@@ -345,7 +345,11 @@ async function uploadfile(newIdMovie, isImage) {
                     "state_changed",
                     // PROGRESS FUNCTION
                     function progress(progress) { },
-                    function error(err) { },
+                    function error(err) { 
+                        console.log(err);
+
+                        reject(false);
+                    },
                     async function completed() {
                         let url = await final.getDownloadURL();
 
@@ -371,9 +375,13 @@ async function uploadfile(newIdMovie, isImage) {
                     "state_changed",
                     // PROGRESS FUNCTION
                     function progress(progress) { },
-                    function error(err) { },
+                    function error(err) {
+                        console.log(err);
+
+                        reject(false);
+                    },
                     async function completed() {
-                        let url = final.getDownloadURL();
+                        let url = await final.getDownloadURL();
 
                             
                         await updateImage(newIdMovie, url, false);
