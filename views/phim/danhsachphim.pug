@@ -70,7 +70,7 @@ include ../header.pug
               .card.card-movie
                 .infor-movie-container
                   div
-                    img.card-img-movie(src=phim.Hinh, alt='Card image cap')
+                    img.card-img-movie(src=(phim.Hinh && phim.Hinh != '' ? phim.Hinh : 'build/img/no-image-available-icon-vector.jpg'), alt='Card image cap')
                   div.infor-movie
                     div
                       h2.text-content-name-movie= phim.TenPhim

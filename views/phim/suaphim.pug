@@ -103,26 +103,28 @@ include ../header.pug
                             .input-group-prepend
                                 span#inputGroup-sizing-default.input-group-text(style = "font-weight:bold") ID Trailer
                             input.form-control(value= phim.Trailer,name="txtIDtrailer",placeholder ="Nhập Id video trailer từ youtube", type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')        
-              .row    
-                    .col-md-6
-                        .input-group.mb-3
-                            .input-group-prepend
-                              span.input-group-text(style = "font-weight:bold") Ảnh bìa
-                            .custom-file
-                              input.custom-file-input(id="inputGroupFile01", name="imgPoster", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImagePoster(this)")
-                              label.custom-file-label.file-name-image-poster(for='inputGroupFile01') 
+              .row  
+                .col-md-6 
+                  .input-group.mb-3
+                      .input-group-prepend
+                        span.input-group-text(style = "font-weight:bold") Hình phim
+                      .custom-file
+                        input.custom-file-input(id="inputGroupFile01", name="imgMovie", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImageMovie(this)")
+                        label.custom-file-label.file-name-image-movie(for='inputGroupFile01')
+                  .imgContainer
+                    img.imgMovie(src=(phim.Hinh && phim.Hinh != "" ? phim.Hinh : 'build/img/no-image-available-icon-vector.jpg'),  id="imgMoviePreview" ,width="265",height="300")  
 
-                        img.imgMovie(src=(phim.AnhBia && phim.AnhBia != "" ? phim.AnhBia : 'https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg'),  id="imgMoviePoster", width="250",height="200")    
+                .col-md-6
+                  .input-group.mb-3
+                      .input-group-prepend
+                        span.input-group-text(style = "font-weight:bold") Poster
+                      .custom-file
+                        input.custom-file-input(id="inputGroupFile01", name="imgPoster", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImagePoster(this)")
+                        label.custom-file-label.file-name-image-poster(for='inputGroupFile01') 
+                  .imgContainer
+                    img.imgMovie(src=(phim.AnhBia && phim.AnhBia != "" ? phim.AnhBia : 'build/img/no-image-available-icon-vector.jpg'),  id="imgMoviePoster", width="400",height="300")    
                     
-                    .col-md-6 
-                        .input-group.mb-3
-                            .input-group-prepend
-                              span.input-group-text(style = "font-weight:bold") Poster
-                            .custom-file
-                              input.custom-file-input(id="inputGroupFile01", name="imgMovie", type='file',accept="image/png, image/gif, image/jpeg", onchange="setFileImageMovie(this)")
-                              label.custom-file-label.file-name-image-movie(for='inputGroupFile01')
-
-                        img.imgMovie(src=(phim.Hinh && phim.Hinh != "" ? phim.Hinh : 'https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg'),  id="imgMoviePreview", width="150",height="200")
+                    
               <br>
         
         .card

@@ -53,7 +53,7 @@ include ../header.pug
               .card.card-service
                 .infor-movie-container
                   div
-                    img.card-img-movie(src=bapnuoc.Hinh, alt='Card image cap')
+                    img.card-img-movie(src=(bapnuoc.Hinh && bapnuoc.Hinh != ''  ?  bapnuoc.Hinh: 'build/img/no-image-available-icon-vector.jpg'), alt='Card image cap')
                   div.infor-movie
                     div
                       h2.text-content-name-movie= bapnuoc.TenCombo
