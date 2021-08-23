@@ -214,6 +214,10 @@ function randColor(){
 }
 
 function hideLoading() {
+    $('#exampleModalCenter').on('shown.bs.modal', function(e){
+        $("#exampleModalCenter").modal('hide');
+    });
+
     $("#exampleModalCenter").modal('hide');
 }
 

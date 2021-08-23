@@ -247,6 +247,12 @@ function onSubmitEditMovie() {
 }
 
 function hideLoading() {
+    // $("#exampleModalCenter").modal('hide');
+
+    $('#exampleModalCenter').on('shown.bs.modal', function(e){
+        $("#exampleModalCenter").modal('hide');
+    });
+
     $("#exampleModalCenter").modal('hide');
 }
 
