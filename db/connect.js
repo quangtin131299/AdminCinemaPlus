@@ -1,11 +1,11 @@
 const mysql = require('mysql');
 
 const conn = mysql.createConnection({
-    host: "mysql-46163-0.cloudclusters.net",
+    host: "boofood.cl8j8wc2hw4p.ap-southeast-1.rds.amazonaws.com",
     user: "admin",
-    password: "c6xFGqF6",
+    password: "123456789",
     database: "cinemaplus",  
-    port: 19907
+    port: 3306
 });
 //Content Wrapper. Contains page content
 
