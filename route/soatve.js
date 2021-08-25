@@ -42,8 +42,6 @@ router.post("/updateStatus", function (req, res) {
         let hour = Math.abs(parseInt(moment.duration(dateBookingMoment.diff(currentDateMoment)).hours()));
         let minute = Math.abs(parseInt(moment.duration(dateBookingMoment.diff(currentDateMoment)).minutes()));
 
-        console.log(hour);
-        console.log(minute);
 
         if (currentDateMoment.isBefore(dateBookingMoment) == true) {
           if (hour == 0 && minute <= 15) {
@@ -61,7 +59,7 @@ router.post("/updateStatus", function (req, res) {
                 }
               }
             );
-            return res.json({ message: 'Soát vé thành công', statusCode: 1 });
+            // return res.json({ message: 'Soát vé thành công', statusCode: 1 });
           } else {
             return res.json({ message: 'Phim chưa mở soát vé', statusCode: 0 });
           }
@@ -88,10 +86,10 @@ router.post("/updateStatus", function (req, res) {
           return res.json({ message: 'Trễ giờ chiếu', statusCode: 0 });
         }
 
-        return res.json({ message: 'Phim chưa mở soát vé', statusCode: 0 });
+        // return res.json({ message: 'Phim chưa mở soát vé', statusCode: 0 });
 
       } else {
-        res.json({ message: 'Phim chưa mở soát vé', statusCode: 0 });
+        return res.json({ message: 'Phim chưa mở soát vé', statusCode: 0 });
       }
     }
   })
